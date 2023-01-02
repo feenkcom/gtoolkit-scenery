@@ -1,6 +1,6 @@
 Class {
 	#name : #GtInspectorSceneryStencil,
-	#superclass : #GtSceneryItem,
+	#superclass : #GtSceneryDraggableItem,
 	#instVars : [
 		'targetBlock'
 	],
@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #accessing }
-GtInspectorSceneryStencil >> createContent [
+GtInspectorSceneryStencil >> create [
 	^ (self targetValue gtViewsFor: GtPhlowView empty)
 		asElementDo: [ :e | 
 			e
-				size: size;
+				size: extent;
 				background: Color white;
 				margin: (BlInsets all: 10);
 				addAptitude: BrShadowAptitude ]
@@ -22,12 +22,7 @@ GtInspectorSceneryStencil >> createContent [
 GtInspectorSceneryStencil >> initialize [
 	super initialize.
 	targetBlock := [ nil ].
-	size := 200 @ 300
-]
-
-{ #category : #accessing }
-GtInspectorSceneryStencil >> position: aPoint [ 
-	position := aPoint
+	extent := 200@400.
 ]
 
 { #category : #accessing }

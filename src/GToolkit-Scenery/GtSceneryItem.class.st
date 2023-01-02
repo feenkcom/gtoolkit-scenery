@@ -1,30 +1,48 @@
 Class {
 	#name : #GtSceneryItem,
-	#superclass : #BrStencil,
+	#superclass : #Object,
 	#instVars : [
+		'stencil',
 		'position',
-		'size'
+		'extent'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
 
 { #category : #accessing }
-GtSceneryItem >> create [
-	^ self createContent
+GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
+	| element resizer |
+	element := stencil asElement.
+	element graph model: self.
+	element graph beNode.
+	resizer := BlResizerElement new preventMouseEvents.
+	element
+		when: BlFocusOutEvent
+			do: [ :e | 
+				resizer
+					detach;
+					removeFromParent ];
+		when: BlFocusInEvent
+			do: [ :e | 
+				aContainerElement addChild: resizer.
+				resizer attachTo: element ].
+	^ element
 		addEventHandler: BlPullHandler new;
-		addAptitude: BrGlamorousWithVerticalResizerAptitude
-				+ BrGlamorousWithHorizontalResizerAptitude;
 		relocate: position
 ]
 
 { #category : #accessing }
-GtSceneryItem >> createContent [
-	^ self subclassResponsibility
+GtSceneryItem >> initialize [
+	super initialize.
+	position := 0@0.
 ]
 
 { #category : #accessing }
-GtSceneryItem >> initialize [ 
-	super initialize.
-	position := 0@0.
-	size := 50 @ 50
+GtSceneryItem >> position: aPoint [ 
+	position := aPoint
+]
+
+{ #category : #accessing }
+GtSceneryItem >> stencil: anItemStencil [ 
+	stencil := anItemStencil
 ]

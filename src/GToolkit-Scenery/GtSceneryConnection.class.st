@@ -1,0 +1,46 @@
+Class {
+	#name : #GtSceneryConnection,
+	#superclass : #Object,
+	#instVars : [
+		'stencil',
+		'from',
+		'to'
+	],
+	#category : #'GToolkit-Scenery-Model'
+}
+
+{ #category : #accessing }
+GtSceneryConnection >> asElementIn: aContainerElement forScenery: aScenery [
+	| line |
+	line := stencil asElement.
+	line graph beEdge.
+	aContainerElement
+		allChildrenBreadthFirstDetect: [ :each | each graph model = from ]
+		ifFound: [ :fromElement | 
+			aContainerElement
+				allChildrenBreadthFirstDetect: [ :each | each graph model = to ]
+				ifFound: [ :toElement | 
+					line
+						fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: fromElement from: toElement).
+					line
+						toAnchor: (BlNearestPositionBoundsAnchor nearestTo: toElement from: fromElement).
+					fromElement graph connectTo: toElement ]
+				ifNone: [ self halt ] ]
+		ifNone: [ self halt ].
+	^ line
+]
+
+{ #category : #accessing }
+GtSceneryConnection >> from: anItem [ 
+	from := anItem
+]
+
+{ #category : #accessing }
+GtSceneryConnection >> stencil: aLineStencil [ 
+	stencil := aLineStencil
+]
+
+{ #category : #accessing }
+GtSceneryConnection >> to: item2 [ 
+	to := item2
+]
