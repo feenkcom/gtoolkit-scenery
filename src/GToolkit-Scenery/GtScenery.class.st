@@ -2,7 +2,6 @@ Class {
 	#name : #GtScenery,
 	#superclass : #BrStencil,
 	#instVars : [
-		'sceneryItems',
 		'connections',
 		'items'
 	],
@@ -29,27 +28,31 @@ GtScenery >> addItem: anItemStencil [
 ]
 
 { #category : #accessing }
-GtScenery >> addSceneryItem: anItem [ 
-	sceneryItems add: anItem
-]
-
-{ #category : #accessing }
 GtScenery >> connections [
 	^ connections
 ]
 
 { #category : #accessing }
 GtScenery >> create [
-	| container |
+	| container itemElement |
 	container := BlCanvassableElement new
 			background: Color white;
 			constraintsDo: [ :c | 
 				c vertical matchParent.
 				c horizontal matchParent ].
-	items do: [ :each | 
-		container addChild: (each asElementIn: container forScenery: self) ].
-	connections do: [ :each | 
-		container addChild: (each asElementIn: container forScenery: self) ].
+	items
+		do: [ :eachItem | 
+			itemElement := eachItem asElementIn: container forScenery: self.
+			
+			itemElement
+				when: BlElementPositionChangedEvent
+				do: [ :e | eachItem position: e currentTarget position ].
+			itemElement
+				when: BlElementExtentChangedEvent
+				do: [ :e | eachItem extent: e currentTarget extent ].
+			container addChild: itemElement ].
+	connections
+		do: [ :eachConnection | container addChild: (eachConnection asElementIn: container forScenery: self) ].
 
 	^ container
 ]
@@ -71,14 +74,6 @@ GtScenery >> gtItemsFor: aView [
 ]
 
 { #category : #accessing }
-GtScenery >> gtSceneryItemsFor: aView [ 
-	<gtView>
-	^ aView list 
-		title: 'Items';
-		items: [ sceneryItems ]
-]
-
-{ #category : #accessing }
 GtScenery >> gtStoreOnFor: aView [
 	<gtView>
 	^ aView textEditor
@@ -88,8 +83,12 @@ GtScenery >> gtStoreOnFor: aView [
 				yourself);
 		aptitude: BrGlamorousCodeEditorAptitude;
 		text: [ String streamContents: [ :s | self storeOn: s ] ];
-		actionButtonIcon: BrGlamorousVectorIcons playinspect tooltip: 'Do it and go' action: [ :button | 
-		button phlow spawnObject: (Smalltalk compiler evaluate: ( String streamContents: [ :s | self storeOn: s ] )) ] 
+		actionButtonIcon: BrGlamorousVectorIcons playinspect
+			tooltip: 'Do it and go'
+			action: [ :button | 
+				button phlow
+					spawnObject: (Smalltalk compiler evaluate: (String streamContents: [ :s | self storeOn: s ])) ];
+		actionUpdateButton
 ]
 
 { #category : #accessing }
@@ -121,8 +120,12 @@ GtScenery >> storeOn: aStream [
 				nextPutAll: 'item' , i asString , ' := scenery addItem: ('.
 			eachItem stencil storeOn: aStream.
 			aStream nextPutAll: ').';
-				cr;
+				cr.
+			aStream
 				nextPutAll: 'item' , i asString , ' position: ' , eachItem position asString , '.';
+				cr.
+			aStream
+				nextPutAll: 'item' , i asString , ' extent: ' , eachItem extent asString , '.';
 				cr ].
 	connections
 		doWithIndex: [ :eachConnection :i | 

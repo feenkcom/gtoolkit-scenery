@@ -13,10 +13,19 @@ Class {
 GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 	| element resizer |
 	element := stencil asElement.
+	element states
+		addState: BrLayoutVerticalResizerState exact;
+		addState: BrLayoutVerticalResizerState exact.	"this is needed to support complicated widgets"
+	element size: extent.
 	element graph model: self.
 	element graph beNode.
-	resizer := BlResizerElement new preventMouseEvents.
+	resizer := BlResizerElement new preventMouseEvents zIndex: 100.
+	element beFocusable.
 	element
+		when: BlClickEvent
+			do: [ :e | 
+				e currentTarget requestFocus.
+				e consumed: true ];
 		when: BlFocusOutEvent
 			do: [ :e | 
 				resizer
@@ -32,9 +41,20 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 ]
 
 { #category : #accessing }
+GtSceneryItem >> extent [
+	^ extent
+]
+
+{ #category : #accessing }
+GtSceneryItem >> extent: anObject [
+	extent := anObject
+]
+
+{ #category : #accessing }
 GtSceneryItem >> initialize [
 	super initialize.
 	position := 0@0.
+	extent := 200 @ 200
 ]
 
 { #category : #accessing }
