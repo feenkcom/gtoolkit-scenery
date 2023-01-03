@@ -79,6 +79,20 @@ GtScenery >> gtSceneryItemsFor: aView [
 ]
 
 { #category : #accessing }
+GtScenery >> gtStoreOnFor: aView [
+	<gtView>
+	^ aView textEditor
+		title: 'Store On';
+		styler: (BrRBTextStyler new
+				isForWorkspace: true;
+				yourself);
+		aptitude: BrGlamorousCodeEditorAptitude;
+		text: [ String streamContents: [ :s | self storeOn: s ] ];
+		actionButtonIcon: BrGlamorousVectorIcons playinspect tooltip: 'Do it and go' action: [ :button | 
+		button phlow spawnObject: (Smalltalk compiler evaluate: ( String streamContents: [ :s | self storeOn: s ] )) ] 
+]
+
+{ #category : #accessing }
 GtScenery >> initialize [
 	super initialize.
 	items := OrderedCollection new .
@@ -113,8 +127,9 @@ GtScenery >> storeOn: aStream [
 	connections
 		doWithIndex: [ :eachConnection :i | 
 			aStream
-				nextPutAll: 'scenery addConnection: '
-						, eachConnection stencil class name asString , ' new';
+				nextPutAll: 'scenery addConnection: '.
+			eachConnection stencil storeOn: aStream.
+			aStream
 				nextPutAll: ' from: item', (items indexOf: eachConnection from) asString;
 				nextPutAll: ' to: item', (items indexOf: eachConnection to) asString, '.';
 				cr ].
