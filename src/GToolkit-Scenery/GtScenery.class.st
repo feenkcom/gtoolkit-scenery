@@ -89,3 +89,21 @@ GtScenery >> initialize [
 GtScenery >> items [
 	^ items
 ]
+
+{ #category : #accessing }
+GtScenery >> storeOn: aStream [
+	aStream nextPutAll: '| scenery '.
+	items doWithIndex: [:eachItem :i | 
+		aStream nextPutAll: 'item', i asString].	
+	aStream
+		nextPutAll: '|';
+		cr;
+		nextPutAll: 'scenery := ';
+		nextPutAll: self class name;
+		nextPutAll: ' new';
+		cr.
+	items doWithIndex: [:eachItem :i |
+		aStream nextPutAll: 'item', i asString, ' := scenery addItem: '.
+		"eachItem storeOn: aStream"
+		]
+]
