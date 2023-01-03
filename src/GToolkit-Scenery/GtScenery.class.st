@@ -92,18 +92,31 @@ GtScenery >> items [
 
 { #category : #accessing }
 GtScenery >> storeOn: aStream [
-	aStream nextPutAll: '| scenery '.
-	items doWithIndex: [:eachItem :i | 
-		aStream nextPutAll: 'item', i asString].	
+	aStream nextPutAll: '| scenery'.
+	items doWithIndex: [ :eachItem :i | aStream nextPutAll: ' item' , i asString ].
 	aStream
-		nextPutAll: '|';
+		nextPutAll: ' |';
 		cr;
 		nextPutAll: 'scenery := ';
 		nextPutAll: self class name;
-		nextPutAll: ' new';
+		nextPutAll: ' new.';
 		cr.
-	items doWithIndex: [:eachItem :i |
-		aStream nextPutAll: 'item', i asString, ' := scenery addItem: '.
-		"eachItem storeOn: aStream"
-		]
+	items
+		doWithIndex: [ :eachItem :i | 
+			aStream
+				nextPutAll: 'item' , i asString , ' := scenery addItem: ('.
+			eachItem stencil storeOn: aStream.
+			aStream nextPutAll: ').';
+				cr;
+				nextPutAll: 'item' , i asString , ' position: ' , eachItem position asString , '.';
+				cr ].
+	connections
+		doWithIndex: [ :eachConnection :i | 
+			aStream
+				nextPutAll: 'scenery addConnection: '
+						, eachConnection stencil class name asString , ' new';
+				nextPutAll: ' from: item', (items indexOf: eachConnection from) asString;
+				nextPutAll: ' to: item', (items indexOf: eachConnection to) asString, '.';
+				cr ].
+	aStream nextPutAll: 'scenery'
 ]

@@ -48,3 +48,16 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnection [
 	self assert: element children size = 3.
 	^ scenery
 ]
+
+{ #category : #accessing }
+GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnectionStoreOn [
+	<gtExample>
+	| scenery storeOnString restoredScenery |
+	scenery := self sceneryWithOneInspectorAndOneRectangleAndOneConnection.
+	storeOnString := String streamContents: [:s | scenery storeOn: s].
+	restoredScenery := Smalltalk compiler evaluate: storeOnString.
+	self assert: (restoredScenery isKindOf: GtScenery).
+	self assert: restoredScenery items size equals: 2.
+	self assert: restoredScenery connections size equals: 1.
+	^ restoredScenery
+]

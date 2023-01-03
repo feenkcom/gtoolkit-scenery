@@ -30,14 +30,29 @@ GtSceneryConnection >> asElementIn: aContainerElement forScenery: aScenery [
 	^ line
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryConnection >> from [
+	^ from
+]
+
 { #category : #accessing }
 GtSceneryConnection >> from: anItem [ 
 	from := anItem
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryConnection >> stencil [
+	^ stencil
+]
+
 { #category : #accessing }
 GtSceneryConnection >> stencil: aLineStencil [ 
 	stencil := aLineStencil
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryConnection >> to [
+	^ to
 ]
 
 { #category : #accessing }

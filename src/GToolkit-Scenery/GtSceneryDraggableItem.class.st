@@ -15,11 +15,13 @@ GtSceneryDraggableItem >> extent: aPoint [
 { #category : #accessing }
 GtSceneryDraggableItem >> initialize [ 
 	super initialize.
-	position := 0@0.
 	extent := 50 @ 50
 ]
 
 { #category : #accessing }
-GtSceneryDraggableItem >> position: aPoint [ 
-	position := aPoint
+GtSceneryDraggableItem >> storeOn: aStream [
+	aStream
+		nextPutAll: self class name;
+		nextPutAll: ' new';
+		nextPutAll: ' extent: ', extent asString.
 ]

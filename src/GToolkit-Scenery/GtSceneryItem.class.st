@@ -38,8 +38,18 @@ GtSceneryItem >> initialize [
 ]
 
 { #category : #accessing }
+GtSceneryItem >> position [
+	^ position
+]
+
+{ #category : #accessing }
 GtSceneryItem >> position: aPoint [ 
 	position := aPoint
+]
+
+{ #category : #accessing }
+GtSceneryItem >> stencil [
+	^ stencil
 ]
 
 { #category : #accessing }

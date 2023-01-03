@@ -26,6 +26,14 @@ GtInspectorSceneryStencil >> initialize [
 ]
 
 { #category : #accessing }
+GtInspectorSceneryStencil >> storeOn: aStream [
+	super storeOn: aStream.
+	aStream
+		nextPutAll: '; ';
+		nextPutAll: 'target: ', targetBlock asString
+]
+
+{ #category : #accessing }
 GtInspectorSceneryStencil >> target: aBlock [
 	targetBlock := aBlock 
 ]
