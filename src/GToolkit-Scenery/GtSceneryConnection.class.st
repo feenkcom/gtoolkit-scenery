@@ -21,9 +21,9 @@ GtSceneryConnection >> asElementIn: aContainerElement forScenery: aScenery [
 				allChildrenBreadthFirstDetect: [ :each | each graph model = to ]
 				ifFound: [ :toElement | 
 					line
-						fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: fromElement from: toElement).
+						fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: toElement from: fromElement).
 					line
-						toAnchor: (BlNearestPositionBoundsAnchor nearestTo: toElement from: fromElement).
+						toAnchor: (BlNearestPositionBoundsAnchor nearestTo: fromElement from: toElement).
 					fromElement graph connectTo: toElement ]
 				ifNone: [ self halt ] ]
 		ifNone: [ self halt ].
