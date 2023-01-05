@@ -54,3 +54,10 @@ GtParabollaArcSceneryStencil >> labelText [
 GtParabollaArcSceneryStencil >> labelText: anObject [
 	labelText := anObject
 ]
+
+{ #category : #printing }
+GtParabollaArcSceneryStencil >> storeOn: aStream [
+	super storeOn: aStream.
+	aStream nextPutAll: ' labelText: '.
+	self labelText storeOn: aStream
+]
