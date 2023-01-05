@@ -130,10 +130,10 @@ GtScenery >> storeOn: aStream [
 	connections
 		doWithIndex: [ :eachConnection :i | 
 			aStream
-				nextPutAll: 'scenery addConnection: '.
+				nextPutAll: 'scenery addConnection: ('.
 			eachConnection stencil storeOn: aStream.
 			aStream
-				nextPutAll: ' from: item', (items indexOf: eachConnection from) asString;
+				nextPutAll: ') from: item', (items indexOf: eachConnection from) asString;
 				nextPutAll: ' to: item', (items indexOf: eachConnection to) asString, '.';
 				cr ].
 	aStream nextPutAll: 'scenery'
