@@ -1,5 +1,5 @@
 Class {
-	#name : #GtParabollaArcSceneryStencil,
+	#name : #GtSceneryParabollaArcStencil,
 	#superclass : #GtSceneryItemStencil,
 	#instVars : [
 		'labelText'
@@ -8,12 +8,12 @@ Class {
 }
 
 { #category : #accessing }
-GtParabollaArcSceneryStencil >> borderColor [
+GtSceneryParabollaArcStencil >> borderColor [
 	^ Color black
 ]
 
 { #category : #accessing }
-GtParabollaArcSceneryStencil >> create [
+GtSceneryParabollaArcStencil >> create [
 	| line |
 	line := BlParabollaArcElement new
 			clipChildren: false;
@@ -40,23 +40,23 @@ GtParabollaArcSceneryStencil >> create [
 ]
 
 { #category : #accessing }
-GtParabollaArcSceneryStencil >> initialize [ 
+GtSceneryParabollaArcStencil >> initialize [ 
 	super initialize.
 	labelText := nil.
 ]
 
 { #category : #accessing }
-GtParabollaArcSceneryStencil >> labelText [
+GtSceneryParabollaArcStencil >> labelText [
 	^ labelText
 ]
 
 { #category : #accessing }
-GtParabollaArcSceneryStencil >> labelText: anObject [
+GtSceneryParabollaArcStencil >> labelText: anObject [
 	labelText := anObject
 ]
 
 { #category : #printing }
-GtParabollaArcSceneryStencil >> storeOn: aStream [
+GtSceneryParabollaArcStencil >> storeOn: aStream [
 	super storeOn: aStream.
 	aStream nextPutAll: ' labelText: '.
 	self labelText storeOn: aStream

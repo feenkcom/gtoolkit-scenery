@@ -16,7 +16,7 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 	element states
 		addState: BrLayoutVerticalResizerState exact;
 		addState: BrLayoutVerticalResizerState exact.	"this is needed to support complicated widgets"
-	element size: extent.
+"	element size: extent."
 	element graph model: self.
 	element graph beNode.
 	resizer := BlResizerElement new preventMouseEvents zIndex: 100.
@@ -35,6 +35,7 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 			do: [ :e | 
 				aContainerElement addChild: resizer.
 				resizer attachTo: element ].
+	element userData at: #sceneryItem put: true.
 	^ element
 		addEventHandler: BlPullHandler new;
 		relocate: position
@@ -46,8 +47,8 @@ GtSceneryItem >> extent [
 ]
 
 { #category : #accessing }
-GtSceneryItem >> extent: anObject [
-	extent := anObject
+GtSceneryItem >> extent: aPoint [
+	extent := aPoint
 ]
 
 { #category : #accessing }

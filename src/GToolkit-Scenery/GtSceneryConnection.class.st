@@ -27,6 +27,7 @@ GtSceneryConnection >> asElementIn: aContainerElement forScenery: aScenery [
 					fromElement graph connectTo: toElement ]
 				ifNone: [ self halt ] ]
 		ifNone: [ self halt ].
+	line userData at: #sceneryConnection put: true.
 	^ line
 ]
 

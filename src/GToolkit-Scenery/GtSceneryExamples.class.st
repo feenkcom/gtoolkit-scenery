@@ -9,14 +9,14 @@ GtSceneryExamples >> sceneryWithOneInspector [
 	<gtExample>
 	| scenery scripter element item |
 	scenery := GtScenery new.
-	item := scenery addItem: (GtInspectorSceneryStencil new
-					target: [ 42 ]).
+	item := scenery addItem: (GtSceneryItem new stencil: (GtSceneryInspectorStencil new
+					target: [ 42 ])).
 	item position: 500 @ 300.
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children anyOne.
-	self assert: (element isKindOf: BlCanvassableElement).
+	self assert: (element isKindOf: GtSceneryElement).
 	self assert: element children size = 1.
-	self assert: element children anyOne bounds top = 300.
+	self assert: element children anyOne children anyOne bounds top = 300.
 	^ scenery
 ]
 
@@ -25,9 +25,9 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangle [
 	<gtExample>
 	| scenery scripter element item2 |
 	scenery := self sceneryWithOneInspector.
-	item2 := scenery addItem: GtRectangleSceneryStencil new.
+	item2 := scenery addItem: (GtSceneryItem new stencil: GtSceneryRectangleStencil new).
 	scripter := BlScripter new element: scenery asElement.
-	element := scripter rootWithoutParent children anyOne.
+	element := scripter rootWithoutParent children first children anyOne.
 	self assert: element children size = 2.
 	^ scenery
 ]
@@ -40,11 +40,11 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnection [
 	item1 := scenery items first.
 	item2 := scenery items last.
 	scenery
-		addConnection: GtLineSceneryStencil new
+		addConnectionWithStencil: GtSceneryLineStencil new
 		from: item1
 		to: item2.
 	scripter := BlScripter new element: scenery asElement.
-	element := scripter rootWithoutParent children anyOne.
+	element := scripter rootWithoutParent children first children anyOne.
 	self assert: element children size = 3.
 	^ scenery
 ]
@@ -60,4 +60,17 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnectionStore
 	self assert: restoredScenery items size equals: 2.
 	self assert: restoredScenery connections size equals: 1.
 	^ restoredScenery
+]
+
+{ #category : #accessing }
+GtSceneryExamples >> sceneryWithOneLepiterPage [
+	<gtExample>
+	| scenery scripter element item |
+	scenery := GtScenery new.
+	item := scenery addItem: (GtSceneryItem new stencil: (GtSceneryLepiterPageStencil new databaseName: 'Glamorous Toolkit Book'; pageName: 'Glamorous Toolkit')).
+	item position: 500 @ 300.
+	scripter := BlScripter new element: scenery asElement.
+	element := scripter rootWithoutParent children anyOne.
+	self assert: element children first children anyOne bounds top = 300.
+	^ scenery
 ]
