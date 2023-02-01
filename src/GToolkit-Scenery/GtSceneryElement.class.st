@@ -10,19 +10,28 @@ Class {
 
 { #category : #accessing }
 GtSceneryElement >> createElementFor: eachItem [
-	| itemElement itemToSpawn |
+	| itemElement itemToSpawn currentElement |
 	itemElement := eachItem asElementIn: container forScenery: gtScenery.
+	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 	itemElement
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
+			| elementToSpawn |
 			e consumed: true.
 			itemToSpawn := GtSceneryItem new
 					stencil: (GtSceneryInspectorStencil new target: [ e object ]);
-					position: itemElement bounds topRight + (40@0);
+					position: itemElement bounds topRight + (40 @ 0);
 					extent: itemElement bounds extent.
+			eachItem addLinkTo: itemToSpawn.
 			gtScenery addItem: itemToSpawn.
-			container addChild: (self createElementFor: itemToSpawn) ].
-	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
+			elementToSpawn := self createElementFor: itemToSpawn.
+			itemElement graph connectTo: elementToSpawn.
+			itemElement
+				withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
+				do: [ :each | 
+					each
+						addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
+			container addChild: elementToSpawn ].
 	itemElement
 		when: BlElementPositionChangedEvent
 		do: [ :e | eachItem position: e currentTarget position ].
