@@ -3,13 +3,14 @@ Class {
 	#superclass : #BrStencil,
 	#instVars : [
 		'connections',
-		'items'
+		'items',
+		'announcer'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
 
 { #category : #accessing }
-GtScenery >> addConnection: anObject from: item1 to: item2 [ 
+GtScenery >> addConnectionWithStencil: anObject from: item1 to: item2 [ 
 	| connection |
 	connection := GtSceneryConnection new 
 		stencil: anObject;
@@ -20,11 +21,29 @@ GtScenery >> addConnection: anObject from: item1 to: item2 [
 ]
 
 { #category : #accessing }
-GtScenery >> addItem: anItemStencil [
+GtScenery >> addItem: anItem [
+	items add: anItem.
+	self announce: (GtSceneryItemAdded new item: anItem).
+	^ anItem
+]
+
+{ #category : #accessing }
+GtScenery >> addItemForStencil: anItemStencil [
 	| item |
 	item := GtSceneryItem new stencil: anItemStencil.
 	items add: item.
+	self announce: (GtSceneryItemAdded new item: anItemStencil).
 	^ item
+]
+
+{ #category : #accessing }
+GtScenery >> announce: anAnnouncement [ 
+	self announcer announce: anAnnouncement
+]
+
+{ #category : #accessing }
+GtScenery >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
 { #category : #accessing }
@@ -33,28 +52,14 @@ GtScenery >> connections [
 ]
 
 { #category : #accessing }
-GtScenery >> create [
-	| container itemElement |
-	container := BlCanvassableElement new
-			background: Color white;
-			constraintsDo: [ :c | 
-				c vertical matchParent.
-				c horizontal matchParent ].
-	items
-		do: [ :eachItem | 
-			itemElement := eachItem asElementIn: container forScenery: self.
-			
-			itemElement
-				when: BlElementPositionChangedEvent
-				do: [ :e | eachItem position: e currentTarget position ].
-			itemElement
-				when: BlElementExtentChangedEvent
-				do: [ :e | eachItem extent: e currentTarget extent ].
-			container addChild: itemElement ].
-	connections
-		do: [ :eachConnection | container addChild: (eachConnection asElementIn: container forScenery: self) ].
+GtScenery >> connections: anObject [
+	connections := anObject
+]
 
-	^ container
+{ #category : #accessing }
+GtScenery >> create [
+	^ GtSceneryElement new
+		gtScenery: self
 ]
 
 { #category : #accessing }
@@ -104,6 +109,11 @@ GtScenery >> items [
 ]
 
 { #category : #accessing }
+GtScenery >> items: anObject [
+	items := anObject
+]
+
+{ #category : #accessing }
 GtScenery >> storeOn: aStream [
 	aStream nextPutAll: '| scenery'.
 	items doWithIndex: [ :eachItem :i | aStream nextPutAll: ' item' , i asString ].
@@ -117,9 +127,9 @@ GtScenery >> storeOn: aStream [
 	items
 		doWithIndex: [ :eachItem :i | 
 			aStream
-				nextPutAll: 'item' , i asString , ' := scenery addItem: ('.
+				nextPutAll: 'item' , i asString , ' := scenery addItem: (GtSceneryItem new stencil: ('.
 			eachItem stencil storeOn: aStream.
-			aStream nextPutAll: ').';
+			aStream nextPutAll: ')).';
 				cr.
 			aStream
 				nextPutAll: 'item' , i asString , ' position: ' , eachItem position asString , '.';
@@ -130,7 +140,7 @@ GtScenery >> storeOn: aStream [
 	connections
 		doWithIndex: [ :eachConnection :i | 
 			aStream
-				nextPutAll: 'scenery addConnection: ('.
+				nextPutAll: 'scenery addConnectionWithStencil: ('.
 			eachConnection stencil storeOn: aStream.
 			aStream
 				nextPutAll: ') from: item', (items indexOf: eachConnection from) asString;

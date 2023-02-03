@@ -1,16 +1,16 @@
 Class {
-	#name : #GtLineSceneryStencil,
+	#name : #GtSceneryLineStencil,
 	#superclass : #GtSceneryItemStencil,
 	#category : #'GToolkit-Scenery-Model'
 }
 
 { #category : #accessing }
-GtLineSceneryStencil >> borderColor [
+GtSceneryLineStencil >> borderColor [
 	^ Color black
 ]
 
 { #category : #accessing }
-GtLineSceneryStencil >> create [
+GtSceneryLineStencil >> create [
 	| line |
 	line := BlLineElement new
 			border: (BlBorder paint: self borderColor width: 1);

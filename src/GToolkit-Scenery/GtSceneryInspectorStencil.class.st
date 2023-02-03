@@ -1,5 +1,5 @@
 Class {
-	#name : #GtInspectorSceneryStencil,
+	#name : #GtSceneryInspectorStencil,
 	#superclass : #GtSceneryDraggableItem,
 	#instVars : [
 		'targetBlock'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-GtInspectorSceneryStencil >> create [
+GtSceneryInspectorStencil >> create [
 	^ (self targetValue gtViewsFor: GtPhlowView empty)
 		asElementDo: [ :e | 
 			e
@@ -19,14 +19,14 @@ GtInspectorSceneryStencil >> create [
 ]
 
 { #category : #accessing }
-GtInspectorSceneryStencil >> initialize [
+GtSceneryInspectorStencil >> initialize [
 	super initialize.
 	targetBlock := [ nil ].
 	extent := 200@400.
 ]
 
 { #category : #accessing }
-GtInspectorSceneryStencil >> storeOn: aStream [
+GtSceneryInspectorStencil >> storeOn: aStream [
 	super storeOn: aStream.
 	aStream
 		nextPutAll: '; ';
@@ -34,11 +34,11 @@ GtInspectorSceneryStencil >> storeOn: aStream [
 ]
 
 { #category : #accessing }
-GtInspectorSceneryStencil >> target: aBlock [
+GtSceneryInspectorStencil >> target: aBlock [
 	targetBlock := aBlock 
 ]
 
 { #category : #accessing }
-GtInspectorSceneryStencil >> targetValue [
+GtSceneryInspectorStencil >> targetValue [
 	^ targetBlock value
 ]

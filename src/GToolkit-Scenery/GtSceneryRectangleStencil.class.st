@@ -1,5 +1,5 @@
 Class {
-	#name : #GtRectangleSceneryStencil,
+	#name : #GtSceneryRectangleStencil,
 	#superclass : #GtSceneryDraggableItem,
 	#instVars : [
 		'targetBlock'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-GtRectangleSceneryStencil >> create [
+GtSceneryRectangleStencil >> create [
 	^ BlElement new
 				size: extent;
 				background: Color white;
@@ -17,7 +17,7 @@ GtRectangleSceneryStencil >> create [
 ]
 
 { #category : #accessing }
-GtRectangleSceneryStencil >> initialize [
+GtSceneryRectangleStencil >> initialize [
 	super initialize.
 	targetBlock := [ nil ].
 	extent := 200 @ 300

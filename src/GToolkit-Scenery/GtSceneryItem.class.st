@@ -4,10 +4,28 @@ Class {
 	#instVars : [
 		'stencil',
 		'position',
-		'extent'
+		'extent',
+		'incomingLinks',
+		'outgoingLinks'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
+
+{ #category : #accessing }
+GtSceneryItem >> addIncomingLink: anItem [ 
+	incomingLinks add: anItem
+]
+
+{ #category : #accessing }
+GtSceneryItem >> addLinkTo: anItem [
+	self addOutgoingLink: anItem.
+	anItem addIncomingLink: self
+]
+
+{ #category : #accessing }
+GtSceneryItem >> addOutgoingLink: anItem [ 
+	outgoingLinks add: anItem
+]
 
 { #category : #accessing }
 GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
@@ -16,7 +34,7 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 	element states
 		addState: BrLayoutVerticalResizerState exact;
 		addState: BrLayoutVerticalResizerState exact.	"this is needed to support complicated widgets"
-	element size: extent.
+"	element size: extent."
 	element graph model: self.
 	element graph beNode.
 	resizer := BlResizerElement new preventMouseEvents zIndex: 100.
@@ -46,15 +64,37 @@ GtSceneryItem >> extent [
 ]
 
 { #category : #accessing }
-GtSceneryItem >> extent: anObject [
-	extent := anObject
+GtSceneryItem >> extent: aPoint [
+	extent := aPoint
+]
+
+{ #category : #accessing }
+GtSceneryItem >> incomingLinks [
+	^ incomingLinks
+]
+
+{ #category : #accessing }
+GtSceneryItem >> incomingLinks: anObject [
+	incomingLinks := anObject
 ]
 
 { #category : #accessing }
 GtSceneryItem >> initialize [
 	super initialize.
 	position := 0@0.
-	extent := 200 @ 200
+	extent := 200 @ 200.
+	incomingLinks := OrderedCollection new.
+	outgoingLinks := OrderedCollection new
+]
+
+{ #category : #accessing }
+GtSceneryItem >> outgoingLinks [
+	^ outgoingLinks
+]
+
+{ #category : #accessing }
+GtSceneryItem >> outgoingLinks: anObject [
+	outgoingLinks := anObject
 ]
 
 { #category : #accessing }
