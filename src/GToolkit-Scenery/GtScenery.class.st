@@ -82,7 +82,7 @@ GtScenery >> gtItemsFor: aView [
 GtScenery >> gtStoreOnFor: aView [
 	<gtView>
 	^ aView textEditor
-		title: 'Store On';
+		title: 'Store on';
 		styler: (BrRBTextStyler new
 				isForWorkspace: true;
 				yourself);
