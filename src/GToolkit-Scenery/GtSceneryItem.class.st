@@ -34,7 +34,7 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 	element states
 		addState: BrLayoutVerticalResizerState exact;
 		addState: BrLayoutVerticalResizerState exact.	"this is needed to support complicated widgets"
-"	element size: extent."
+	element size: extent.
 	element graph model: self.
 	element graph beNode.
 	resizer := BlResizerElement new preventMouseEvents zIndex: 100.

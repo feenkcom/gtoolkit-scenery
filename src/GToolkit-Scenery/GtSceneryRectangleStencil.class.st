@@ -1,9 +1,6 @@
 Class {
 	#name : #GtSceneryRectangleStencil,
 	#superclass : #GtSceneryDraggableItem,
-	#instVars : [
-		'targetBlock'
-	],
 	#category : #'GToolkit-Scenery-Model'
 }
 
@@ -19,6 +16,5 @@ GtSceneryRectangleStencil >> create [
 { #category : #accessing }
 GtSceneryRectangleStencil >> initialize [
 	super initialize.
-	targetBlock := [ nil ].
 	extent := 200 @ 300
 ]
