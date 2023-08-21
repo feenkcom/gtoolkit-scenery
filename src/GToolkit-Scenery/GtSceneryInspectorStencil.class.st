@@ -29,7 +29,7 @@ GtSceneryInspectorStencil >> initialize [
 GtSceneryInspectorStencil >> storeOn: aStream [
 	super storeOn: aStream.
 	aStream
-		nextPutAll: '; ';
+		space;
 		nextPutAll: 'target: ', targetBlock asString
 ]
 

@@ -10,7 +10,7 @@ Class {
 
 { #category : #accessing }
 GtSceneryElement >> createElementFor: eachItem [
-	| itemElement itemToSpawn currentElement |
+	| itemElement itemToSpawn |
 	itemElement := eachItem asElementIn: container forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 	itemElement

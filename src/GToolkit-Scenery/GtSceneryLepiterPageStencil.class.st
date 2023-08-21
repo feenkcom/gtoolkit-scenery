@@ -43,7 +43,7 @@ GtSceneryLepiterPageStencil >> pageName: aString [
 GtSceneryLepiterPageStencil >> storeOn: aStream [
 	super storeOn: aStream.
 	aStream
-		nextPutAll: ';';
+		space;
 		nextPutAll: 'pageName: ' , pageName storeString , ';';
 		nextPutAll: 'databaseName:' , databaseName storeString
 ]
