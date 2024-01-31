@@ -94,6 +94,15 @@ GtSceneryParabollaArcStencil >> labelText: anObject [
 { #category : #printing }
 GtSceneryParabollaArcStencil >> storeOn: aStream [
 	super storeOn: aStream.
-	aStream nextPutAll: ' labelText: '.
-	self labelText storeOn: aStream
+	aStream 
+		nextPutAll: ' labelText: '.
+	self labelText storeOn: aStream.
+	aStream 
+		nextPutAll: '; curvatureFraction: '.
+	self curvatureFraction storeOn: aStream.
+	aStream 
+		nextPutAll: '; arrowLengthFraction: '.
+	self arrowLengthFraction storeOn: aStream.
+	aStream 
+		nextPutAll: '; yourself'.
 ]
