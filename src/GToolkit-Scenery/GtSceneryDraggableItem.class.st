@@ -1,3 +1,6 @@
+"
+I am an abstract superclass for stencil of draggable items (not connections). Each of my subclasses is a stencil for a specific kind of item.
+"
 Class {
 	#name : #GtSceneryDraggableItem,
 	#superclass : #GtSceneryItemStencil,
