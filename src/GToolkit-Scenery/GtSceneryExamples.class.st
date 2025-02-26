@@ -67,10 +67,33 @@ GtSceneryExamples >> sceneryWithOneLepiterPage [
 	<gtExample>
 	| scenery scripter element item |
 	scenery := GtScenery new.
-	item := scenery addItem: (GtSceneryItem new stencil: (GtSceneryLepiterPageStencil new databaseName: 'Glamorous Toolkit Book'; pageName: 'Glamorous Toolkit')).
-	item position: 500 @ 300.
+	item := scenery
+			addItem: (GtSceneryItem new
+					stencil: (GtSceneryLepiterPageStencil new
+							databaseName: 'Glamorous Toolkit Book';
+							pageName: 'Glamorous Toolkit')).
+	item extent: 500 @ 400.
+	item position: 0 @ 0.
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children anyOne.
-	self assert: element children first children anyOne bounds top = 300.
+	self assert: element children first children anyOne bounds top = 0.
+	^ scenery
+]
+
+{ #category : #accessing }
+GtSceneryExamples >> sceneryWithTwoLepiterPages [
+	<gtExample>
+	| scenery scripter element item |
+	scenery := self sceneryWithOneLepiterPage.
+	item := scenery
+			addItem: (GtSceneryItem new
+					stencil: (GtSceneryLepiterPageStencil new
+							databaseName: 'Glamorous Toolkit Book';
+							pageName: 'About this book')).
+	item extent: 500 @ 400.
+	item position: 600 @ 300.
+	scripter := BlScripter new element: scenery asElement.
+	element := scripter rootWithoutParent children anyOne.
+	self assert: element children first children second bounds top = 300.
 	^ scenery
 ]
