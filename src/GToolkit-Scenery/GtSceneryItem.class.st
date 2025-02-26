@@ -51,8 +51,12 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 					removeFromParent ];
 		when: BlFocusInEvent
 			do: [ :e | 
+				resizer
+					detach;
+					removeFromParent.
 				aContainerElement addChild: resizer.
-				resizer attachTo: element ].
+				resizer attachTo: element ].	"Should not be necessary, to detach it, 
+				but is needed to avoid errors in sceneries with a single Lepiter page."
 	^ element
 		addEventHandler: BlPullHandler new;
 		relocate: position
