@@ -60,9 +60,15 @@ GtSceneryElement >> gtLiveFor: aView [
 		actionStencil: [ 
 			BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
+				icon: BrGlamorousIcons zoomtofit asElement;
+				label: 'Zoom to fit' asRopedText;
+				action: [ self children first zoomToActualSize ] ];
+		actionStencil: [ 
+			BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize asElement;
-				label: 'Resize' asRopedText;
-				action: [ self children first zoomToActualSize ] ]
+				label: 'Shrink' asRopedText;
+				action: [ self children first zoomLevel: 0.6 ] ]
 ]
 
 { #category : #accessing }

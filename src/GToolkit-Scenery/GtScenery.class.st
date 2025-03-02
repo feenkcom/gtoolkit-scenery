@@ -1,3 +1,8 @@
+"
+I am a stencil for a scene containing graphical items and possibly connections between them.
+My items are instances of {{gtClass:name=GtSceneryItem}}, each of which wraps a stencil for a different kind of item.
+My items may be explicitly positioned or resized.
+"
 Class {
 	#name : #GtScenery,
 	#superclass : #BrStencil,
