@@ -25,8 +25,8 @@ GtSceneryConnection >> asElementIn: aContainerElement forScenery: aScenery [
 					line
 						toAnchor: (BlNearestPositionBoundsAnchor nearestTo: fromElement from: toElement).
 					fromElement graph connectTo: toElement ]
-				ifNone: [ self halt ] ]
-		ifNone: [ self halt ].
+				ifNone: [ self error: 'Could not find element' ] ]
+		ifNone: [ self error: 'Could not find element' ].
 	line userData at: #sceneryConnection put: true.
 	^ line
 ]
