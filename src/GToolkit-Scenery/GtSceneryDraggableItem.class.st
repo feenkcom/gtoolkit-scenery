@@ -10,6 +10,19 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #converting }
+GtSceneryDraggableItem >> asItem [
+	^ GtSceneryItem new
+		stencil: self;
+		extent: self extent;
+		yourself
+]
+
+{ #category : #accessing }
+GtSceneryDraggableItem >> extent [
+	^ extent
+]
+
 { #category : #accessing }
 GtSceneryDraggableItem >> extent: aPoint [
 	extent := aPoint

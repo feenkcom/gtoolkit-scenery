@@ -21,7 +21,7 @@ GtSceneryTextStencil >> create [
 { #category : #accessing }
 GtSceneryTextStencil >> initialize [
 	super initialize.
-	extent := 300 @ 200.
+	extent := 100 @ 50.
 	text := 'Text' asRopedText
 ]
 

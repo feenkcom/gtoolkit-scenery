@@ -13,6 +13,14 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
+{ #category : #menu }
+GtSceneryElement >> backgroundMenu [
+	"Just a placeholder for now."
+	^ BrGlamorousSimpleContextMenuContent new
+		items: {'Inspect graph' -> [ self inspect ]};
+		yourself
+]
+
 { #category : #accessing }
 GtSceneryElement >> container [
 	^ container
@@ -85,16 +93,17 @@ GtSceneryElement >> gtScenery [
 { #category : #accessing }
 GtSceneryElement >> gtScenery: aScenery [
 	| itemElement |
+	self unsubscribe.
 	gtScenery := aScenery.
 	gtScenery items
-		do: [ :eachItem | 
-			"container addChild: "
+		do: [  "container addChild: ":eachItem | 
 			itemElement := self createElementFor: eachItem.
 			container addChild: itemElement ].
 	gtScenery connections
 		do: [ :eachConnection | 
 			container
-				addChild: (eachConnection asElementIn: container forScenery: self gtScenery) ]
+				addChild: (eachConnection asElementIn: container forScenery: self gtScenery) ].
+	self subscribe
 ]
 
 { #category : #accessing }
@@ -110,4 +119,34 @@ GtSceneryElement >> initialize [
 				c vertical matchParent.
 				c horizontal matchParent ].
 	self addChild: container.
+	"self initializeEventListers."
+]
+
+{ #category : #initialization }
+GtSceneryElement >> initializeEventListers [
+	self container
+		when: BlDoubleClickEvent
+		do: [ :evt | 
+			| item |
+			item := GtSceneryTextStencil new asItem.
+			item position: evt childrenPosition.
+			self gtScenery addItem: item ].
+	self container
+		aptitude: (BrGlamorousWithContextMenuAptitude content: [ self backgroundMenu ])
+]
+
+{ #category : #announcement }
+GtSceneryElement >> subscribe [
+	self gtScenery announcer
+		when: GtSceneryItemAdded
+		do: [ :announcement :subscriber | 
+			| newElement |
+			newElement := self createElementFor: announcement item.
+			self container addChild: newElement ]
+		for: self
+]
+
+{ #category : #announcement }
+GtSceneryElement >> unsubscribe [
+	gtScenery ifNotNil: [ gtScenery announcer unsubscribe: self ]
 ]
