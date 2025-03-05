@@ -96,13 +96,14 @@ GtSceneryElement >> gtScenery: aScenery [
 	self unsubscribe.
 	gtScenery := aScenery.
 	gtScenery items
-		do: [  "container addChild: ":eachItem | 
+		do: [ :eachItem | 
 			itemElement := self createElementFor: eachItem.
 			container addChild: itemElement ].
 	gtScenery connections
 		do: [ :eachConnection | 
 			container
 				addChild: (eachConnection asElementIn: container forScenery: self gtScenery) ].
+	gtScenery items notEmpty ifTrue: [ self container enableAutoScale ].
 	self subscribe
 ]
 
@@ -114,12 +115,11 @@ GtSceneryElement >> initialize [
 				c horizontal matchParent ].
 	container := BlCanvassableElement new
 			background: Color white;
-			enableAutoScale;
 			constraintsDo: [ :c | 
 				c vertical matchParent.
 				c horizontal matchParent ].
 	self addChild: container.
-	"self initializeEventListers."
+	self initializeEventListers.
 ]
 
 { #category : #initialization }
