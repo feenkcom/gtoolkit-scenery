@@ -15,10 +15,11 @@ Class {
 
 { #category : #menu }
 GtSceneryElement >> backgroundMenu [
-	"Just a placeholder for now."
-	^ BrGlamorousSimpleContextMenuContent new
-		items: {'Inspect graph' -> [ self inspect ]};
-		yourself
+	"Just a placeholder for now.
+	Ideally you want to return a `BrMenuItems` objects and 
+	call `BrGlamorousWithExplicitContextMenuAptitude menu: [ self backgroundMenu ]` instead"
+
+	^ {'Inspect graph' -> [ self inspect ]}
 ]
 
 { #category : #accessing }
@@ -132,7 +133,7 @@ GtSceneryElement >> initializeEventListers [
 			item position: evt childrenPosition.
 			self gtScenery addItem: item ].
 	self container
-		aptitude: (BrGlamorousWithContextMenuAptitude content: [ self backgroundMenu ])
+		aptitude: (BrGlamorousWithExplicitContextMenuAptitude items: [ self backgroundMenu ])
 ]
 
 { #category : #announcement }
