@@ -47,6 +47,10 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 			do: [ :e | 
 				e currentTarget requestFocus.
 				e consumed: true ];
+		when: BlDoubleClickEvent
+			do: [ :e | 
+				e target parent phlow spawnObject: stencil asElement.
+				e consumed: true ];
 		when: BlFocusOutEvent
 			do: [ :e | 
 				resizer
