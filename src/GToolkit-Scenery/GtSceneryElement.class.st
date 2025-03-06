@@ -42,14 +42,14 @@ GtSceneryElement >> createElementFor: eachItem [
 					extent: itemElement bounds extent.
 			eachItem addLinkTo: itemToSpawn.
 			gtScenery addItem: itemToSpawn.
-			elementToSpawn := self createElementFor: itemToSpawn.
+			"elementToSpawn := self createElementFor: itemToSpawn.
 			itemElement graph connectTo: elementToSpawn.
 			itemElement
 				withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
 				do: [ :each | 
 					each
 						addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
-			container addChild: elementToSpawn ].
+			container addChild: elementToSpawn" ].
 	itemElement
 		when: BlElementPositionChangedEvent
 		do: [ :e | eachItem position: e currentTarget position ].
@@ -82,7 +82,12 @@ GtSceneryElement >> gtLiveFor: aView [
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize asElement;
 				label: 'Zoom to actual size' asRopedText;
-				action: [ self container zoomToActualSize ] ]
+				action: [ self container zoomToActualSize ] ];
+		actionStencil: [ BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
+				icon: BrGlamorousIcons refresh asElement;
+				label: 'Refresh' asRopedText;
+				action: [ self requestLayout ] ]
 ]
 
 { #category : #accessing }
@@ -137,6 +142,10 @@ GtSceneryElement >> initializeEventListers [
 
 { #category : #announcement }
 GtSceneryElement >> subscribe [
+	"We want to see when a new item is added to the model.
+	NB: This conflicts with the spawnObject: logic in createElementFor:,
+	which also generates a new element for an item added."
+
 	self gtScenery announcer
 		when: GtSceneryItemAdded
 		do: [ :announcement :subscriber | 
