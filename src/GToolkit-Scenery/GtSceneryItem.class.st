@@ -32,6 +32,8 @@ GtSceneryItem >> addOutgoingLink: anItem [
 
 { #category : #accessing }
 GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
+	"Should not be necessary, to detach the resizer before attaching, but is needed to avoid errors in sceneries with a single Lepiter page."
+
 	| element resizer |
 	element := stencil asElement.
 	element states
@@ -47,10 +49,6 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 			do: [ :e | 
 				e currentTarget requestFocus.
 				e consumed: true ];
-		when: BlDoubleClickEvent
-			do: [ :e | 
-				e target parent phlow spawnObject: stencil asElement.
-				e consumed: true ];
 		when: BlFocusOutEvent
 			do: [ :e | 
 				resizer
@@ -62,8 +60,12 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 					detach;
 					removeFromParent.
 				aContainerElement addChild: resizer.
-				resizer attachTo: element ].	"Should not be necessary, to detach it, 
-				but is needed to avoid errors in sceneries with a single Lepiter page."
+				resizer attachTo: element ];
+		when: BlDoubleClickEvent do: [ :e | 
+			"Prevent double-click here from creating a new item."
+			 e consumed: true.
+			 "e target parent phlow spawnObject: stencil asElement."
+		 ].
 	^ element
 		addEventHandler: BlPullHandler new;
 		relocate: position
