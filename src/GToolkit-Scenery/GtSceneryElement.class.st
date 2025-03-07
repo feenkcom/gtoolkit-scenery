@@ -19,7 +19,7 @@ GtSceneryElement >> backgroundMenu [
 	Ideally you want to return a `BrMenuItems` objects and 
 	call `BrGlamorousWithExplicitContextMenuAptitude menu: [ self backgroundMenu ]` instead"
 
-	^ {'Inspect graph' -> [ self inspect ]}
+	^ {'Redisplay' -> [ self redisplay ]}
 ]
 
 { #category : #accessing }
@@ -43,14 +43,14 @@ GtSceneryElement >> createElementFor: eachItem [
 					extent: itemElement bounds extent.
 			eachItem addLinkTo: itemToSpawn.
 			gtScenery addItem: itemToSpawn.
-			"elementToSpawn := self createElementFor: itemToSpawn.
+			elementToSpawn := self createElementFor: itemToSpawn.
 			itemElement graph connectTo: elementToSpawn.
 			itemElement
 				withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
 				do: [ :each | 
 					each
 						addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
-			container addChild: elementToSpawn" ].
+			container addChild: elementToSpawn ].
 	itemElement
 		when: BlElementPositionChangedEvent
 		do: [ :e | eachItem position: e currentTarget position ].
@@ -83,12 +83,7 @@ GtSceneryElement >> gtLiveFor: aView [
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize asElement;
 				label: 'Zoom to actual size' asRopedText;
-				action: [ self container zoomToActualSize ] ];
-		actionStencil: [ BrButton new
-				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons refresh asElement;
-				label: 'Refresh' asRopedText;
-				action: [ self requestLayout ] ]
+				action: [ self container zoomToActualSize ] ]
 ]
 
 { #category : #accessing }
@@ -102,13 +97,14 @@ GtSceneryElement >> gtScenery: aScenery [
 	self unsubscribe.
 	gtScenery := aScenery.
 	gtScenery items
-		do: [ :eachItem | 
+		withIndexDo: [ :eachItem :index | 
 			itemElement := self createElementFor: eachItem.
-			container addChild: itemElement ].
+			container addChild: itemElement as: (GtSceneryItemId indexed: index) ].
 	gtScenery connections
-		do: [ :eachConnection | 
+		withIndexDo: [ :eachConnection :index | 
 			container
-				addChild: (eachConnection asElementIn: container forScenery: self gtScenery) ].
+				addChild: (eachConnection asElementIn: container forScenery: self gtScenery)
+				as: (GtSceneryConnectionId indexed: index) ].
 	gtScenery items notEmpty ifTrue: [ self container enableAutoScale ].
 	self subscribe
 ]
@@ -116,6 +112,7 @@ GtSceneryElement >> gtScenery: aScenery [
 { #category : #accessing }
 GtSceneryElement >> initialize [
 	super initialize.
+	self id: GtSceneryId.
 	self constraintsDo: [ :c | 
 				c vertical matchParent.
 				c horizontal matchParent ].
@@ -133,12 +130,27 @@ GtSceneryElement >> initializeEventListers [
 	self container
 		when: BlDoubleClickEvent
 		do: [ :evt | 
-			| item |
+			| item newElement |
 			item := GtSceneryTextStencil new asItem.
 			item position: evt childrenPosition.
-			self gtScenery addItem: item ].
+			self gtScenery addItem: item.
+			self shouldBeHandledByAnnouncement.
+			newElement := self createElementFor: item.
+			self container addChild: newElement ].
 	self container
 		aptitude: (BrGlamorousWithExplicitContextMenuAptitude items: [ self backgroundMenu ])
+]
+
+{ #category : #utility }
+GtSceneryElement >> redisplay [
+	self container removeChildren.
+	self gtScenery: self gtScenery
+
+]
+
+{ #category : #todo }
+GtSceneryElement >> shouldBeHandledByAnnouncement [
+	<todo: 'View updates are currently handled locally, whereas they should be handled in a listener for announcements from model updates. This should be fixed once the framework stabilizes and it becomes clear which model announcements are needed.'>
 ]
 
 { #category : #announcement }
@@ -150,9 +162,9 @@ GtSceneryElement >> subscribe [
 	self gtScenery announcer
 		when: GtSceneryItemAdded
 		do: [ :announcement :subscriber | 
-			| newElement |
+			"| newElement |
 			newElement := self createElementFor: announcement item.
-			self container addChild: newElement ]
+			self container addChild: newElement" ]
 		for: self
 ]
 
