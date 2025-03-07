@@ -13,15 +13,6 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
-{ #category : #menu }
-GtSceneryElement >> backgroundMenu [
-	"Just a placeholder for now.
-	Ideally you want to return a `BrMenuItems` objects and 
-	call `BrGlamorousWithExplicitContextMenuAptitude menu: [ self backgroundMenu ]` instead"
-
-	^ {'Redisplay' -> [ self redisplay ]}
-]
-
 { #category : #accessing }
 GtSceneryElement >> container [
 	^ container
@@ -32,6 +23,9 @@ GtSceneryElement >> createElementFor: eachItem [
 	| itemElement itemToSpawn |
 	itemElement := eachItem asElementIn: container forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
+	itemElement
+		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
+				items: [ self itemContextMenuForItem: eachItem andElement: itemElement ]).
 	itemElement
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
@@ -47,9 +41,7 @@ GtSceneryElement >> createElementFor: eachItem [
 			itemElement graph connectTo: elementToSpawn.
 			itemElement
 				withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
-				do: [ :each | 
-					each
-						addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
+				do: [ :each | each addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
 			container addChild: elementToSpawn ].
 	itemElement
 		when: BlElementPositionChangedEvent
@@ -144,7 +136,17 @@ GtSceneryElement >> initializeEventListers [
 			newElement := self createElementFor: item.
 			self container addChild: newElement ].
 	self container
-		aptitude: (BrGlamorousWithExplicitContextMenuAptitude items: [ self backgroundMenu ])
+		aptitude: (BrGlamorousWithExplicitContextMenuAptitude items: [ self sceneryContextMenu ])
+]
+
+{ #category : #menu }
+GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
+	^ {'Inspect'
+			-> [ anItemElement
+					fireEvent: (GtSceneryObjectToSpawn new object: anItem stencil) ].
+		'Clone' -> [ anItemElement
+					fireEvent: (GtPhlowObjectToSpawn new object: anItem stencil asElement) ].
+		'Delete' -> [ self shouldBeImplemented ]}
 ]
 
 { #category : #utility }
@@ -152,6 +154,17 @@ GtSceneryElement >> redisplay [
 	self container removeChildren.
 	self gtScenery: self gtScenery
 
+]
+
+{ #category : #menu }
+GtSceneryElement >> sceneryContextMenu [
+	<todo: 
+	'Add item from list
+	'>
+
+	^ {
+	'Add item here' -> [ self shouldBeImplemented ].
+	'Redisplay' -> [ self redisplay ]}
 ]
 
 { #category : #todo }
