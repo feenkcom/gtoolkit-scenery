@@ -64,6 +64,7 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 		when: BlDoubleClickEvent do: [ :e | 
 			"Prevent double-click here from creating a new item."
 			 e consumed: true.
+			 e inspect.
 			 "e target parent phlow spawnObject: stencil asElement."
 		 ].
 	^ element
