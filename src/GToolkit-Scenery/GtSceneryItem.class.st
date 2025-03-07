@@ -61,12 +61,10 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 					removeFromParent.
 				aContainerElement addChild: resizer.
 				resizer attachTo: element ];
-		when: BlDoubleClickEvent do: [ :e | 
-			"Prevent double-click here from creating a new item."
-			 e consumed: true.
-			 e inspect.
-			 "e target parent phlow spawnObject: stencil asElement."
-		 ].
+		when: BlDoubleClickEvent
+			do: [ :e | 
+				e consumed: true.
+				e target fireEvent: (GtSceneryObjectToSpawn new object: stencil asElement) ].
 	^ element
 		addEventHandler: BlPullHandler new;
 		relocate: position

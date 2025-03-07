@@ -113,16 +113,22 @@ GtSceneryElement >> gtScenery: aScenery [
 GtSceneryElement >> initialize [
 	super initialize.
 	self id: GtSceneryId.
-	self constraintsDo: [ :c | 
-				c vertical matchParent.
-				c horizontal matchParent ].
+	self
+		constraintsDo: [ :c | 
+			c vertical matchParent.
+			c horizontal matchParent ].
+	self
+		when: GtSceneryObjectToSpawn
+		do: [ :e | 
+			e consumed: true.
+			self phlow spawnObject: e object ].
 	container := BlCanvassableElement new
 			background: Color white;
 			constraintsDo: [ :c | 
 				c vertical matchParent.
 				c horizontal matchParent ].
 	self addChild: container.
-	self initializeEventListers.
+	self initializeEventListers
 ]
 
 { #category : #initialization }
