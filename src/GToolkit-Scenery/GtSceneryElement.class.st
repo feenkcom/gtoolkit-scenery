@@ -97,7 +97,9 @@ GtSceneryElement >> gtScenery: aScenery [
 			container
 				addChild: (eachConnection asElementIn: container forScenery: self gtScenery)
 				as: (GtSceneryConnectionId indexed: index) ].
-	gtScenery items notEmpty ifTrue: [ self container enableAutoScale ].
+	gtScenery items isEmpty
+		ifTrue: [ self container disableAutoScale ]
+		ifFalse: [ self container enableAutoScale ].
 	self subscribe
 ]
 
@@ -143,7 +145,7 @@ GtSceneryElement >> initializeEventListers [
 GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
 	^ {'Inspect'
 			-> [ anItemElement
-					fireEvent: (GtSceneryObjectToSpawn new object: anItem stencil) ].
+					fireEvent: (GtSceneryObjectToSpawn new object: anItem) ].
 		'Clone' -> [ anItemElement
 					fireEvent: (GtPhlowObjectToSpawn new object: anItem stencil asElement) ].
 		'Delete' -> [ self shouldBeImplemented ]}
