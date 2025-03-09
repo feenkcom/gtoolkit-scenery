@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'item'
 	],
-	#category : #'GToolkit-Scenery-Model'
+	#category : #'GToolkit-Scenery-Announcements'
 }
 
 { #category : #accessing }

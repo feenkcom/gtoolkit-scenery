@@ -13,14 +13,6 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
-{ #category : #menu }
-GtSceneryElement >> backgroundMenu [
-	"Just a placeholder for now."
-	^ BrGlamorousSimpleContextMenuContent new
-		items: {'Inspect graph' -> [ self inspect ]};
-		yourself
-]
-
 { #category : #accessing }
 GtSceneryElement >> container [
 	^ container
@@ -32,6 +24,9 @@ GtSceneryElement >> createElementFor: eachItem [
 	itemElement := eachItem asElementIn: container forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 	itemElement
+		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
+				items: [ self itemContextMenuForItem: eachItem andElement: itemElement ]).
+	itemElement
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
 			| elementToSpawn |
@@ -42,14 +37,12 @@ GtSceneryElement >> createElementFor: eachItem [
 					extent: itemElement bounds extent.
 			eachItem addLinkTo: itemToSpawn.
 			gtScenery addItem: itemToSpawn.
-			"elementToSpawn := self createElementFor: itemToSpawn.
+			elementToSpawn := self createElementFor: itemToSpawn.
 			itemElement graph connectTo: elementToSpawn.
 			itemElement
 				withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
-				do: [ :each | 
-					each
-						addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
-			container addChild: elementToSpawn" ].
+				do: [ :each | each addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
+			container addChild: elementToSpawn ].
 	itemElement
 		when: BlElementPositionChangedEvent
 		do: [ :e | eachItem position: e currentTarget position ].
@@ -82,12 +75,7 @@ GtSceneryElement >> gtLiveFor: aView [
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize asElement;
 				label: 'Zoom to actual size' asRopedText;
-				action: [ self container zoomToActualSize ] ];
-		actionStencil: [ BrButton new
-				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons refresh asElement;
-				label: 'Refresh' asRopedText;
-				action: [ self requestLayout ] ]
+				action: [ self container zoomToActualSize ] ]
 ]
 
 { #category : #accessing }
@@ -101,30 +89,40 @@ GtSceneryElement >> gtScenery: aScenery [
 	self unsubscribe.
 	gtScenery := aScenery.
 	gtScenery items
-		do: [ :eachItem | 
+		withIndexDo: [ :eachItem :index | 
 			itemElement := self createElementFor: eachItem.
-			container addChild: itemElement ].
+			container addChild: itemElement as: (GtSceneryItemId indexed: index) ].
 	gtScenery connections
-		do: [ :eachConnection | 
+		withIndexDo: [ :eachConnection :index | 
 			container
-				addChild: (eachConnection asElementIn: container forScenery: self gtScenery) ].
-	gtScenery items notEmpty ifTrue: [ self container enableAutoScale ].
+				addChild: (eachConnection asElementIn: container forScenery: self gtScenery)
+				as: (GtSceneryConnectionId indexed: index) ].
+	gtScenery items isEmpty
+		ifTrue: [ self container disableAutoScale ]
+		ifFalse: [ self container enableAutoScale ].
 	self subscribe
 ]
 
 { #category : #accessing }
 GtSceneryElement >> initialize [
 	super initialize.
-	self constraintsDo: [ :c | 
-				c vertical matchParent.
-				c horizontal matchParent ].
+	self id: GtSceneryId.
+	self
+		constraintsDo: [ :c | 
+			c vertical matchParent.
+			c horizontal matchParent ].
+	self
+		when: GtSceneryObjectToSpawn
+		do: [ :e | 
+			e consumed: true.
+			self phlow spawnObject: e object ].
 	container := BlCanvassableElement new
 			background: Color white;
 			constraintsDo: [ :c | 
 				c vertical matchParent.
 				c horizontal matchParent ].
 	self addChild: container.
-	self initializeEventListers.
+	self initializeEventListers
 ]
 
 { #category : #initialization }
@@ -132,12 +130,48 @@ GtSceneryElement >> initializeEventListers [
 	self container
 		when: BlDoubleClickEvent
 		do: [ :evt | 
-			| item |
+			| item newElement |
 			item := GtSceneryTextStencil new asItem.
 			item position: evt childrenPosition.
-			self gtScenery addItem: item ].
+			self gtScenery addItem: item.
+			self shouldBeHandledByAnnouncement.
+			newElement := self createElementFor: item.
+			self container addChild: newElement ].
 	self container
-		aptitude: (BrGlamorousWithContextMenuAptitude content: [ self backgroundMenu ])
+		aptitude: (BrGlamorousWithExplicitContextMenuAptitude items: [ self sceneryContextMenu ])
+]
+
+{ #category : #menu }
+GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
+	^ {'Inspect'
+			-> [ anItemElement
+					fireEvent: (GtSceneryObjectToSpawn new object: anItem) ].
+		'Clone' -> [ anItemElement
+					fireEvent: (GtPhlowObjectToSpawn new object: anItem stencil asElement) ].
+		'Delete' -> [ self shouldBeImplemented ]}
+]
+
+{ #category : #utility }
+GtSceneryElement >> redisplay [
+	self container removeChildren.
+	self gtScenery: self gtScenery
+
+]
+
+{ #category : #menu }
+GtSceneryElement >> sceneryContextMenu [
+	<todo: 
+	'Add item from list
+	'>
+
+	^ {
+	'Add item here' -> [ self shouldBeImplemented ].
+	'Redisplay' -> [ self redisplay ]}
+]
+
+{ #category : #todo }
+GtSceneryElement >> shouldBeHandledByAnnouncement [
+	<todo: 'View updates are currently handled locally, whereas they should be handled in a listener for announcements from model updates. This should be fixed once the framework stabilizes and it becomes clear which model announcements are needed.'>
 ]
 
 { #category : #announcement }
@@ -149,9 +183,9 @@ GtSceneryElement >> subscribe [
 	self gtScenery announcer
 		when: GtSceneryItemAdded
 		do: [ :announcement :subscriber | 
-			| newElement |
+			"| newElement |
 			newElement := self createElementFor: announcement item.
-			self container addChild: newElement ]
+			self container addChild: newElement" ]
 		for: self
 ]
 
