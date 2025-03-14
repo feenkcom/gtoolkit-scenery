@@ -26,17 +26,18 @@ GtSceneryElement >> addNewItemAt: position [
 ]
 
 { #category : #initialization }
-GtSceneryElement >> buildSceneryContextMenuItemsInto: aMenuItems menuContext: aContext [ 
+GtSceneryElement >> buildSceneryContextMenuItemsInto: aMenuItems menuContext: aContext [
 	"Build scenery context menu items.
 	aMenuItems is a BrMenuItems instance.
 	aContext is a BrMenuInitialContext instance."
-	
-	aMenuItems addItemLabel: 'Add item here' action: [
-		| aLocalPosition aChildrenPosition |
-		aLocalPosition := aContext anchorElement globalPointToLocal: aContext positionInSpace.
-		aChildrenPosition := aContext anchorElement localPointToChildren: aContext positionInSpace.
-		self addNewItemAt: aChildrenPosition  ].
-		
+
+	aMenuItems
+		addItemLabel: 'Add item here'
+		action: [ aContext
+				childrenPositionDo: [ :aPoint | 
+					self addNewItemAt: aPoint ]
+				ifAbsentDo: [ 0 @ 0 ] ].
+
 	aMenuItems addItemLabel: 'Redisplay' action: [ self redisplay ]
 ]
 
