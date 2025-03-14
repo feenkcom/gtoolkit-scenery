@@ -192,11 +192,16 @@ GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
 	^ {'Inspect item'
 			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
-		'Clone item' -> [ :elt | self cloneItem: anItem forElement: anItemElement ].
+		'Clone item'
+			-> [ :elt | 
+				self
+					spawnNewItem: anItem stencil copy
+					fromElement: anItemElement
+					forItem: anItem.
+				self ].
 		'Delete item' -> [ :elt | self deleteItem: anItem forElement: anItemElement ].
 		'Inspect item wrapper'
-			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ].
-		}
+			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
 ]
 
 { #category : #utility }
