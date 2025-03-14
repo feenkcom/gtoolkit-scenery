@@ -30,6 +30,12 @@ GtSceneryPictureStencil >> initialize [
 	super initialize.
 ]
 
+{ #category : #copying }
+GtSceneryPictureStencil >> postCopy [
+	super postCopy.
+	fileReference := fileReference copy
+]
+
 { #category : #accessing }
 GtSceneryPictureStencil >> storeOn: aStream [
 	super storeOn: aStream.

@@ -39,6 +39,13 @@ GtSceneryLepiterPageStencil >> pageName: aString [
 	pageName := aString
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryLepiterPageStencil >> postCopy [
+	super postCopy.
+	databaseName := databaseName copy.
+	pageName:= pageName copy
+]
+
 { #category : #accessing }
 GtSceneryLepiterPageStencil >> storeOn: aStream [
 	super storeOn: aStream.
