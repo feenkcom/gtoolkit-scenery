@@ -20,15 +20,17 @@ GtSceneryElement >> addNewItemAt: position [
 	item := GtSceneryTextStencil new asItem.
 	item position: position.
 	self gtScenery addItem: item.
-	self shouldBeHandledByAnnouncement.
+		self shouldBeHandledByAnnouncement.
 	newElement := self createElementFor: item.
 	^ self container addChild: newElement
 ]
 
 { #category : #'item menu' }
 GtSceneryElement >> cloneItem: anItem forElement: anItemElement [
-	^ anItemElement
-		fireEvent: (GtPhlowObjectToSpawn new object: anItem stencil asElement)
+	self
+		spawnNewItem: anItem stencil
+		fromElement: anItemElement
+		forItem: anItem
 ]
 
 { #category : #accessing }
@@ -38,7 +40,7 @@ GtSceneryElement >> container [
 
 { #category : #accessing }
 GtSceneryElement >> createElementFor: eachItem [
-	| itemElement itemToSpawn |
+	| itemElement |
 	itemElement := eachItem asElementIn: container forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 	itemElement
@@ -47,20 +49,11 @@ GtSceneryElement >> createElementFor: eachItem [
 	itemElement
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
-			| elementToSpawn |
 			e consumed: true.
-			itemToSpawn := GtSceneryItem new
-					stencil: (GtSceneryInspectorStencil new target: [ e object ]);
-					position: itemElement bounds topRight + (40 @ 0);
-					extent: itemElement bounds extent.
-			eachItem addLinkTo: itemToSpawn.
-			gtScenery addItem: itemToSpawn.
-			elementToSpawn := self createElementFor: itemToSpawn.
-			itemElement graph connectTo: elementToSpawn.
-			itemElement
-				withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
-				do: [ :each | each addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
-			container addChild: elementToSpawn ].
+			self
+				spawnNewItem: (GtSceneryInspectorStencil new target: [ e object ])
+				fromElement: itemElement
+				forItem: eachItem ].
 	itemElement
 		when: BlElementPositionChangedEvent
 		do: [ :e | eachItem position: e currentTarget position ].
@@ -71,8 +64,8 @@ GtSceneryElement >> createElementFor: eachItem [
 ]
 
 { #category : #'item menu' }
-GtSceneryElement >> deleteItem: anItem forElement: anItemElement [ 
-	self shouldBeImplemented
+GtSceneryElement >> deleteItem: anItem forElement: anItemElement [
+	^ anItemElement fireEvent: (GtSceneryObjectToDelete new object: anItem)
 ]
 
 { #category : #accessing }
@@ -128,6 +121,8 @@ GtSceneryElement >> gtScenery: aScenery [
 
 { #category : #accessing }
 GtSceneryElement >> initialize [
+	<todo: 'Implement the deleteion code.
+	Fix the cloning code to spawn the object, not an inspector on it.'>
 	super initialize.
 	self id: GtSceneryId.
 	self
@@ -144,6 +139,7 @@ GtSceneryElement >> initialize [
 			constraintsDo: [ :c | 
 				c vertical matchParent.
 				c horizontal matchParent ].
+	self when: GtSceneryObjectToDelete do: [ :e | e consumed: true ].
 	self addChild: container.
 	self initializeEventListers
 ]
@@ -157,14 +153,25 @@ GtSceneryElement >> initializeEventListers [
 
 { #category : #'item menu' }
 GtSceneryElement >> inspectItem: anItem forElement: anItemElement [
+	"Inspect the actual stencil rather than the item wrapper."
+	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem stencil)
+]
+
+{ #category : #'item menu' }
+GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
+	"Inspect the GtSceneryItem instance instead of the stencil it wraps."
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem)
 ]
 
 { #category : #'item menu' }
 GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
-	^ {'Inspect' -> [ :elt | self inspectItem: anItem forElement: anItemElement ].
-		'Clone' -> [ :elt | self cloneItem: anItem forElement: anItemElement ].
-		'Delete' -> [ :elt | self deleteItem: anItem forElement: anItemElement ]}
+	^ {'Inspect item'
+			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
+		'Clone item' -> [ :elt | self cloneItem: anItem forElement: anItemElement ].
+		'Delete item' -> [ :elt | self deleteItem: anItem forElement: anItemElement ].
+		'Inspect item wrapper'
+			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ].
+		}
 ]
 
 { #category : #utility }
@@ -186,6 +193,24 @@ GtSceneryElement >> sceneryContextMenu [
 { #category : #todo }
 GtSceneryElement >> shouldBeHandledByAnnouncement [
 	<todo: 'View updates are currently handled locally, whereas they should be handled in a listener for announcements from model updates. This should be fixed once the framework stabilizes and it becomes clear which model announcements are needed.'>
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryElement >> spawnNewItem: aStencil fromElement: sourceItemElement forItem: sourceItem [
+	| itemToSpawn elementToSpawn   |
+	itemToSpawn := GtSceneryItem new
+			stencil: aStencil "(GtSceneryInspectorStencil new target: [ e object ])";
+			position: sourceItemElement bounds topRight + (40 @ 0);
+			extent: sourceItemElement bounds extent.
+	sourceItem addLinkTo: itemToSpawn.
+	gtScenery addItem: itemToSpawn.
+	self shouldBeHandledByAnnouncement.
+	elementToSpawn := self createElementFor: itemToSpawn.
+	sourceItemElement graph connectTo: elementToSpawn.
+	sourceItemElement
+		withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
+		do: [ :each | each addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
+	container addChild: elementToSpawn
 ]
 
 { #category : #announcement }

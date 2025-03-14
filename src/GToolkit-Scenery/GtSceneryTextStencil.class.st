@@ -25,6 +25,12 @@ GtSceneryTextStencil >> initialize [
 	text := 'Text' asRopedText
 ]
 
+{ #category : #copying }
+GtSceneryTextStencil >> postCopy [
+	super postCopy.
+	text := text copy
+]
+
 { #category : #accessing }
 GtSceneryTextStencil >> storeOn: aStream [
 	super storeOn: aStream.
