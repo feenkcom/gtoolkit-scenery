@@ -26,17 +26,18 @@ GtSceneryElement >> addNewItemAt: position [
 ]
 
 { #category : #initialization }
-GtSceneryElement >> buildSceneryContextMenuItemsInto: aMenuItems menuContext: aContext [ 
+GtSceneryElement >> buildSceneryContextMenuItemsInto: aMenuItems menuContext: aContext [
 	"Build scenery context menu items.
 	aMenuItems is a BrMenuItems instance.
 	aContext is a BrMenuInitialContext instance."
-	
-	aMenuItems addItemLabel: 'Add item here' action: [
-		| aLocalPosition aChildrenPosition |
-		aLocalPosition := aContext anchorElement globalPointToLocal: aContext positionInSpace.
-		aChildrenPosition := aContext anchorElement localPointToChildren: aContext positionInSpace.
-		self addNewItemAt: aChildrenPosition  ].
-		
+
+	aMenuItems
+		addItemLabel: 'Add item here'
+		action: [ aContext
+				childrenPositionDo: [ :aPoint | 
+					self addNewItemAt: aPoint ]
+				ifAbsentDo: [ 0 @ 0 ] ].
+
 	aMenuItems addItemLabel: 'Redisplay' action: [ self redisplay ]
 ]
 
@@ -78,11 +79,6 @@ GtSceneryElement >> createElementFor: eachItem [
 	^ itemElement
 ]
 
-{ #category : #'item menu' }
-GtSceneryElement >> deleteItem: anItem forElement: anItemElement [
-	^ anItemElement fireEvent: (GtSceneryObjectToDelete new object: anItem)
-]
-
 { #category : #accessing }
 GtSceneryElement >> gtLiveFor: aView [
 	<gtView>
@@ -106,7 +102,12 @@ GtSceneryElement >> gtLiveFor: aView [
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize asElement;
 				label: 'Zoom to actual size' asRopedText;
-				action: [ self container zoomToActualSize ] ]
+				action: [ self container zoomToActualSize ] ];
+		actionStencil: [ BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
+				icon: BrGlamorousIcons refresh asElement;
+				label: 'Zoom to actual size' asRopedText;
+				action: [ self redisplay ] ]
 ]
 
 { #category : #accessing }
@@ -144,23 +145,22 @@ GtSceneryElement >> initialize [
 		constraintsDo: [ :c | 
 			c vertical matchParent.
 			c horizontal matchParent ].
-	self
-		when: GtSceneryObjectToSpawn
-		do: [ :e | 
-			e consumed: true.
-			self phlow spawnObject: e object ].
 	container := BlCanvassableElement new
 			background: Color white;
 			constraintsDo: [ :c | 
 				c vertical matchParent.
 				c horizontal matchParent ].
-	self when: GtSceneryObjectToDelete do: [ :e | e consumed: true ].
 	self addChild: container.
 	self initializeEventListers
 ]
 
 { #category : #initialization }
 GtSceneryElement >> initializeEventListers [
+	self
+		when: GtSceneryObjectToSpawn
+		do: [ :e | 
+			e consumed: true.
+			self phlow spawnObject: e object ].
 	self container
 		when: BlDoubleClickEvent
 		do: [ :evt | self addNewItemAt: evt childrenPosition ].
@@ -197,9 +197,12 @@ GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
 				self
 					spawnNewItem: anItem stencil copy
 					fromElement: anItemElement
-					forItem: anItem.
-				self ].
-		'Delete item' -> [ :elt | self deleteItem: anItem forElement: anItemElement ].
+					forItem: anItem ].
+		'Delete item'
+			-> [ :elt | 
+				self gtScenery removeItem: anItem.
+				self shouldBeHandledByAnnouncement.
+				anItemElement removeFromParent ].
 		'Inspect item wrapper'
 			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
 ]
@@ -209,15 +212,6 @@ GtSceneryElement >> redisplay [
 	self container removeChildren.
 	self gtScenery: self gtScenery
 
-]
-
-{ #category : #'scenery menu' }
-GtSceneryElement >> sceneryContextMenu [
-	<todo: 'Add item from list
-	'>
-	^ {'Add item here'
-			-> [ :elt :button :evt | self addNewItemAt: evt childrenPosition ].
-		'Redisplay' -> [ :elt | self redisplay ]}
 ]
 
 { #category : #todo }
