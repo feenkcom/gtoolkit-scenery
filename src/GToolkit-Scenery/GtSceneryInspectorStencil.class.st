@@ -25,6 +25,12 @@ GtSceneryInspectorStencil >> initialize [
 	extent := 200@400.
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryInspectorStencil >> postCopy [
+	super postCopy.
+	targetBlock := targetBlock copy
+]
+
 { #category : #accessing }
 GtSceneryInspectorStencil >> storeOn: aStream [
 	super storeOn: aStream.
@@ -33,7 +39,7 @@ GtSceneryInspectorStencil >> storeOn: aStream [
 		nextPutAll: 'target: ', targetBlock asString
 ]
 
-{ #category : #accessing }
+{ #category : #copying }
 GtSceneryInspectorStencil >> target: aBlock [
 	targetBlock := aBlock 
 ]
