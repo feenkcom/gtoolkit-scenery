@@ -119,6 +119,13 @@ GtScenery >> items: anObject [
 ]
 
 { #category : #accessing }
+GtScenery >> removeItem: anItem [
+	items remove: anItem.
+	"self announce: (GtSceneryItemAdded new item: anItem)."
+	^ anItem
+]
+
+{ #category : #accessing }
 GtScenery >> storeOn: aStream [
 	aStream nextPutAll: '| scenery'.
 	items doWithIndex: [ :eachItem :i | aStream nextPutAll: ' item' , i asString ].
