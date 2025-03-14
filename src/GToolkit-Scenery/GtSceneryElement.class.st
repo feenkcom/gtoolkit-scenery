@@ -13,6 +13,24 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
+{ #category : #'item menu' }
+GtSceneryElement >> addNewItemAt: position [
+	"Add a new item at the position of the triggering event."
+	| item newElement |
+	item := GtSceneryTextStencil new asItem.
+	item position: position.
+	self gtScenery addItem: item.
+	self shouldBeHandledByAnnouncement.
+	newElement := self createElementFor: item.
+	^ self container addChild: newElement
+]
+
+{ #category : #'item menu' }
+GtSceneryElement >> cloneItem: anItem forElement: anItemElement [
+	^ anItemElement
+		fireEvent: (GtPhlowObjectToSpawn new object: anItem stencil asElement)
+]
+
 { #category : #accessing }
 GtSceneryElement >> container [
 	^ container
@@ -50,6 +68,11 @@ GtSceneryElement >> createElementFor: eachItem [
 		when: BlElementExtentChangedEvent
 		do: [ :e | eachItem extent: e currentTarget extent ].
 	^ itemElement
+]
+
+{ #category : #'item menu' }
+GtSceneryElement >> deleteItem: anItem forElement: anItemElement [ 
+	self shouldBeImplemented
 ]
 
 { #category : #accessing }
@@ -127,28 +150,21 @@ GtSceneryElement >> initialize [
 
 { #category : #initialization }
 GtSceneryElement >> initializeEventListers [
-	self container
-		when: BlDoubleClickEvent
-		do: [ :evt | 
-			| item newElement |
-			item := GtSceneryTextStencil new asItem.
-			item position: evt childrenPosition.
-			self gtScenery addItem: item.
-			self shouldBeHandledByAnnouncement.
-			newElement := self createElementFor: item.
-			self container addChild: newElement ].
+	self container when: BlDoubleClickEvent do: [ :evt | self addNewItemAt: evt childrenPosition ].
 	self container
 		aptitude: (BrGlamorousWithExplicitContextMenuAptitude items: [ self sceneryContextMenu ])
 ]
 
-{ #category : #menu }
+{ #category : #'item menu' }
+GtSceneryElement >> inspectItem: anItem forElement: anItemElement [
+	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem)
+]
+
+{ #category : #'item menu' }
 GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
-	^ {'Inspect'
-			-> [ anItemElement
-					fireEvent: (GtSceneryObjectToSpawn new object: anItem) ].
-		'Clone' -> [ anItemElement
-					fireEvent: (GtPhlowObjectToSpawn new object: anItem stencil asElement) ].
-		'Delete' -> [ self shouldBeImplemented ]}
+	^ {'Inspect' -> [ :elt | self inspectItem: anItem forElement: anItemElement ].
+		'Clone' -> [ :elt | self cloneItem: anItem forElement: anItemElement ].
+		'Delete' -> [ :elt | self deleteItem: anItem forElement: anItemElement ]}
 ]
 
 { #category : #utility }
@@ -158,15 +174,13 @@ GtSceneryElement >> redisplay [
 
 ]
 
-{ #category : #menu }
+{ #category : #'scenery menu' }
 GtSceneryElement >> sceneryContextMenu [
-	<todo: 
-	'Add item from list
+	<todo: 'Add item from list
 	'>
-
-	^ {
-	'Add item here' -> [ self shouldBeImplemented ].
-	'Redisplay' -> [ self redisplay ]}
+	^ {'Add item here'
+			-> [ :elt :button :evt | self addNewItemAt: evt childrenPosition ].
+		'Redisplay' -> [ :elt | self redisplay ]}
 ]
 
 { #category : #todo }
