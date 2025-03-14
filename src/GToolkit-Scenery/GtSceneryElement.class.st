@@ -25,6 +25,21 @@ GtSceneryElement >> addNewItemAt: position [
 	^ self container addChild: newElement
 ]
 
+{ #category : #initialization }
+GtSceneryElement >> buildSceneryContextMenuItemsInto: aMenuItems menuContext: aContext [ 
+	"Build scenery context menu items.
+	aMenuItems is a BrMenuItems instance.
+	aContext is a BrMenuInitialContext instance."
+	
+	aMenuItems addItemLabel: 'Add item here' action: [
+		| aLocalPosition aChildrenPosition |
+		aLocalPosition := aContext anchorElement globalPointToLocal: aContext positionInSpace.
+		aChildrenPosition := aContext anchorElement localPointToChildren: aContext positionInSpace.
+		self addNewItemAt: aChildrenPosition  ].
+		
+	aMenuItems addItemLabel: 'Redisplay' action: [ self redisplay ]
+]
+
 { #category : #'item menu' }
 GtSceneryElement >> cloneItem: anItem forElement: anItemElement [
 	self
@@ -146,9 +161,19 @@ GtSceneryElement >> initialize [
 
 { #category : #initialization }
 GtSceneryElement >> initializeEventListers [
-	self container when: BlDoubleClickEvent do: [ :evt | self addNewItemAt: evt childrenPosition ].
 	self container
-		aptitude: (BrGlamorousWithExplicitContextMenuAptitude items: [ self sceneryContextMenu ])
+		when: BlDoubleClickEvent
+		do: [ :evt | self addNewItemAt: evt childrenPosition ].
+	self container
+		aptitude: (BrGlamorousWithExplicitContextMenuAptitude new
+				stencil: [ :aContext | 
+					| aMenuItems |
+					aMenuItems := BrMenuItems new.
+					self buildSceneryContextMenuItemsInto: aMenuItems menuContext: aContext.
+
+					aMenuItems itemsCount isZero
+						ifTrue: [ nil ]
+						ifFalse: [ BrMenuExplicitHandle new menu: aMenuItems ] ])
 ]
 
 { #category : #'item menu' }
