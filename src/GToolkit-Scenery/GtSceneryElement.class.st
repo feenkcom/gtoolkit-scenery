@@ -102,7 +102,12 @@ GtSceneryElement >> gtLiveFor: aView [
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize asElement;
 				label: 'Zoom to actual size' asRopedText;
-				action: [ self container zoomToActualSize ] ]
+				action: [ self container zoomToActualSize ] ];
+		actionStencil: [ BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
+				icon: BrGlamorousIcons refresh asElement;
+				label: 'Zoom to actual size' asRopedText;
+				action: [ self redisplay ] ]
 ]
 
 { #category : #accessing }
