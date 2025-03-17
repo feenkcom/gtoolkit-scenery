@@ -7,10 +7,10 @@ Class {
 { #category : #accessing }
 GtSceneryRectangleStencil >> create [
 	^ BlElement new
-				size: extent;
-				background: Color white;
-				border: Color black;
-				margin: (BlInsets all: 10)
+		size: extent;
+		background: Color white;
+		border: Color black;
+		margin: (BlInsets all: 10)
 ]
 
 { #category : #accessing }
