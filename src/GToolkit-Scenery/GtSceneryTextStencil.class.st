@@ -18,7 +18,7 @@ GtSceneryTextStencil >> create [
 		when: BrEditorTextChanged do: [ :e | self text: e text ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryTextStencil >> initialize [
 	super initialize.
 	extent := 100 @ 50.
@@ -31,7 +31,7 @@ GtSceneryTextStencil >> postCopy [
 	text := text copy
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 GtSceneryTextStencil >> storeOn: aStream [
 	super storeOn: aStream.
 	aStream

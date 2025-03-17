@@ -4,6 +4,33 @@ Class {
 	#category : #'GToolkit-Scenery-Examples'
 }
 
+{ #category : #'as yet unclassified' }
+GtSceneryExamples >> mindmapWithTwoNodes [
+	<gtExample>
+	| scenery item1 item2 item3 |
+	scenery := GtScenery new.
+	item1 := scenery
+			addItem: (GtSceneryMindMapNodeStencil new text: 'A  mindmap' asRopedText) asItem.
+	item1 position: 0 @ 0.
+	item2 := scenery
+			addItem: (GtSceneryMindMapNodeStencil new text: 'A concept A' asRopedText) asItem.
+	item2 position: 127.0 @ -58.0.
+	item3 := scenery
+			addItem: (GtSceneryMindMapNodeStencil new text: 'A concept B' asRopedText) asItem.
+	item3 position: 126.0 @ 82.0.
+	scenery
+		addConnectionWithStencil: GtSceneryLineStencil new
+		from: item1
+		to: item2.
+	scenery
+		addConnectionWithStencil: GtSceneryLineStencil new
+		from: item1
+		to: item3.
+
+	self assert: scenery items size equals: 3.
+	^ scenery
+]
+
 { #category : #accessing }
 GtSceneryExamples >> sceneryWithOneInspector [
 	<gtExample>
@@ -15,8 +42,8 @@ GtSceneryExamples >> sceneryWithOneInspector [
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children anyOne.
 	self assert: (element isKindOf: GtSceneryElement).
-	self assert: element children size = 1.
-	self assert: element children anyOne children anyOne bounds top = 300.
+	self assert: element children size equals: 1.
+	self assert: element children anyOne children anyOne bounds top equals: 300.
 	^ scenery
 ]
 
@@ -45,7 +72,7 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnection [
 		to: item2.
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children first children anyOne.
-	self assert: element children size = 3.
+	self assert: element children size equals: 3.
 	^ scenery
 ]
 
@@ -76,7 +103,7 @@ GtSceneryExamples >> sceneryWithOneLepiterPage [
 	item position: 0 @ 0.
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children anyOne.
-	self assert: element children first children anyOne bounds top = 0.
+	self assert: element children first children anyOne bounds top equals: 0.
 	^ scenery
 ]
 
@@ -94,6 +121,6 @@ GtSceneryExamples >> sceneryWithTwoLepiterPages [
 	item position: 600 @ 300.
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children anyOne.
-	self assert: element children first children second bounds top = 300.
+	self assert: element children first children second bounds top equals: 300.
 	^ scenery
 ]

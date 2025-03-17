@@ -17,7 +17,7 @@ Class {
 GtSceneryElement >> addNewItemAt: position [
 	"Add a new item at the position of the triggering event."
 	| item newElement |
-	item := GtSceneryTextStencil new asItem.
+	item := GtSceneryMindMapNodeStencil new asItem.
 	item position: position.
 	self gtScenery addItem: item.
 		self shouldBeHandledByAnnouncement.
@@ -137,8 +137,6 @@ GtSceneryElement >> gtScenery: aScenery [
 
 { #category : #accessing }
 GtSceneryElement >> initialize [
-	<todo: 'Implement the deleteion code.
-	Fix the cloning code to spawn the object, not an inspector on it.'>
 	super initialize.
 	self id: GtSceneryId.
 	self

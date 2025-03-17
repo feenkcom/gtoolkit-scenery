@@ -25,6 +25,9 @@ GtSceneryDraggableItem >> extent [
 
 { #category : #accessing }
 GtSceneryDraggableItem >> extent: aPoint [
+	"NB: If the extent is set to nil, then the size will  not be changed when the stencil is created.
+	See: GtSceneryItem>>#asElementIn:forScenery:
+	"
 	extent := aPoint
 ]
 
