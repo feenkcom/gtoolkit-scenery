@@ -17,7 +17,7 @@ Class {
 GtSceneryElement >> addNewItemAt: position [
 	"Add a new item at the position of the triggering event."
 	| item newElement |
-	item := GtSceneryTextStencil new asItem.
+	item := GtSceneryMindMapNodeStencil new asItem.
 	item position: position.
 	self gtScenery addItem: item.
 		self shouldBeHandledByAnnouncement.
@@ -41,14 +41,6 @@ GtSceneryElement >> buildSceneryContextMenuItemsInto: aMenuItems menuContext: aC
 	aMenuItems addItemLabel: 'Redisplay' action: [ self redisplay ]
 ]
 
-{ #category : #'item menu' }
-GtSceneryElement >> cloneItem: anItem forElement: anItemElement [
-	self
-		spawnNewItem: anItem stencil
-		fromElement: anItemElement
-		forItem: anItem
-]
-
 { #category : #accessing }
 GtSceneryElement >> container [
 	^ container
@@ -67,7 +59,7 @@ GtSceneryElement >> createElementFor: eachItem [
 		do: [ :e | 
 			e consumed: true.
 			self
-				spawnNewItem: (GtSceneryInspectorStencil new target: [ e object ])
+				spawnItemWithStencil: (GtSceneryInspectorStencil new target: [ e object ])
 				fromElement: itemElement
 				forItem: eachItem ].
 	itemElement
@@ -137,8 +129,6 @@ GtSceneryElement >> gtScenery: aScenery [
 
 { #category : #accessing }
 GtSceneryElement >> initialize [
-	<todo: 'Implement the deleteion code.
-	Fix the cloning code to spawn the object, not an inspector on it.'>
 	super initialize.
 	self id: GtSceneryId.
 	self
@@ -161,6 +151,14 @@ GtSceneryElement >> initializeEventListers [
 		do: [ :e | 
 			e consumed: true.
 			self phlow spawnObject: e object ].
+	self
+		when: GtSceneryAddNewConnection
+		do: [ :e | 
+			e consumed: true.
+			self
+				spawnNewConnectionWithStencil: e toStencil
+				fromElement: e fromItemElement
+				forItem: e fromItem ].
 	self container
 		when: BlDoubleClickEvent
 		do: [ :evt | self addNewItemAt: evt childrenPosition ].
@@ -195,7 +193,7 @@ GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
 		'Clone item'
 			-> [ :elt | 
 				self
-					spawnNewItem: anItem stencil copy
+					spawnItemWithStencil: anItem stencil copy
 					fromElement: anItemElement
 					forItem: anItem ].
 		'Delete item'
@@ -220,21 +218,43 @@ GtSceneryElement >> shouldBeHandledByAnnouncement [
 ]
 
 { #category : #'as yet unclassified' }
-GtSceneryElement >> spawnNewItem: aStencil fromElement: sourceItemElement forItem: sourceItem [
-	| itemToSpawn elementToSpawn   |
+GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
+	| itemToSpawn elementToSpawn |
 	itemToSpawn := GtSceneryItem new
-			stencil: aStencil "(GtSceneryInspectorStencil new target: [ e object ])";
+			stencil: aStencil;
 			position: sourceItemElement bounds topRight + (40 @ 0);
 			extent: sourceItemElement bounds extent.
 	sourceItem addLinkTo: itemToSpawn.
 	gtScenery addItem: itemToSpawn.
+
 	self shouldBeHandledByAnnouncement.
 	elementToSpawn := self createElementFor: itemToSpawn.
 	sourceItemElement graph connectTo: elementToSpawn.
 	sourceItemElement
 		withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
 		do: [ :each | each addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
-	container addChild: elementToSpawn
+	container addChild: elementToSpawn.
+	^ {itemToSpawn.
+		elementToSpawn}
+]
+
+{ #category : #initialization }
+GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
+	| newItemAndElement newConnection |
+	newItemAndElement := self
+			spawnItemWithStencil: aStencil
+			fromElement: sourceItemElement
+			forItem: sourceItem.
+
+	newConnection := self gtScenery
+			addConnectionWithStencil: GtSceneryLineStencil new
+			from: sourceItem
+			to: newItemAndElement first.
+
+	self shouldBeHandledByAnnouncement.
+	container
+		addChild: (newConnection asElementIn: container forScenery: self gtScenery)
+		as: (GtSceneryConnectionId indexed: self gtScenery connections size)
 ]
 
 { #category : #announcement }

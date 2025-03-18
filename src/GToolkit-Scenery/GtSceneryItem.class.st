@@ -37,7 +37,7 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 	element states
 		addState: BrLayoutVerticalResizerState exact;
 		addState: BrLayoutVerticalResizerState exact.	"this is needed to support complicated widgets"
-	element size: extent.
+	extent ifNotNil: [ element size: extent ]. "Don't change the size if extent is nil."
 	element graph model: self.
 	element graph beNode.
 	resizer := BlResizerElement new preventMouseEvents zIndex: 100.
@@ -62,7 +62,8 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 		when: BlDoubleClickEvent
 			do: [ :e | 
 				e consumed: true.
-				e target fireEvent: (GtSceneryObjectToSpawn new object: self stencil asElement) ].
+				e target
+					fireEvent: (GtSceneryObjectToSpawn new object: self stencil asElement) ].
 	^ element
 		addEventHandler: BlPullHandler new;
 		relocate: position

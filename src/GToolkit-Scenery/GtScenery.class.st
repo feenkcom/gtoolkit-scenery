@@ -6,6 +6,8 @@ My items may be explicitly positioned or resized.
 Class {
 	#name : #GtScenery,
 	#superclass : #BrStencil,
+	#traits : 'TGtSceneryShared',
+	#classTraits : 'TGtSceneryShared classTrait',
 	#instVars : [
 		'connections',
 		'items',
@@ -84,24 +86,6 @@ GtScenery >> gtItemsFor: aView [
 ]
 
 { #category : #accessing }
-GtScenery >> gtStoreOnFor: aView [
-	<gtView>
-	^ aView textEditor
-		title: 'Store on';
-		styler: (BrRBTextStyler new
-				isForWorkspace: true;
-				yourself);
-		aptitude: BrGlamorousCodeEditorAptitude;
-		text: [ String streamContents: [ :s | self storeOn: s ] ];
-		actionButtonIcon: BrGlamorousVectorIcons playinspect
-			tooltip: 'Do it and go'
-			action: [ :button | 
-				button phlow
-					spawnObject: (Smalltalk compiler evaluate: (String streamContents: [ :s | self storeOn: s ])) ];
-		actionUpdateButton
-]
-
-{ #category : #accessing }
 GtScenery >> initialize [
 	super initialize.
 	items := OrderedCollection new .
@@ -139,9 +123,9 @@ GtScenery >> storeOn: aStream [
 	items
 		doWithIndex: [ :eachItem :i | 
 			aStream
-				nextPutAll: 'item' , i asString , ' := scenery addItem: (GtSceneryItem new stencil: ('.
+				nextPutAll: 'item' , i asString , ' := scenery addItem: (('.
 			eachItem stencil storeOn: aStream.
-			aStream nextPutAll: ')).';
+			aStream nextPutAll: ') asItem).';
 				cr.
 			aStream
 				nextPutAll: 'item' , i asString , ' position: ' , eachItem position asString , '.';

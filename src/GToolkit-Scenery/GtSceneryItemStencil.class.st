@@ -6,5 +6,7 @@ Subclasses should implement `storeOn:` and also `postCopy` so cloning will work 
 Class {
 	#name : #GtSceneryItemStencil,
 	#superclass : #BrStencil,
+	#traits : 'TGtSceneryShared',
+	#classTraits : 'TGtSceneryShared classTrait',
 	#category : #'GToolkit-Scenery-Model'
 }
