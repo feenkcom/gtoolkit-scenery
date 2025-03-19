@@ -49,7 +49,7 @@ GtSceneryElement >> container [
 { #category : #accessing }
 GtSceneryElement >> createElementFor: eachItem [
 	| itemElement |
-	itemElement := eachItem asElementIn: container forScenery: gtScenery.
+	itemElement := eachItem asElementIn: self forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 	itemElement
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude

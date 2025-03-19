@@ -31,13 +31,13 @@ GtSceneryItem >> addOutgoingLink: anItem [
 ]
 
 { #category : #accessing }
-GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
+GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
 	| element resizer |
 	element := stencil asElement.
 	element states
 		addState: BrLayoutVerticalResizerState exact;
 		addState: BrLayoutVerticalResizerState exact.	"this is needed to support complicated widgets"
-	extent ifNotNil: [ element size: extent ]. "Don't change the size if extent is nil."
+	extent ifNotNil: [ element size: extent ].	"Don't change the size if extent is nil."
 	element graph model: self.
 	element graph beNode.
 	resizer := BlResizerElement new preventMouseEvents zIndex: 100.
@@ -57,16 +57,15 @@ GtSceneryItem >> asElementIn: aContainerElement forScenery: aScenery [
 				resizer
 					detach;
 					removeFromParent.
-				aContainerElement addChild: resizer.
-				resizer attachTo: element ];
-		when: BlDoubleClickEvent
-			do: [ :e | 
-				e consumed: true.
-				e target
-					fireEvent: (GtSceneryObjectToSpawn new object: self stencil asElement) ].
+				aSceneryElement container addChild: resizer.
+				resizer attachTo: element ].
+
+	element
+		addEventHandler: GtSceneryPullHandler new;
+		relocate: position.
+	element addEventHandler: (GtSceneryDragHandler for: aSceneryElement).
+
 	^ element
-		addEventHandler: BlPullHandler new;
-		relocate: position
 ]
 
 { #category : #accessing }
