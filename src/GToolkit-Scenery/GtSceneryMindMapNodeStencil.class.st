@@ -13,54 +13,15 @@ Class {
 }
 
 { #category : #'api - instantiation' }
-GtSceneryMindMapNodeStencil >> addLabelShortcutsTo: anEditableLabel [
-	anEditableLabel
-		labelShortcuts: anEditableLabel labelShortcuts
-				, {BrEditorShortcut new
-							name: 'Add subnode';
-							description: 'Add a subnode.';
-							combination: BlKeyCombination tab;
-							performBlock: [ anEditableLabel
-									fireEvent: (GtSceneryAddNewConnection new
-											fromItemElement: anEditableLabel;
-											toStencil: self class new;
-											yourself) ];
-							yourself}
-]
-
-{ #category : #'api - instantiation' }
 GtSceneryMindMapNodeStencil >> create [
-	| anEditableLabel resizer |
-	anEditableLabel := BrEditableLabel new
-			aptitude: BrGlamorousEditableLabelAptitude new glamorousRegularFontAndSize;
+	| anEditableLabel |
+	anEditableLabel := GtSceneryMindMapNodeElement new
 			text: self text;
-			id: GtSceneryMindmapNodeId.
-	self addLabelShortcutsTo: anEditableLabel.
+			yourself.
 	self width
 		ifNotNil: [ anEditableLabel
 				hExact: width;
 				vFitContent ].
-	resizer := BlResizerElement new preventMouseEvents zIndex: 100.
-	anEditableLabel
-		when: BlFocusOutEvent
-			do: [ :e | 
-				resizer
-					detach;
-					removeFromParent ];
-		when: BlFocusInEvent
-			do: [ :e | 
-				resizer
-					detach;
-					removeFromParent.
-				anEditableLabel parent addChild: resizer.
-				resizer attachTo: anEditableLabel.
-				anEditableLabel
-					when: BlResizerResizedEvent
-					do: [ :evt | 
-						self width: evt extent x.
-						anEditableLabel
-							hExact: self width;
-							vFitContent ] ].
 	^ anEditableLabel
 ]
 
