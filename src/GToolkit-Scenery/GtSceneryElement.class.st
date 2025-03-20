@@ -14,15 +14,17 @@ Class {
 }
 
 { #category : #'item menu' }
-GtSceneryElement >> addNewItemAt: position [
+GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 	"Add a new item at the position of the triggering event."
+
 	| item newElement |
-	item := GtSceneryMindMapNodeStencil new asItem.
+	item := anItemStencilClass new asItem.
 	item position: position.
 	self gtScenery addItem: item.
-		self shouldBeHandledByAnnouncement.
+	self shouldBeHandledByAnnouncement.
 	newElement := self createElementFor: item.
-	^ self container addChild: newElement
+	self container addChild: newElement.
+	^ newElement
 ]
 
 { #category : #initialization }
@@ -35,7 +37,7 @@ GtSceneryElement >> buildSceneryContextMenuItemsInto: aMenuItems menuContext: aC
 		addItemLabel: 'Add item here'
 		action: [ aContext
 				childrenPositionDo: [ :aPoint | 
-					self addNewItemAt: aPoint ]
+					self addNewItemFor: self defaultItemStencilClass at: aPoint ]
 				ifAbsentDo: [ 0 @ 0 ] ].
 
 	aMenuItems addItemLabel: 'Redisplay' action: [ self redisplay ]
@@ -48,6 +50,8 @@ GtSceneryElement >> container [
 
 { #category : #accessing }
 GtSceneryElement >> createElementFor: eachItem [
+	"Instantiate the given item as an element, adding scenery-specific listeners."
+	
 	| itemElement |
 	itemElement := eachItem asElementIn: self forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
@@ -69,6 +73,11 @@ GtSceneryElement >> createElementFor: eachItem [
 		when: BlElementExtentChangedEvent
 		do: [ :e | eachItem extent: e currentTarget extent ].
 	^ itemElement
+]
+
+{ #category : #initialization }
+GtSceneryElement >> defaultItemStencilClass [
+	^ GtSceneryMindMapNodeStencil
 ]
 
 { #category : #accessing }
@@ -161,7 +170,7 @@ GtSceneryElement >> initializeEventListers [
 				forItem: e fromItem ].
 	self container
 		when: BlDoubleClickEvent
-		do: [ :evt | self addNewItemAt: evt childrenPosition ].
+		do: [ :evt | self addNewItemFor: self defaultItemStencilClass at: evt childrenPosition ].
 	self container
 		aptitude: (BrGlamorousWithExplicitContextMenuAptitude new
 				stencil: [ :aContext | 
@@ -219,11 +228,13 @@ GtSceneryElement >> shouldBeHandledByAnnouncement [
 
 { #category : #'as yet unclassified' }
 GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
+	"I spawn a new item within the Scenery and the SceneryElement, starting from a given source item.
+	When the source item is dragged, the new item will by dragged with it."
+
 	| itemToSpawn elementToSpawn |
-	itemToSpawn := GtSceneryItem new
-			stencil: aStencil;
-			position: sourceItemElement bounds topRight + (40 @ 0);
-			extent: sourceItemElement bounds extent.
+	itemToSpawn := aStencil asItem.
+	itemToSpawn position: sourceItemElement bounds topRight + (40 @ 0).
+
 	sourceItem addLinkTo: itemToSpawn.
 	gtScenery addItem: itemToSpawn.
 
