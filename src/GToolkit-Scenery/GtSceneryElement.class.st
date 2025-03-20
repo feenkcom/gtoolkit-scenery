@@ -63,8 +63,8 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 				childrenPositionDo: [ :aPoint | self addNewItemFor: self defaultItemStencilClass at: aPoint ]
 				ifAbsentDo: [ 0 @ 0 ] ].
 
-
-	"subMenuItems := BrMenuItems new.
+	"TODO: Add other types of items to create here."
+	subMenuItems := BrMenuItems new.
 	subMenuItems
 		addItemLabel: 'Add item here'
 		action: [ aContext
@@ -74,7 +74,7 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	menuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Add item';
-				submenu: subMenuItems)."
+				submenu: subMenuItems).
 
 	menuItems addItemLabel: 'Redisplay' action: [ self redisplay ].
 	^ menuItems
@@ -209,7 +209,7 @@ GtSceneryElement >> initializeEventListers [
 		when: BlDoubleClickEvent
 		do: [ :evt | self addNewItemFor: self defaultItemStencilClass at: evt childrenPosition ].
 	self container
-		aptitude: (BrGlamorousWithExplicitContextMenuAptitude new
+		aptitude: (BrGlamorousWithExplicitContextMenuAptitude new withDefaultHandle
 				stencil: [ :aContext | 
 					BrMenuExplicitHandle new
 						menu: (self buildSceneryContextMenuForContext: aContext) ])
