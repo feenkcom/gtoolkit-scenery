@@ -13,24 +13,9 @@ Class {
 }
 
 { #category : #'api - instantiation' }
-GtSceneryMindMapNodeStencil >> addLabelShortcutsTo: anEditableLabel [
-	anEditableLabel
-		labelShortcuts: {BrEditorShortcut new
-					name: 'Add subnode';
-					description: 'Add a subnode.';
-					combination: BlKeyCombination tab;
-					performBlock: [ anEditableLabel
-							fireEvent: (GtSceneryAddNewConnection new
-									fromItemElement: anEditableLabel;
-									toStencil: self class new;
-									yourself) ];
-					yourself} , anEditableLabel labelShortcuts
-]
-
-{ #category : #'api - instantiation' }
 GtSceneryMindMapNodeStencil >> create [
 	| anEditableLabel |
-	anEditableLabel := GtSceneryMindMapLabel new
+	anEditableLabel := GtSceneryMindMapNodeElement new
 			text: self text;
 			yourself.
 	self width

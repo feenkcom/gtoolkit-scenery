@@ -1,11 +1,15 @@
+"
+I am an element for a mindmap item.
+I support a `tab` shortcut to create new subitems.
+"
 Class {
-	#name : #GtSceneryMindMapLabel,
+	#name : #GtSceneryMindMapNodeElement,
 	#superclass : #BrEditableLabel,
 	#category : #'GToolkit-Scenery-UI'
 }
 
 { #category : #initalization }
-GtSceneryMindMapLabel >> defaultLabelShortcuts [
+GtSceneryMindMapNodeElement >> defaultLabelShortcuts [
 	^ {BrEditorShortcut new
 			name: 'Add subnode';
 			description: 'Add a subnode.';
@@ -19,7 +23,7 @@ GtSceneryMindMapLabel >> defaultLabelShortcuts [
 ]
 
 { #category : #initalization }
-GtSceneryMindMapLabel >> initialize [
+GtSceneryMindMapNodeElement >> initialize [
 	| resizer |
 	super initialize.
 	self

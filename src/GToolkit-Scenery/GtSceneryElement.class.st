@@ -197,6 +197,7 @@ GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 
 { #category : #'item menu' }
 GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
+	<todo: 'Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.'>
 	^ {'Inspect item'
 			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
 		'Clone item'
