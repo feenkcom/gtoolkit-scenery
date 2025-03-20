@@ -27,20 +27,57 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 	^ newElement
 ]
 
+{ #category : #'item menu' }
+GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
+	<todo: 'Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.
+	We also want items themselves to offer new submenus ....'>
+	^ {'Inspect item'
+			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
+		'Clone item'
+			-> [ :elt | 
+				self
+					spawnItemWithStencil: anItem stencil copy
+					fromElement: anItemElement
+					forItem: anItem ].
+		'Delete item'
+			-> [ :elt | 
+				self gtScenery removeItem: anItem.
+				self shouldBeHandledByAnnouncement.
+				anItemElement removeFromParent ].
+		'Inspect item wrapper'
+			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
+]
+
 { #category : #initialization }
-GtSceneryElement >> buildSceneryContextMenuItemsInto: aMenuItems menuContext: aContext [
+GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	"Build scenery context menu items.
-	aMenuItems is a BrMenuItems instance.
 	aContext is a BrMenuInitialContext instance."
 
-	aMenuItems
+	| menuItems subMenuItems |
+	menuItems := BrMenuItems new
+			id: #'gtScenery-context-menu';
+			yourself.
+	menuItems
 		addItemLabel: 'Add item here'
 		action: [ aContext
-				childrenPositionDo: [ :aPoint | 
-					self addNewItemFor: self defaultItemStencilClass at: aPoint ]
+				childrenPositionDo: [ :aPoint | self addNewItemFor: self defaultItemStencilClass at: aPoint ]
 				ifAbsentDo: [ 0 @ 0 ] ].
 
-	aMenuItems addItemLabel: 'Redisplay' action: [ self redisplay ]
+
+	"subMenuItems := BrMenuItems new.
+	subMenuItems
+		addItemLabel: 'Add item here'
+		action: [ aContext
+				childrenPositionDo: [ :aPoint | self addNewItemFor: self defaultItemStencilClass at: aPoint ]
+				ifAbsentDo: [ 0 @ 0 ] ].
+
+	menuItems
+		addItem: (BrMenuSubmenuItem new
+				label: 'Add item';
+				submenu: subMenuItems)."
+
+	menuItems addItemLabel: 'Redisplay' action: [ self redisplay ].
+	^ menuItems
 ]
 
 { #category : #accessing }
@@ -174,13 +211,8 @@ GtSceneryElement >> initializeEventListers [
 	self container
 		aptitude: (BrGlamorousWithExplicitContextMenuAptitude new
 				stencil: [ :aContext | 
-					| aMenuItems |
-					aMenuItems := BrMenuItems new.
-					self buildSceneryContextMenuItemsInto: aMenuItems menuContext: aContext.
-
-					aMenuItems itemsCount isZero
-						ifTrue: [ nil ]
-						ifFalse: [ BrMenuExplicitHandle new menu: aMenuItems ] ])
+					BrMenuExplicitHandle new
+						menu: (self buildSceneryContextMenuForContext: aContext) ])
 ]
 
 { #category : #'item menu' }
@@ -197,6 +229,7 @@ GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 
 { #category : #'item menu' }
 GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
+	"To be replaced by GtSceneryElement>>#buildItemContextMenuForItem:andElement:"
 	<todo: 'Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.'>
 	^ {'Inspect item'
 			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
