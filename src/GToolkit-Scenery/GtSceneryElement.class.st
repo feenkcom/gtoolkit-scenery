@@ -76,7 +76,6 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	aContext is a BrMenuInitialContext instance."
 
 	| menuItems subMenuItems |
-	"TODO: Add other types of items to create here."
 	menuItems := BrMenuItems new
 			id: #'gtScenery-context-menu';
 			yourself.
@@ -235,7 +234,7 @@ GtSceneryElement >> initializeEventListers [
 		when: BlDoubleClickEvent
 		do: [ :evt | self addNewItemFor: self currentItemStencil at: evt childrenPosition ].
 	self container
-		aptitude: (BrGlamorousWithExplicitContextMenuAptitude new withDefaultHandle
+		aptitude: (BrGlamorousWithExplicitContextMenuAptitude new
 				stencil: [ :aContext | 
 					BrMenuExplicitHandle new
 						menu: (self buildSceneryContextMenuForContext: aContext) ])

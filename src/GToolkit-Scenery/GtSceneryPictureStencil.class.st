@@ -14,15 +14,19 @@ GtSceneryPictureStencil class >> itemCreationSubmenuLabel [
 
 { #category : #accessing }
 GtSceneryPictureStencil >> create [
-	| widget |
-	widget := BrAsyncFileWidget new
-		matchParent.
-	^ fileReference ifNotNil: [ widget file: fileReference ]
+	^ BrAsyncFileWidget new
+		matchParent;
+		file: self fileReference
+]
+
+{ #category : #initialization }
+GtSceneryPictureStencil >> defaultFileReference [
+	^ self gtPng
 ]
 
 { #category : #accessing }
 GtSceneryPictureStencil >> fileReference [
-	^ fileReference
+	^ fileReference ifNil: [ fileReference := self defaultFileReference ]
 ]
 
 { #category : #accessing }
@@ -30,9 +34,16 @@ GtSceneryPictureStencil >> fileReference: aFileReference [
 	fileReference := aFileReference
 ]
 
+{ #category : #example }
+GtSceneryPictureStencil >> gtPng [
+	<gtExample>
+	^ FileLocator gtResource / 'feenkcom' / 'gtoolkit' / 'doc' / 'gtoolkit.png'
+]
+
 { #category : #accessing }
 GtSceneryPictureStencil >> initialize [
 	super initialize.
+	extent := 450 @ 150
 ]
 
 { #category : #copying }
