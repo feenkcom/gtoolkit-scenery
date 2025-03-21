@@ -8,12 +8,17 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #acccessing }
+GtSceneryLepiterPageStencil class >> itemCreationSubmenuLabel [
+	^ 'Lepiter page'
+]
+
 { #category : #accessing }
 GtSceneryLepiterPageStencil >> create [
 	| database startPage |
 	database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase
-			databaseNamed: databaseName.
-	startPage := database pageNamed: pageName.
+			databaseNamed: self databaseName.
+	startPage := database pageNamed: self pageName.
 	^ startPage asPhlowTool
 		asElementDo: [ :e | 
 			BrVerticalPane new
@@ -21,17 +26,43 @@ GtSceneryLepiterPageStencil >> create [
 						margin: (BlInsets all: 10);
 						background: Color white;
 						addAptitude: BrShadowAptitude new);
-				size: 500@200 ]
+				size: self defaultExtent ]
 ]
 
 { #category : #accessing }
-GtSceneryLepiterPageStencil >> databaseName: anObject [
-	databaseName := anObject
+GtSceneryLepiterPageStencil >> databaseName [
+	^ databaseName ifNil: [databaseName := self defaultDatabaseName]
 ]
 
 { #category : #accessing }
+GtSceneryLepiterPageStencil >> databaseName: aDatabaseName [
+	databaseName := aDatabaseName
+]
+
+{ #category : #accessing }
+GtSceneryLepiterPageStencil >> defaultDatabaseName [
+	^ LeDatabase gtBookName
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryLepiterPageStencil >> defaultExtent [
+	^ 400 @ 300
+]
+
+{ #category : #accessing }
+GtSceneryLepiterPageStencil >> defaultPageName [
+	^ 'Glamorous Toolkit Book'
+]
+
+{ #category : #'as yet unclassified' }
 GtSceneryLepiterPageStencil >> initialize [ 
-	super initialize
+	super initialize.
+	extent := self defaultExtent
+]
+
+{ #category : #accessing }
+GtSceneryLepiterPageStencil >> pageName [
+	^ pageName ifNil:[ pageName := self defaultPageName ] 
 ]
 
 { #category : #accessing }
@@ -42,8 +73,8 @@ GtSceneryLepiterPageStencil >> pageName: aString [
 { #category : #'as yet unclassified' }
 GtSceneryLepiterPageStencil >> postCopy [
 	super postCopy.
-	databaseName := databaseName copy.
-	pageName:= pageName copy
+	databaseName := self databaseName copy.
+	pageName:= self pageName copy
 ]
 
 { #category : #accessing }
@@ -51,6 +82,6 @@ GtSceneryLepiterPageStencil >> storeOn: aStream [
 	super storeOn: aStream.
 	aStream
 		space;
-		nextPutAll: 'pageName: ' , pageName storeString , ';';
-		nextPutAll: 'databaseName:' , databaseName storeString
+		nextPutAll: 'pageName: ' , self pageName storeString , ';';
+		nextPutAll: 'databaseName:' , self databaseName storeString
 ]

@@ -12,6 +12,11 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #'as yet unclassified' }
+GtSceneryMindMapNodeStencil class >> itemCreationSubmenuLabel [
+	^ 'Mind map bubble'
+]
+
 { #category : #'api - instantiation' }
 GtSceneryMindMapNodeStencil >> create [
 	| anEditableLabel |
