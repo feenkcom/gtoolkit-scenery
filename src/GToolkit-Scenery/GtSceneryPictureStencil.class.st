@@ -17,7 +17,7 @@ GtSceneryPictureStencil >> create [
 	| widget |
 	widget := BrAsyncFileWidget new
 		matchParent.
-	fileReference ifNotNil: [ widget file: fileReference ]
+	^ fileReference ifNotNil: [ widget file: fileReference ]
 ]
 
 { #category : #accessing }
