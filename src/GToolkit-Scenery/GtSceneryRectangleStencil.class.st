@@ -4,6 +4,11 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #'as yet unclassified' }
+GtSceneryRectangleStencil class >> itemCreationSubmenuLabel [
+	^ 'Rectangle'
+]
+
 { #category : #accessing }
 GtSceneryRectangleStencil >> create [
 	^ BlElement new

@@ -8,7 +8,8 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'gtScenery',
-		'container'
+		'container',
+		'currentItemStencil'
 	],
 	#category : #'GToolkit-Scenery-UI'
 }
@@ -29,7 +30,9 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 
 { #category : #'item menu' }
 GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
-	<todo: 'Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.
+	<todo: '
+	This should replace GtSceneryElement>>#itemContextMenuForItem:andElement:
+	Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.
 	We also want items themselves to offer new submenus ....'>
 	^ {'Inspect item'
 			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
@@ -49,33 +52,44 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 ]
 
 { #category : #initialization }
+GtSceneryElement >> buildItemCreationSubMenuForContext: aContext [
+	"Add a submenu action for each ItemStencil class."
+
+	| subMenuItems |
+	subMenuItems := BrMenuItems new.
+	(GtSceneryDraggableItem allSubclasses
+		select: [ :c | c class includesSelector: #itemCreationSubmenuLabel ])
+		do: [ :itemStencilClass | 
+			subMenuItems
+				addItemLabel: itemStencilClass itemCreationSubmenuLabel
+				action: [ aContext
+						childrenPositionDo: [ :aPoint | 
+							self addNewItemFor: itemStencilClass at: aPoint.
+							self currentItemStencil: itemStencilClass ]
+						ifAbsentDo: [ 0 @ 0 ] ] ].
+	^ subMenuItems
+]
+
+{ #category : #initialization }
 GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	"Build scenery context menu items.
 	aContext is a BrMenuInitialContext instance."
 
 	| menuItems subMenuItems |
+	"TODO: Add other types of items to create here."
 	menuItems := BrMenuItems new
 			id: #'gtScenery-context-menu';
 			yourself.
 	menuItems
 		addItemLabel: 'Add item here'
 		action: [ aContext
-				childrenPositionDo: [ :aPoint | self addNewItemFor: self defaultItemStencilClass at: aPoint ]
+				childrenPositionDo: [ :aPoint | self addNewItemFor: self currentItemStencil at: aPoint ]
 				ifAbsentDo: [ 0 @ 0 ] ].
-
-	"TODO: Add other types of items to create here."
-	subMenuItems := BrMenuItems new.
-	subMenuItems
-		addItemLabel: 'Add item here'
-		action: [ aContext
-				childrenPositionDo: [ :aPoint | self addNewItemFor: self defaultItemStencilClass at: aPoint ]
-				ifAbsentDo: [ 0 @ 0 ] ].
-
+	subMenuItems := self buildItemCreationSubMenuForContext: aContext.
 	menuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Add item';
 				submenu: subMenuItems).
-
 	menuItems addItemLabel: 'Redisplay' action: [ self redisplay ].
 	^ menuItems
 ]
@@ -110,6 +124,18 @@ GtSceneryElement >> createElementFor: eachItem [
 		when: BlElementExtentChangedEvent
 		do: [ :e | eachItem extent: e currentTarget extent ].
 	^ itemElement
+]
+
+{ #category : #accessing }
+GtSceneryElement >> currentItemStencil [
+	"Cache forthe most recently instantiated item, so double-clicking will default to this stencil."
+	^ currentItemStencil
+		ifNil: [ currentItemStencil := self defaultItemStencilClass ]
+]
+
+{ #category : #accessing }
+GtSceneryElement >> currentItemStencil: anObject [
+	currentItemStencil := anObject
 ]
 
 { #category : #initialization }
@@ -207,7 +233,7 @@ GtSceneryElement >> initializeEventListers [
 				forItem: e fromItem ].
 	self container
 		when: BlDoubleClickEvent
-		do: [ :evt | self addNewItemFor: self defaultItemStencilClass at: evt childrenPosition ].
+		do: [ :evt | self addNewItemFor: self currentItemStencil at: evt childrenPosition ].
 	self container
 		aptitude: (BrGlamorousWithExplicitContextMenuAptitude new withDefaultHandle
 				stencil: [ :aContext | 

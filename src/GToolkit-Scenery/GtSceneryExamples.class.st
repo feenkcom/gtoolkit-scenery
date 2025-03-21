@@ -97,7 +97,7 @@ GtSceneryExamples >> sceneryWithOneLepiterPage [
 	item := scenery
 			addItem: (GtSceneryItem new
 					stencil: (GtSceneryLepiterPageStencil new
-							databaseName: 'Glamorous Toolkit Book';
+							databaseName: LeDatabase gtBookName;
 							pageName: 'Glamorous Toolkit')).
 	item extent: 500 @ 400.
 	item position: 0 @ 0.
@@ -115,7 +115,7 @@ GtSceneryExamples >> sceneryWithTwoLepiterPages [
 	item := scenery
 			addItem: (GtSceneryItem new
 					stencil: (GtSceneryLepiterPageStencil new
-							databaseName: 'Glamorous Toolkit Book';
+							databaseName: LeDatabase gtBookName;
 							pageName: 'About this book')).
 	item extent: 500 @ 400.
 	item position: 600 @ 300.

@@ -7,6 +7,11 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #acccessing }
+GtSceneryPictureStencil class >> itemCreationSubmenuLabel [
+	^ 'Picture file'
+]
+
 { #category : #accessing }
 GtSceneryPictureStencil >> create [
 	| widget |
@@ -21,8 +26,8 @@ GtSceneryPictureStencil >> fileReference [
 ]
 
 { #category : #accessing }
-GtSceneryPictureStencil >> fileReference: anObject [
-	fileReference := anObject
+GtSceneryPictureStencil >> fileReference: aFileReference [
+	fileReference := aFileReference
 ]
 
 { #category : #accessing }

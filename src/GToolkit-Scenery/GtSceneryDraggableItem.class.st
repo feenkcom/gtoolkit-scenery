@@ -10,6 +10,12 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #acccessing }
+GtSceneryDraggableItem class >> itemCreationSubmenuLabel [
+	"Label to use for the item creation submenu of GtSceneryElement"
+	self subclassResponsibility
+]
+
 { #category : #converting }
 GtSceneryDraggableItem >> asItem [
 	^ GtSceneryItem new
@@ -37,7 +43,7 @@ GtSceneryDraggableItem >> initialize [
 	extent := 50 @ 50
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 GtSceneryDraggableItem >> storeOn: aStream [
 	aStream
 		nextPutAll: self class name;

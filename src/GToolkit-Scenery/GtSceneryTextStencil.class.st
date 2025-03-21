@@ -7,6 +7,11 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #acccessing }
+GtSceneryTextStencil class >> itemCreationSubmenuLabel [
+	^ 'Text'
+]
+
 { #category : #accessing }
 GtSceneryTextStencil >> create [
 	^ BrEditor new

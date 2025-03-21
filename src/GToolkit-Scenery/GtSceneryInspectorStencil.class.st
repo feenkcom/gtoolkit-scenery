@@ -7,6 +7,11 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #acccessing }
+GtSceneryInspectorStencil class >> itemCreationSubmenuLabel [
+	^ 'Inspector'
+]
+
 { #category : #accessing }
 GtSceneryInspectorStencil >> create [
 	^ (self targetValue gtViewsFor: GtPhlowView empty)
