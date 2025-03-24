@@ -22,7 +22,8 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 	| item newElement |
 	item := anItemStencilClass new asItem.
 	item position: position.
-	self gtScenery addItem: item.
+	self gtScenery addItem: item.	"Handle rest by announcement ..."
+
 	newElement := self createElementFor: item.
 	self container addChild: newElement.
 	^ newElement
@@ -36,20 +37,29 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 	This should replace GtSceneryElement>>#itemContextMenuForItem:andElement:
 	Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.
 	We also want items themselves to offer new submenus ....'>
-	^ {'Inspect item'
-			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
-		'Clone item'
-			-> [ :elt | 
-				self
-					spawnItemWithStencil: anItem stencil copy
-					fromElement: anItemElement
-					forItem: anItem ].
-		'Delete item'
-			-> [ :elt | 
-				self gtScenery removeItem: anItem.
-				anItemElement removeFromParent ].
-		'Inspect item wrapper'
-			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
+	| menuItems |
+	menuItems := BrMenuItems new
+			id: #'gtScenery-item-menu';
+			yourself.
+	menuItems
+		addItemLabel: 'Inspect item'
+		action: [ :elt | self inspectItem: anItem forElement: anItemElement ].
+	menuItems
+		addItemLabel: 'Clone item'
+		action: [ :elt | 
+			self
+				spawnItemWithStencil: anItem stencil copy
+				fromElement: anItemElement
+				forItem: anItem ].
+	menuItems
+		addItemLabel: 'Delete item'
+		action: [ :elt | 
+			self gtScenery removeItemWithConnections: anItem.
+			self removeItemElementWithConnections: anItemElement ].
+	menuItems
+		addItemLabel: 'Inspect item wrapper'
+		action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ].
+	^ menuItems
 ]
 
 { #category : #initialization }
@@ -109,9 +119,15 @@ GtSceneryElement >> createElementFor: eachItem [
 	| itemElement |
 	itemElement := eachItem asElementIn: self forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
-	itemElement
+	"itemElement
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
-				items: [ self itemContextMenuForItem: eachItem andElement: itemElement ]).
+				items: [ self itemContextMenuForItem: eachItem andElement: itemElement ])."
+				
+	itemElement
+		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude new
+				stencil: [ self buildItemContextMenuForItem: eachItem andElement: itemElement ]).
+
+				
 	itemElement
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
@@ -273,7 +289,7 @@ GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
 					forItem: anItem ].
 		'Delete item'
 			-> [ :elt | 
-				self gtScenery removeItem: anItem.
+				self gtScenery removeItemWithConnections: anItem.
 				anItemElement removeFromParent ].
 		'Inspect item wrapper'
 			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
@@ -284,6 +300,11 @@ GtSceneryElement >> redisplay [
 	self container removeChildren.
 	self gtScenery: self gtScenery
 
+]
+
+{ #category : #'item menu' }
+GtSceneryElement >> removeItemElementWithConnections: anItemElement [ 
+	anItemElement removeFromParent
 ]
 
 { #category : #'as yet unclassified' }

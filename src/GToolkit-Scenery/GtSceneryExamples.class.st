@@ -5,12 +5,42 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GtSceneryExamples >> mindmapWithTwoNodes [
+GtSceneryExamples >> mindmapWithRootNodeRemoved [
+	<gtExample>
+	| scenery item1 |
+	scenery := self mindmapWithTwoSubnodes.
+
+	item1 := scenery items
+			detect: [ :item | item stencil text asString = 'A mindmap' ].
+	scenery removeItemWithConnections: item1.
+
+	self assert: scenery items size equals: 2.
+	self assert: scenery connections size equals: 0.
+	^ scenery
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryExamples >> mindmapWithSubnodeRemoved [
+	<gtExample>
+	| scenery item2 |
+	scenery := self mindmapWithTwoSubnodes.
+
+	item2 := scenery items
+			detect: [ :item | item stencil text asString = 'A concept A' ].
+	scenery removeItemWithConnections: item2.
+
+	self assert: scenery items size equals: 2.
+	self assert: scenery connections size equals: 1.
+	^ scenery
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryExamples >> mindmapWithTwoSubnodes [
 	<gtExample>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new text: 'A  mindmap' asRopedText) asItem.
+			addItem: (GtSceneryMindMapNodeStencil new text: 'A mindmap' asRopedText) asItem.
 	item1 position: 0 @ 0.
 	item2 := scenery
 			addItem: (GtSceneryMindMapNodeStencil new text: 'A concept A' asRopedText) asItem.
@@ -28,6 +58,7 @@ GtSceneryExamples >> mindmapWithTwoNodes [
 		to: item3.
 
 	self assert: scenery items size equals: 3.
+	self assert: scenery connections size equals: 2.
 	^ scenery
 ]
 

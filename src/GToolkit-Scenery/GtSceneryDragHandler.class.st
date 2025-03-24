@@ -43,7 +43,8 @@ GtSceneryDragHandler >> addConnectionTo: endElement [
 	newConnection := self scenery
 			addConnectionWithStencil: GtSceneryLineStencil new
 			from: fromItem
-			to: toItem.
+			to: toItem.	"Handle rest by announcement ..."
+
 	self sceneryElement container
 		addChild: (newConnection asElementIn: container forScenery: self scenery)
 		as: (GtSceneryConnectionId indexed: self scenery connections size)
