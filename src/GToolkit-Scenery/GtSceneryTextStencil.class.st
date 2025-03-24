@@ -14,6 +14,7 @@ GtSceneryTextStencil class >> itemCreationSubmenuLabel [
 
 { #category : #accessing }
 GtSceneryTextStencil >> create [
+	<tag: #sceneryListeners>
 	^ BrEditor new
 		aptitude: BrGlamorousRegularEditorAptitude;
 		text: text;

@@ -16,6 +16,7 @@ GtSceneryEditableTextLabel >> idClass [
 
 { #category : #initalization }
 GtSceneryEditableTextLabel >> initialize [
+	<tag: #sceneryListeners>
 	| resizer |
 	super initialize.
 	self

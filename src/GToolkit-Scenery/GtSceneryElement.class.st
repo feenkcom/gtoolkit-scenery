@@ -18,11 +18,11 @@ Class {
 GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 	"Add a new item at the position of the triggering event."
 
+	<tag: #shouldBeHandledByAnnouncement>
 	| item newElement |
 	item := anItemStencilClass new asItem.
 	item position: position.
 	self gtScenery addItem: item.
-	self shouldBeHandledByAnnouncement.
 	newElement := self createElementFor: item.
 	self container addChild: newElement.
 	^ newElement
@@ -30,6 +30,8 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 
 { #category : #'item menu' }
 GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
+	<tag: #shouldBeHandledByAnnouncement>
+	<tag: #sceneryContextMenu>
 	<todo: '
 	This should replace GtSceneryElement>>#itemContextMenuForItem:andElement:
 	Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.
@@ -45,7 +47,6 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 		'Delete item'
 			-> [ :elt | 
 				self gtScenery removeItem: anItem.
-				self shouldBeHandledByAnnouncement.
 				anItemElement removeFromParent ].
 		'Inspect item wrapper'
 			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
@@ -55,6 +56,7 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 GtSceneryElement >> buildItemCreationSubMenuForContext: aContext [
 	"Add a submenu action for each ItemStencil class."
 
+	<tag: #sceneryContextMenu>
 	| subMenuItems |
 	subMenuItems := BrMenuItems new.
 	(GtSceneryDraggableItem allSubclasses
@@ -75,6 +77,7 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	"Build scenery context menu items.
 	aContext is a BrMenuInitialContext instance."
 
+	<tag: #sceneryContextMenu>
 	| menuItems subMenuItems |
 	menuItems := BrMenuItems new
 			id: #'gtScenery-context-menu';
@@ -101,7 +104,8 @@ GtSceneryElement >> container [
 { #category : #accessing }
 GtSceneryElement >> createElementFor: eachItem [
 	"Instantiate the given item as an element, adding scenery-specific listeners."
-	
+
+	<tag: #sceneryListeners>
 	| itemElement |
 	itemElement := eachItem asElementIn: self forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
@@ -217,6 +221,7 @@ GtSceneryElement >> initialize [
 
 { #category : #initialization }
 GtSceneryElement >> initializeEventListers [
+	<tag: #sceneryListeners>
 	self
 		when: GtSceneryObjectToSpawn
 		do: [ :e | 
@@ -256,6 +261,8 @@ GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
 	"To be replaced by GtSceneryElement>>#buildItemContextMenuForItem:andElement:"
 	<todo: 'Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.'>
+	<tag: #shouldBeHandledByAnnouncement>
+	<tag: #sceneryContextMenu>
 	^ {'Inspect item'
 			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
 		'Clone item'
@@ -267,7 +274,6 @@ GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
 		'Delete item'
 			-> [ :elt | 
 				self gtScenery removeItem: anItem.
-				self shouldBeHandledByAnnouncement.
 				anItemElement removeFromParent ].
 		'Inspect item wrapper'
 			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
@@ -280,15 +286,11 @@ GtSceneryElement >> redisplay [
 
 ]
 
-{ #category : #todo }
-GtSceneryElement >> shouldBeHandledByAnnouncement [
-	<todo: 'View updates are currently handled locally, whereas they should be handled in a listener for announcements from model updates. This should be fixed once the framework stabilizes and it becomes clear which model announcements are needed.'>
-]
-
 { #category : #'as yet unclassified' }
 GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
 	"I spawn a new item within the Scenery and the SceneryElement, starting from a given source item.
 	When the source item is dragged, the new item will by dragged with it."
+	<tag: #shouldBeHandledByAnnouncement>
 
 	| itemToSpawn elementToSpawn |
 	itemToSpawn := aStencil asItem.
@@ -296,8 +298,7 @@ GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElemen
 
 	sourceItem addLinkTo: itemToSpawn.
 	gtScenery addItem: itemToSpawn.
-
-	self shouldBeHandledByAnnouncement.
+	
 	elementToSpawn := self createElementFor: itemToSpawn.
 	sourceItemElement graph connectTo: elementToSpawn.
 	sourceItemElement
@@ -310,6 +311,7 @@ GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElemen
 
 { #category : #initialization }
 GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
+	<tag: #shouldBeHandledByAnnouncement>
 	| newItemAndElement newConnection |
 	newItemAndElement := self
 			spawnItemWithStencil: aStencil
@@ -321,7 +323,6 @@ GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceI
 			from: sourceItem
 			to: newItemAndElement first.
 
-	self shouldBeHandledByAnnouncement.
 	container
 		addChild: (newConnection asElementIn: container forScenery: self gtScenery)
 		as: (GtSceneryConnectionId indexed: self gtScenery connections size)
