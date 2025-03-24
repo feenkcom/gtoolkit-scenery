@@ -6,8 +6,8 @@ My items may be explicitly positioned or resized.
 Class {
 	#name : #GtScenery,
 	#superclass : #BrStencil,
-	#traits : 'TGtSceneryShared',
-	#classTraits : 'TGtSceneryShared classTrait',
+	#traits : 'TGtSceneryShared + TDatabaseHolder',
+	#classTraits : 'TGtSceneryShared classTrait + TDatabaseHolder classTrait',
 	#instVars : [
 		'connections',
 		'items',
@@ -74,6 +74,18 @@ GtScenery >> create [
 		gtScenery: self
 ]
 
+{ #category : #action }
+GtScenery >> gtActionMenuFor: anAction [
+	<gtAction>
+	^ anAction button
+		priority: 100;
+		tooltip: 'Help';
+		icon: BrGlamorousVectorIcons hamburger;
+		action: [ :aButton |  ];
+		primaryModifierAction: [ :aButton | self gtBrowseFrom: aButton ]
+			mouseCursor: BlCopyCursor new
+]
+
 { #category : #accessing }
 GtScenery >> gtConnectionsFor: aView [ 
 	<gtView>
@@ -90,9 +102,29 @@ GtScenery >> gtItemsFor: aView [
 		items: [ items ]
 ]
 
+{ #category : #'as yet unclassified' }
+GtScenery >> helpPage [
+	"A help page should be defined here ..."
+	<lePage>
+	<gtExample>
+	<noTest>
+	^ (LePage named: 'Scenery exploration example')
+	addSnippet: (LeTextSnippet new
+			string: 'This is just a placeholder page for a proper initial Help documentation page.';
+			yourself);
+	addSnippet: (LePharoSnippet new
+			code: 'mindmap := GtScenery new';
+			yourself);
+	addSnippet: (LePharoSnippet new
+			code: 'GtSceneryExamples new  mindmapWithTwoSubnodes';
+			yourself);
+	yourself
+]
+
 { #category : #accessing }
 GtScenery >> initialize [
 	super initialize.
+	"self initializeDatabase."
 	items := OrderedCollection new .
 	connections := OrderedCollection new
 ]
