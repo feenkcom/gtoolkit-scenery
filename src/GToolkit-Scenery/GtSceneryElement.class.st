@@ -26,6 +26,7 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 
 	newElement := self createElementFor: item.
 	self container addChild: newElement.
+	self updateItemIds.
 	^ newElement
 ]
 
@@ -55,6 +56,7 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 		addItemLabel: 'Delete item'
 		action: [ :elt | 
 			self gtScenery removeItemWithConnections: anItem.
+			"Next should be handled by announcement:"
 			self removeItemElementWithConnections: anItemElement ].
 	menuItems
 		addItemLabel: 'Inspect item wrapper'
@@ -206,12 +208,13 @@ GtSceneryElement >> gtScenery: aScenery [
 	gtScenery items
 		withIndexDo: [ :eachItem :index | 
 			itemElement := self createElementFor: eachItem.
-			container addChild: itemElement as: (GtSceneryItemId indexed: index) ].
+			container addChild: itemElement "as: (GtSceneryItemId indexed: index)" ].
 	gtScenery connections
 		withIndexDo: [ :eachConnection :index | 
 			container
 				addChild: (eachConnection asElementIn: container forScenery: self gtScenery)
-				as: (GtSceneryConnectionId indexed: index) ].
+				"as: (GtSceneryConnectionId indexed: index)" ].
+	self updateItemIds.
 	gtScenery items isEmpty
 		ifTrue: [ self container disableAutoScale ]
 		ifFalse: [ self container enableAutoScale ].
@@ -273,28 +276,6 @@ GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem)
 ]
 
-{ #category : #'item menu' }
-GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
-	"To be replaced by GtSceneryElement>>#buildItemContextMenuForItem:andElement:"
-	<todo: 'Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.'>
-	<tag: #shouldBeHandledByAnnouncement>
-	<tag: #sceneryContextMenu>
-	^ {'Inspect item'
-			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
-		'Clone item'
-			-> [ :elt | 
-				self
-					spawnItemWithStencil: anItem stencil copy
-					fromElement: anItemElement
-					forItem: anItem ].
-		'Delete item'
-			-> [ :elt | 
-				self gtScenery removeItemWithConnections: anItem.
-				anItemElement removeFromParent ].
-		'Inspect item wrapper'
-			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
-]
-
 { #category : #utility }
 GtSceneryElement >> redisplay [
 	self container removeChildren.
@@ -302,9 +283,16 @@ GtSceneryElement >> redisplay [
 
 ]
 
-{ #category : #'item menu' }
-GtSceneryElement >> removeItemElementWithConnections: anItemElement [ 
-	anItemElement removeFromParent
+{ #category : #updating }
+GtSceneryElement >> removeItemElementWithConnections: anItemElement [
+	| edges |
+	edges := self graph allEdgeChildren
+			select: [ :e | 
+				e fromAnchor referenceElement = anItemElement
+					or: [ e toAnchor referenceElement = anItemElement ] ].
+	edges do: [ :e | e removeFromParent ].
+	anItemElement removeFromParent.
+	self updateItemIds
 ]
 
 { #category : #'as yet unclassified' }
@@ -367,4 +355,14 @@ GtSceneryElement >> subscribe [
 { #category : #announcement }
 GtSceneryElement >> unsubscribe [
 	gtScenery ifNotNil: [ gtScenery announcer unsubscribe: self ]
+]
+
+{ #category : #updating }
+GtSceneryElement >> updateItemIds [
+	"After an insertion or a deletion of an item or a connection, all the ids may change.
+	NB: eventually each element type might have its own index ids."
+	self graph allNodeChildren
+		withIndexDo: [ :eachItem :index | eachItem id: (GtSceneryItemId indexed: index) ].
+	self graph allEdgeChildren
+		withIndexDo: [ :eachConnection :index | eachConnection id: (GtSceneryConnectionId indexed: index) ]
 ]

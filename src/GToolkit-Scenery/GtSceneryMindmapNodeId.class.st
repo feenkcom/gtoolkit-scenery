@@ -1,3 +1,7 @@
+"
+Not used for the  moment. 
+Eventually all nodes may have tailored ids.
+"
 Class {
 	#name : #GtSceneryMindmapNodeId,
 	#superclass : #GtCoderElementId,
