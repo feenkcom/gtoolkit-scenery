@@ -36,11 +36,16 @@ GtScenery >> addItem: anItem [
 
 { #category : #accessing }
 GtScenery >> addItemForStencil: anItemStencil [
-	| item |
-	item := GtSceneryItem new stencil: anItemStencil.
-	items add: item.
+	"So far not used anywhere?"
+	
+	"| item |
+	item := GtSceneryItem new stencil: anItemStencil."
+	
+	^ self addItem: (GtSceneryItem new stencil: anItemStencil)
+	
+	"items add: item.
 	self announce: (GtSceneryItemAdded new item: anItemStencil).
-	^ item
+	^ item"
 ]
 
 { #category : #accessing }
@@ -102,10 +107,22 @@ GtScenery >> items: anObject [
 	items := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 GtScenery >> removeItem: anItem [
+	"Just removes an item, but not its connections."
+	self  deprecated: 'Use removeItemWithConnections: instead'.
 	items remove: anItem.
-	"self announce: (GtSceneryItemAdded new item: anItem)."
+	^ anItem
+]
+
+{ #category : #updating }
+GtScenery >> removeItemWithConnections: anItem [
+	| itemConnections |
+	itemConnections := self connections
+			select: [ :c | c from == anItem or: c to == anItem ].
+	itemConnections do: [ :c | self connections remove: c ].
+
+	self items remove: anItem.
 	^ anItem
 ]
 

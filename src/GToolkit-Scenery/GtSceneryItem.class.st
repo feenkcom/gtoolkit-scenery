@@ -32,6 +32,7 @@ GtSceneryItem >> addOutgoingLink: anItem [
 
 { #category : #accessing }
 GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
+	<tag: #sceneryListeners>
 	| element resizer |
 	element := stencil asElement.
 	element states

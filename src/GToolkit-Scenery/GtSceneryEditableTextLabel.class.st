@@ -16,11 +16,12 @@ GtSceneryEditableTextLabel >> idClass [
 
 { #category : #initalization }
 GtSceneryEditableTextLabel >> initialize [
+	"id to be set by GtSceneryElement>>#updateItemIds"
+
+	<tag: #sceneryListeners>
 	| resizer |
 	super initialize.
-	self
-		aptitude: BrGlamorousEditableLabelAptitude new glamorousRegularFontAndSize;
-		id: self idClass.
+	self aptitude: BrGlamorousEditableLabelAptitude new glamorousRegularFontAndSize.
 	resizer := BlResizerElement new preventMouseEvents zIndex: 100.
 	self
 		when: BlFocusOutEvent

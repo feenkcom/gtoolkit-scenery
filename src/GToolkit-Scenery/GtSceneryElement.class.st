@@ -18,43 +18,57 @@ Class {
 GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 	"Add a new item at the position of the triggering event."
 
+	<tag: #shouldBeHandledByAnnouncement>
 	| item newElement |
 	item := anItemStencilClass new asItem.
 	item position: position.
-	self gtScenery addItem: item.
-	self shouldBeHandledByAnnouncement.
+	self gtScenery addItem: item.	"Handle rest by announcement ..."
+
 	newElement := self createElementFor: item.
 	self container addChild: newElement.
+	self updateItemIds.
 	^ newElement
 ]
 
 { #category : #'item menu' }
 GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
+	<tag: #shouldBeHandledByAnnouncement>
+	<tag: #sceneryContextMenu>
 	<todo: '
 	This should replace GtSceneryElement>>#itemContextMenuForItem:andElement:
 	Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.
 	We also want items themselves to offer new submenus ....'>
-	^ {'Inspect item'
-			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
-		'Clone item'
-			-> [ :elt | 
-				self
-					spawnItemWithStencil: anItem stencil copy
-					fromElement: anItemElement
-					forItem: anItem ].
-		'Delete item'
-			-> [ :elt | 
-				self gtScenery removeItem: anItem.
-				self shouldBeHandledByAnnouncement.
-				anItemElement removeFromParent ].
-		'Inspect item wrapper'
-			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
+	| menuItems |
+	menuItems := BrMenuItems new
+			id: #'gtScenery-item-menu';
+			yourself.
+	menuItems
+		addItemLabel: 'Inspect item'
+		action: [ :elt | self inspectItem: anItem forElement: anItemElement ].
+	menuItems
+		addItemLabel: 'Clone item'
+		action: [ :elt | 
+			self
+				spawnItemWithStencil: anItem stencil copy
+				fromElement: anItemElement
+				forItem: anItem ].
+	menuItems
+		addItemLabel: 'Delete item'
+		action: [ :elt | 
+			self gtScenery removeItemWithConnections: anItem.
+			"Next should be handled by announcement:"
+			self removeItemElementWithConnections: anItemElement ].
+	menuItems
+		addItemLabel: 'Inspect item wrapper'
+		action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ].
+	^ menuItems
 ]
 
 { #category : #initialization }
 GtSceneryElement >> buildItemCreationSubMenuForContext: aContext [
 	"Add a submenu action for each ItemStencil class."
 
+	<tag: #sceneryContextMenu>
 	| subMenuItems |
 	subMenuItems := BrMenuItems new.
 	(GtSceneryDraggableItem allSubclasses
@@ -75,6 +89,7 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	"Build scenery context menu items.
 	aContext is a BrMenuInitialContext instance."
 
+	<tag: #sceneryContextMenu>
 	| menuItems subMenuItems |
 	menuItems := BrMenuItems new
 			id: #'gtScenery-context-menu';
@@ -101,13 +116,20 @@ GtSceneryElement >> container [
 { #category : #accessing }
 GtSceneryElement >> createElementFor: eachItem [
 	"Instantiate the given item as an element, adding scenery-specific listeners."
-	
+
+	<tag: #sceneryListeners>
 	| itemElement |
 	itemElement := eachItem asElementIn: self forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
-	itemElement
+	"itemElement
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
-				items: [ self itemContextMenuForItem: eachItem andElement: itemElement ]).
+				items: [ self itemContextMenuForItem: eachItem andElement: itemElement ])."
+				
+	itemElement
+		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude new
+				stencil: [ self buildItemContextMenuForItem: eachItem andElement: itemElement ]).
+
+				
 	itemElement
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
@@ -186,12 +208,13 @@ GtSceneryElement >> gtScenery: aScenery [
 	gtScenery items
 		withIndexDo: [ :eachItem :index | 
 			itemElement := self createElementFor: eachItem.
-			container addChild: itemElement as: (GtSceneryItemId indexed: index) ].
+			container addChild: itemElement "as: (GtSceneryItemId indexed: index)" ].
 	gtScenery connections
 		withIndexDo: [ :eachConnection :index | 
 			container
 				addChild: (eachConnection asElementIn: container forScenery: self gtScenery)
-				as: (GtSceneryConnectionId indexed: index) ].
+				"as: (GtSceneryConnectionId indexed: index)" ].
+	self updateItemIds.
 	gtScenery items isEmpty
 		ifTrue: [ self container disableAutoScale ]
 		ifFalse: [ self container enableAutoScale ].
@@ -217,6 +240,7 @@ GtSceneryElement >> initialize [
 
 { #category : #initialization }
 GtSceneryElement >> initializeEventListers [
+	<tag: #sceneryListeners>
 	self
 		when: GtSceneryObjectToSpawn
 		do: [ :e | 
@@ -252,27 +276,6 @@ GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem)
 ]
 
-{ #category : #'item menu' }
-GtSceneryElement >> itemContextMenuForItem: anItem andElement: anItemElement [
-	"To be replaced by GtSceneryElement>>#buildItemContextMenuForItem:andElement:"
-	<todo: 'Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.'>
-	^ {'Inspect item'
-			-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
-		'Clone item'
-			-> [ :elt | 
-				self
-					spawnItemWithStencil: anItem stencil copy
-					fromElement: anItemElement
-					forItem: anItem ].
-		'Delete item'
-			-> [ :elt | 
-				self gtScenery removeItem: anItem.
-				self shouldBeHandledByAnnouncement.
-				anItemElement removeFromParent ].
-		'Inspect item wrapper'
-			-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ]}
-]
-
 { #category : #utility }
 GtSceneryElement >> redisplay [
 	self container removeChildren.
@@ -280,15 +283,23 @@ GtSceneryElement >> redisplay [
 
 ]
 
-{ #category : #todo }
-GtSceneryElement >> shouldBeHandledByAnnouncement [
-	<todo: 'View updates are currently handled locally, whereas they should be handled in a listener for announcements from model updates. This should be fixed once the framework stabilizes and it becomes clear which model announcements are needed.'>
+{ #category : #updating }
+GtSceneryElement >> removeItemElementWithConnections: anItemElement [
+	| edges |
+	edges := self graph allEdgeChildren
+			select: [ :e | 
+				e fromAnchor referenceElement = anItemElement
+					or: [ e toAnchor referenceElement = anItemElement ] ].
+	edges do: [ :e | e removeFromParent ].
+	anItemElement removeFromParent.
+	self updateItemIds
 ]
 
 { #category : #'as yet unclassified' }
 GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
 	"I spawn a new item within the Scenery and the SceneryElement, starting from a given source item.
 	When the source item is dragged, the new item will by dragged with it."
+	<tag: #shouldBeHandledByAnnouncement>
 
 	| itemToSpawn elementToSpawn |
 	itemToSpawn := aStencil asItem.
@@ -296,8 +307,7 @@ GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElemen
 
 	sourceItem addLinkTo: itemToSpawn.
 	gtScenery addItem: itemToSpawn.
-
-	self shouldBeHandledByAnnouncement.
+	
 	elementToSpawn := self createElementFor: itemToSpawn.
 	sourceItemElement graph connectTo: elementToSpawn.
 	sourceItemElement
@@ -310,6 +320,7 @@ GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElemen
 
 { #category : #initialization }
 GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
+	<tag: #shouldBeHandledByAnnouncement>
 	| newItemAndElement newConnection |
 	newItemAndElement := self
 			spawnItemWithStencil: aStencil
@@ -321,7 +332,6 @@ GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceI
 			from: sourceItem
 			to: newItemAndElement first.
 
-	self shouldBeHandledByAnnouncement.
 	container
 		addChild: (newConnection asElementIn: container forScenery: self gtScenery)
 		as: (GtSceneryConnectionId indexed: self gtScenery connections size)
@@ -345,4 +355,14 @@ GtSceneryElement >> subscribe [
 { #category : #announcement }
 GtSceneryElement >> unsubscribe [
 	gtScenery ifNotNil: [ gtScenery announcer unsubscribe: self ]
+]
+
+{ #category : #updating }
+GtSceneryElement >> updateItemIds [
+	"After an insertion or a deletion of an item or a connection, all the ids may change.
+	NB: eventually each element type might have its own index ids."
+	self graph allNodeChildren
+		withIndexDo: [ :eachItem :index | eachItem id: (GtSceneryItemId indexed: index) ].
+	self graph allEdgeChildren
+		withIndexDo: [ :eachConnection :index | eachConnection id: (GtSceneryConnectionId indexed: index) ]
 ]
