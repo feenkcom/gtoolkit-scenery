@@ -57,5 +57,5 @@ GtSceneryPictureStencil >> storeOn: aStream [
 	super storeOn: aStream.
 	aStream
 		space;
-		nextPutAll: 'fileReference: (', fileReference fullName, ')'
+		nextPutAll: 'fileReference: (', fileReference fullName printString, ')'
 ]
