@@ -1,3 +1,6 @@
+"
+Should be deprecated in favour of {{gtClass:name=GtSceneryTextLabelStencil}}
+"
 Class {
 	#name : #GtSceneryTextStencil,
 	#superclass : #GtSceneryDraggableItem,

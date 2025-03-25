@@ -7,7 +7,20 @@ Class {
 	#category : #'GToolkit-Scenery-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
+GtSceneryEditedExamples >> eyeconScenery [
+	<gtExample>
+	| scenery item1 |
+	scenery := GtScenery new.
+	item1 := scenery
+			addItem: (GtSceneryPictureStencil new
+					fileReference: FileLocator gtResource / 'feenkcom' / 'gtoolkit-demos' / 'doc' / 'reflection'
+							/ 'eyecon.png') asItem.
+	item1 extent: 184.8927882491589 @ 150.0.
+	^ scenery
+]
+
+{ #category : #example }
 GtSceneryEditedExamples >> sceneryMindmap [
 	"A basic mindmap without any styling of the nodes or edges."
 

@@ -43,8 +43,11 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 			id: #'gtScenery-item-menu';
 			yourself.
 	menuItems
-		addItemLabel: 'Inspect item'
+		addItemLabel: 'Inspect stencil'
 		action: [ :elt | self inspectItem: anItem forElement: anItemElement ].
+	menuItems
+		addItemLabel: 'Inspect item'
+		action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ].
 	menuItems
 		addItemLabel: 'Clone item'
 		action: [ :elt | 
@@ -55,12 +58,8 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 	menuItems
 		addItemLabel: 'Delete item'
 		action: [ :elt | 
-			self gtScenery removeItemWithConnections: anItem.
-			"Next should be handled by announcement:"
+			self gtScenery removeItemWithConnections: anItem.	"Next should be handled by announcement:"
 			self removeItemElementWithConnections: anItemElement ].
-	menuItems
-		addItemLabel: 'Inspect item wrapper'
-		action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ].
 	^ menuItems
 ]
 
