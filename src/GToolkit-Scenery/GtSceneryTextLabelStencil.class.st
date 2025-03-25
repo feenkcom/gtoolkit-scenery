@@ -11,7 +11,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : #acccessing }
 GtSceneryTextLabelStencil class >> itemCreationSubmenuLabel [
 	^ 'Text label'
 ]
@@ -52,10 +52,10 @@ GtSceneryTextLabelStencil >> storeOn: aStream [
 	super storeOn: aStream.
 	aStream
 		space;
-		nextPutAll: 'text: (' , text asString printString , ' asRopedText)'.
-	width
-		ifNotNil: [ aStream
-				nextPutAll: '; width: (' , width storeString , ')' ]
+		nextPutAll: 'text: ('.
+	self text storeOn: aStream.
+	aStream nextPutAll: ' asRopedText)'.
+	width ifNotNil: [ aStream nextPutAll: '; width: (' , width storeString , ')' ]
 ]
 
 { #category : #accessing }

@@ -6,7 +6,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 GtSceneryRectangleStencil class >> itemCreationSubmenuLabel [
-	^ 'Rectangle'
+	^ 'Rectangle (old)'
 ]
 
 { #category : #accessing }

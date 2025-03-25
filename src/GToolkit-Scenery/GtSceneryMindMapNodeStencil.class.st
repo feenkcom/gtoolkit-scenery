@@ -9,7 +9,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : #acccessing }
 GtSceneryMindMapNodeStencil class >> itemCreationSubmenuLabel [
 	^ 'Mind map bubble'
 ]
