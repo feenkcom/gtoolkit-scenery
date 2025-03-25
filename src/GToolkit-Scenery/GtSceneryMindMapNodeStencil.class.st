@@ -1,75 +1,20 @@
 "
-I am similar to a {{gtClass:name=GtSceneryTextStencil}}, but I am intended to be used as a node within a Mind map.
+I am a kind of {{gtClass:name=GtSceneryTextLabelStencil}}, but I am intended to be used as a node within a Mind map.
+I should support a choice of colors and backgrounds, and possibly links to other kinds of related objects inside or outside of GT.
 
 "
 Class {
 	#name : #GtSceneryMindMapNodeStencil,
-	#superclass : #GtSceneryDraggableItem,
-	#instVars : [
-		'text',
-		'width'
-	],
+	#superclass : #GtSceneryTextLabelStencil,
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GtSceneryMindMapNodeStencil class >> itemCreationSubmenuLabel [
 	^ 'Mind map bubble'
 ]
 
 { #category : #'api - instantiation' }
-GtSceneryMindMapNodeStencil >> create [
-	| anEditableLabel |
-	anEditableLabel := GtSceneryMindMapNodeElement new
-			text: self text;
-			yourself.
-	self width
-		ifNotNil: [ anEditableLabel
-				hExact: width;
-				vFitContent ].
-	^ anEditableLabel
-]
-
-{ #category : #initialization }
-GtSceneryMindMapNodeStencil >> initialize [
-	super initialize.
-	text := 'Double click me' asRopedText.
-	self extent: nil
-]
-
-{ #category : #printing }
-GtSceneryMindMapNodeStencil >> postCopy [
-	super postCopy.
-	text := text copy
-]
-
-{ #category : #printing }
-GtSceneryMindMapNodeStencil >> storeOn: aStream [
-	super storeOn: aStream.
-	aStream
-		space;
-		nextPutAll: 'text: (' , text asString printString , ' asRopedText)'.
-	width
-		ifNotNil: [ aStream
-				nextPutAll: '; width: (' , width storeString , ')' ]
-]
-
-{ #category : #accessing }
-GtSceneryMindMapNodeStencil >> text [
-	^ text
-]
-
-{ #category : #accessing }
-GtSceneryMindMapNodeStencil >> text: anObject [
-	text := anObject
-]
-
-{ #category : #accessing }
-GtSceneryMindMapNodeStencil >> width [
-	^ width
-]
-
-{ #category : #accessing }
-GtSceneryMindMapNodeStencil >> width: anObject [
-	width := anObject
+GtSceneryMindMapNodeStencil >> elementClass [
+	^ GtSceneryMindMapNodeElement
 ]

@@ -4,11 +4,11 @@ Eventually all nodes may have tailored ids.
 "
 Class {
 	#name : #GtSceneryMindmapNodeId,
-	#superclass : #GtCoderElementId,
+	#superclass : #GtSceneryItemId,
 	#category : #'GToolkit-Scenery-Ids'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GtSceneryMindmapNodeId >> asSymbol [
 	^ #'gt-scenery-mindmap-node'
 ]
