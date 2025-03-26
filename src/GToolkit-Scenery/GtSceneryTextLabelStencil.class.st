@@ -64,8 +64,8 @@ GtSceneryTextLabelStencil >> text [
 ]
 
 { #category : #accessing }
-GtSceneryTextLabelStencil >> text: anObject [
-	text := anObject
+GtSceneryTextLabelStencil >> text: aText [
+	text := aText
 ]
 
 { #category : #accessing }
