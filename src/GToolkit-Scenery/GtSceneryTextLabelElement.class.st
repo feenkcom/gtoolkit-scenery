@@ -16,7 +16,7 @@ GtSceneryTextLabelElement >> defaultLabelAptitude [
 
 	| labelAptitude |
 	labelAptitude := BrGlamorousEditableLabelAptitude new
-			glamorousRegularFontAndSize.
+			glamorousRegularFont.
 	labelAptitude styleLook
 		default: [ :aStyle | 
 			aStyle geometry: (BlRoundedRectangleGeometry cornerRadius: 0).

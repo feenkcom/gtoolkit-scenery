@@ -72,13 +72,23 @@ GtSceneryParabollaArcStencil >> fontSize: aFontSize [
 	fontSize := aFontSize
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryParabollaArcStencil >> initialize [
 	super initialize.
 	labelText := nil.
 	fontSize := 20.
 	arrowLengthFraction := 10.
 	curvatureFraction := 0.2.
+]
+
+{ #category : #initialization }
+GtSceneryParabollaArcStencil >> initializeAsLine [
+	"Make me look like GtSceneryLineStencil"
+
+	labelText := nil.
+	fontSize := 20.
+	arrowLengthFraction := 2.5.
+	curvatureFraction := 0
 ]
 
 { #category : #accessing }
@@ -97,6 +107,9 @@ GtSceneryParabollaArcStencil >> storeOn: aStream [
 	aStream 
 		nextPutAll: ' labelText: '.
 	self labelText storeOn: aStream.
+	aStream 
+		nextPutAll: '; fontSize: '.
+	self fontSize storeOn: aStream.
 	aStream 
 		nextPutAll: '; curvatureFraction: '.
 	self curvatureFraction storeOn: aStream.
