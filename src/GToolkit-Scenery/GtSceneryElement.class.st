@@ -116,6 +116,9 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 			id: #'gtScenery-context-menu';
 			yourself.
 	menuItems
+		addItemLabel: 'Inspect Scenery'
+		action: [ :elt | elt phlow spawnObject: self gtScenery ].
+	menuItems
 		addItemLabel: 'Add item here'
 		action: [ aContext
 				childrenPositionDo: [ :aPoint | self addNewItemFor: self currentItemStencil at: aPoint ]
