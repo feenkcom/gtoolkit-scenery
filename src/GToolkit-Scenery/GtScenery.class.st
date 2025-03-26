@@ -74,24 +74,108 @@ GtScenery >> create [
 		gtScenery: self
 ]
 
+{ #category : #'as yet unclassified' }
+GtScenery >> faqPage [
+	"An initial FAQ."
+	<lePage>
+	<gtExample>
+	<noTest>
+	^ (LePage named: 'Scenery FAQ')
+	addSnippet: (LeTextSnippet new
+			string: '*Q What is a scenery?*';
+			addSnippet: (LeTextSnippet new
+					string: 'A *Scenery* is a diagram consisting of a number of *items* and possible *connections* between them.';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '*Q How do I create a scenery?*';
+			addSnippet: (LeTextSnippet new
+					string: 'To create a new scenery, instantiate {{gtClass:name=GtScenery}}:';
+					yourself);
+			addSnippet: (LePharoSnippet new
+					code: 'GtScenery new';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '*Q How do I edit a scenery?*';
+			addSnippet: (LeTextSnippet new
+					string: 'You can edit a scenery interactively in the *Live* view.';
+					addSnippet: (LeTextSnippet new
+							string: '• Double-click on the canvas to add a new item (mindmap bubble by default)';
+							yourself);
+					addSnippet: (LeTextSnippet new
+							string: '• Primary-click on the canvas to open the context menu to add other types of items (inspectors, picture files, shapes etc)';
+							yourself);
+					addSnippet: (LeTextSnippet new
+							string: '• Primary-click on an item to open its context menu (inspect the item, clone it, delete it etc.)';
+							yourself);
+					addSnippet: (LeTextSnippet new
+							string: '• Control-click and drag from one item to another to establish a connection.';
+							yourself);
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '*Q How do I save a scenery I have edited?*';
+			addSnippet: (LeTextSnippet new
+					string: 'To save a scenery, go to the `Store on` view and copy-paste the code to a method or to a Pharo snippet. See {{gtClass:name=GtSceneryEditedExamples}} for some examples.';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '*Q Why is the image auto-zooming as I edit it?*';
+			addSnippet: (LeTextSnippet new
+					string: 'If you inspect a saved scenery, the *Live* view will be auto-zoomed by default. ';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Click the *Zoom in*, *Zoom out* or *Zoom to actual size* buttons to leave auto-zoom mode. ';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Click *Zoom to fit* to switch back to auto-zoom mode.';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '';
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '*Caveat*';
+			addSnippet: (LeTextSnippet new
+					string: 'This is a work in progress. Many needed features are not yet implemented.';
+					yourself);
+			yourself);
+	yourself
+]
+
 { #category : #action }
 GtScenery >> gtActionMenuFor: anAction [
+	"Eventually add a nested menu of help pages."
+
 	<gtAction>
-	^ anAction button
+	^ anAction dropdown
 		priority: 100;
 		tooltip: 'Help';
 		icon: BrGlamorousVectorIcons hamburger;
-		action: [ :aButton |  ];
-		primaryModifierAction: [ :aButton | self gtBrowseFrom: aButton ]
-			mouseCursor: BlCopyCursor new
+		content: [ :aButton | 
+			BrGlamorousSimpleContextMenuContent new
+				items: {'Scenery FAQ'
+							-> [ :e | e phlow spawnObject: (self database pageNamed: 'Scenery FAQ') asPhlowTool ]};
+				yourself ]
 ]
 
 { #category : #accessing }
-GtScenery >> gtConnectionsFor: aView [ 
+GtScenery >> gtConnectionsFor: aView [
 	<gtView>
-	^ aView list 
+	^ aView list
 		title: 'Connections';
-		items: [ connections ]
+		priority: 12;
+		items: [ connections ];
+		actionUpdateButton
+]
+
+{ #category : #action }
+GtScenery >> gtDatabaseFor: aView [
+	"Suppress the database view from TDatabaseHolder"
+
+	<gtView>
+	^ aView empty
 ]
 
 { #category : #accessing }
@@ -99,26 +183,9 @@ GtScenery >> gtItemsFor: aView [
 	<gtView>
 	^ aView list 
 		title: 'Items';
-		items: [ items ]
-]
-
-{ #category : #'as yet unclassified' }
-GtScenery >> helpPage [
-	"A help page should be defined here ..."
-	<lePage>
-	<gtExample>
-	<noTest>
-	^ (LePage named: 'Scenery exploration example')
-	addSnippet: (LeTextSnippet new
-			string: 'This is just a placeholder page for a proper initial Help documentation page.';
-			yourself);
-	addSnippet: (LePharoSnippet new
-			code: 'mindmap := GtScenery new';
-			yourself);
-	addSnippet: (LePharoSnippet new
-			code: 'GtSceneryExamples new  mindmapWithTwoSubnodes';
-			yourself);
-	yourself
+		priority: 10;
+		items: [ items ];
+		actionUpdateButton
 ]
 
 { #category : #accessing }
