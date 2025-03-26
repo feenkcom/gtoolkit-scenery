@@ -222,9 +222,11 @@ GtScenery >> removeItem: anItem [
 
 { #category : #updating }
 GtScenery >> removeItemWithConnections: anItem [
-	self connections
-		do: [ :c | (c from == anItem or: c to == anItem) 
-			ifTrue: [ self removeConnection: c ] ].
+	| connectionsToRemove |
+	"NB: first compute the connections, *then* remove them!"
+	connectionsToRemove := self connections
+			select: [ :c | c from == anItem or: c to == anItem ].
+	connectionsToRemove do: [ :c | self removeConnection: c ].
 	self items remove: anItem.
 	^ anItem
 ]
