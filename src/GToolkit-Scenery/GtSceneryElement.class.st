@@ -24,10 +24,32 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 	item position: position.
 	self gtScenery addItem: item.	"Handle rest by announcement ..."
 
-	newElement := self createElementFor: item.
+	newElement := self createItemElementFor: item.
 	self container addChild: newElement.
 	self updateItemIds.
 	^ newElement
+]
+
+{ #category : #'connection menu' }
+GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: anConnectionElement [
+	<tag: #shouldBeHandledByAnnouncement>
+	<tag: #sceneryContextMenu>
+	| menuItems |
+	menuItems := BrMenuItems new
+			id: #'gtScenery-connection-menu';
+			yourself.
+	menuItems
+		addItemLabel: 'Inspect stencil'
+		action: [ :elt | self inspectConnection: aConnection forElement: anConnectionElement ].
+	menuItems
+		addItemLabel: 'Inspect connection'
+		action: [ :elt | self inspectConnectionWrapper: aConnection forElement: anConnectionElement ].
+	menuItems
+		addItemLabel: 'Delete connection'
+		action: [ :elt | 
+			self gtScenery removeConnection: aConnection.	"Next should be handled by announcement:"
+			self removeConnectionElement: anConnectionElement ].
+	^ menuItems
 ]
 
 { #category : #'item menu' }
@@ -118,22 +140,38 @@ GtSceneryElement >> container [
 ]
 
 { #category : #accessing }
-GtSceneryElement >> createElementFor: eachItem [
+GtSceneryElement >> createConnectionElementFor: aConnection [
+	<tag: #sceneryListeners>
+	| connectionElement |
+	connectionElement := aConnection asElementIn: self forScenery: self gtScenery.
+
+	connectionElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
+
+	connectionElement
+		addAptitude: (BrStyleCommonAptitude new
+				default: [ :elt | elt border: (BlBorder paint: Color black width: 2) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ]).
+
+	connectionElement
+		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude new
+				stencil: [ self
+						buildConnectionContextMenuForItem: aConnection
+						andElement: connectionElement ]).
+
+	^ connectionElement
+]
+
+{ #category : #accessing }
+GtSceneryElement >> createItemElementFor: anItem [
 	"Instantiate the given item as an element, adding scenery-specific listeners."
 
 	<tag: #sceneryListeners>
 	| itemElement |
-	itemElement := eachItem asElementIn: self forScenery: gtScenery.
+	itemElement := anItem asElementIn: self forScenery: gtScenery.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
-	"itemElement
-		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
-				items: [ self itemContextMenuForItem: eachItem andElement: itemElement ])."
-				
 	itemElement
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude new
-				stencil: [ self buildItemContextMenuForItem: eachItem andElement: itemElement ]).
-
-				
+				stencil: [ self buildItemContextMenuForItem: anItem andElement: itemElement ]).
 	itemElement
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
@@ -141,13 +179,13 @@ GtSceneryElement >> createElementFor: eachItem [
 			self
 				spawnItemWithStencil: (GtSceneryInspectorStencil new target: [ e object ])
 				fromElement: itemElement
-				forItem: eachItem ].
+				forItem: anItem ].
 	itemElement
 		when: BlElementPositionChangedEvent
-		do: [ :e | eachItem position: e currentTarget position ].
+		do: [ :e | anItem position: e currentTarget position ].
 	itemElement
 		when: BlElementExtentChangedEvent
-		do: [ :e | eachItem extent: e currentTarget extent ].
+		do: [ :e | anItem extent: e currentTarget extent ].
 	^ itemElement
 ]
 
@@ -206,18 +244,17 @@ GtSceneryElement >> gtScenery [
 
 { #category : #accessing }
 GtSceneryElement >> gtScenery: aScenery [
-	| itemElement |
+	| itemElement connectionElement |
 	self unsubscribe.
 	gtScenery := aScenery.
 	gtScenery items
 		withIndexDo: [ :eachItem :index | 
-			itemElement := self createElementFor: eachItem.
-			container addChild: itemElement "as: (GtSceneryItemId indexed: index)" ].
+			itemElement := self createItemElementFor: eachItem.
+			container addChild: itemElement ].
 	gtScenery connections
 		withIndexDo: [ :eachConnection :index | 
-			container
-				addChild: (eachConnection asElementIn: container forScenery: self gtScenery)
-				"as: (GtSceneryConnectionId indexed: index)" ].
+			connectionElement := self createConnectionElementFor: eachConnection.
+			container addChild: connectionElement ].
 	self updateItemIds.
 	gtScenery items isEmpty
 		ifTrue: [ self container disableAutoScale ]
@@ -268,6 +305,16 @@ GtSceneryElement >> initializeEventListers [
 						menu: (self buildSceneryContextMenuForContext: aContext) ])
 ]
 
+{ #category : #'connection menu' }
+GtSceneryElement >> inspectConnection: aConnection forElement: aConnectionElement [
+	^ aConnectionElement fireEvent: (GtSceneryObjectToSpawn new object: aConnection stencil)
+]
+
+{ #category : #'connection menu' }
+GtSceneryElement >> inspectConnectionWrapper: aConnection forElement: aConnectionElement [
+	^ aConnectionElement fireEvent: (GtSceneryObjectToSpawn new object: aConnection)
+]
+
 { #category : #'item menu' }
 GtSceneryElement >> inspectItem: anItem forElement: anItemElement [
 	"Inspect the actual stencil rather than the item wrapper."
@@ -285,6 +332,12 @@ GtSceneryElement >> redisplay [
 	self container removeChildren.
 	self gtScenery: self gtScenery
 
+]
+
+{ #category : #updating }
+GtSceneryElement >> removeConnectionElement: aConnectionElement [
+	aConnectionElement removeFromParent.
+	self updateItemIds
 ]
 
 { #category : #updating }
@@ -312,7 +365,7 @@ GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElemen
 	sourceItem addLinkTo: itemToSpawn.
 	gtScenery addItem: itemToSpawn.
 	
-	elementToSpawn := self createElementFor: itemToSpawn.
+	elementToSpawn := self createItemElementFor: itemToSpawn.
 	sourceItemElement graph connectTo: elementToSpawn.
 	sourceItemElement
 		withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
@@ -325,7 +378,7 @@ GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElemen
 { #category : #initialization }
 GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
 	<tag: #shouldBeHandledByAnnouncement>
-	| newItemAndElement newConnection |
+	| newItemAndElement newConnection newConnectionElement |
 	newItemAndElement := self
 			spawnItemWithStencil: aStencil
 			fromElement: sourceItemElement
@@ -336,8 +389,13 @@ GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceI
 			from: sourceItem
 			to: newItemAndElement first.
 
+	"newConnectionElement := newConnection
+			asElementIn: container
+			forScenery: self gtScenery."
+	newConnectionElement := self createConnectionElementFor: newConnection.
+
 	container
-		addChild: (newConnection asElementIn: container forScenery: self gtScenery)
+		addChild: newConnectionElement
 		as: (GtSceneryConnectionId indexed: self gtScenery connections size)
 ]
 

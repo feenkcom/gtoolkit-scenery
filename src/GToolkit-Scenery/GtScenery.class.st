@@ -207,6 +207,12 @@ GtScenery >> items: anObject [
 ]
 
 { #category : #updating }
+GtScenery >> removeConnection: aConnection [
+	self connections remove: aConnection.
+	^ aConnection
+]
+
+{ #category : #updating }
 GtScenery >> removeItem: anItem [
 	"Just removes an item, but not its connections."
 	self  deprecated: 'Use removeItemWithConnections: instead'.
@@ -216,11 +222,9 @@ GtScenery >> removeItem: anItem [
 
 { #category : #updating }
 GtScenery >> removeItemWithConnections: anItem [
-	| itemConnections |
-	itemConnections := self connections
-			select: [ :c | c from == anItem or: c to == anItem ].
-	itemConnections do: [ :c | self connections remove: c ].
-
+	self connections
+		do: [ :c | (c from == anItem or: c to == anItem) 
+			ifTrue: [ self removeConnection: c ] ].
 	self items remove: anItem.
 	^ anItem
 ]
