@@ -16,6 +16,15 @@ GtSceneryTextLabelStencil class >> itemCreationSubmenuLabel [
 	^ 'Text label'
 ]
 
+{ #category : #converting }
+GtSceneryTextLabelStencil >> asItem [
+	^ GtSceneryItem new
+		stencil: self;
+		extent: self extent;
+		resizeOnlyMiddleRight;
+		yourself
+]
+
 { #category : #'api - instantiation' }
 GtSceneryTextLabelStencil >> create [
 	| anEditableLabel |
@@ -74,6 +83,6 @@ GtSceneryTextLabelStencil >> width [
 ]
 
 { #category : #accessing }
-GtSceneryTextLabelStencil >> width: anObject [
-	width := anObject
+GtSceneryTextLabelStencil >> width: aWidth [
+	width := aWidth
 ]

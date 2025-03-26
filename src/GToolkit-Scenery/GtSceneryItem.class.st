@@ -9,7 +9,8 @@ Class {
 		'position',
 		'extent',
 		'incomingLinks',
-		'outgoingLinks'
+		'outgoingLinks',
+		'resizer'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -33,7 +34,7 @@ GtSceneryItem >> addOutgoingLink: anItem [
 { #category : #accessing }
 GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
 	<tag: #sceneryListeners>
-	| element resizer |
+	| element |
 	element := stencil asElement.
 	element states
 		addState: BrLayoutVerticalResizerState exact;
@@ -41,7 +42,6 @@ GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
 	extent ifNotNil: [ element size: extent ].	"Don't change the size if extent is nil."
 	element graph model: self.
 	element graph beNode.
-	resizer := BlResizerElement new preventMouseEvents zIndex: 100.
 	element beFocusable.
 	element
 		when: BlClickEvent
@@ -50,12 +50,12 @@ GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
 				e consumed: true ];
 		when: BlFocusOutEvent
 			do: [ :e | 
-				resizer
+				self resizer
 					detach;
 					removeFromParent ];
 		when: BlFocusInEvent
 			do: [ :e | 
-				resizer
+				self resizer
 					detach;
 					removeFromParent.
 				aSceneryElement container addChild: resizer.
@@ -116,6 +116,25 @@ GtSceneryItem >> position [
 { #category : #accessing }
 GtSceneryItem >> position: aPoint [ 
 	position := aPoint
+]
+
+{ #category : #updating }
+GtSceneryItem >> resizeOnlyMiddleRight [
+	"A hack available for the GtSceneryTextLabelStencil"
+
+	| middleRight |
+	middleRight := self resizer children at: 5.
+	self
+		assert: (middleRight eventDispatcher handlers first isKindOf: BlResizerRightListener).
+	resizer removeChildren.
+	resizer addChild: middleRight.
+	resizer
+]
+
+{ #category : #accessing }
+GtSceneryItem >> resizer [
+	^ resizer
+		ifNil: [ resizer := BlResizerElement new preventMouseEvents zIndex: 100 ]
 ]
 
 { #category : #accessing }
