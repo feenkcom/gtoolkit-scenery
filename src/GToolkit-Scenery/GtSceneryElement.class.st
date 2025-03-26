@@ -104,6 +104,11 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 				label: 'Add item';
 				submenu: subMenuItems).
 	menuItems addItemLabel: 'Redisplay' action: [ self redisplay ].
+	menuItems
+		addItemLabel: 'FAQ'
+		action: [ :e | 
+			e phlow
+				spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPhlowTool ].
 	^ menuItems
 ]
 
@@ -170,12 +175,12 @@ GtSceneryElement >> gtLiveFor: aView [
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomin asElement;
-				label: 'Zoom In' asRopedText;
+				label: 'Zoom in' asRopedText;
 				action: [ self container zoomIn ] ];
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomout asElement;
-				label: 'Zoom Out' asRopedText;
+				label: 'Zoom out' asRopedText;
 				action: [ self container zoomOut ] ];
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
@@ -190,7 +195,7 @@ GtSceneryElement >> gtLiveFor: aView [
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons refresh asElement;
-				label: 'Zoom to actual size' asRopedText;
+				label: 'Redisplay' asRopedText;
 				action: [ self redisplay ] ]
 ]
 

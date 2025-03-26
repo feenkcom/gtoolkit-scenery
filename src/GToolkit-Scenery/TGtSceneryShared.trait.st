@@ -8,6 +8,7 @@ TGtSceneryShared >> gtStoreOnFor: aView [
 	<gtView>
 	^ aView textEditor
 		title: 'Store on';
+		priority: 50;
 		styler: (BrRBTextStyler new
 				isForWorkspace: true;
 				yourself);
