@@ -10,9 +10,9 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #acccessing }
+{ #category : #'as yet unclassified' }
 GtSceneryTextStencil class >> itemCreationSubmenuLabel [
-	^ 'Text'
+	^ 'Text (old)'
 ]
 
 { #category : #accessing }
