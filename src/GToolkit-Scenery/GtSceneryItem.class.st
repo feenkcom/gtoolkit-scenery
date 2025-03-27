@@ -120,15 +120,16 @@ GtSceneryItem >> position: aPoint [
 
 { #category : #updating }
 GtSceneryItem >> resizeOnlyMiddleRight [
-	"A hack available for the GtSceneryTextLabelStencil"
+	"Remove all but the middle right listener."
 
 	| middleRight |
-	middleRight := self resizer children at: 5.
-	self
-		assert: (middleRight eventDispatcher handlers first isKindOf: BlResizerRightListener).
-	resizer removeChildren.
-	resizer addChild: middleRight.
-	resizer
+	self resizer children
+		detect: [ :l | l eventDispatcher handlers first isKindOf: BlResizerRightListener ]
+		ifFound: [ :l | 
+			middleRight := l.
+			self resizer removeChildren.
+			self resizer addChild: middleRight ]
+		ifNone: [  ]
 ]
 
 { #category : #accessing }
