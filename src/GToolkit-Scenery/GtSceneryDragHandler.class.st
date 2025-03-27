@@ -17,9 +17,8 @@ Class {
 		'mousePositionElement',
 		'container',
 		'startElement',
-		'dragStartGlobalPosition',
-		'originalPosition',
-		'sceneryElement'
+		'sceneryElement',
+		'originalChildrenPosition'
 	],
 	#category : #'GToolkit-Scenery-UI'
 }
@@ -41,9 +40,7 @@ GtSceneryDragHandler >> addConnectionTo: endElement [
 	self assertIsSceneryItem: fromItem.
 	self assertIsSceneryItem: toItem.
 	newConnection := self scenery
-			addConnectionWithStencil: (GtSceneryParabollaArcStencil new
-					initializeAsLine;
-					yourself)
+			addConnectionWithStencil: GtSceneryStraightArcStencil new
 			from: fromItem
 			to: toItem.	"Handle rest by announcement ..."	"newConnectionElement := newConnection
 			asElementIn: container
@@ -59,6 +56,17 @@ GtSceneryDragHandler >> addConnectionTo: endElement [
 { #category : #asserting }
 GtSceneryDragHandler >> assertIsSceneryItem: anObject [
 	self assert: (anObject isKindOf: GtSceneryItem)
+]
+
+{ #category : #'private - navigation' }
+GtSceneryDragHandler >> canvasChildrenPositionFromEvent: anEvent [
+	"The current target is a node element in a canvassable element.
+	We want a position for a child in the canvassable element."
+
+	| aContainerPosition aParent |
+	aParent := anEvent currentTarget parent.
+	aContainerPosition := anEvent parentPosition.
+	^ aParent localPointToChildren: aContainerPosition
 ]
 
 { #category : #'event handling' }
@@ -77,19 +85,16 @@ GtSceneryDragHandler >> dragEndEvent: anEvent [
 
 { #category : #'event handling' }
 GtSceneryDragHandler >> dragEvent: anEvent [
-	| aCurrentPosition aStartPosition dragDelta |
-
-	edgeStarted
-		ifFalse: [ ^ self ].
-	
+	| aChildrenPosition |
+	"offset the mouse position node to be centered relative to the mouse position"
+	edgeStarted ifFalse: [ ^ self ].
+	anEvent currentTarget hasParent ifFalse: [ ^ self ].
 	anEvent consumed: true.
-	aCurrentPosition := anEvent currentTarget globalPointToParent: anEvent position.
-	aStartPosition := anEvent currentTarget globalPointToParent: dragStartGlobalPosition.
-
-	dragDelta := aCurrentPosition - aStartPosition.
-
+	aChildrenPosition := self canvasChildrenPositionFromEvent: anEvent.
 	mousePositionElement
-		relocate: originalPosition + dragDelta
+		relocate: aChildrenPosition 
+			"offset the mouse position node to be centered relative to the mouse position"
+			- (self mousePositionExtent / 2.0)
 ]
 
 { #category : #'event handling' }
@@ -98,23 +103,18 @@ GtSceneryDragHandler >> dragStartEvent: anEvent [
 	startElement graph isNode
 		ifFalse: [ ^ self ].
 
+	anEvent consumed: true.
+
 	"self assert: (startElement isKindOf: HypernodeElement)."
 	edgeStarted := true.
 
-	"drag start position in space coordinates"
-	dragStartGlobalPosition := anEvent position.
-	"element position in parent"
-	originalPosition := anEvent currentTarget constraints position
-		"#localPosition is an offset of the mouse within the origianal node"
-		+ anEvent localPosition
-		"offset the mouse position node to be centered relative to the mouse position"
-		- (self mousePositionExtent / 2.0).
-
-	anEvent consumed: true.
+	"element position"
+	originalChildrenPosition := self canvasChildrenPositionFromEvent: anEvent.
 
 	container := startElement parent.
-	"container := startElement container."
-	mousePositionElement relocate: originalPosition.
+	mousePositionElement relocate: originalChildrenPosition 
+		"offset the mouse position node to be centered relative to the mouse position"
+		- (self mousePositionExtent / 2.0).
 	lineElement := BlLineElement new.
 	lineElement
 		zIndex: 100;
@@ -150,6 +150,7 @@ GtSceneryDragHandler >> initialize [
 	super initialize.
 	edgeStarted := false.
 	mousePositionElement := BlElement new
+		id: #'scenery--mouse-position';
 		geometry: BlEllipseGeometry new;
 		size: self mousePositionExtent;
 		background: Color blue;

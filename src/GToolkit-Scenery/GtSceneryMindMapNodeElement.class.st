@@ -16,12 +16,6 @@ GtSceneryMindMapNodeElement >> defaultLabelAptitude [
 ]
 
 { #category : #initalization }
-GtSceneryMindMapNodeElement >> idClass [
-	"Not used for now. Maybe all nodes should have their own (indexed) ids."
-	^ GtSceneryMindmapNodeId
-]
-
-{ #category : #initalization }
 GtSceneryMindMapNodeElement >> stencilClass [
 	^ GtSceneryMindMapNodeStencil
 ]

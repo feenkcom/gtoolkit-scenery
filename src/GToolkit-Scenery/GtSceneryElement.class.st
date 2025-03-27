@@ -167,8 +167,8 @@ GtSceneryElement >> createConnectionElementFor: aConnection [
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ]).
 
 	connectionElement
-		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude new
-				stencil: [ self
+		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
+				menu: [ self
 						buildConnectionContextMenuForItem: aConnection
 						andElement: connectionElement ]).
 
@@ -184,8 +184,8 @@ GtSceneryElement >> createItemElementFor: anItem [
 	itemElement := anItem asElementIn: self.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 	itemElement
-		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude new
-				stencil: [ self buildItemContextMenuForItem: anItem andElement: itemElement ]).
+		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
+				menu: [ self buildItemContextMenuForItem: anItem andElement: itemElement ]).
 	itemElement
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
@@ -399,7 +399,7 @@ GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceI
 			forItem: sourceItem.
 
 	newConnection := self gtScenery
-			addConnectionWithStencil: GtSceneryLineStencil new
+			addConnectionWithStencil: GtSceneryStraightArcStencil new
 			from: sourceItem
 			to: newItemAndElement first.
 
