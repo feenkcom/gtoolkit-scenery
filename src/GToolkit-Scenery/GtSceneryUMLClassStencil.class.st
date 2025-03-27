@@ -19,6 +19,11 @@ GtSceneryUMLClassStencil class >> itemCreationSubmenuLabel [
 	^ 'UML Class'
 ]
 
+{ #category : #conversion }
+GtSceneryUMLClassStencil >> asClass [
+	^ self text asString asClassIfAbsent: [ UndefinedClass ]
+]
+
 { #category : #'api - instantiation' }
 GtSceneryUMLClassStencil >> elementClass [
 	^ GtSceneryUMLClassElement
@@ -28,11 +33,8 @@ GtSceneryUMLClassStencil >> elementClass [
 GtSceneryUMLClassStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
-	| class |
-	class := self text asString asClassIfAbsent: [ nil ].
-	class
-		ifNotNil: [ anItemElement
-				fireEvent: (GtSceneryObjectToSpawn new object: (GtClassCoderTool forClass: class)) ]
+	anItemElement
+		fireEvent: (GtSceneryObjectToSpawn new object: (GtClassCoderTool forClass: self asClass))
 ]
 
 { #category : #initalization }
@@ -40,4 +42,28 @@ GtSceneryUMLClassStencil >> initialize [
 	super initialize.
 	text := 'Click and return to edit' asRopedText bold.
 	self extent: nil
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryUMLClassStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+	<todo: 'spawn superclass or subclass nodes'>
+	
+	|  subMenuItems |
+
+	subMenuItems := BrMenuItems new.
+	subMenuItems
+		addItemLabel: 'Superclass'
+		action: [ 
+			aGtSceneryElement redisplay ].
+	subMenuItems
+		addItemLabel: 'Subclasses'
+		action: [
+			aGtSceneryElement redisplay ].
+			
+	aBrMenuItems
+		addItem: (BrMenuSubmenuItem new
+				label: 'Spawn';
+				submenu: subMenuItems).
+				
+	^ aBrMenuItems
 ]
