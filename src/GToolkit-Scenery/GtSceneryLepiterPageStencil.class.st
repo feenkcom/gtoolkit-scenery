@@ -15,11 +15,7 @@ GtSceneryLepiterPageStencil class >> itemCreationSubmenuLabel [
 
 { #category : #accessing }
 GtSceneryLepiterPageStencil >> create [
-	| database startPage |
-	database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase
-			databaseNamed: self databaseName.
-	startPage := database pageNamed: self pageName.
-	^ startPage asPhlowTool
+	^ self startPage asPhlowTool
 		asElementDo: [ :e | 
 			BrVerticalPane new
 				addChild: (e
@@ -54,7 +50,15 @@ GtSceneryLepiterPageStencil >> defaultPageName [
 	^ 'Glamorous Toolkit Book'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #listeners }
+GtSceneryLepiterPageStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
+	"Spawn the page"
+
+	anItemElement
+		fireEvent: (GtSceneryObjectToSpawn new object: self startPage asPagePhlowTool)
+]
+
+{ #category : #initialization }
 GtSceneryLepiterPageStencil >> initialize [ 
 	super initialize.
 	extent := self defaultExtent
@@ -70,11 +74,19 @@ GtSceneryLepiterPageStencil >> pageName: aString [
 	pageName := aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #copying }
 GtSceneryLepiterPageStencil >> postCopy [
 	super postCopy.
 	databaseName := self databaseName copy.
 	pageName:= self pageName copy
+]
+
+{ #category : #accessing }
+GtSceneryLepiterPageStencil >> startPage [
+	| database |
+	database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase
+			databaseNamed: self databaseName.
+	^ database pageNamed: self pageName
 ]
 
 { #category : #accessing }

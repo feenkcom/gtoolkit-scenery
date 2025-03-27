@@ -66,6 +66,13 @@ GtSceneryShapeStencil >> geometry: anObject [
 	geometry := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryShapeStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
+	"Inspect the stencil."
+
+	aSceneryElement inspectItem: anItem  forElement: anItemElement
+]
+
 { #category : #initialization }
 GtSceneryShapeStencil >> initialize [
 	super initialize.

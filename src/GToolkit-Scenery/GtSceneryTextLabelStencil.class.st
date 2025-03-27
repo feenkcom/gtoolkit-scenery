@@ -77,6 +77,33 @@ GtSceneryTextLabelStencil >> text: aText [
 	text := aText
 ]
 
+{ #category : #'item menu' }
+GtSceneryTextLabelStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
+
+	"| subMenuItems |
+	subMenuItems := BrMenuItems new.
+
+	subMenuItems
+		addItemLabel: 'Increase font size'
+		action: [ aChildElement increaseFontSize.
+			self text fontSize: aChildElement fontSize ].
+	subMenuItems
+		addItemLabel: 'Decrease font size'
+		action: [ aChildElement decreaseFontSize.
+			self text fontSize: aChildElement fontSize ].
+	subMenuItems
+		addItemLabel: 'Reset font size'
+		action: [ aChildElement resetFontSize.
+			self text fontSize: aChildElement fontSize ].
+	aBrMenuItems
+		addItem: (BrMenuSubmenuItem new
+				label: 'Modify font';
+				submenu: subMenuItems)."
+
+	^ aBrMenuItems
+]
+
 { #category : #accessing }
 GtSceneryTextLabelStencil >> width [
 	^ width

@@ -7,6 +7,8 @@ Subclasses should implement `idClass`.
 Class {
 	#name : #GtSceneryTextLabelElement,
 	#superclass : #BrEditableLabel,
+	#traits : 'TLeWithFontSize',
+	#classTraits : 'TLeWithFontSize classTrait',
 	#category : #'GToolkit-Scenery-UI'
 }
 

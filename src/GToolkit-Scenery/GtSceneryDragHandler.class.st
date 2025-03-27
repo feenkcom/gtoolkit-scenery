@@ -41,9 +41,7 @@ GtSceneryDragHandler >> addConnectionTo: endElement [
 	self assertIsSceneryItem: fromItem.
 	self assertIsSceneryItem: toItem.
 	newConnection := self scenery
-			addConnectionWithStencil: (GtSceneryParabollaArcStencil new
-					initializeAsLine;
-					yourself)
+			addConnectionWithStencil: GtSceneryStraightArcStencil new
 			from: fromItem
 			to: toItem.	"Handle rest by announcement ..."	"newConnectionElement := newConnection
 			asElementIn: container

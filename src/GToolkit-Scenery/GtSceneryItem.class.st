@@ -31,8 +31,8 @@ GtSceneryItem >> addOutgoingLink: anItem [
 	outgoingLinks add: anItem
 ]
 
-{ #category : #accessing }
-GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
+{ #category : #converting }
+GtSceneryItem >> asElementIn: aSceneryElement [
 	<tag: #sceneryListeners>
 	| element |
 	element := stencil asElement.
@@ -60,6 +60,15 @@ GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
 					removeFromParent.
 				aSceneryElement container addChild: resizer.
 				resizer attachTo: element ].
+
+	element
+		when: BlDoubleClickEvent
+		do: [ :e | 
+			e consumed: true.
+			stencil
+				handleDoubleClickForItem: self
+				andElement: element
+				inSceneryElement: aSceneryElement ].
 
 	element
 		addEventHandler: GtSceneryPullHandler new;
@@ -120,15 +129,16 @@ GtSceneryItem >> position: aPoint [
 
 { #category : #updating }
 GtSceneryItem >> resizeOnlyMiddleRight [
-	"A hack available for the GtSceneryTextLabelStencil"
+	"Remove all but the middle right listener."
 
 	| middleRight |
-	middleRight := self resizer children at: 5.
-	self
-		assert: (middleRight eventDispatcher handlers first isKindOf: BlResizerRightListener).
-	resizer removeChildren.
-	resizer addChild: middleRight.
-	resizer
+	self resizer children
+		detect: [ :l | l eventDispatcher handlers first isKindOf: BlResizerRightListener ]
+		ifFound: [ :l | 
+			middleRight := l.
+			self resizer removeChildren.
+			self resizer addChild: middleRight ]
+		ifNone: [  ]
 ]
 
 { #category : #accessing }
@@ -145,4 +155,12 @@ GtSceneryItem >> stencil [
 { #category : #accessing }
 GtSceneryItem >> stencil: anItemStencil [ 
 	stencil := anItemStencil
+]
+
+{ #category : #'item menu' }
+GtSceneryItem >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andItemElement: anItemElement [
+	self stencil
+		updateContextMenuItems: aBrMenuItems
+		forSceneryElement: aGtSceneryElement
+		andChildElement: anItemElement
 ]
