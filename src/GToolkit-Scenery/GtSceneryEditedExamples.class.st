@@ -242,3 +242,139 @@ GtSceneryEditedExamples >> sceneryMindmap [
 	
 	^ scenery
 ]
+
+{ #category : #'as yet unclassified' }
+GtSceneryEditedExamples >> simpleClassDiagram [
+	"Just a fragment to illustrate different arrow types."
+
+	<gtExample>
+	| scenery item1 item2 item3 item4 |
+	scenery := GtScenery new.
+	item1 := scenery
+			addItem: (GtSceneryUMLClassStencil new
+					text: ((BlRunRopedText string: 'GtScenery')
+							attributeRuns: (BlRunTree basicNew
+									instVarAt: 1
+										put: (BlRunTreeLeafNode basicNew
+												instVarAt: 1 put: 10;
+												instVarAt: 2
+													put: ((Array new: 3)
+															at: 1 put: (BlFontWeightAttribute new weight: 700);
+															at: 2
+																put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
+															at: 3
+																put: (BlTextForegroundAttribute new beNotOverwritableByStyler
+																		paint: (Color
+																				r: 0.0
+																				g: 0.0
+																				b: 0.0
+																				alpha: 1.0));
+															yourself);
+												yourself);
+									yourself)) asRopedText) asItem.
+	item1 position: 79.21819051106775 @ 81.21323649088544.
+	item1 extent: 73.70001220703125 @ 28.0.
+	item2 := scenery
+			addItem: (GtSceneryUMLClassStencil new
+					text: ((BlRunRopedText string: 'GtSceneryItem')
+							attributeRuns: (BlRunTree basicNew
+									instVarAt: 1
+										put: (BlRunTreeLeafNode basicNew
+												instVarAt: 1 put: 14;
+												instVarAt: 2
+													put: ((Array new: 3)
+															at: 1 put: (BlFontWeightAttribute new weight: 700);
+															at: 2
+																put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
+															at: 3
+																put: (BlTextForegroundAttribute new beNotOverwritableByStyler
+																		paint: (Color
+																				r: 0.0
+																				g: 0.0
+																				b: 0.0
+																				alpha: 1.0));
+															yourself);
+												yourself);
+									yourself)) asRopedText) asItem.
+	item2 position: 192.918202718099 @ 81.21323649088544.
+	item2 extent: 102.27401733398438 @ 28.0.
+	item3 := scenery
+			addItem: (GtSceneryUMLClassStencil new
+					text: ((BlRunRopedText string: 'GtSceneryItemStencil')
+							attributeRuns: (BlRunTree basicNew
+									instVarAt: 1
+										put: (BlRunTreeLeafNode basicNew
+												instVarAt: 1 put: 21;
+												instVarAt: 2
+													put: ((Array new: 3)
+															at: 1 put: (BlFontWeightAttribute new weight: 700);
+															at: 2
+																put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
+															at: 3
+																put: (BlTextForegroundAttribute new beNotOverwritableByStyler
+																		paint: (Color
+																				r: 0.0
+																				g: 0.0
+																				b: 0.0
+																				alpha: 1.0));
+															yourself);
+												yourself);
+									yourself)) asRopedText) asItem.
+	item3 position: 335.19222005208337 @ 81.21323649088544.
+	item3 extent: 144.44200134277344 @ 28.0.
+	item4 := scenery
+			addItem: (GtSceneryUMLClassStencil new
+					text: ((BlRunRopedText string: 'GtSceneryTextLabelStencil')
+							attributeRuns: (BlRunTree basicNew
+									instVarAt: 1
+										put: (BlRunTreeLeafNode basicNew
+												instVarAt: 1 put: 26;
+												instVarAt: 2
+													put: ((Array new: 3)
+															at: 1 put: (BlFontWeightAttribute new weight: 700);
+															at: 2
+																put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
+															at: 3
+																put: (BlTextForegroundAttribute new beNotOverwritableByStyler
+																		paint: (Color
+																				r: 0.0
+																				g: 0.0
+																				b: 0.0
+																				alpha: 1.0));
+															yourself);
+												yourself);
+									yourself)) asRopedText) asItem.
+	item4 position: 322.83453369140625 @ 198.65036010742188.
+	item4 extent: 175.41000366210938 @ 28.0.
+	scenery
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new
+				labelText: nil;
+				fontSize: 20;
+				curvatureFraction: 0;
+				arrowLengthFraction: 2.5;
+				arrowHeadType: #simple;
+				yourself)
+		from: item1
+		to: item2.
+	scenery
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new
+				labelText: nil;
+				fontSize: 20;
+				curvatureFraction: 0;
+				arrowLengthFraction: 2.5;
+				arrowHeadType: #simple;
+				yourself)
+		from: item2
+		to: item3.
+	scenery
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new
+				labelText: nil;
+				fontSize: 20;
+				curvatureFraction: 0;
+				arrowLengthFraction: 2.5;
+				arrowHeadType: #triangle;
+				yourself)
+		from: item4
+		to: item3.
+	^ scenery
+]

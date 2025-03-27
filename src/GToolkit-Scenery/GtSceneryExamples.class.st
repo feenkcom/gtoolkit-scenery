@@ -49,11 +49,11 @@ GtSceneryExamples >> mindmapWithTwoSubnodes [
 			addItem: (GtSceneryMindMapNodeStencil new text: 'A concept B' asRopedText) asItem.
 	item3 position: 126.0 @ 82.0.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item3.
 

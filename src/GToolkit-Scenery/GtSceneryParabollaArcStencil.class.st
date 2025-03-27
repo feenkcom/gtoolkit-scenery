@@ -5,10 +5,28 @@ Class {
 		'labelText',
 		'fontSize',
 		'arrowLengthFraction',
-		'curvatureFraction'
+		'curvatureFraction',
+		'arrowHeadType'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
+
+{ #category : #accessing }
+GtSceneryParabollaArcStencil >> arrowHead [
+	self arrowHeadType = #triangle ifTrue: [ ^ self triangleArrowHead ].
+	^ self simpleArrowHead
+]
+
+{ #category : #accessing }
+GtSceneryParabollaArcStencil >> arrowHeadType [
+	^ arrowHeadType ifNil: [ arrowHeadType := self defaultArrowHeadType ]
+]
+
+{ #category : #accessing }
+GtSceneryParabollaArcStencil >> arrowHeadType: aSymbol [
+	"Currently #simple or #triangle"
+	arrowHeadType := aSymbol
+]
 
 { #category : #accessing }
 GtSceneryParabollaArcStencil >> arrowLengthFraction [
@@ -18,6 +36,16 @@ GtSceneryParabollaArcStencil >> arrowLengthFraction [
 { #category : #accessing }
 GtSceneryParabollaArcStencil >> arrowLengthFraction: aSize [
 	arrowLengthFraction := aSize
+]
+
+{ #category : #initialization }
+GtSceneryParabollaArcStencil >> beStraight [
+	"Make me look like GtSceneryLineStencil"
+
+	labelText := nil.
+	fontSize := 20.
+	arrowLengthFraction := 2.5.
+	curvatureFraction := 0
 ]
 
 { #category : #accessing }
@@ -44,11 +72,7 @@ GtSceneryParabollaArcStencil >> create [
 							c ignored vertical alignCenterAt: 0.3.
 							c ignored horizontal alignCenter.
 							c ignoreByLayout ]) ].
-	line := line
-			toHead: (BlArrowheadSimpleArrow new
-					background: Color black;
-					arrowLengthFraction: self arrowLengthFraction;
-					border: (BlBorder paint: Color black)).
+	line := line toHead: self arrowHead.
 	^ line
 ]
 
@@ -60,6 +84,11 @@ GtSceneryParabollaArcStencil >> curvatureFraction [
 { #category : #accessing }
 GtSceneryParabollaArcStencil >> curvatureFraction: aFraction [
 	curvatureFraction := aFraction
+]
+
+{ #category : #accessing }
+GtSceneryParabollaArcStencil >> defaultArrowHeadType [
+	^ #simple
 ]
 
 { #category : #accessing }
@@ -81,16 +110,6 @@ GtSceneryParabollaArcStencil >> initialize [
 	curvatureFraction := 0.2.
 ]
 
-{ #category : #initialization }
-GtSceneryParabollaArcStencil >> initializeAsLine [
-	"Make me look like GtSceneryLineStencil"
-
-	labelText := nil.
-	fontSize := 20.
-	arrowLengthFraction := 2.5.
-	curvatureFraction := 0
-]
-
 { #category : #accessing }
 GtSceneryParabollaArcStencil >> labelText [
 	^ labelText
@@ -99,6 +118,14 @@ GtSceneryParabollaArcStencil >> labelText [
 { #category : #accessing }
 GtSceneryParabollaArcStencil >> labelText: anObject [
 	labelText := anObject
+]
+
+{ #category : #accessing }
+GtSceneryParabollaArcStencil >> simpleArrowHead [
+	^ BlArrowheadSimpleArrow new
+		background: Color black;
+		arrowLengthFraction: self arrowLengthFraction;
+		border: (BlBorder paint: Color black)
 ]
 
 { #category : #printing }
@@ -117,31 +144,54 @@ GtSceneryParabollaArcStencil >> storeOn: aStream [
 		nextPutAll: '; arrowLengthFraction: '.
 	self arrowLengthFraction storeOn: aStream.
 	aStream 
+		nextPutAll: '; arrowHeadType: '.
+	self arrowHeadType storeOn: aStream.
+	aStream 
 		nextPutAll: '; yourself'.
 ]
 
-{ #category : #'as yet unclassified' }
-GtSceneryParabollaArcStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	| subMenuItems |
-	subMenuItems := BrMenuItems new.
+{ #category : #accessing }
+GtSceneryParabollaArcStencil >> triangleArrowHead [
+	^ BlArrowheadTriangle new
+		scale: 4;
+		border: (BlBorder paint: Color black)
+]
 
-	subMenuItems
+{ #category : #'context menu' }
+GtSceneryParabollaArcStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+	| curvatureSubMenuItems arrowTypeSubMenuItems |
+	
+	curvatureSubMenuItems := BrMenuItems new.
+	curvatureSubMenuItems
 		addItemLabel: 'Curve positively'
 		action: [ self curvatureFraction: 0.4.
 			aGtSceneryElement redisplay ].
-	subMenuItems
+	curvatureSubMenuItems
 		addItemLabel: 'Curve negatively'
 		action: [ self curvatureFraction: -0.4.
 			aGtSceneryElement redisplay ].
-	subMenuItems
+	curvatureSubMenuItems
 		addItemLabel: 'Be straight'
 		action: [ self curvatureFraction: 0.
 			aGtSceneryElement redisplay ].
 
+	arrowTypeSubMenuItems := BrMenuItems new.
+	arrowTypeSubMenuItems
+		addItemLabel: 'Simple arrow'
+		action: [ self arrowHeadType: #simple.
+			aGtSceneryElement redisplay ].
+	arrowTypeSubMenuItems
+		addItemLabel: 'UML subclass arrow'
+		action: [ self arrowHeadType: #triangle.
+			aGtSceneryElement redisplay ].
+			
 	aBrMenuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Modify curvature';
-				submenu: subMenuItems).
+				submenu: curvatureSubMenuItems);
+		addItem: (BrMenuSubmenuItem new
+				label: 'Modify arrow type';
+				submenu: arrowTypeSubMenuItems).
 
 	^ aBrMenuItems
 ]
