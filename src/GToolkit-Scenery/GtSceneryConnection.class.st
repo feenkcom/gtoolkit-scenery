@@ -60,3 +60,8 @@ GtSceneryConnection >> to [
 GtSceneryConnection >> to: item2 [ 
 	to := item2
 ]
+
+{ #category : #'connection menu' }
+GtSceneryConnection >> updateConnectionContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andConnectionElement: aConnectionElement [
+	self stencil updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aConnectionElement
+]

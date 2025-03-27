@@ -10,3 +10,10 @@ Class {
 	#classTraits : 'TGtSceneryShared classTrait',
 	#category : #'GToolkit-Scenery-Model'
 }
+
+{ #category : #'context menu' }
+GtSceneryItemStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+	"Hook method for subclasses to provide more specific context menu items. By default do nothing."
+
+	^ aBrMenuItems
+]

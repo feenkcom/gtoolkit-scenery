@@ -147,3 +147,11 @@ GtSceneryItem >> stencil [
 GtSceneryItem >> stencil: anItemStencil [ 
 	stencil := anItemStencil
 ]
+
+{ #category : #'item menu' }
+GtSceneryItem >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andItemElement: anItemElement [
+	self stencil
+		updateContextMenuItems: aBrMenuItems
+		forSceneryElement: aGtSceneryElement
+		andChildElement: anItemElement
+]
