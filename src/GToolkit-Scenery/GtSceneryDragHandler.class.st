@@ -18,8 +18,8 @@ Class {
 		'container',
 		'startElement',
 		'dragStartGlobalPosition',
-		'originalPosition',
-		'sceneryElement'
+		'sceneryElement',
+		'originalLocalPosition'
 	],
 	#category : #'GToolkit-Scenery-UI'
 }
@@ -75,19 +75,12 @@ GtSceneryDragHandler >> dragEndEvent: anEvent [
 
 { #category : #'event handling' }
 GtSceneryDragHandler >> dragEvent: anEvent [
-	| aCurrentPosition aStartPosition dragDelta |
-
-	edgeStarted
-		ifFalse: [ ^ self ].
-	
+	edgeStarted ifFalse: [ ^ self ].
+		
 	anEvent consumed: true.
-	aCurrentPosition := anEvent currentTarget globalPointToParent: anEvent position.
-	aStartPosition := anEvent currentTarget globalPointToParent: dragStartGlobalPosition.
-
-	dragDelta := aCurrentPosition - aStartPosition.
-
+	
 	mousePositionElement
-		relocate: originalPosition + dragDelta
+		relocate: anEvent localPosition - (self mousePositionExtent / 2.0)
 ]
 
 { #category : #'event handling' }
@@ -102,7 +95,7 @@ GtSceneryDragHandler >> dragStartEvent: anEvent [
 	"drag start position in space coordinates"
 	dragStartGlobalPosition := anEvent position.
 	"element position in parent"
-	originalPosition := anEvent currentTarget constraints position
+	originalLocalPosition := anEvent currentTarget constraints position
 		"#localPosition is an offset of the mouse within the origianal node"
 		+ anEvent localPosition
 		"offset the mouse position node to be centered relative to the mouse position"
@@ -111,8 +104,7 @@ GtSceneryDragHandler >> dragStartEvent: anEvent [
 	anEvent consumed: true.
 
 	container := startElement parent.
-	"container := startElement container."
-	mousePositionElement relocate: originalPosition.
+	mousePositionElement relocate: originalLocalPosition.
 	lineElement := BlLineElement new.
 	lineElement
 		zIndex: 100;
@@ -148,6 +140,7 @@ GtSceneryDragHandler >> initialize [
 	super initialize.
 	edgeStarted := false.
 	mousePositionElement := BlElement new
+		id: #'scenery--mouse-position';
 		geometry: BlEllipseGeometry new;
 		size: self mousePositionExtent;
 		background: Color blue;
