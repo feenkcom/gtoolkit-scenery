@@ -17,9 +17,8 @@ Class {
 		'mousePositionElement',
 		'container',
 		'startElement',
-		'dragStartGlobalPosition',
 		'sceneryElement',
-		'originalLocalPosition'
+		'originalChildrenPosition'
 	],
 	#category : #'GToolkit-Scenery-UI'
 }
@@ -59,6 +58,17 @@ GtSceneryDragHandler >> assertIsSceneryItem: anObject [
 	self assert: (anObject isKindOf: GtSceneryItem)
 ]
 
+{ #category : #'private - navigation' }
+GtSceneryDragHandler >> canvasChildrenPositionFromEvent: anEvent [
+	"The current target is a node element in a canvassable element.
+	We want a position for a child in the canvassable element."
+
+	| aContainerPosition aParent |
+	aParent := anEvent currentTarget parent.
+	aContainerPosition := anEvent parentPosition.
+	^ aParent localPointToChildren: aContainerPosition
+]
+
 { #category : #'event handling' }
 GtSceneryDragHandler >> dragEndEvent: anEvent [
 	edgeStarted ifFalse: [ ^ self ].
@@ -75,12 +85,16 @@ GtSceneryDragHandler >> dragEndEvent: anEvent [
 
 { #category : #'event handling' }
 GtSceneryDragHandler >> dragEvent: anEvent [
+	| aChildrenPosition |
+	"offset the mouse position node to be centered relative to the mouse position"
 	edgeStarted ifFalse: [ ^ self ].
-		
+	anEvent currentTarget hasParent ifFalse: [ ^ self ].
 	anEvent consumed: true.
-	
+	aChildrenPosition := self canvasChildrenPositionFromEvent: anEvent.
 	mousePositionElement
-		relocate: anEvent localPosition - (self mousePositionExtent / 2.0)
+		relocate: aChildrenPosition 
+			"offset the mouse position node to be centered relative to the mouse position"
+			- (self mousePositionExtent / 2.0)
 ]
 
 { #category : #'event handling' }
@@ -89,22 +103,18 @@ GtSceneryDragHandler >> dragStartEvent: anEvent [
 	startElement graph isNode
 		ifFalse: [ ^ self ].
 
+	anEvent consumed: true.
+
 	"self assert: (startElement isKindOf: HypernodeElement)."
 	edgeStarted := true.
 
-	"drag start position in space coordinates"
-	dragStartGlobalPosition := anEvent position.
-	"element position in parent"
-	originalLocalPosition := anEvent currentTarget constraints position
-		"#localPosition is an offset of the mouse within the origianal node"
-		+ anEvent localPosition
-		"offset the mouse position node to be centered relative to the mouse position"
-		- (self mousePositionExtent / 2.0).
-
-	anEvent consumed: true.
+	"element position"
+	originalChildrenPosition := self canvasChildrenPositionFromEvent: anEvent.
 
 	container := startElement parent.
-	mousePositionElement relocate: originalLocalPosition.
+	mousePositionElement relocate: originalChildrenPosition 
+		"offset the mouse position node to be centered relative to the mouse position"
+		- (self mousePositionExtent / 2.0).
 	lineElement := BlLineElement new.
 	lineElement
 		zIndex: 100;
