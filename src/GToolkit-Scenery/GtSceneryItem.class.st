@@ -31,8 +31,8 @@ GtSceneryItem >> addOutgoingLink: anItem [
 	outgoingLinks add: anItem
 ]
 
-{ #category : #accessing }
-GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
+{ #category : #converting }
+GtSceneryItem >> asElementIn: aSceneryElement [
 	<tag: #sceneryListeners>
 	| element |
 	element := stencil asElement.
@@ -60,6 +60,15 @@ GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
 					removeFromParent.
 				aSceneryElement container addChild: resizer.
 				resizer attachTo: element ].
+
+	element
+		when: BlDoubleClickEvent
+		do: [ :e | 
+			e consumed: true.
+			stencil
+				handleDoubleClickForItem: self
+				andElement: element
+				inSceneryElement: aSceneryElement ].
 
 	element
 		addEventHandler: GtSceneryPullHandler new;

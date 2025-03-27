@@ -157,7 +157,7 @@ GtSceneryElement >> container [
 GtSceneryElement >> createConnectionElementFor: aConnection [
 	<tag: #sceneryListeners>
 	| connectionElement |
-	connectionElement := aConnection asElementIn: self forScenery: self gtScenery.
+	connectionElement := aConnection asElementIn: self.
 
 	connectionElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 
@@ -181,7 +181,7 @@ GtSceneryElement >> createItemElementFor: anItem [
 
 	<tag: #sceneryListeners>
 	| itemElement |
-	itemElement := anItem asElementIn: self forScenery: gtScenery.
+	itemElement := anItem asElementIn: self.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 	itemElement
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude new

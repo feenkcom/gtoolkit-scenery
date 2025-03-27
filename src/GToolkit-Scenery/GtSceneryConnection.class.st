@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #accessing }
-GtSceneryConnection >> asElementIn: aContainerElement forScenery: aScenery [
+GtSceneryConnection >> asElementIn: aContainerElement [
 	| line |
 	line := stencil asElement.
 	line graph beEdge.

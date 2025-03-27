@@ -119,3 +119,29 @@ GtSceneryParabollaArcStencil >> storeOn: aStream [
 	aStream 
 		nextPutAll: '; yourself'.
 ]
+
+{ #category : #'as yet unclassified' }
+GtSceneryParabollaArcStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+	| subMenuItems |
+	subMenuItems := BrMenuItems new.
+
+	subMenuItems
+		addItemLabel: 'Curve positively'
+		action: [ self curvatureFraction: 0.4.
+			aGtSceneryElement redisplay ].
+	subMenuItems
+		addItemLabel: 'Curve negatively'
+		action: [ self curvatureFraction: -0.4.
+			aGtSceneryElement redisplay ].
+	subMenuItems
+		addItemLabel: 'Be straight'
+		action: [ self curvatureFraction: 0.
+			aGtSceneryElement redisplay ].
+
+	aBrMenuItems
+		addItem: (BrMenuSubmenuItem new
+				label: 'Modify curvature';
+				submenu: subMenuItems).
+
+	^ aBrMenuItems
+]
