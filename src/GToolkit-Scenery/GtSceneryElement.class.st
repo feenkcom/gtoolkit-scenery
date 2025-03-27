@@ -31,7 +31,7 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
 ]
 
 { #category : #'connection menu' }
-GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: anConnectionElement [
+GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: aConnectionElement [
 	<tag: #shouldBeHandledByAnnouncement>
 	<tag: #sceneryContextMenu>
 	| menuItems |
@@ -40,15 +40,21 @@ GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: a
 			yourself.
 	menuItems
 		addItemLabel: 'Inspect stencil'
-		action: [ :elt | self inspectConnection: aConnection forElement: anConnectionElement ].
+		action: [ :elt | self inspectConnection: aConnection forElement: aConnectionElement ].
 	menuItems
 		addItemLabel: 'Inspect connection'
-		action: [ :elt | self inspectConnectionWrapper: aConnection forElement: anConnectionElement ].
+		action: [ :elt | self inspectConnectionWrapper: aConnection forElement: aConnectionElement ].
+
+	aConnection
+		updateConnectionContextMenuItems: menuItems
+		forSceneryElement: self
+		andConnectionElement: aConnectionElement. 
+
 	menuItems
 		addItemLabel: 'Delete connection'
 		action: [ :elt | 
 			self gtScenery removeConnection: aConnection.	"Next should be handled by announcement:"
-			self removeConnectionElement: anConnectionElement ].
+			self removeConnectionElement: aConnectionElement ].
 	^ menuItems
 ]
 
@@ -77,6 +83,11 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 				spawnItemWithStencil: anItem stencil copy
 				fromElement: anItemElement
 				forItem: anItem ].
+	anItem
+		updateItemContextMenuItems: menuItems
+		forSceneryElement: self
+		andItemElement: anItemElement.
+
 	menuItems
 		addItemLabel: 'Delete item'
 		action: [ :elt | 
@@ -146,7 +157,7 @@ GtSceneryElement >> container [
 GtSceneryElement >> createConnectionElementFor: aConnection [
 	<tag: #sceneryListeners>
 	| connectionElement |
-	connectionElement := aConnection asElementIn: self forScenery: self gtScenery.
+	connectionElement := aConnection asElementIn: self.
 
 	connectionElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 
@@ -170,7 +181,7 @@ GtSceneryElement >> createItemElementFor: anItem [
 
 	<tag: #sceneryListeners>
 	| itemElement |
-	itemElement := anItem asElementIn: self forScenery: gtScenery.
+	itemElement := anItem asElementIn: self.
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 	itemElement
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude new

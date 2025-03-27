@@ -24,121 +24,121 @@ GtSceneryEditedExamples >> eyeconScenery [
 GtSceneryEditedExamples >> reflectionScenery [
 	<gtExample>
 	| scenery item1 item2 item3 item4 item5 item6 |
-scenery := GtScenery new.
-item1 := scenery
-		addItem: (GtSceneryShapeStencil new
-				geometry: BlRectangleGeometry new;
-				backgroundColor: (Color
-						r: 0.0
-						g: 0.0
-						b: 0.0
-						alpha: 1.0)) asItem.
-item1 position: 153.95426432291697 @ 173.91152954101563.
-item1 extent: 544.977010091146 @ 5.116780598958371.
-item2 := scenery
-		addItem: (GtSceneryTextLabelStencil new
-				text: ((BlRunRopedText string: 'Metaobjects')
-						attributeRuns: (BlRunTree basicNew
-								instVarAt: 1
-									put: (BlRunTreeLeafNode basicNew
-											instVarAt: 1 put: 12;
-											instVarAt: 2
-												put: ((Array new: 4)
-														at: 1
-															put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
-														at: 2 put: (BlFontSizeAttribute new size: 24);
-														at: 3
-															put: (BlTextForegroundAttribute new beNotOverwritableByStyler
-																	paint: (Color
-																			r: 0.0
-																			g: 0.0
-																			b: 0.0
-																			alpha: 1.0));
-														at: 4 put: (BlFontWeightAttribute new weight: 700);
-														yourself);
-											yourself);
-								yourself)) asRopedText) asItem.
-item2 position: 163.71016438802064 @ 83.55168660481766.
-item2 extent: 202.8519744873047 @ 40.0.
-item3 := scenery
-		addItem: (GtSceneryTextLabelStencil new
-				text: ((BlRunRopedText string: 'Objects')
-						attributeRuns: (BlRunTree basicNew
-								instVarAt: 1
-									put: (BlRunTreeLeafNode basicNew
-											instVarAt: 1 put: 8;
-											instVarAt: 2
-												put: ((Array new: 4)
-														at: 1
-															put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
-														at: 2 put: (BlFontSizeAttribute new size: 24);
-														at: 3
-															put: (BlTextForegroundAttribute new beNotOverwritableByStyler
-																	paint: (Color
-																			r: 0.0
-																			g: 0.0
-																			b: 0.0
-																			alpha: 1.0));
-														at: 4 put: (BlFontWeightAttribute new weight: 700);
-														yourself);
-											yourself);
-								yourself)) asRopedText) asItem.
-item3 position: 167.99812825520814 @ 224.44733683268225.
-item3 extent: 129.73599243164063 @ 40.0.
-item4 := scenery
-		addItem: (GtSceneryPictureStencil new
-				fileReference: FileLocator gtResource / 'feenkcom' / 'gtoolkit-demos' / 'doc' / 'reflection'
-						/ 'eyecon.png') asItem.
-item4 position: 329.0800063175572 @ 232.03615315755206.
-item4 extent: 67.20118595638962 @ 45.76359066473759.
-item5 := scenery
-		addItem: (GtSceneryShapeStencil new
-				geometry: BlRectangleGeometry new;
-				backgroundColor: (Color
-						r: 1.0
-						g: 1.0
-						b: 1.0
-						alpha: 1.0)) asItem.
-item5 position: 569.3061116536459 @ 231.68322796988605.
-item5 extent: 44.7463383174902 @ 44.81071937711897.
-item6 := scenery
-		addItem: (GtSceneryShapeStencil new
-				geometry: BlCircleGeometry new;
-				backgroundColor: (Color
-						r: 1.0
-						g: 1.0
-						b: 1.0
-						alpha: 1.0)) asItem.
-item6 position: 563.4649668169094 @ 17.831766804367987.
-item6 extent: 54.3755840619865 @ 55.64617258186533.
-scenery
-	addConnectionWithStencil: (GtSceneryParabollaArcStencil new
-			labelText: 'introspection';
-			fontSize: 10;
-			curvatureFraction: 0;
-			arrowLengthFraction: 2.5;
-			yourself)
-	from: item4
-	to: item5.
-scenery
-	addConnectionWithStencil: (GtSceneryParabollaArcStencil new
-			labelText: 'reflection';
-			fontSize: 10;
-			curvatureFraction: 0.4;
-			arrowLengthFraction: 2.5;
-			yourself)
-	from: item5
-	to: item6.
-scenery
-	addConnectionWithStencil: (GtSceneryParabollaArcStencil new
-			labelText: 'reification';
-			fontSize: 10;
-			curvatureFraction: 0.4;
-			arrowLengthFraction: 2.5;
-			yourself)
-	from: item6
-	to: item5.
-scenery.
+	scenery := GtScenery new.
+	item1 := scenery
+			addItem: (GtSceneryShapeStencil new
+					geometry: BlRectangleGeometry new;
+					backgroundColor: (Color
+							r: 0.0
+							g: 0.0
+							b: 0.0
+							alpha: 1.0)) asItem.
+	item1 position: 153.95426432291697 @ 173.91152954101563.
+	item1 extent: 544.977010091146 @ 5.116780598958371.
+	item2 := scenery
+			addItem: (GtSceneryTextLabelStencil new
+					text: ((BlRunRopedText string: 'Metaobjects')
+							attributeRuns: (BlRunTree basicNew
+									instVarAt: 1
+										put: (BlRunTreeLeafNode basicNew
+												instVarAt: 1 put: 12;
+												instVarAt: 2
+													put: ((Array new: 4)
+															at: 1
+																put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
+															at: 2 put: (BlFontSizeAttribute new size: 24);
+															at: 3
+																put: (BlTextForegroundAttribute new beNotOverwritableByStyler
+																		paint: (Color
+																				r: 0.0
+																				g: 0.0
+																				b: 0.0
+																				alpha: 1.0));
+															at: 4 put: (BlFontWeightAttribute new weight: 700);
+															yourself);
+												yourself);
+									yourself)) asRopedText) asItem.
+	item2 position: 163.71016438802064 @ 83.55168660481766.
+	item2 extent: 147.1851650119288 @ 40.0.
+	item3 := scenery
+			addItem: (GtSceneryTextLabelStencil new
+					text: ((BlRunRopedText string: 'Objects')
+							attributeRuns: (BlRunTree basicNew
+									instVarAt: 1
+										put: (BlRunTreeLeafNode basicNew
+												instVarAt: 1 put: 8;
+												instVarAt: 2
+													put: ((Array new: 4)
+															at: 1
+																put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
+															at: 2 put: (BlFontSizeAttribute new size: 24);
+															at: 3
+																put: (BlTextForegroundAttribute new beNotOverwritableByStyler
+																		paint: (Color
+																				r: 0.0
+																				g: 0.0
+																				b: 0.0
+																				alpha: 1.0));
+															at: 4 put: (BlFontWeightAttribute new weight: 700);
+															yourself);
+												yourself);
+									yourself)) asRopedText) asItem.
+	item3 position: 167.99812825520814 @ 224.44733683268225.
+	item3 extent: 94.23641954617011 @ 40.0.
+	item4 := scenery
+			addItem: (GtSceneryPictureStencil new
+					fileReference: FileLocator gtResource / 'feenkcom' / 'gtoolkit-demos' / 'doc' / 'reflection'
+							/ 'eyecon.png') asItem.
+	item4 position: 329.0800063175572 @ 232.03615315755206.
+	item4 extent: 67.20118595638962 @ 45.76359066473759.
+	item5 := scenery
+			addItem: (GtSceneryShapeStencil new
+					geometry: BlRectangleGeometry new;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 1.0
+							alpha: 1.0)) asItem.
+	item5 position: 569.3061116536459 @ 231.68322796988605.
+	item5 extent: 44.7463383174902 @ 44.81071937711897.
+	item6 := scenery
+			addItem: (GtSceneryShapeStencil new
+					geometry: BlCircleGeometry new;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 1.0
+							alpha: 1.0)) asItem.
+	item6 position: 563.4649668169094 @ 17.831766804367987.
+	item6 extent: 54.3755840619865 @ 55.64617258186533.
+	scenery
+		addConnectionWithStencil: (GtSceneryParabollaArcStencil new
+				labelText: 'introspection';
+				fontSize: 10;
+				curvatureFraction: 0;
+				arrowLengthFraction: 2.5;
+				yourself)
+		from: item4
+		to: item5.
+	scenery
+		addConnectionWithStencil: (GtSceneryParabollaArcStencil new
+				labelText: 'reflection';
+				fontSize: 10;
+				curvatureFraction: 0.4;
+				arrowLengthFraction: 2.5;
+				yourself)
+		from: item5
+		to: item6.
+	scenery
+		addConnectionWithStencil: (GtSceneryParabollaArcStencil new
+				labelText: 'reification';
+				fontSize: 10;
+				curvatureFraction: 0.4;
+				arrowLengthFraction: 2.5;
+				yourself)
+		from: item6
+		to: item5.
+	scenery.
 	^ scenery
 ]
 

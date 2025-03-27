@@ -9,7 +9,8 @@ Class {
 		'position',
 		'extent',
 		'incomingLinks',
-		'outgoingLinks'
+		'outgoingLinks',
+		'resizer'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -30,10 +31,10 @@ GtSceneryItem >> addOutgoingLink: anItem [
 	outgoingLinks add: anItem
 ]
 
-{ #category : #accessing }
-GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
+{ #category : #converting }
+GtSceneryItem >> asElementIn: aSceneryElement [
 	<tag: #sceneryListeners>
-	| element resizer |
+	| element |
 	element := stencil asElement.
 	element states
 		addState: BrLayoutVerticalResizerState exact;
@@ -41,7 +42,6 @@ GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
 	extent ifNotNil: [ element size: extent ].	"Don't change the size if extent is nil."
 	element graph model: self.
 	element graph beNode.
-	resizer := BlResizerElement new preventMouseEvents zIndex: 100.
 	element beFocusable.
 	element
 		when: BlClickEvent
@@ -50,16 +50,25 @@ GtSceneryItem >> asElementIn: aSceneryElement forScenery: aScenery [
 				e consumed: true ];
 		when: BlFocusOutEvent
 			do: [ :e | 
-				resizer
+				self resizer
 					detach;
 					removeFromParent ];
 		when: BlFocusInEvent
 			do: [ :e | 
-				resizer
+				self resizer
 					detach;
 					removeFromParent.
 				aSceneryElement container addChild: resizer.
 				resizer attachTo: element ].
+
+	element
+		when: BlDoubleClickEvent
+		do: [ :e | 
+			e consumed: true.
+			stencil
+				handleDoubleClickForItem: self
+				andElement: element
+				inSceneryElement: aSceneryElement ].
 
 	element
 		addEventHandler: GtSceneryPullHandler new;
@@ -118,6 +127,26 @@ GtSceneryItem >> position: aPoint [
 	position := aPoint
 ]
 
+{ #category : #updating }
+GtSceneryItem >> resizeOnlyMiddleRight [
+	"Remove all but the middle right listener."
+
+	| middleRight |
+	self resizer children
+		detect: [ :l | l eventDispatcher handlers first isKindOf: BlResizerRightListener ]
+		ifFound: [ :l | 
+			middleRight := l.
+			self resizer removeChildren.
+			self resizer addChild: middleRight ]
+		ifNone: [  ]
+]
+
+{ #category : #accessing }
+GtSceneryItem >> resizer [
+	^ resizer
+		ifNil: [ resizer := BlResizerElement new preventMouseEvents zIndex: 100 ]
+]
+
 { #category : #accessing }
 GtSceneryItem >> stencil [
 	^ stencil
@@ -126,4 +155,12 @@ GtSceneryItem >> stencil [
 { #category : #accessing }
 GtSceneryItem >> stencil: anItemStencil [ 
 	stencil := anItemStencil
+]
+
+{ #category : #'item menu' }
+GtSceneryItem >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andItemElement: anItemElement [
+	self stencil
+		updateContextMenuItems: aBrMenuItems
+		forSceneryElement: aGtSceneryElement
+		andChildElement: anItemElement
 ]
