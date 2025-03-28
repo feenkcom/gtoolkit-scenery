@@ -234,11 +234,11 @@ GtScenery >> gtActionMenuFor: anAction [
 		content: [ :aButton | 
 			BrGlamorousSimpleContextMenuContent new
 				items: {'Scenery FAQ'
-							-> [ :e | e phlow spawnObject: (self database pageNamed: 'Scenery FAQ') asPhlowTool ].
+							-> [ :e | e phlow spawnObject: (self database pageNamed: 'Scenery FAQ') asPagePhlowTool ].
 						'Implementation FAQ'
 							-> [ :e | 
 								e phlow
-									spawnObject: (self database pageNamed: 'Scenery Implementation FAQ') asPhlowTool ]};
+									spawnObject: (self database pageNamed: 'Scenery Implementation FAQ') asPagePhlowTool ]};
 				yourself ]
 ]
 

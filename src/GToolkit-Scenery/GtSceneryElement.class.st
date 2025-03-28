@@ -144,7 +144,7 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 		addItemLabel: 'FAQ'
 		action: [ :e | 
 			e phlow
-				spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPhlowTool ].
+				spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPagePhlowTool ].
 	^ menuItems
 ]
 
@@ -385,15 +385,14 @@ GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElemen
 		withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
 		do: [ :each | each addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
 	container addChild: elementToSpawn.
-	^ {itemToSpawn.
-		elementToSpawn}
+	^ elementToSpawn
 ]
 
 { #category : #initialization }
 GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
 	<tag: #shouldBeHandledByAnnouncement>
-	| newItemAndElement newConnection newConnectionElement |
-	newItemAndElement := self
+	| newItemElement newConnection newConnectionElement |
+	newItemElement := self
 			spawnItemWithStencil: aStencil
 			fromElement: sourceItemElement
 			forItem: sourceItem.
@@ -401,7 +400,7 @@ GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceI
 	newConnection := self gtScenery
 			addConnectionWithStencil: GtSceneryStraightArcStencil new
 			from: sourceItem
-			to: newItemAndElement first.
+			to: newItemElement graph model.
 
 	"newConnectionElement := newConnection
 			asElementIn: container
