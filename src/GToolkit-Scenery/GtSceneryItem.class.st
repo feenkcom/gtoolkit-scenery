@@ -157,6 +157,12 @@ GtSceneryItem >> stencil: anItemStencil [
 	stencil := anItemStencil
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryItem >> stencilForConnectionWith: anItem [
+	<todo: 'Let the item decide the connection stencil to use.'>
+	^ GtSceneryStraightArcStencil new
+]
+
 { #category : #'item menu' }
 GtSceneryItem >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andItemElement: anItemElement [
 	self stencil

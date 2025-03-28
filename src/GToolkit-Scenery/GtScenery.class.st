@@ -17,12 +17,27 @@ Class {
 }
 
 { #category : #accessing }
-GtScenery >> addConnectionWithStencil: anObject from: item1 to: item2 [ 
+GtScenery >> addConnectionFrom: anItem1 to: anItem2 [
+	"Let the item decide the connection stencil to use."
+
 	| connection |
-	connection := GtSceneryConnection new 
-		stencil: anObject;
-		from: item1;
-		to: item2.
+	connection := GtSceneryConnection new
+			stencil: (anItem1 stencilForConnectionWith: anItem2);
+			from: anItem1;
+			to: anItem2.
+	connections add: connection.
+	^ connection
+]
+
+{ #category : #accessing }
+GtScenery >> addConnectionWithStencil: aStencil from: item1 to: item2 [
+	"Explicitly set the stencil. Used by GtScenery>>#storeOn:"
+
+	| connection |
+	connection := GtSceneryConnection new
+			stencil: aStencil;
+			from: item1;
+			to: item2.
 	connections add: connection.
 	^ connection
 ]

@@ -398,8 +398,7 @@ GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceI
 			forItem: sourceItem.
 
 	newConnection := self gtScenery
-			addConnectionWithStencil: GtSceneryStraightArcStencil new
-			from: sourceItem
+			addConnectionFrom: sourceItem
 			to: newItemElement graph model.
 
 	"newConnectionElement := newConnection
