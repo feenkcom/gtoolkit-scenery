@@ -40,11 +40,10 @@ GtSceneryDragHandler >> addConnectionTo: endElement [
 	self assertIsSceneryItem: fromItem.
 	self assertIsSceneryItem: toItem.
 	newConnection := self scenery
-			addConnectionWithStencil: GtSceneryStraightArcStencil new
-			from: fromItem
-			to: toItem.	"Handle rest by announcement ..."	"newConnectionElement := newConnection
-			asElementIn: container
-			forScenery: self scenery."
+			addConnectionFrom: fromItem
+			to: toItem.
+
+	"Handle rest by announcement ..."
 	newConnectionElement := self sceneryElement
 			createConnectionElementFor: newConnection.
 
