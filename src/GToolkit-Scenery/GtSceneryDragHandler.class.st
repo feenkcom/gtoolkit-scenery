@@ -30,7 +30,7 @@ GtSceneryDragHandler class >> for: aSceneryElement [
 		yourself
 ]
 
-{ #category : #'event handling' }
+{ #category : #connecting }
 GtSceneryDragHandler >> addConnectionTo: endElement [
 	<tag: #shouldBeHandledByAnnouncement>
 	| fromItem toItem newConnection newConnectionElement |

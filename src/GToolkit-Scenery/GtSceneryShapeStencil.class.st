@@ -8,7 +8,7 @@ Later it should be possible to style me:
 "
 Class {
 	#name : #GtSceneryShapeStencil,
-	#superclass : #GtSceneryDraggableItem,
+	#superclass : #GtSceneryDraggableItemStencil,
 	#instVars : [
 		'geometry',
 		'backgroundColor'

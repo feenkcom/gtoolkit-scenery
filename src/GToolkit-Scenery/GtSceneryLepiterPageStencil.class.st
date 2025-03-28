@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryLepiterPageStencil,
-	#superclass : #GtSceneryDraggableItem,
+	#superclass : #GtSceneryDraggableItemStencil,
 	#instVars : [
 		'databaseName',
 		'pageName'

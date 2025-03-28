@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryInspectorStencil,
-	#superclass : #GtSceneryDraggableItem,
+	#superclass : #GtSceneryDraggableItemStencil,
 	#instVars : [
 		'targetBlock'
 	],
