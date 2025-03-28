@@ -103,7 +103,7 @@ GtSceneryElement >> buildItemCreationSubMenuForContext: aContext [
 	<tag: #sceneryContextMenu>
 	| subMenuItems |
 	subMenuItems := BrMenuItems new.
-	(GtSceneryDraggableItem allSubclasses
+	(GtSceneryDraggableItemStencil allSubclasses
 		select: [ :c | c class includesSelector: #itemCreationSubmenuLabel ])
 		do: [ :itemStencilClass | 
 			subMenuItems
@@ -388,7 +388,7 @@ GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElemen
 	^ elementToSpawn
 ]
 
-{ #category : #initialization }
+{ #category : #connecting }
 GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
 	<tag: #shouldBeHandledByAnnouncement>
 	| newItemElement newConnection newConnectionElement |

@@ -2,7 +2,7 @@
 I am an abstract superclass for stencil of draggable items (not connections). Each of my subclasses is a stencil for a specific kind of item.
 "
 Class {
-	#name : #GtSceneryDraggableItem,
+	#name : #GtSceneryDraggableItemStencil,
 	#superclass : #GtSceneryItemStencil,
 	#instVars : [
 		'extent'
@@ -11,13 +11,13 @@ Class {
 }
 
 { #category : #acccessing }
-GtSceneryDraggableItem class >> itemCreationSubmenuLabel [
+GtSceneryDraggableItemStencil class >> itemCreationSubmenuLabel [
 	"Label to use for the item creation submenu of GtSceneryElement"
 	self subclassResponsibility
 ]
 
 { #category : #converting }
-GtSceneryDraggableItem >> asItem [
+GtSceneryDraggableItemStencil >> asItem [
 	^ GtSceneryItem new
 		stencil: self;
 		extent: self extent;
@@ -25,12 +25,12 @@ GtSceneryDraggableItem >> asItem [
 ]
 
 { #category : #accessing }
-GtSceneryDraggableItem >> extent [
+GtSceneryDraggableItemStencil >> extent [
 	^ extent
 ]
 
 { #category : #accessing }
-GtSceneryDraggableItem >> extent: aPoint [
+GtSceneryDraggableItemStencil >> extent: aPoint [
 	"NB: If the extent is set to nil, then the size will  not be changed when the stencil is created.
 	See: GtSceneryItem>>#asElementIn:forScenery:
 	"
@@ -38,13 +38,20 @@ GtSceneryDraggableItem >> extent: aPoint [
 ]
 
 { #category : #accessing }
-GtSceneryDraggableItem >> initialize [ 
+GtSceneryDraggableItemStencil >> initialize [ 
 	super initialize.
 	extent := 50 @ 50
 ]
 
+{ #category : #connecting }
+GtSceneryDraggableItemStencil >> stencilForConnectionWithItemStencil: anItem [
+	"Hook to let the stencil decide the connection stencil to use."
+
+	^ GtSceneryStraightArcStencil new
+]
+
 { #category : #printing }
-GtSceneryDraggableItem >> storeOn: aStream [
+GtSceneryDraggableItemStencil >> storeOn: aStream [
 	aStream
 		nextPutAll: self class name;
 		nextPutAll: ' new'

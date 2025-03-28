@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryParabollaArcStencil,
-	#superclass : #GtSceneryItemStencil,
+	#superclass : #GtSceneryConnectionStencil,
 	#instVars : [
 		'labelText',
 		'fontSize',
@@ -159,7 +159,8 @@ GtSceneryParabollaArcStencil >> triangleArrowHead [
 
 { #category : #'context menu' }
 GtSceneryParabollaArcStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	| curvatureSubMenuItems arrowTypeSubMenuItems |
+	| curvatureSubMenuItems brMenuItems |
+	brMenuItems := super updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement.
 	
 	curvatureSubMenuItems := BrMenuItems new.
 	curvatureSubMenuItems
@@ -175,23 +176,10 @@ GtSceneryParabollaArcStencil >> updateContextMenuItems: aBrMenuItems forSceneryE
 		action: [ self curvatureFraction: 0.
 			aGtSceneryElement redisplay ].
 
-	arrowTypeSubMenuItems := BrMenuItems new.
-	arrowTypeSubMenuItems
-		addItemLabel: 'Simple arrow'
-		action: [ self arrowHeadType: #simple.
-			aGtSceneryElement redisplay ].
-	arrowTypeSubMenuItems
-		addItemLabel: 'UML subclass arrow'
-		action: [ self arrowHeadType: #triangle.
-			aGtSceneryElement redisplay ].
-			
-	aBrMenuItems
+	brMenuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Modify curvature';
-				submenu: curvatureSubMenuItems);
-		addItem: (BrMenuSubmenuItem new
-				label: 'Modify arrow type';
-				submenu: arrowTypeSubMenuItems).
+				submenu: curvatureSubMenuItems).
 
-	^ aBrMenuItems
+	^ brMenuItems
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryRectangleStencil,
-	#superclass : #GtSceneryDraggableItem,
+	#superclass : #GtSceneryDraggableItemStencil,
 	#category : #'GToolkit-Scenery-Model'
 }
 
