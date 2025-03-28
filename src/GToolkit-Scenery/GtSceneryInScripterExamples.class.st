@@ -26,6 +26,16 @@ GtSceneryInScripterExamples >> dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30 [
 ]
 
 { #category : #examples }
+GtSceneryInScripterExamples >> dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30_releaseDragging [
+	<gtExample>
+	| aScripter |
+	aScripter := self dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30.
+	self releaseDragging: aScripter.
+
+	^ aScripter
+]
+
+{ #category : #examples }
 GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel05Factor200DragX120Y30 [
 	<gtExample>
 	| aScripter |
@@ -41,6 +51,15 @@ GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel05Factor200DragX120Y30 [
 		dragNodeEdgeFromItemId: (GtSceneryItemId indexed: 2)
 		by: 120 @ 30.
 
+	^ aScripter
+]
+
+{ #category : #examples }
+GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel05Factor200DragX120Y30_releaseDragging [
+	<gtExample>
+	| aScripter |
+	aScripter := self dragNodeEdge_id2ZoomLevel05Factor200DragX120Y30.
+	self releaseDragging: aScripter.
 	^ aScripter
 ]
 
@@ -105,6 +124,39 @@ GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel15Factor250DragXM120Y30 
 GtSceneryInScripterExamples >> mindmapWithTwoSubnodes [
 	<gtExample>
 	^ self scripterWithModel: [ GtSceneryExamples new mindmapWithTwoSubnodes ]
+]
+
+{ #category : #examples }
+GtSceneryInScripterExamples >> releaseDragging: aScripter [
+	<gtExample>
+	aScripter
+		substeps: 'Release dragging'
+		do: [ :aStep | 
+			aStep mouseUp
+				label: 'Mouse up';
+				modifiers: BlKeyModifiers ctrl;
+				play.
+
+			aStep assert
+				label: 'Mouse position element';
+				notExists;
+				// #'scenery--mouse-position';
+				play ]
+]
+
+{ #category : #examples }
+GtSceneryInScripterExamples >> resizeNode_id2ZoomLevel15Factor250DragX120Y30 [
+	<gtExample>
+	| aScripter |
+	aScripter := self
+			dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30_releaseDragging.
+
+	self
+		scripter: aScripter
+		dragNodeResizerFromItemId: (GtSceneryItemId indexed: 2)
+		by: 30 @ 0.
+
+	^ aScripter
 ]
 
 { #category : #examples }
@@ -181,6 +233,62 @@ GtSceneryInScripterExamples >> scripter: aScripter dragNodeEdgeFromItemId: aScen
 ]
 
 { #category : #examples }
+GtSceneryInScripterExamples >> scripter: aScripter dragNodeResizerFromItemId: aSceneryItemId by: aPoint [
+	<gtExample>
+	| anInitialNodeBounds anUpdatedNodeBounds anExpectedNodeBounds |
+	aScripter
+		substeps: ('Drag node {1} resizer by {2}'
+				format: {aSceneryItemId.
+						aPoint})
+		do: [ :aStep | 
+			aStep do
+				label: 'Read current node bounds';
+				block: [ :aNodeElement | anInitialNodeBounds := aNodeElement bounds inSpace ];
+				// aSceneryItemId;
+				play.
+
+			aStep mouseMoveOver
+				label: 'Move mouse over target element';
+				// aSceneryItemId;
+				play.
+			aStep click
+				label: 'Select node';
+				// aSceneryItemId;
+				play.
+
+			aStep mouseMoveOver
+				label: 'Move mouse over resizer handle element';
+				// BlResizerElement;
+				/ BlElement;
+				play.
+			aStep mouseDown
+				label: 'Mouse down';
+				play.
+			aStep mouseMove
+				label: ('Move mouse by {1}' format: {aPoint});
+				by: aPoint;
+				play.
+
+			aStep do
+				label: 'Read updated node bounds';
+				block: [ :aNodeElement | anUpdatedNodeBounds := aNodeElement bounds inSpace ];
+				// aSceneryItemId;
+				play.
+
+			anExpectedNodeBounds := anInitialNodeBounds topLeft
+					corner: anInitialNodeBounds bottomRight + aPoint.
+			aStep assert
+				label: 'Assert resized node bounds';
+				satisfies: [ anUpdatedNodeBounds asRectangle
+							closeTo: anExpectedNodeBounds
+							precision: 0.0001 ]
+					description: [ 'Updated node bounds {1} ~= {2}'
+							format: {anUpdatedNodeBounds.
+									anExpectedNodeBounds} ];
+				play ]
+]
+
+{ #category : #examples }
 GtSceneryInScripterExamples >> scripter: aScripter sceneryZoomLevel: aZoom childrenTranslationFactor: aFactor [
 	<gtExample>
 	aScripter
@@ -204,7 +312,7 @@ GtSceneryInScripterExamples >> scripter: aScripter sceneryZoomLevel: aZoom child
 				play.
 
 			aStep assert
-				label: 'Assert chldren translation factor';
+				label: 'Assert children translation factor';
 				value: [ :anElement | anElement childrenTranslationFactor ] equals: aFactor;
 				// BlCanvassableElement;
 				play ]
