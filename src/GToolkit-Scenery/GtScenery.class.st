@@ -74,7 +74,76 @@ GtScenery >> create [
 		gtScenery: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #page }
+GtScenery >> faqImplementationPage [
+	<lePage>
+	<gtExample>
+	<noTest>
+	^ (LePage named: 'Scenery Implementation FAQ')
+	addSnippet: (LeTextSnippet new
+			string: '';
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '***Q What are the key classes?***';
+			addSnippet: (LeTextSnippet new
+					string: 'The key model class is {{gtClass:name=GtScenery}}. A scenery instance holds *items* and *connections*, which are instances of {{gtClass:name=GtSceneryItem}} and {{gtClass:name=GtSceneryConnection}}. Each of these in turn holds a *stencil*, an instance of a subclass of {{gtClass:name=GtSceneryItemStencil}}, to create the actual view elements.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Item stencils are all subclasses of {{gtClass:name=GtSceneryDraggableItem}}. ';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'The key connection stencils are {{gtClass:name=GtSceneryLineStencil}} and {{gtClass:name=GtSceneryParabollaArcStencil}}, for straight and curvable arrows.';
+					yourself);
+			addSnippet: (LeExampleSnippet new
+					exampleBehaviorName: #GtSceneryExplanationExamples;
+					exampleSelector: #keyClassesUMLScenery;
+					noCode: true;
+					previewShowSelector: #gtLiveFor:;
+					previewHeight: 500);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '***Q How to add a new item type?***';
+			addSnippet: (LeTextSnippet new
+					string: 'Define a stencil as subclass of {{gtClass:name=GtSceneryDraggableItem}}. Implement its `#create` method to create its view element. ';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Optionally define a dedicated class for the view.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Implement `#storeOn:` to generate an executable storeString that, when evaluated, will produce a clone (used by {{gtMethod:name=GtScenery>>#storeOn:}}.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Implement `#itemCreationSubmenuLabel` so it will appear in the scenery''s item creation submenu.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Optionally override {{gtMethod:name=GtSceneryItemStencil>>#handleDoubleClickForItem:andElement:inSceneryElement:}} to define the behavior when it is double-clicked.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Optionally override {{gtMethod:name=GtSceneryItemStencil>>#updateContextMenuItems:forSceneryElement:andChildElement:}} to provide additional submenu items to the item''s context menu.';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '***Q Where are context menu items defined for sceneries, items and connections?***';
+			addSnippet: (LeTextSnippet new
+					string: 'They are mostly initialized in {{gtClass:name=GtSceneryElement}}. See the `build*` methods, such as {{gtMethod:name=GtSceneryElement>>#buildSceneryContextMenuForContext:}} and {{gtMethod:name=GtSceneryElement>>#buildItemContextMenuForItem:andElement:}}.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Item and connection stencils can add their own item-specific submenus by overriding {{gtMethod:name=GtSceneryItemStencil>>#updateContextMenuItems:forSceneryElement:andChildElement:}}';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '***Q Where are keyboard shortcuts defined?***';
+			addSnippet: (LeTextSnippet new
+					string: 'They are defined by default in {{gtMethod:name=BrEditableLabel>>#defaultLabelShortcuts}}, and extended in {{gtMethod:name=GtSceneryTextLabelElement>>#defaultLabelShortcuts}}. ';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '';
+			yourself);
+	yourself
+]
+
+{ #category : #page }
 GtScenery >> faqPage [
 	"An initial FAQ."
 	<lePage>
@@ -82,13 +151,16 @@ GtScenery >> faqPage [
 	<noTest>
 	^ (LePage named: 'Scenery FAQ')
 	addSnippet: (LeTextSnippet new
-			string: '*Q What is a scenery?*';
+			string: '';
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '***Q What is a scenery?***';
 			addSnippet: (LeTextSnippet new
 					string: 'A *Scenery* is a diagram consisting of a number of *items* and possible *connections* between them.';
 					yourself);
 			yourself);
 	addSnippet: (LeTextSnippet new
-			string: '*Q How do I create a scenery?*';
+			string: '***Q How do I create a scenery?***';
 			addSnippet: (LeTextSnippet new
 					string: 'To create a new scenery, instantiate {{gtClass:name=GtScenery}}:';
 					yourself);
@@ -97,7 +169,7 @@ GtScenery >> faqPage [
 					yourself);
 			yourself);
 	addSnippet: (LeTextSnippet new
-			string: '*Q How do I edit a scenery?*';
+			string: '***Q How do I edit a scenery?***';
 			addSnippet: (LeTextSnippet new
 					string: 'You can edit a scenery interactively in the *Live* view.';
 					addSnippet: (LeTextSnippet new
@@ -115,13 +187,13 @@ GtScenery >> faqPage [
 					yourself);
 			yourself);
 	addSnippet: (LeTextSnippet new
-			string: '*Q How do I save a scenery I have edited?*';
+			string: '***Q How do I save a scenery I have edited?***';
 			addSnippet: (LeTextSnippet new
 					string: 'To save a scenery, go to the `Store on` view and copy-paste the code to a method or to a Pharo snippet. See {{gtClass:name=GtSceneryEditedExamples}} for some examples.';
 					yourself);
 			yourself);
 	addSnippet: (LeTextSnippet new
-			string: '*Q Why is the image auto-zooming as I edit it?*';
+			string: '***Q Why is the image auto-zooming as I edit it?***';
 			addSnippet: (LeTextSnippet new
 					string: 'If you inspect a saved scenery, the *Live* view will be auto-zoomed by default. ';
 					yourself);
@@ -133,10 +205,16 @@ GtScenery >> faqPage [
 					yourself);
 			yourself);
 	addSnippet: (LeTextSnippet new
+			string: '***Q How can I extend sceneries with my own types of items and connections?***';
+			addSnippet: (LeTextSnippet new
+					string: 'See the [[Scenery Implementation FAQ]].';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
 			string: '';
 			yourself);
 	addSnippet: (LeTextSnippet new
-			string: '*Caveat*';
+			string: '***Caveat***';
 			addSnippet: (LeTextSnippet new
 					string: 'This is a work in progress. Many needed features are not yet implemented.';
 					yourself);
@@ -156,7 +234,11 @@ GtScenery >> gtActionMenuFor: anAction [
 		content: [ :aButton | 
 			BrGlamorousSimpleContextMenuContent new
 				items: {'Scenery FAQ'
-							-> [ :e | e phlow spawnObject: (self database pageNamed: 'Scenery FAQ') asPhlowTool ]};
+							-> [ :e | e phlow spawnObject: (self database pageNamed: 'Scenery FAQ') asPhlowTool ].
+						'Implementation FAQ'
+							-> [ :e | 
+								e phlow
+									spawnObject: (self database pageNamed: 'Scenery Implementation FAQ') asPhlowTool ]};
 				yourself ]
 ]
 

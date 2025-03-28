@@ -116,8 +116,8 @@ GtSceneryParabollaArcStencil >> labelText [
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> labelText: anObject [
-	labelText := anObject
+GtSceneryParabollaArcStencil >> labelText: aText [
+	labelText := aText
 ]
 
 { #category : #accessing }
