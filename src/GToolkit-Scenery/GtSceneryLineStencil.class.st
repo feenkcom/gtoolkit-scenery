@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryLineStencil,
-	#superclass : #GtSceneryItemStencil,
+	#superclass : #GtSceneryConnectionStencil,
 	#category : #'GToolkit-Scenery-Model'
 }
 

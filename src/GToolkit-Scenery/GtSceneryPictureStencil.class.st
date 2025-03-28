@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryPictureStencil,
-	#superclass : #GtSceneryDraggableItem,
+	#superclass : #GtSceneryDraggableItemStencil,
 	#instVars : [
 		'fileReference'
 	],

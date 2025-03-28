@@ -3,7 +3,7 @@ I am a stencil for a text label that can be specialized by subclasses to show di
 "
 Class {
 	#name : #GtSceneryTextLabelStencil,
-	#superclass : #GtSceneryDraggableItem,
+	#superclass : #GtSceneryDraggableItemStencil,
 	#instVars : [
 		'text',
 		'width'

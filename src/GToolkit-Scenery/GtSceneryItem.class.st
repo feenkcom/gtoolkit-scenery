@@ -157,10 +157,11 @@ GtSceneryItem >> stencil: anItemStencil [
 	stencil := anItemStencil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #connecting }
 GtSceneryItem >> stencilForConnectionWith: anItem [
-	<todo: 'Let the item decide the connection stencil to use.'>
-	^ GtSceneryStraightArcStencil new
+	"Let the stencil decide the connection stencil to use."
+
+	^ self stencil stencilForConnectionWithItemStencil: anItem stencil
 ]
 
 { #category : #'item menu' }

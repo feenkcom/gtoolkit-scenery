@@ -44,6 +44,16 @@ GtSceneryUMLClassStencil >> initialize [
 	self extent: nil
 ]
 
+{ #category : #connecting }
+GtSceneryUMLClassStencil >> stencilForConnectionWithItemStencil: anItemStencil [
+	"Hook to let the stencil decide the connection stencil to use."
+
+	self class = anItemStencil class
+		ifTrue: [ ^ GtSceneryUMLConnectionStencil new ].
+
+	^ GtSceneryStraightArcStencil new
+]
+
 { #category : #'as yet unclassified' }
 GtSceneryUMLClassStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	<todo: 'spawn superclass or subclass nodes'>

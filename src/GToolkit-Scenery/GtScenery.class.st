@@ -16,7 +16,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #accessing }
+{ #category : #connecting }
 GtScenery >> addConnectionFrom: anItem1 to: anItem2 [
 	"Let the item decide the connection stencil to use."
 
