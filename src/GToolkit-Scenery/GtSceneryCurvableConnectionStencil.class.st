@@ -151,6 +151,14 @@ GtSceneryCurvableConnectionStencil >> storeOn: aStream [
 ]
 
 { #category : #printing }
+GtSceneryCurvableConnectionStencil >> storeOnAttributes [
+	^ {#labelText.
+		#fontSize.
+		#arrowHeadType.
+		#curvatureFraction}
+]
+
+{ #category : #printing }
 GtSceneryCurvableConnectionStencil >> storeOnOLD: aStream [
 	super storeOn: aStream.
 	aStream 
@@ -167,14 +175,6 @@ GtSceneryCurvableConnectionStencil >> storeOnOLD: aStream [
 	self arrowHeadType storeOn: aStream.
 	aStream 
 		nextPutAll: '; yourself'.
-]
-
-{ #category : #printing }
-GtSceneryCurvableConnectionStencil >> storeStringAttributes [
-	^ {#labelText.
-		#fontSize.
-		#arrowHeadType.
-		#curvatureFraction}
 ]
 
 { #category : #accessing }

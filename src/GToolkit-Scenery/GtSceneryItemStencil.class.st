@@ -19,7 +19,7 @@ GtSceneryItemStencil >> handleDoubleClickForItem: anItem andElement: anItemEleme
 ]
 
 { #category : #printing }
-GtSceneryItemStencil >> storeStringAttributes [
+GtSceneryItemStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method.
 	Each attribute #x should have a getter #x, setter #x: and a default #defaultX.
 	NB: the actual value need not be stored in an instance variable `x`,
@@ -45,7 +45,7 @@ GtSceneryItemStencil >> storeWithAttributesOn: aStream [
 		nextPutAll: self class name;
 		nextPutAll: ' new'.
 	separator := String space.
-	self storeStringAttributes
+	self storeOnAttributes
 		do: [ :attribute | 
 			| defaultValue attributeValue |
 			defaultValue := #default , attribute capitalized.

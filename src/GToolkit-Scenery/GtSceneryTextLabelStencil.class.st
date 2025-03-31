@@ -132,6 +132,16 @@ GtSceneryTextLabelStencil >> storeOn: aStream [
 ]
 
 { #category : #printing }
+GtSceneryTextLabelStencil >> storeOnAttributes [
+	"Attributes used in the #storeOn:method"
+
+	^ {#label.
+		#emphasis.
+		#weight.
+		#width}
+]
+
+{ #category : #printing }
 GtSceneryTextLabelStencil >> storeOnOLD: aStream [
 	super storeOn: aStream.
 	aStream
@@ -140,16 +150,6 @@ GtSceneryTextLabelStencil >> storeOnOLD: aStream [
 	self label storeOn: aStream.
 	aStream nextPutAll: ' asRopedText)'.
 	width ifNotNil: [ aStream nextPutAll: '; width: (' , width storeString , ')' ]
-]
-
-{ #category : #printing }
-GtSceneryTextLabelStencil >> storeStringAttributes [
-	"Attributes used in the #storeOn:method"
-
-	^ {#label.
-		#emphasis.
-		#weight.
-		#width}
 ]
 
 { #category : #accessing }
