@@ -25,6 +25,11 @@ GtSceneryDraggableItemStencil >> asItem [
 ]
 
 { #category : #accessing }
+GtSceneryDraggableItemStencil >> defaultExtent [
+	^ 50@50
+]
+
+{ #category : #accessing }
 GtSceneryDraggableItemStencil >> extent [
 	^ extent
 ]
@@ -40,7 +45,7 @@ GtSceneryDraggableItemStencil >> extent: aPoint [
 { #category : #accessing }
 GtSceneryDraggableItemStencil >> initialize [ 
 	super initialize.
-	extent := 50 @ 50
+	extent := self defaultExtent
 ]
 
 { #category : #connecting }

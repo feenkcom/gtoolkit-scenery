@@ -47,6 +47,11 @@ GtSceneryShapeStencil >> defaultBackgroundColor [
 ]
 
 { #category : #initialization }
+GtSceneryShapeStencil >> defaultExtent [
+	^ 200 @ 200
+]
+
+{ #category : #initialization }
 GtSceneryShapeStencil >> defaultGeometry [
 	^ self defaultGeometryClass new
 ]
@@ -76,11 +81,24 @@ GtSceneryShapeStencil >> handleDoubleClickForItem: anItem andElement: anItemElem
 { #category : #initialization }
 GtSceneryShapeStencil >> initialize [
 	super initialize.
-	extent := 200 @ 200
+	geometry := self defaultGeometry.
+	backgroundColor := self defaultBackgroundColor
 ]
 
 { #category : #printing }
 GtSceneryShapeStencil >> storeOn: aStream [
+	"self storeOnOLD: aStream"
+	self storeWithAttributesOn: aStream
+]
+
+{ #category : #accessing }
+GtSceneryShapeStencil >> storeOnAttributes [
+	^ {#geometry.
+		#backgroundColor}
+]
+
+{ #category : #printing }
+GtSceneryShapeStencil >> storeOnOLD: aStream [
 	super storeOn: aStream.
 	aStream
 		space;

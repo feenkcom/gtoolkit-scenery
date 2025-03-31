@@ -3,7 +3,7 @@ I am a convenience class. I look like a straight line, but in fact I can be curv
 "
 Class {
 	#name : #GtSceneryStraightArcStencil,
-	#superclass : #GtSceneryParabollaArcStencil,
+	#superclass : #GtSceneryCurvableConnectionStencil,
 	#category : #'GToolkit-Scenery-Model'
 }
 

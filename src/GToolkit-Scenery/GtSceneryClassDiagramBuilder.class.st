@@ -1,5 +1,7 @@
 "
 I am a utility offering a compact API for creating UML class diagrams as instances of GtScenery.
+
+*Caveat:* the interface is expected to evolve.
 "
 Class {
 	#name : #GtSceneryClassDiagramBuilder,
