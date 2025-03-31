@@ -24,6 +24,11 @@ GtSceneryUMLClassStencil >> asClass [
 	^ self text asString asClassIfAbsent: [ UndefinedClass ]
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryUMLClassStencil >> defaultLabel [
+	^ 'Click and return to edit'
+]
+
 { #category : #'api - instantiation' }
 GtSceneryUMLClassStencil >> elementClass [
 	^ GtSceneryUMLClassElement
@@ -35,13 +40,6 @@ GtSceneryUMLClassStencil >> handleDoubleClickForItem: anItem andElement: anItemE
 
 	anItemElement
 		fireEvent: (GtSceneryObjectToSpawn new object: (GtClassCoderTool forClass: self asClass))
-]
-
-{ #category : #initalization }
-GtSceneryUMLClassStencil >> initialize [
-	super initialize.
-	text := 'Click and return to edit' asRopedText bold.
-	self extent: nil
 ]
 
 { #category : #connecting }

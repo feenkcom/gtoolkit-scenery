@@ -1,12 +1,30 @@
 "
 I am a stencil for a text label that can be specialized by subclasses to show different styles, or to link to wrapped items such as classes or Lepiter pages.
+
+I have a `label` (a string), and several attributes that can be configured.
+(Some to be added.)
+
+label — the String label
+width — if not zero, the width for wrapping the text label
+weight— a symbol (see unary methods of {{gtClass:name=BlFontWeightAttribute}})
+emphasis — a symbol (see {{gtClass:name=BlFontEmphasisAttribute}})
+
+*to be added:*
+
+fontSize — a number
+backgroundColor — a Symbol (see {{gtClass:Color}} class methods)
+
+
+
 "
 Class {
 	#name : #GtSceneryTextLabelStencil,
 	#superclass : #GtSceneryDraggableItemStencil,
 	#instVars : [
-		'text',
-		'width'
+		'width',
+		'label',
+		'weight',
+		'emphasis'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -31,11 +49,39 @@ GtSceneryTextLabelStencil >> create [
 	anEditableLabel := self elementClass new
 			text: self text;
 			yourself.
-	self width
-		ifNotNil: [ anEditableLabel
+	self width = self defaultWidth
+		ifFalse: [ anEditableLabel
 				hExact: width;
 				vFitContent ].
 	^ anEditableLabel
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> defaultEmphasis [
+	^ #normal
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> defaultExtent [
+	"Let the element choose the extent."
+
+	^ nil
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> defaultLabel [
+	^ 'Double click me'
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> defaultWeight [
+	^ #regular
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> defaultWidth [
+	"Width is only used if not 0."
+	^ 0
 ]
 
 { #category : #'api - instantiation' }
@@ -43,38 +89,78 @@ GtSceneryTextLabelStencil >> elementClass [
 	^ GtSceneryTextLabelElement
 ]
 
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> emphasis [
+	^ emphasis
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> emphasis: aSymbol [
+	"See BlFontEmphasisAttribute"
+	emphasis := aSymbol
+]
+
 { #category : #initialization }
 GtSceneryTextLabelStencil >> initialize [
 	super initialize.
-	text := 'Double click me' asRopedText.
-	self extent: nil
+	emphasis := self defaultEmphasis.
+	label := self defaultLabel.
+	weight := self defaultWeight.
+	width := self defaultWidth
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> label [
+	^ label ifNil: [ label := self defaultLabel ]
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> label: aString [
+	label := aString
 ]
 
 { #category : #printing }
 GtSceneryTextLabelStencil >> postCopy [
 	super postCopy.
-	text := text copy
+	label := label copy.
+	width := width copy.
 ]
 
 { #category : #printing }
 GtSceneryTextLabelStencil >> storeOn: aStream [
+	self storeWithAttributesOn: aStream
+]
+
+{ #category : #printing }
+GtSceneryTextLabelStencil >> storeOnOLD: aStream [
 	super storeOn: aStream.
 	aStream
 		space;
-		nextPutAll: 'text: ('.
-	self text storeOn: aStream.
+		nextPutAll: 'label: ('.
+	self label storeOn: aStream.
 	aStream nextPutAll: ' asRopedText)'.
 	width ifNotNil: [ aStream nextPutAll: '; width: (' , width storeString , ')' ]
 ]
 
+{ #category : #printing }
+GtSceneryTextLabelStencil >> storeStringAttributes [
+	"Attributes used in the #storeOn:method"
+
+	^ {#label.
+		#emphasis.
+		#weight.
+		#width}
+]
+
 { #category : #accessing }
 GtSceneryTextLabelStencil >> text [
-	^ text
+	"Deprecated -- use label instead"
+	^ self label asRopedText
 ]
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> text: aText [
-	text := aText
+	self label: aText asString
 ]
 
 { #category : #'item menu' }
@@ -102,6 +188,17 @@ GtSceneryTextLabelStencil >> updateContextMenuItems: aBrMenuItems forSceneryElem
 				submenu: subMenuItems)."
 
 	^ aBrMenuItems
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> weight [
+	^ weight
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> weight: aSymbol [
+	"See BlFontWeightAttribute"
+	weight := aSymbol
 ]
 
 { #category : #accessing }

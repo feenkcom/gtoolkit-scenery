@@ -1,15 +1,14 @@
 "
-I am a stencil for a curved connection between scenery items.
+I am a stencil for a connection that is straight by default but can curved.
 
-Probably you should use {{gtClass:name=GtSceneryCurvableConnectionStencil}} instead.
+I started as a clone of {{gtClass:name=GtSceneryParabollaArcStencil}}, but I am straight instead of curved by default.
 "
 Class {
-	#name : #GtSceneryParabollaArcStencil,
+	#name : #GtSceneryCurvableConnectionStencil,
 	#superclass : #GtSceneryConnectionStencil,
 	#instVars : [
 		'labelText',
 		'fontSize',
-		'arrowLengthFraction',
 		'curvatureFraction',
 		'arrowHeadType'
 	],
@@ -17,34 +16,31 @@ Class {
 }
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> arrowHead [
+GtSceneryCurvableConnectionStencil >> arrowHead [
 	self arrowHeadType = #triangle ifTrue: [ ^ self triangleArrowHead ].
 	^ self simpleArrowHead
 ]
 
-{ #category : #accessing }
-GtSceneryParabollaArcStencil >> arrowHeadType [
-	^ arrowHeadType ifNil: [ arrowHeadType := self defaultArrowHeadType ]
+{ #category : #printing }
+GtSceneryCurvableConnectionStencil >> arrowHeadType [
+	^ arrowHeadType
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> arrowHeadType: aSymbol [
+GtSceneryCurvableConnectionStencil >> arrowHeadType: aSymbol [
 	"Currently #simple or #triangle"
 	arrowHeadType := aSymbol
 ]
 
-{ #category : #accessing }
-GtSceneryParabollaArcStencil >> arrowLengthFraction [
-	^ arrowLengthFraction
-]
+{ #category : #deprecated }
+GtSceneryCurvableConnectionStencil >> arrowLengthFraction: aNumber [
+	"deprecated -- ignored"
 
-{ #category : #accessing }
-GtSceneryParabollaArcStencil >> arrowLengthFraction: aSize [
-	arrowLengthFraction := aSize
+	
 ]
 
 { #category : #initialization }
-GtSceneryParabollaArcStencil >> beStraight [
+GtSceneryCurvableConnectionStencil >> beStraight [
 	"Make me look like GtSceneryLineStencil"
 
 	labelText := nil.
@@ -54,12 +50,12 @@ GtSceneryParabollaArcStencil >> beStraight [
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> borderColor [
+GtSceneryCurvableConnectionStencil >> borderColor [
 	^ Color black
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> create [
+GtSceneryCurvableConnectionStencil >> create [
 	| line |
 	line := BlParabollaArcElement new
 			clipChildren: false;
@@ -82,59 +78,80 @@ GtSceneryParabollaArcStencil >> create [
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> curvatureFraction [
+GtSceneryCurvableConnectionStencil >> curvatureFraction [
 	^ curvatureFraction
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> curvatureFraction: aFraction [
+GtSceneryCurvableConnectionStencil >> curvatureFraction: aFraction [
 	curvatureFraction := aFraction
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> defaultArrowHeadType [
+GtSceneryCurvableConnectionStencil >> defaultArrowHeadType [
 	^ #simple
 ]
 
+{ #category : #initialization }
+GtSceneryCurvableConnectionStencil >> defaultCurvatureFraction [
+	^ 0
+]
+
+{ #category : #initialization }
+GtSceneryCurvableConnectionStencil >> defaultFontSize [
+	^ 20
+]
+
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> fontSize [
+GtSceneryCurvableConnectionStencil >> defaultLabelText [
+	"A nil label is not displayed"
+	
+	^ nil
+]
+
+{ #category : #accessing }
+GtSceneryCurvableConnectionStencil >> fontSize [
 	^ fontSize
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> fontSize: aFontSize [
+GtSceneryCurvableConnectionStencil >> fontSize: aFontSize [
 	fontSize := aFontSize
 ]
 
 { #category : #initialization }
-GtSceneryParabollaArcStencil >> initialize [
+GtSceneryCurvableConnectionStencil >> initialize [
 	super initialize.
-	labelText := nil.
-	fontSize := 20.
-	arrowLengthFraction := 10.
-	curvatureFraction := 0.2.
+	labelText := self defaultLabelText.
+	fontSize := self defaultFontSize.
+	arrowHeadType := self defaultArrowHeadType.
+	curvatureFraction := self defaultCurvatureFraction
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> labelText [
+GtSceneryCurvableConnectionStencil >> labelText [
 	^ labelText
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> labelText: aText [
+GtSceneryCurvableConnectionStencil >> labelText: aText [
 	labelText := aText
 ]
 
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> simpleArrowHead [
+GtSceneryCurvableConnectionStencil >> simpleArrowHead [
 	^ BlArrowheadSimpleArrow new
 		background: Color black;
-		arrowLengthFraction: self arrowLengthFraction;
 		border: (BlBorder paint: Color black)
 ]
 
 { #category : #printing }
-GtSceneryParabollaArcStencil >> storeOn: aStream [
+GtSceneryCurvableConnectionStencil >> storeOn: aStream [
+	self storeWithAttributesOn: aStream
+]
+
+{ #category : #printing }
+GtSceneryCurvableConnectionStencil >> storeOnOLD: aStream [
 	super storeOn: aStream.
 	aStream 
 		nextPutAll: ' labelText: '.
@@ -146,24 +163,29 @@ GtSceneryParabollaArcStencil >> storeOn: aStream [
 		nextPutAll: '; curvatureFraction: '.
 	self curvatureFraction storeOn: aStream.
 	aStream 
-		nextPutAll: '; arrowLengthFraction: '.
-	self arrowLengthFraction storeOn: aStream.
-	aStream 
 		nextPutAll: '; arrowHeadType: '.
 	self arrowHeadType storeOn: aStream.
 	aStream 
 		nextPutAll: '; yourself'.
 ]
 
+{ #category : #printing }
+GtSceneryCurvableConnectionStencil >> storeStringAttributes [
+	^ {#labelText.
+		#fontSize.
+		#arrowHeadType.
+		#curvatureFraction}
+]
+
 { #category : #accessing }
-GtSceneryParabollaArcStencil >> triangleArrowHead [
+GtSceneryCurvableConnectionStencil >> triangleArrowHead [
 	^ BlArrowheadTriangle new
 		scale: 4;
 		border: (BlBorder paint: Color black)
 ]
 
 { #category : #'context menu' }
-GtSceneryParabollaArcStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+GtSceneryCurvableConnectionStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	| curvatureSubMenuItems brMenuItems |
 	brMenuItems := super updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement.
 	

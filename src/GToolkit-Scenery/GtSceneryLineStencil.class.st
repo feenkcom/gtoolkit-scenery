@@ -1,3 +1,9 @@
+"
+I am a stencil for a simple, straight line connection between items.
+
+A better alternative is {{gtClass:name=GtSceneryCurvableConnectionStencil}}.
+
+"
 Class {
 	#name : #GtSceneryLineStencil,
 	#superclass : #GtSceneryConnectionStencil,
