@@ -56,53 +56,11 @@ GtSceneryEditedExamples >> reflectionScenery [
 	item1 position: 153.95426432291697 @ 173.91152954101563.
 	item1 extent: 544.977010091146 @ 5.116780598958371.
 	item2 := scenery
-			addItem: (GtSceneryTextLabelStencil new
-					text: ((BlRunRopedText string: 'Metaobjects')
-							attributeRuns: (BlRunTree basicNew
-									instVarAt: 1
-										put: (BlRunTreeLeafNode basicNew
-												instVarAt: 1 put: 12;
-												instVarAt: 2
-													put: ((Array new: 4)
-															at: 1
-																put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
-															at: 2 put: (BlFontSizeAttribute new size: 24);
-															at: 3
-																put: (BlTextForegroundAttribute new beNotOverwritableByStyler
-																		paint: (Color
-																				r: 0.0
-																				g: 0.0
-																				b: 0.0
-																				alpha: 1.0));
-															at: 4 put: (BlFontWeightAttribute new weight: 700);
-															yourself);
-												yourself);
-									yourself)) asRopedText) asItem.
+			addItem: (GtSceneryTextLabelStencil new label: 'Metaobjects') asItem.
 	item2 position: 163.71016438802064 @ 83.55168660481766.
 	item2 extent: 147.1851650119288 @ 40.0.
 	item3 := scenery
-			addItem: (GtSceneryTextLabelStencil new
-					text: ((BlRunRopedText string: 'Objects')
-							attributeRuns: (BlRunTree basicNew
-									instVarAt: 1
-										put: (BlRunTreeLeafNode basicNew
-												instVarAt: 1 put: 8;
-												instVarAt: 2
-													put: ((Array new: 4)
-															at: 1
-																put: (BlFontFamilyAttribute new beNotOverwritableByStyler name: 'Source Sans Pro');
-															at: 2 put: (BlFontSizeAttribute new size: 24);
-															at: 3
-																put: (BlTextForegroundAttribute new beNotOverwritableByStyler
-																		paint: (Color
-																				r: 0.0
-																				g: 0.0
-																				b: 0.0
-																				alpha: 1.0));
-															at: 4 put: (BlFontWeightAttribute new weight: 700);
-															yourself);
-												yourself);
-									yourself)) asRopedText) asItem.
+			addItem: (GtSceneryTextLabelStencil new label: 'Objects') asItem.
 	item3 position: 167.99812825520814 @ 224.44733683268225.
 	item3 extent: 94.23641954617011 @ 40.0.
 	item4 := scenery
@@ -134,31 +92,23 @@ GtSceneryEditedExamples >> reflectionScenery [
 	scenery
 		addConnectionWithStencil: (GtSceneryCurvableConnectionStencil new
 				labelText: 'introspection';
-				fontSize: 10;
-				curvatureFraction: 0;
-				arrowLengthFraction: 2.5;
-				yourself)
+				fontSize: 10)
 		from: item4
 		to: item5.
 	scenery
 		addConnectionWithStencil: (GtSceneryCurvableConnectionStencil new
 				labelText: 'reflection';
 				fontSize: 10;
-				curvatureFraction: 0.4;
-				arrowLengthFraction: 2.5;
-				yourself)
+				curvatureFraction: 0.4)
 		from: item5
 		to: item6.
 	scenery
 		addConnectionWithStencil: (GtSceneryCurvableConnectionStencil new
 				labelText: 'reification';
 				fontSize: 10;
-				curvatureFraction: 0.4;
-				arrowLengthFraction: 2.5;
-				yourself)
+				curvatureFraction: 0.4)
 		from: item6
 		to: item5.
-	scenery.
 	^ scenery
 ]
 
