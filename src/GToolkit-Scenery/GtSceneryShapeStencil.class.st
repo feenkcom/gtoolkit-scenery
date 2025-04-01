@@ -39,6 +39,9 @@ GtSceneryShapeStencil >> backgroundColorSelector [
 
 { #category : #accessing }
 GtSceneryShapeStencil >> backgroundColorSelector: aSelector [
+	self
+		assert: (Color registeredColorNames includes: aSelector)
+		description: aSelector , ' is not a registered Color name'.
 	backgroundColorSelector := aSelector
 ]
 
@@ -50,11 +53,6 @@ GtSceneryShapeStencil >> create [
 		geometry: self geometry;
 		border: Color black;
 		margin: (BlInsets all: 10)
-]
-
-{ #category : #accessing }
-GtSceneryShapeStencil >> defaultBackgroundColor [
-	^ Color white
 ]
 
 { #category : #accessing }
