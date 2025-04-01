@@ -89,6 +89,16 @@ GtSceneryItem >> extent: aPoint [
 ]
 
 { #category : #views }
+GtSceneryItem >> gtStencilStoreOnFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Stencil Store on';
+		priority: 40;
+		object: [ self stencil ];
+		view: #gtStoreOnFor:
+]
+
+{ #category : #views }
 GtSceneryItem >> gtViewFor: aView [
 	<gtView>
 	^ aView forward

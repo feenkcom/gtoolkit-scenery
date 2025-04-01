@@ -48,11 +48,7 @@ GtSceneryEditedExamples >> reflectionScenery [
 	item1 := scenery
 			addItem: (GtSceneryShapeStencil new
 					geometry: BlRectangleGeometry new;
-					backgroundColor: (Color
-							r: 0.0
-							g: 0.0
-							b: 0.0
-							alpha: 1.0)) asItem.
+					backgroundColorSelector: #black) asItem.
 	item1 position: 153.95426432291697 @ 173.91152954101563.
 	item1 extent: 544.977010091146 @ 5.116780598958371.
 	item2 := scenery
@@ -70,23 +66,11 @@ GtSceneryEditedExamples >> reflectionScenery [
 	item4 position: 329.0800063175572 @ 232.03615315755206.
 	item4 extent: 67.20118595638962 @ 45.76359066473759.
 	item5 := scenery
-			addItem: (GtSceneryShapeStencil new
-					geometry: BlRectangleGeometry new;
-					backgroundColor: (Color
-							r: 1.0
-							g: 1.0
-							b: 1.0
-							alpha: 1.0)) asItem.
+			addItem: (GtSceneryShapeStencil new geometry: BlRectangleGeometry new) asItem.
 	item5 position: 569.3061116536459 @ 231.68322796988605.
 	item5 extent: 44.7463383174902 @ 44.81071937711897.
 	item6 := scenery
-			addItem: (GtSceneryShapeStencil new
-					geometry: BlCircleGeometry new;
-					backgroundColor: (Color
-							r: 1.0
-							g: 1.0
-							b: 1.0
-							alpha: 1.0)) asItem.
+			addItem: (GtSceneryShapeStencil new geometry: BlCircleGeometry new) asItem.
 	item6 position: 563.4649668169094 @ 17.831766804367987.
 	item6 extent: 54.3755840619865 @ 55.64617258186533.
 	scenery
@@ -109,6 +93,7 @@ GtSceneryEditedExamples >> reflectionScenery [
 				curvatureFraction: 0.4)
 		from: item6
 		to: item5.
+
 	^ scenery
 ]
 

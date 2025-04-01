@@ -11,7 +11,7 @@ Class {
 	#superclass : #GtSceneryDraggableItemStencil,
 	#instVars : [
 		'geometry',
-		'backgroundColor'
+		'backgroundColorSelector'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -23,12 +23,26 @@ GtSceneryShapeStencil class >> itemCreationSubmenuLabel [
 
 { #category : #accessing }
 GtSceneryShapeStencil >> backgroundColor [
-	^ backgroundColor ifNil: [ backgroundColor := self defaultBackgroundColor ]
+	^ Color perform: self backgroundColorSelector
 ]
 
 { #category : #accessing }
-GtSceneryShapeStencil >> backgroundColor: anObject [
-	backgroundColor := anObject
+GtSceneryShapeStencil >> backgroundColor: aColor [
+	"For backward compatibility"
+	self backgroundColorSelector: aColor name asSymbol
+]
+
+{ #category : #accessing }
+GtSceneryShapeStencil >> backgroundColorSelector [
+	^ backgroundColorSelector
+]
+
+{ #category : #accessing }
+GtSceneryShapeStencil >> backgroundColorSelector: aSelector [
+	self
+		assert: (Color registeredColorNames includes: aSelector)
+		description: aSelector , ' is not a registered Color name'.
+	backgroundColorSelector := aSelector
 ]
 
 { #category : #'instance creation' }
@@ -42,8 +56,8 @@ GtSceneryShapeStencil >> create [
 ]
 
 { #category : #accessing }
-GtSceneryShapeStencil >> defaultBackgroundColor [
-	^ Color white
+GtSceneryShapeStencil >> defaultBackgroundColorSelector [
+	^ #white
 ]
 
 { #category : #initialization }
@@ -82,7 +96,7 @@ GtSceneryShapeStencil >> handleDoubleClickForItem: anItem andElement: anItemElem
 GtSceneryShapeStencil >> initialize [
 	super initialize.
 	geometry := self defaultGeometry.
-	backgroundColor := self defaultBackgroundColor
+	backgroundColorSelector := self defaultBackgroundColorSelector
 ]
 
 { #category : #printing }
@@ -94,7 +108,7 @@ GtSceneryShapeStencil >> storeOn: aStream [
 { #category : #accessing }
 GtSceneryShapeStencil >> storeOnAttributes [
 	^ {#geometry.
-		#backgroundColor}
+		#backgroundColorSelector}
 ]
 
 { #category : #printing }

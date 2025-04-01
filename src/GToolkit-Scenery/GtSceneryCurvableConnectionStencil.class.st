@@ -28,7 +28,7 @@ GtSceneryCurvableConnectionStencil >> arrowHeadType [
 
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> arrowHeadType: aSymbol [
-	"Currently #simple or #triangle"
+	"Currently #simple or #triangle. Defaults to #simple."
 	arrowHeadType := aSymbol
 ]
 

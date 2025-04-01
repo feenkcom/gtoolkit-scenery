@@ -24,7 +24,8 @@ Class {
 		'width',
 		'label',
 		'weight',
-		'emphasis'
+		'emphasis',
+		'text'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -110,8 +111,21 @@ GtSceneryTextLabelStencil >> initialize [
 ]
 
 { #category : #accessing }
+GtSceneryTextLabelStencil >> initializeText [
+
+	text := self label asRopedText.
+	
+	text when: BlTextStringsInserted do: [self label: text asString ].
+	text when: BlTextsDeleted do: [self label: text asString ].
+	"text when: BlTextAttributesAdded do: [self label: text asString ].
+	text when: BlTextAttributesRemoved do: [self label: text asString ]."
+	
+	^  text
+]
+
+{ #category : #accessing }
 GtSceneryTextLabelStencil >> label [
-	^ label ifNil: [ label := self defaultLabel ]
+	^ label
 ]
 
 { #category : #accessing }
@@ -154,12 +168,15 @@ GtSceneryTextLabelStencil >> storeOnOLD: aStream [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> text [
-	"Deprecated -- use label instead"
-	^ self label asRopedText
+	"I am an editable version of the label for use in the instantiated element.
+	Changed to me should be reflected back to the label instance variable state."
+
+	^ text ifNil: [ self initializeText ]
 ]
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> text: aText [
+	"Deprecated -- use label: instead"
 	self label: aText asString
 ]
 
