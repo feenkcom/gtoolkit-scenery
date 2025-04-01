@@ -146,11 +146,6 @@ GtSceneryCurvableConnectionStencil >> simpleArrowHead [
 ]
 
 { #category : #printing }
-GtSceneryCurvableConnectionStencil >> storeOn: aStream [
-	self storeWithAttributesOn: aStream
-]
-
-{ #category : #printing }
 GtSceneryCurvableConnectionStencil >> storeOnAttributes [
 	^ {#labelText.
 		#fontSize.

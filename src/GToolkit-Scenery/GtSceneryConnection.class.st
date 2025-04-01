@@ -42,6 +42,13 @@ GtSceneryConnection >> from: anItem [
 ]
 
 { #category : #'as yet unclassified' }
+GtSceneryConnection >> isValid [
+	^ (self stencil class canUnderstand: #isValid)
+		ifTrue: [ self stencil isValid ]
+		ifFalse: [ true ]
+]
+
+{ #category : #'as yet unclassified' }
 GtSceneryConnection >> stencil [
 	^ stencil
 ]

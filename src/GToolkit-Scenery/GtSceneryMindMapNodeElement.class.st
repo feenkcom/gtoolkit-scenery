@@ -9,10 +9,11 @@ Class {
 }
 
 { #category : #initalization }
-GtSceneryMindMapNodeElement >> defaultLabelAptitude [
+GtSceneryMindMapNodeElement >> initializeLabelAptitude [
 	"Default label with grey background, rounded rectangle and no border."
 
-	^ BrGlamorousEditableLabelAptitude new glamorousRegularFontAndSize
+	labelAptitude := BrGlamorousEditableLabelAptitude new glamorousRegularFontAndSize.
+	^ labelAptitude
 ]
 
 { #category : #initalization }

@@ -141,6 +141,15 @@ GtSceneryTextLabelStencil >> postCopy [
 ]
 
 { #category : #printing }
+GtSceneryTextLabelStencil >> printOn: aStream [
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		nextPutAll: self label;
+		nextPut: $)
+]
+
+{ #category : #printing }
 GtSceneryTextLabelStencil >> storeOn: aStream [
 	self storeWithAttributesOn: aStream
 ]

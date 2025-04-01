@@ -7,3 +7,8 @@ Class {
 	#superclass : #GtSceneryItemStencil,
 	#category : #'GToolkit-Scenery-Model'
 }
+
+{ #category : #printing }
+GtSceneryConnectionStencil >> storeOn: aStream [
+	self storeWithAttributesOn: aStream
+]

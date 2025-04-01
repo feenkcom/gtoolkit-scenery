@@ -298,6 +298,22 @@ GtScenery >> gtDatabaseFor: aView [
 ]
 
 { #category : #accessing }
+GtScenery >> gtIteStencilsFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Item Stencils';
+		priority: 11;
+		items: [ self items collect: #stencil ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Stencil'
+			text: [ :each | each gtDisplayString ]
+			width: 300;
+		actionUpdateButtonTooltip: 'Update item list'
+]
+
+{ #category : #accessing }
 GtScenery >> gtItemsFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -328,6 +344,13 @@ GtScenery >> initialize [
 	"self initializeDatabase."
 	items := OrderedCollection new .
 	connections := OrderedCollection new
+]
+
+{ #category : #accessing }
+GtScenery >> isValid [
+	self items do: [ :each | each isValid ifFalse: [ ^ false ] ].
+	self connections do: [ :each | each isValid ifFalse: [ ^ false ] ].
+	^ true
 ]
 
 { #category : #accessing }

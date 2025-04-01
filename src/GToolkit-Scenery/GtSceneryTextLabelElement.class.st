@@ -9,23 +9,11 @@ Class {
 	#superclass : #BrEditableLabel,
 	#traits : 'TLeWithFontSize',
 	#classTraits : 'TLeWithFontSize classTrait',
+	#instVars : [
+		'labelAptitude'
+	],
 	#category : #'GToolkit-Scenery-UI'
 }
-
-{ #category : #initalization }
-GtSceneryTextLabelElement >> defaultLabelAptitude [
-	"Empty background and border."
-
-	| labelAptitude |
-	labelAptitude := BrGlamorousEditableLabelAptitude new
-			glamorousRegularFont.
-	labelAptitude styleLook
-		default: [ :aStyle | 
-			aStyle geometry: (BlRoundedRectangleGeometry cornerRadius: 0).
-			aStyle background: Color white.
-			aStyle border: BlBorder empty ].
-	^ labelAptitude
-]
 
 { #category : #initalization }
 GtSceneryTextLabelElement >> defaultLabelShortcuts [
@@ -63,7 +51,26 @@ GtSceneryTextLabelElement >> initialize [
 
 	<tag: #sceneryListeners>
 	super initialize.
-	self aptitude: self defaultLabelAptitude
+	self aptitude: self labelAptitude
+]
+
+{ #category : #initalization }
+GtSceneryTextLabelElement >> initializeLabelAptitude [
+	"Empty background and border."
+
+	labelAptitude := BrGlamorousEditableLabelAptitude new
+			glamorousRegularFont.
+	labelAptitude styleLook
+		default: [ :aStyle | 
+			aStyle geometry: (BlRoundedRectangleGeometry cornerRadius: 0).
+			aStyle background: Color white.
+			aStyle border: BlBorder empty ].
+	^ labelAptitude
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelElement >> labelAptitude [
+	^ labelAptitude ifNil: [ self initializeLabelAptitude ]
 ]
 
 { #category : #initalization }
