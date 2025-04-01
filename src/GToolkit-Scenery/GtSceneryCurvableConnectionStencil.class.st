@@ -41,12 +41,7 @@ GtSceneryCurvableConnectionStencil >> arrowLengthFraction: aNumber [
 
 { #category : #initialization }
 GtSceneryCurvableConnectionStencil >> beStraight [
-	"Make me look like GtSceneryLineStencil"
-
-	labelText := nil.
-	fontSize := 20.
-	arrowLengthFraction := 2.5.
-	curvatureFraction := 0
+	self curvatureFraction: 0
 ]
 
 { #category : #accessing }
@@ -57,7 +52,7 @@ GtSceneryCurvableConnectionStencil >> borderColor [
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> create [
 	| line |
-	line := BlParabollaArcElement new
+	line := GtSceneryCurvableConnectionElement new
 			clipChildren: false;
 			curvatureFraction: self curvatureFraction;
 			border: (BlBorder paint: self borderColor width: 1);

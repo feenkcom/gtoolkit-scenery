@@ -39,9 +39,21 @@ GtSceneryUMLConnectionStencil >> initialize [
 ]
 
 { #category : #testing }
-GtSceneryUMLConnectionStencil >> isValid [
-	
+GtSceneryUMLConnectionStencil >> isValidFrom: fromItem to: toItem [
+	"For inheritance only:"
+
+	<todo: 'implement #association validity check'>
+	self relationshipType = #inheritance
+		ifTrue: [ ^ self isValidInheritanceFrom: fromItem to: toItem ].
+
 	^ true
+]
+
+{ #category : #testing }
+GtSceneryUMLConnectionStencil >> isValidInheritanceFrom: fromItem to: toItem [
+	fromItem isValid ifFalse: [ ^ false ].
+	toItem isValid ifFalse: [ ^ false ].
+	^ fromItem stencil asClass superclass = toItem stencil asClass
 ]
 
 { #category : #accessing }
