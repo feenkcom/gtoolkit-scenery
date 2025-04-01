@@ -259,12 +259,34 @@ GtScenery >> gtActionMenuFor: anAction [
 
 { #category : #accessing }
 GtScenery >> gtConnectionsFor: aView [
-	<gtView>
+"	<gtView>
 	^ aView list
 		title: 'Connections';
 		priority: 12;
 		items: [ connections ];
 		actionUpdateButton
+		
+		
+		gtItemsFor: aView"
+	<gtView>
+	^ aView columnedList
+		title: 'Connections';
+		priority: 12;
+		items: [ self connections ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Connection' text: [ :each | each gtDisplayString ]
+		width: 300;
+		column: 'Stencil' text: [ :each | each stencil gtDisplayString ]
+		width: 300;
+		column: 'From'
+			text: [ :each | each from gtDisplayString ]
+			width: 200;
+		column: 'To'
+			text: [ :each | each to gtDisplayString ]
+			width: 200;
+		actionUpdateButtonTooltip: 'Update item list'
 ]
 
 { #category : #action }
@@ -276,13 +298,28 @@ GtScenery >> gtDatabaseFor: aView [
 ]
 
 { #category : #accessing }
-GtScenery >> gtItemsFor: aView [ 
+GtScenery >> gtItemsFor: aView [
 	<gtView>
-	^ aView list 
+	^ aView columnedList
 		title: 'Items';
 		priority: 10;
-		items: [ items ];
-		actionUpdateButton
+		items: [ self items ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Item'
+			text: [ :each | each gtDisplayString ]
+			width: 200;
+		column: 'Stencil'
+			text: [ :each | each stencil gtDisplayString ]
+			width: 200;
+		column: '# Incoming'
+			text: [ :each | each incomingLinks size ]
+			width: 80;
+		column: '#Outgoing'
+			text: [ :each | each outgoingLinks size ]
+			width: 80;
+		actionUpdateButtonTooltip: 'Update item list'
 ]
 
 { #category : #accessing }

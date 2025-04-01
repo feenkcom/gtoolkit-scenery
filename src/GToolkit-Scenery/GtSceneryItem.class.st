@@ -88,6 +88,16 @@ GtSceneryItem >> extent: aPoint [
 	extent := aPoint
 ]
 
+{ #category : #views }
+GtSceneryItem >> gtViewFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Live';
+		priority: 10;
+		object: [ self stencil ];
+		view: #gtLiveFor:
+]
+
 { #category : #accessing }
 GtSceneryItem >> incomingLinks [
 	^ incomingLinks
