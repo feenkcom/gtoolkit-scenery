@@ -19,19 +19,29 @@ Class {
 
 { #category : #converting }
 GtSceneryUMLConnectionStencil >> beAssociation [
-	self relationshipType: #association.
-	self arrowHeadType: #simple
+	self relationshipType: #association
 ]
 
 { #category : #converting }
 GtSceneryUMLConnectionStencil >> beInheritance [
-	self relationshipType: #inheritance.
-	self arrowHeadType: #triangle
+	self relationshipType: #inheritance
+]
+
+{ #category : #accessing }
+GtSceneryUMLConnectionStencil >> defaultRelationshipType [
+	^ #association
 ]
 
 { #category : #initialization }
 GtSceneryUMLConnectionStencil >> initialize [
 	super initialize.
+	relationshipType := self defaultRelationshipType
+]
+
+{ #category : #testing }
+GtSceneryUMLConnectionStencil >> isValid [
+	
+	^ true
 ]
 
 { #category : #accessing }
@@ -44,7 +54,8 @@ GtSceneryUMLConnectionStencil >> relationshipType: aSymbol [
 	self
 		assert: (self relationshipTypes includes: aSymbol)
 		description: aSymbol printString , ' is not a known relationship type'.
-	relationshipType := aSymbol
+	relationshipType := aSymbol.
+	self updateArrowhead
 ]
 
 { #category : #constants }
@@ -56,7 +67,17 @@ GtSceneryUMLConnectionStencil >> relationshipTypes [
 ]
 
 { #category : #printing }
-GtSceneryUMLConnectionStencil >> storeOn: aStream [
+GtSceneryUMLConnectionStencil >> storeOnAttributes [
+	"NB: we replace #arrowHeadType by #relationshipType"
+
+	^ {#labelText.
+		#fontSize.
+		#relationshipType.
+		#curvatureFraction}
+]
+
+{ #category : #printing }
+GtSceneryUMLConnectionStencil >> storeOnOLD: aStream [
 	aStream nextPutAll: self class name; nextPutAll: ' new'.
 	aStream 
 		nextPutAll: ' labelText: '.
@@ -74,28 +95,35 @@ GtSceneryUMLConnectionStencil >> storeOn: aStream [
 		nextPutAll: '; yourself'.
 ]
 
+{ #category : #accessing }
+GtSceneryUMLConnectionStencil >> updateArrowhead [
+	self relationshipType = #association ifTrue: [ ^ self arrowHeadType: #simple ].
+	self relationshipType = #inheritance
+		ifTrue: [ ^ self arrowHeadType: #triangle ]
+]
+
 { #category : #'context menu' }
 GtSceneryUMLConnectionStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	| arrowTypeSubMenuItems brMenuItems |
+	| relationshipTypeSubMenuItems brMenuItems |
 	brMenuItems := super
 			updateContextMenuItems: aBrMenuItems
 			forSceneryElement: aGtSceneryElement
 			andChildElement: aChildElement.
 
-	arrowTypeSubMenuItems := BrMenuItems new.
-	arrowTypeSubMenuItems
+	relationshipTypeSubMenuItems := BrMenuItems new.
+	relationshipTypeSubMenuItems
 		addItemLabel: 'Association'
-		action: [ self arrowHeadType: #simple.
+		action: [ self beAssociation.
 			aGtSceneryElement redisplay ].
-	arrowTypeSubMenuItems
+	relationshipTypeSubMenuItems
 		addItemLabel: 'Inheritance'
-		action: [ self arrowHeadType: #triangle.
+		action: [ self beInheritance.
 			aGtSceneryElement redisplay ].
 
 	brMenuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Modify relationship';
-				submenu: arrowTypeSubMenuItems).
+				submenu: relationshipTypeSubMenuItems).
 
 	^ brMenuItems
 ]

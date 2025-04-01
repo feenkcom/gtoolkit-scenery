@@ -127,6 +127,13 @@ GtSceneryItem >> initialize [
 	outgoingLinks := OrderedCollection new
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryItem >> isValid [
+	^ (self stencil class canUnderstand: #isValid)
+		ifTrue: [ self stencil isValid ]
+		ifFalse: [ true ]
+]
+
 { #category : #accessing }
 GtSceneryItem >> outgoingLinks [
 	^ outgoingLinks

@@ -347,6 +347,13 @@ GtScenery >> initialize [
 ]
 
 { #category : #accessing }
+GtScenery >> isValid [
+	self items do: [ :each | each isValid ifFalse: [ ^ false ] ].
+	self connections do: [ :each | each isValid ifFalse: [ ^ false ] ].
+	^ true
+]
+
+{ #category : #accessing }
 GtScenery >> items [
 	^ items
 ]
