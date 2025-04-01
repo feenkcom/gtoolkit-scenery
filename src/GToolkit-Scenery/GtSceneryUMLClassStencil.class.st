@@ -21,10 +21,11 @@ GtSceneryUMLClassStencil class >> itemCreationSubmenuLabel [
 
 { #category : #conversion }
 GtSceneryUMLClassStencil >> asClass [
-	^ self text asString asClassIfAbsent: [ UndefinedClass ]
+	"nil needed for #isValid"
+	^ self label asClassIfAbsent: [ nil ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GtSceneryUMLClassStencil >> defaultLabel [
 	^ 'Click and return to edit'
 ]
@@ -38,8 +39,32 @@ GtSceneryUMLClassStencil >> elementClass [
 GtSceneryUMLClassStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
-	anItemElement
-		fireEvent: (GtSceneryObjectToSpawn new object: (GtClassCoderTool forClass: self asClass))
+	self isValid
+		ifTrue: [ anItemElement
+				fireEvent: (GtSceneryObjectToSpawn new object: (GtClassCoderTool forClass: self asClass)) ]
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> invalidForegroundColor [
+	^ Color red
+]
+
+{ #category : #testing }
+GtSceneryUMLClassStencil >> isUMLClassStencil [
+	^ true
+]
+
+{ #category : #testing }
+GtSceneryUMLClassStencil >> isValid [
+	^ self asClass isNotNil
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> label: aString [
+	super label: aString.
+	self isValid
+		ifTrue: [ self text foreground: self validForegroundColor ]
+		ifFalse: [ self text foreground: self invalidForegroundColor ]
 ]
 
 { #category : #connecting }
@@ -52,7 +77,7 @@ GtSceneryUMLClassStencil >> stencilForConnectionWithItemStencil: anItemStencil [
 	^ GtSceneryStraightArcStencil new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'context menu' }
 GtSceneryUMLClassStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	<todo: 'spawn superclass or subclass nodes'>
 	
@@ -74,4 +99,9 @@ GtSceneryUMLClassStencil >> updateContextMenuItems: aBrMenuItems forSceneryEleme
 				submenu: subMenuItems).
 				
 	^ aBrMenuItems
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> validForegroundColor [
+	^ Color black
 ]

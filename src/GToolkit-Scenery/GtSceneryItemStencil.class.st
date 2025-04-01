@@ -18,6 +18,11 @@ GtSceneryItemStencil >> handleDoubleClickForItem: anItem andElement: anItemEleme
 	
 ]
 
+{ #category : #testing }
+GtSceneryItemStencil >> isUMLClassStencil [
+	^ false
+]
+
 { #category : #printing }
 GtSceneryItemStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method.
