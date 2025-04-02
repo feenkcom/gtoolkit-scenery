@@ -74,6 +74,16 @@ GtSceneryUMLClassStencil >> label: aString [
 		ifFalse: [ self text foreground: self invalidForegroundColor ]
 ]
 
+{ #category : #validity }
+GtSceneryUMLClassStencil >> reportOn: aStream in: anItem [
+	self isValidClass
+		ifFalse: [ aStream
+				nextPutAll: '“';
+				nextPutAll: self label;
+				nextPutAll: '” does not exist as a class';
+				cr ]
+]
+
 { #category : #connecting }
 GtSceneryUMLClassStencil >> stencilForConnectionWithItemStencil: anItemStencil [
 	"Hook to let the stencil decide the connection stencil to use."

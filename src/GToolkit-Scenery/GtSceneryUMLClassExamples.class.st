@@ -25,8 +25,63 @@ GtSceneryUMLClassExamples >> collectionObjectInheritanceIsInvalid [
 		from: item1
 		to: item2.
 
-	self assert: scenery connections first isValid not.
-	self assert: scenery isValid not.
+	self assert: scenery connections first isInvalid.
+	self assert: scenery isInvalid.
+
+	^ scenery
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryUMLClassExamples >> multipleInvalidItemsAndConnections [
+	"Demo multiple things that can be wrong."
+
+	<gtExample>
+	| scenery dotItem foobarItem objectClassItem bagClassItem collectionClassItem bagObjectInheritance objectFoobarInheritance collectionObjectInheritance |
+	scenery := GtScenery new.
+	dotItem := scenery addItem: (GtSceneryUMLClassStencil new label: '.') asItem.
+	dotItem position: -80.53841145833339 @ 5.2789306640625.
+	dotItem extent: 27.24616013286034 @ 28.0.
+	foobarItem := scenery
+			addItem: (GtSceneryUMLClassStencil new label: 'NonExistentFoobarClass') asItem.
+	foobarItem position: -11.459635416666572 @ -89.27231852213544.
+	foobarItem extent: 152.10000610351563 @ 28.0.
+	objectClassItem := scenery
+			addItem: (GtSceneryUMLClassStencil new label: 'Object') asItem.
+	objectClassItem position: 39.86914062499994 @ 9.736796061197936.
+	objectClassItem extent: 48.41600036621094 @ 28.0.
+	bagClassItem := scenery
+			addItem: (GtSceneryUMLClassStencil new label: 'Bag') asItem.
+	bagClassItem position: 130.94075520833343 @ 109.9392700195313.
+	bagClassItem extent: 32.343994140625 @ 28.0.
+	collectionClassItem := scenery
+			addItem: (GtSceneryUMLClassStencil new label: 'Collection') asItem.
+	collectionClassItem position: -9.871744791666572 @ 115.7810668945313.
+	collectionClassItem extent: 69.33201599121094 @ 28.0.
+	bagObjectInheritance := scenery
+			addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
+					relationshipType: #inheritance)
+			from: bagClassItem
+			to: objectClassItem.
+	objectFoobarInheritance := scenery
+			addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
+					relationshipType: #inheritance)
+			from: objectClassItem
+			to: foobarItem.
+	collectionObjectInheritance := scenery
+			addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
+					relationshipType: #inheritance)
+			from: collectionClassItem
+			to: objectClassItem.
+
+	self assert: dotItem isInvalid.
+	self assert: foobarItem isInvalid.
+	self assert: objectClassItem isValid.
+	self assert: bagClassItem isValid.
+	self assert: collectionClassItem isValid.
+
+	self assert: bagObjectInheritance isInvalid.
+	self assert: objectFoobarInheritance isInvalid.
+	self assert: collectionObjectInheritance isValid.
 
 	^ scenery
 ]
@@ -40,8 +95,8 @@ GtSceneryUMLClassExamples >> nonsenseClassNameIsNotValid [
 	scenery := GtScenery new.
 	item1 := scenery
 			addItem: (GtSceneryUMLClassStencil new label: 'a few good men') asItem.
-	self assert: item1 isValid not.
-	self assert: scenery isValid not.
+	self assert: item1 isInvalid.
+	self assert: scenery isInvalid.
 	^ scenery
 ]
 

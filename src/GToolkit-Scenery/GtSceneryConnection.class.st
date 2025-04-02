@@ -1,6 +1,8 @@
 Class {
 	#name : #GtSceneryConnection,
 	#superclass : #Object,
+	#traits : 'TGtSceneryReporting',
+	#classTraits : 'TGtSceneryReporting classTrait',
 	#instVars : [
 		'stencil',
 		'from',
@@ -31,7 +33,7 @@ GtSceneryConnection >> asElementIn: aContainerElement [
 	^ line
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GtSceneryConnection >> from [
 	^ from
 ]
@@ -41,12 +43,35 @@ GtSceneryConnection >> from: anItem [
 	from := anItem
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #views }
+GtSceneryConnection >> gtLiveFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Live';
+		priority: 10;
+		object: [ self sceneryForConnection ];
+		view: #gtLiveFor:
+]
+
+{ #category : #validity }
 GtSceneryConnection >> isValid [
 	^ self stencil isValidIn: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GtSceneryConnection >> sceneryForConnection [
+	| scenery |
+	scenery := GtScenery new.
+	from := scenery addItem: self from.
+	to := scenery addItem: self to.
+	scenery
+		addConnectionWithStencil: self stencil
+		from: from
+		to: to.
+	^ scenery
+]
+
+{ #category : #accessing }
 GtSceneryConnection >> stencil [
 	^ stencil
 ]
@@ -56,7 +81,7 @@ GtSceneryConnection >> stencil: aLineStencil [
 	stencil := aLineStencil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GtSceneryConnection >> to [
 	^ to
 ]

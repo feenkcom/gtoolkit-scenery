@@ -43,7 +43,7 @@ GtSceneryUMLConnectionStencil >> initialize [
 	relationshipType := self defaultRelationshipType
 ]
 
-{ #category : #testing }
+{ #category : #validity }
 GtSceneryUMLConnectionStencil >> isValidIn: aConnection [
 	"For inheritance only:"
 
@@ -54,7 +54,7 @@ GtSceneryUMLConnectionStencil >> isValidIn: aConnection [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : #validity }
 GtSceneryUMLConnectionStencil >> isValidInheritanceFrom: fromItem to: toItem [
 	fromItem isValid ifFalse: [ ^ false ].
 	toItem isValid ifFalse: [ ^ false ].
@@ -81,6 +81,40 @@ GtSceneryUMLConnectionStencil >> relationshipTypes [
 
 	^ {#association.
 		#inheritance}
+]
+
+{ #category : #validity }
+GtSceneryUMLConnectionStencil >> reportInvalidInheritance: aStream in: aConnection [
+	| fromItem toItem |
+	fromItem := aConnection from.
+	toItem := aConnection to.
+
+	fromItem isInvalid
+		ifTrue: [ aStream
+				nextPutAll: fromItem stencil label;
+				nextPutAll: ' is not a valid subclass';
+				cr ].
+
+	toItem isInvalid
+		ifTrue: [ aStream
+				nextPutAll: toItem stencil label;
+				nextPutAll: ' is not a valid superclass';
+				cr ].
+
+	(fromItem isValid
+		and: [ toItem isValid
+				and: [ fromItem stencil asClass superclass ~= toItem stencil asClass ] ])
+		ifTrue: [ aStream
+				nextPutAll: fromItem stencil asClass name;
+				nextPutAll: ' is not a subclass of ';
+				nextPutAll: toItem stencil asClass name;
+				cr ]
+]
+
+{ #category : #validity }
+GtSceneryUMLConnectionStencil >> reportOn: aStream in: aConnection [
+	self relationshipType = #inheritance
+		ifTrue: [ self reportInvalidInheritance: aStream in: aConnection ]
 ]
 
 { #category : #printing }

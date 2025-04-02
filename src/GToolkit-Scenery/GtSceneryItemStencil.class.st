@@ -29,6 +29,12 @@ GtSceneryItemStencil >> isUMLClassStencil [
 	^ false
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryItemStencil >> reportOn: aStream in: anItem [
+	"To be implemented by all subclasses that implement #isValidIn:."
+	^ self subclassResponsibility
+]
+
 { #category : #printing }
 GtSceneryItemStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method.

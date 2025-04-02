@@ -277,14 +277,11 @@ GtScenery >> gtConnectionsFor: aView [
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
 		column: 'Connection' text: [ :each | each gtDisplayString ]
-		width: 300;
+		width: 200;
 		column: 'Stencil' text: [ :each | each stencil gtDisplayString ]
-		width: 300;
-		column: 'From'
-			text: [ :each | each from gtDisplayString ]
-			width: 200;
-		column: 'To'
-			text: [ :each | each to gtDisplayString ]
+		width: 200;
+		column: 'Report'
+			text: [ :each | each reportString ]
 			width: 200;
 		actionUpdateButtonTooltip: 'Update item list'
 ]
@@ -299,7 +296,7 @@ GtScenery >> gtDatabaseFor: aView [
 
 { #category : #accessing }
 GtScenery >> gtIteStencilsFor: aView [
-	<gtView>
+	"<gtView>"
 	^ aView columnedList
 		title: 'Item Stencils';
 		priority: 11;
@@ -335,7 +332,25 @@ GtScenery >> gtItemsFor: aView [
 		column: '#Outgoing'
 			text: [ :each | each outgoingLinks size ]
 			width: 80;
+		column: '#Report'
+			text: [ :each | each reportString ]
+			width: 200;
 		actionUpdateButtonTooltip: 'Update item list'
+]
+
+{ #category : #views }
+GtScenery >> gtReportFor: aView [
+	<gtView>
+	self isValid ifTrue: [ ^ aView empty ].
+	^ aView columnedList
+		title: 'Report';
+		priority: 20;
+		items: [ self invalidItemsAndConnections ];
+		actionUpdateButtonTooltip: 'Update item list';
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Item' text: [ :eachItem | eachItem reportString ]
 ]
 
 { #category : #accessing }
@@ -347,6 +362,16 @@ GtScenery >> initialize [
 ]
 
 { #category : #accessing }
+GtScenery >> invalidItemsAndConnections [
+	^ (self items reject: #isValid) , (self connections reject: #isValid)
+]
+
+{ #category : #validity }
+GtScenery >> isInvalid [
+	^ self isValid not
+]
+
+{ #category : #validity }
 GtScenery >> isValid [
 	self items do: [ :each | each isValid ifFalse: [ ^ false ] ].
 	self connections do: [ :each | each isValid ifFalse: [ ^ false ] ].
