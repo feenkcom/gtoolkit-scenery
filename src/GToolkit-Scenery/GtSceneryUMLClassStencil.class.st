@@ -39,7 +39,7 @@ GtSceneryUMLClassStencil >> elementClass [
 GtSceneryUMLClassStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
-	self isValid
+	self isValidClass
 		ifTrue: [ anItemElement
 				fireEvent: (GtSceneryObjectToSpawn new object: (GtClassCoderTool forClass: self asClass)) ]
 ]
@@ -55,16 +55,21 @@ GtSceneryUMLClassStencil >> isUMLClassStencil [
 ]
 
 { #category : #testing }
+GtSceneryUMLClassStencil >> isValidClass [
+	^ self asClass isNotNil
+]
+
+{ #category : #testing }
 GtSceneryUMLClassStencil >> isValidIn: aSceneryContext [
 	"We don't need the context."
 
-	^ self asClass isNotNil
+	^ self isValidClass
 ]
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> label: aString [
 	super label: aString.
-	(self isValidIn: nil)
+	self isValidClass
 		ifTrue: [ self text foreground: self validForegroundColor ]
 		ifFalse: [ self text foreground: self invalidForegroundColor ]
 ]

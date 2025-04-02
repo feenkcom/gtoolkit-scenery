@@ -32,6 +32,11 @@ GtSceneryUMLConnectionStencil >> defaultRelationshipType [
 	^ #association
 ]
 
+{ #category : #'instance creation' }
+GtSceneryUMLConnectionStencil >> elementClass [
+	^ GtSceneryUMLConnectionElement
+]
+
 { #category : #initialization }
 GtSceneryUMLConnectionStencil >> initialize [
 	super initialize.

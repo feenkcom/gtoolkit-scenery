@@ -12,6 +12,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GtSceneryItemStencil >> elementClass [
+	"NB: Not used by all subclasses, but perhaps should be."
+	^ self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
 GtSceneryItemStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
