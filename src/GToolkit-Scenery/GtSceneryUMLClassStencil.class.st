@@ -11,6 +11,10 @@ To do:
 Class {
 	#name : #GtSceneryUMLClassStencil,
 	#superclass : #GtSceneryTextLabelStencil,
+	#instVars : [
+		'exampleBlockString',
+		'example'
+	],
 	#category : #'GToolkit-Scenery-Model'
 }
 
@@ -25,6 +29,11 @@ GtSceneryUMLClassStencil >> asClass [
 	^ self label asClassIfAbsent: [ nil ]
 ]
 
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> defaultExampleBlockString [
+	^ [ self asClass new ]
+]
+
 { #category : #initialization }
 GtSceneryUMLClassStencil >> defaultLabel [
 	^ 'Click and return to edit'
@@ -35,13 +44,28 @@ GtSceneryUMLClassStencil >> elementClass [
 	^ GtSceneryUMLClassElement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> exampleBlockString [
+	^ exampleBlockString
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> exampleBlockString: anObject [
+	exampleBlockString := anObject
+]
+
+{ #category : #listeners }
 GtSceneryUMLClassStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
 	self isValidClass
 		ifTrue: [ anItemElement
 				fireEvent: (GtSceneryObjectToSpawn new object: (GtClassCoderTool forClass: self asClass)) ]
+]
+
+{ #category : #initialization }
+GtSceneryUMLClassStencil >> initialize [
+	super initialize
 ]
 
 { #category : #accessing }

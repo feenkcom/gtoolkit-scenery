@@ -17,7 +17,7 @@ GtSceneryItemStencil >> elementClass [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #listeners }
 GtSceneryItemStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
