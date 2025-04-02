@@ -85,7 +85,7 @@ GtSceneryShapeStencil >> geometry: anObject [
 	geometry := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #listeners }
 GtSceneryShapeStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Inspect the stencil."
 

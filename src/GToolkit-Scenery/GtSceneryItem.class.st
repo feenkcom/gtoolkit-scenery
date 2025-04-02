@@ -4,6 +4,8 @@ I am an item within a scenery. I wrap a stencil for an actual item. The stencil 
 Class {
 	#name : #GtSceneryItem,
 	#superclass : #Object,
+	#traits : 'TGtSceneryReporting',
+	#classTraits : 'TGtSceneryReporting classTrait',
 	#instVars : [
 		'stencil',
 		'position',
@@ -127,7 +129,7 @@ GtSceneryItem >> initialize [
 	outgoingLinks := OrderedCollection new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #validity }
 GtSceneryItem >> isValid [
 	^ self stencil isValidIn: self
 ]

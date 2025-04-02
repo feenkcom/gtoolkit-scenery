@@ -11,6 +11,10 @@ To do:
 Class {
 	#name : #GtSceneryUMLClassStencil,
 	#superclass : #GtSceneryTextLabelStencil,
+	#instVars : [
+		'example',
+		'exampleBlockString'
+	],
 	#category : #'GToolkit-Scenery-Model'
 }
 
@@ -25,6 +29,20 @@ GtSceneryUMLClassStencil >> asClass [
 	^ self label asClassIfAbsent: [ nil ]
 ]
 
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> computeExample [
+	^ self isValidClass
+		ifTrue: [ self exampleBlockString
+				ifEmpty: [ self asClass new ]
+				ifNotEmpty: [ (Smalltalk compiler evaluate: self exampleBlockString) value ] ]
+		ifFalse: [ nil ]
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> defaultExampleBlockString [
+	^ ''
+]
+
 { #category : #initialization }
 GtSceneryUMLClassStencil >> defaultLabel [
 	^ 'Click and return to edit'
@@ -35,13 +53,53 @@ GtSceneryUMLClassStencil >> elementClass [
 	^ GtSceneryUMLClassElement
 ]
 
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> example [
+	^ example ifNil: [ example := self computeExample ]
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> exampleBlockString [
+	^ exampleBlockString
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
+	"We store a string instead of a block to avoid capturing any free variables.
+	On updates we invalidate the #example cache."
+
+	exampleBlockString := aClosureOrString isClosure
+			ifTrue: [ aClosureOrString printString ]
+			ifFalse: [ aClosureOrString ].
+
+	example := nil
+]
+
 { #category : #'as yet unclassified' }
+GtSceneryUMLClassStencil >> gtExampleButtonFor: anAction [
+	<gtAction>
+	^ anAction button
+		priority: 1;
+		tooltip: 'Inspect example';
+		icon: BrGlamorousVectorIcons eg;
+		action: [ :aButton | aButton phlow spawnObject: self example ];
+		primaryModifierAction: [ :aButton | aButton phlow showObject: self ]
+			mouseCursor: BlCopyCursor new
+]
+
+{ #category : #listeners }
 GtSceneryUMLClassStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
 	self isValidClass
 		ifTrue: [ anItemElement
 				fireEvent: (GtSceneryObjectToSpawn new object: (GtClassCoderTool forClass: self asClass)) ]
+]
+
+{ #category : #initialization }
+GtSceneryUMLClassStencil >> initialize [
+	super initialize.
+	exampleBlockString := self defaultExampleBlockString
 ]
 
 { #category : #accessing }
@@ -74,6 +132,16 @@ GtSceneryUMLClassStencil >> label: aString [
 		ifFalse: [ self text foreground: self invalidForegroundColor ]
 ]
 
+{ #category : #validity }
+GtSceneryUMLClassStencil >> reportOn: aStream in: anItem [
+	self isValidClass
+		ifFalse: [ aStream
+				nextPutAll: '“';
+				nextPutAll: self label;
+				nextPutAll: '” does not exist as a class';
+				cr ]
+]
+
 { #category : #connecting }
 GtSceneryUMLClassStencil >> stencilForConnectionWithItemStencil: anItemStencil [
 	"Hook to let the stencil decide the connection stencil to use."
@@ -84,27 +152,32 @@ GtSceneryUMLClassStencil >> stencilForConnectionWithItemStencil: anItemStencil [
 	^ GtSceneryStraightArcStencil new
 ]
 
+{ #category : #printing }
+GtSceneryUMLClassStencil >> storeOnAttributes [
+	"Attributes used in the #storeOn:method"
+
+	^ super storeOnAttributes , {#exampleBlockString}
+]
+
 { #category : #'context menu' }
 GtSceneryUMLClassStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	<todo: 'spawn superclass or subclass nodes'>
+	| subMenuItems |
 	
-	|  subMenuItems |
+	(self isValidClass and: [ self asClass isAbstract not ])
+		ifTrue: [ aBrMenuItems
+				addItemLabel: 'Inspect example'
+				action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ] ].
 
 	subMenuItems := BrMenuItems new.
-	subMenuItems
-		addItemLabel: 'Superclass'
-		action: [ 
-			aGtSceneryElement redisplay ].
-	subMenuItems
-		addItemLabel: 'Subclasses'
-		action: [
-			aGtSceneryElement redisplay ].
-			
+	subMenuItems addItemLabel: 'Superclass' action: [ aGtSceneryElement redisplay ].
+	subMenuItems addItemLabel: 'Subclasses' action: [ aGtSceneryElement redisplay ].
+
 	aBrMenuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Spawn';
 				submenu: subMenuItems).
-				
+
 	^ aBrMenuItems
 ]
 

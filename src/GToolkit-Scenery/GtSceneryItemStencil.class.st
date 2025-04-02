@@ -17,7 +17,7 @@ GtSceneryItemStencil >> elementClass [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #listeners }
 GtSceneryItemStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
@@ -27,6 +27,12 @@ GtSceneryItemStencil >> handleDoubleClickForItem: anItem andElement: anItemEleme
 { #category : #testing }
 GtSceneryItemStencil >> isUMLClassStencil [
 	^ false
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryItemStencil >> reportOn: aStream in: anItem [
+	"To be implemented by all subclasses that implement #isValidIn:."
+	^ self subclassResponsibility
 ]
 
 { #category : #printing }
@@ -47,10 +53,10 @@ GtSceneryItemStencil >> storeWithAttributesOn: aStream [
 	"Can be used by subclasses to implement a #storeOn: method.
 	Attributes to be stored should be specified in #storeStringAttributes.
 	Iterate over `self storeStringAttributes` and export those
-	which differ from the default values."
-	
-	<todo: 'Add assertions to check that getters, setters and defaults exist?'>
+	which differ from the default values.
+	NB: #storeOn: for blocks is broken, so we add a special case."
 
+	<todo: 'Add assertions to check that getters, setters and defaults exist?'>
 	| separator |
 	aStream
 		nextPutAll: self class name;
@@ -66,7 +72,9 @@ GtSceneryItemStencil >> storeWithAttributesOn: aStream [
 						nextPutAll: separator;
 						nextPutAll: attribute asString;
 						nextPutAll: ': ('.
-					attributeValue storeOn: aStream.
+					attributeValue isClosure
+						ifTrue: [ attributeValue printOn: aStream ]
+						ifFalse: [ attributeValue storeOn: aStream ].
 					aStream nextPutAll: ')'.
 					separator := '; ' ] ]
 ]

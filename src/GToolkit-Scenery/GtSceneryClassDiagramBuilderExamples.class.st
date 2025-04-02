@@ -1,3 +1,10 @@
+"
+Some initial examples for the {{gtClass:name=GtSceneryClassDiagramBuilder}} builder for UML diagrams.
+To do:
+• Refine the API to support checked associations
+• Generate a diagram from a package
+• Generate a class hierarchy up to some depth
+"
 Class {
 	#name : #GtSceneryClassDiagramBuilderExamples,
 	#superclass : #AbstractGtExampleAssertable,
