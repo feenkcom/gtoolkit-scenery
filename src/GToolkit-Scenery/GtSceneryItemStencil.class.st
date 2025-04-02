@@ -12,6 +12,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GtSceneryItemStencil >> elementClass [
+	"NB: Not used by all subclasses, but perhaps should be."
+	^ self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
 GtSceneryItemStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
@@ -21,12 +27,6 @@ GtSceneryItemStencil >> handleDoubleClickForItem: anItem andElement: anItemEleme
 { #category : #testing }
 GtSceneryItemStencil >> isUMLClassStencil [
 	^ false
-]
-
-{ #category : #testing }
-GtSceneryItemStencil >> isValid [
-	"Subclasses can override this."
-	^ true
 ]
 
 { #category : #printing }

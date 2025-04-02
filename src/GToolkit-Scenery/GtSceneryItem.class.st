@@ -129,9 +129,7 @@ GtSceneryItem >> initialize [
 
 { #category : #'as yet unclassified' }
 GtSceneryItem >> isValid [
-	^ (self stencil class canUnderstand: #isValid)
-		ifTrue: [ self stencil isValid ]
-		ifFalse: [ true ]
+	^ self stencil isValidIn: self
 ]
 
 { #category : #accessing }

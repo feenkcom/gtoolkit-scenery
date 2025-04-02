@@ -49,14 +49,12 @@ GtSceneryCurvableConnectionStencil >> borderColor [
 	^ Color black
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 GtSceneryCurvableConnectionStencil >> create [
 	| line |
-	line := GtSceneryCurvableConnectionElement new
-			clipChildren: false;
+	line := self elementClass new
 			curvatureFraction: self curvatureFraction;
-			border: (BlBorder paint: self borderColor width: 1);
-			zIndex: -100.
+			border: (BlBorder paint: self borderColor width: 1).
 	labelText notNil
 		ifTrue: [ line
 				addChild: (BrLabel new
@@ -102,6 +100,11 @@ GtSceneryCurvableConnectionStencil >> defaultLabelText [
 	"A nil label is not displayed"
 	
 	^ nil
+]
+
+{ #category : #'instance creation' }
+GtSceneryCurvableConnectionStencil >> elementClass [
+	^ GtSceneryCurvableConnectionElement
 ]
 
 { #category : #accessing }

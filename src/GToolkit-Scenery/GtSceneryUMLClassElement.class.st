@@ -39,8 +39,9 @@ GtSceneryUMLClassElement >> umlStencil [
 GtSceneryUMLClassElement >> updateForegroundColor [
 	"The foreground color of the text after editing can be reset by the aptitude."
 
-	self umlStencil isValid
-		ifTrue: [ self labelAptitude defaultForeground: self umlStencil validForegroundColor ]
-		ifFalse: [ self labelAptitude defaultForeground: self umlStencil invalidForegroundColor ].
+	self labelAptitude
+		defaultForeground: (self umlStencil isValidClass
+				ifTrue: [ self umlStencil validForegroundColor ]
+				ifFalse: [ self umlStencil invalidForegroundColor ]).
 	self aptitude: self labelAptitude
 ]

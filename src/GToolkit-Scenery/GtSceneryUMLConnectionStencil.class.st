@@ -32,6 +32,11 @@ GtSceneryUMLConnectionStencil >> defaultRelationshipType [
 	^ #association
 ]
 
+{ #category : #'instance creation' }
+GtSceneryUMLConnectionStencil >> elementClass [
+	^ GtSceneryUMLConnectionElement
+]
+
 { #category : #initialization }
 GtSceneryUMLConnectionStencil >> initialize [
 	super initialize.
@@ -39,12 +44,12 @@ GtSceneryUMLConnectionStencil >> initialize [
 ]
 
 { #category : #testing }
-GtSceneryUMLConnectionStencil >> isValidFrom: fromItem to: toItem [
+GtSceneryUMLConnectionStencil >> isValidIn: aConnection [
 	"For inheritance only:"
 
 	<todo: 'implement #association validity check'>
 	self relationshipType = #inheritance
-		ifTrue: [ ^ self isValidInheritanceFrom: fromItem to: toItem ].
+		ifTrue: [ ^ self isValidInheritanceFrom: aConnection from to: aConnection to ].
 
 	^ true
 ]
