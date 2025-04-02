@@ -7,7 +7,33 @@ Class {
 	#category : #'GToolkit-Scenery-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
+GtSceneryUMLClassExamples >> byteStringCharacterAssociation [
+	"Example to be used for checking validity of associations.
+	The byteString should be associated with an example eg 'hello world'.
+	The association needs a name.
+	The association needs a navigation snippet.
+	"
+
+	<gtExample>
+| scenery item1 item2 |
+scenery := GtScenery new.
+item1 := scenery
+		addItem: (GtSceneryUMLClassStencil new label: 'ByteString') asItem.
+item1 position: 277.1608072916665 @ 274.9241129557292.
+item1 extent: 70.6619873046875 @ 28.0.
+item2 := scenery
+		addItem: (GtSceneryUMLClassStencil new label: 'Character') asItem.
+item2 position: 429.3033854166665 @ 275.5660400390625.
+item2 extent: 66.82600402832031 @ 28.0.
+scenery
+	addConnectionWithStencil: GtSceneryUMLConnectionStencil new
+	from: item1
+	to: item2.
+	^ scenery
+]
+
+{ #category : #example }
 GtSceneryUMLClassExamples >> collectionObjectInheritanceIsInvalid [
 	<gtExample>
 	| scenery item1 item2 |
@@ -31,7 +57,7 @@ GtSceneryUMLClassExamples >> collectionObjectInheritanceIsInvalid [
 	^ scenery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
 GtSceneryUMLClassExamples >> multipleInvalidItemsAndConnections [
 	"Demo multiple things that can be wrong."
 
@@ -86,7 +112,7 @@ GtSceneryUMLClassExamples >> multipleInvalidItemsAndConnections [
 	^ scenery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
 GtSceneryUMLClassExamples >> nonsenseClassNameIsNotValid [
 	"Double-clicking is disabled."
 
@@ -100,7 +126,7 @@ GtSceneryUMLClassExamples >> nonsenseClassNameIsNotValid [
 	^ scenery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
 GtSceneryUMLClassExamples >> objectClassIsValid [
 	"Double-clicking goes to the class"
 
@@ -113,7 +139,7 @@ GtSceneryUMLClassExamples >> objectClassIsValid [
 	^ scenery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
 GtSceneryUMLClassExamples >> objectCollectionInheritanceIsValid [
 	<gtExample>
 	| scenery item1 item2 |
