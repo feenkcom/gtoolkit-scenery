@@ -12,7 +12,8 @@ Class {
 	#name : #GtSceneryUMLConnectionStencil,
 	#superclass : #GtSceneryStraightArcStencil,
 	#instVars : [
-		'relationshipType'
+		'relationshipType',
+		'navigationBlockString'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -28,6 +29,11 @@ GtSceneryUMLConnectionStencil >> beInheritance [
 ]
 
 { #category : #accessing }
+GtSceneryUMLConnectionStencil >> defaultNavigationBlockString [
+	^ ''
+]
+
+{ #category : #accessing }
 GtSceneryUMLConnectionStencil >> defaultRelationshipType [
 	^ #association
 ]
@@ -40,17 +46,31 @@ GtSceneryUMLConnectionStencil >> elementClass [
 { #category : #initialization }
 GtSceneryUMLConnectionStencil >> initialize [
 	super initialize.
-	relationshipType := self defaultRelationshipType
+	relationshipType := self defaultRelationshipType.
+	navigationBlockString := self defaultNavigationBlockString
+]
+
+{ #category : #validity }
+GtSceneryUMLConnectionStencil >> isValidAssociationFrom: fromItem to: toItem [
+	"We check that the navigating from the example using the navigation block
+	in fact gives us a result of the target class."
+
+	| example result |
+	fromItem isValid ifFalse: [ ^ false ].
+	toItem isValid ifFalse: [ ^ false ].
+	self navigationBlockString isEmpty ifTrue: [ ^ false ].
+	[ example := fromItem stencil example ] onErrorDo: [ ^ false ].
+	result := [ (Smalltalk compiler evaluate: self navigationBlockString)
+			value: example ] onErrorDo: [ ^ false ].
+	^ result class = toItem stencil asClass
 ]
 
 { #category : #validity }
 GtSceneryUMLConnectionStencil >> isValidIn: aConnection [
-	"For inheritance only:"
-
-	<todo: 'implement #association validity check'>
 	self relationshipType = #inheritance
 		ifTrue: [ ^ self isValidInheritanceFrom: aConnection from to: aConnection to ].
-
+	self relationshipType = #association
+		ifTrue: [ ^ self isValidAssociationFrom: aConnection from to: aConnection to ].
 	^ true
 ]
 
@@ -59,6 +79,20 @@ GtSceneryUMLConnectionStencil >> isValidInheritanceFrom: fromItem to: toItem [
 	fromItem isValid ifFalse: [ ^ false ].
 	toItem isValid ifFalse: [ ^ false ].
 	^ fromItem stencil asClass superclass = toItem stencil asClass
+]
+
+{ #category : #accessing }
+GtSceneryUMLConnectionStencil >> navigationBlockString [
+	^ navigationBlockString
+]
+
+{ #category : #accessing }
+GtSceneryUMLConnectionStencil >> navigationBlockString: aClosureOrString [
+	"We store a string instead of a block to avoid capturing any free variables."
+
+	navigationBlockString := aClosureOrString isClosure
+			ifTrue: [ aClosureOrString printString ]
+			ifFalse: [ aClosureOrString ]
 ]
 
 { #category : #accessing }
@@ -113,6 +147,7 @@ GtSceneryUMLConnectionStencil >> reportInvalidInheritance: aStream in: aConnecti
 
 { #category : #validity }
 GtSceneryUMLConnectionStencil >> reportOn: aStream in: aConnection [
+	<todo: 'Implement for #association'>
 	self relationshipType = #inheritance
 		ifTrue: [ self reportInvalidInheritance: aStream in: aConnection ]
 ]
@@ -124,6 +159,7 @@ GtSceneryUMLConnectionStencil >> storeOnAttributes [
 	^ {#labelText.
 		#fontSize.
 		#relationshipType.
+		#navigationBlockString.
 		#curvatureFraction}
 ]
 

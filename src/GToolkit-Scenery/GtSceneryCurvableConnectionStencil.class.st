@@ -92,7 +92,7 @@ GtSceneryCurvableConnectionStencil >> defaultCurvatureFraction [
 
 { #category : #initialization }
 GtSceneryCurvableConnectionStencil >> defaultFontSize [
-	^ 20
+	^ 12
 ]
 
 { #category : #accessing }

@@ -12,8 +12,8 @@ Class {
 	#name : #GtSceneryUMLClassStencil,
 	#superclass : #GtSceneryTextLabelStencil,
 	#instVars : [
-		'exampleBlockString',
-		'example'
+		'example',
+		'exampleBlockString'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -30,8 +30,17 @@ GtSceneryUMLClassStencil >> asClass [
 ]
 
 { #category : #accessing }
+GtSceneryUMLClassStencil >> computeExample [
+	^ self isValidClass
+		ifTrue: [ self exampleBlockString
+				ifEmpty: [ self asClass new ]
+				ifNotEmpty: [ (Smalltalk compiler evaluate: self exampleBlockString) value ] ]
+		ifFalse: [ nil ]
+]
+
+{ #category : #accessing }
 GtSceneryUMLClassStencil >> defaultExampleBlockString [
-	^ [ self asClass new ]
+	^ ''
 ]
 
 { #category : #initialization }
@@ -45,13 +54,37 @@ GtSceneryUMLClassStencil >> elementClass [
 ]
 
 { #category : #accessing }
+GtSceneryUMLClassStencil >> example [
+	^ example ifNil: [ example := self computeExample ]
+]
+
+{ #category : #accessing }
 GtSceneryUMLClassStencil >> exampleBlockString [
 	^ exampleBlockString
 ]
 
 { #category : #accessing }
-GtSceneryUMLClassStencil >> exampleBlockString: anObject [
-	exampleBlockString := anObject
+GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
+	"We store a string instead of a block to avoid capturing any free variables.
+	On updates we invalidate the #example cache."
+
+	exampleBlockString := aClosureOrString isClosure
+			ifTrue: [ aClosureOrString printString ]
+			ifFalse: [ aClosureOrString ].
+
+	example := nil
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryUMLClassStencil >> gtExampleButtonFor: anAction [
+	<gtAction>
+	^ anAction button
+		priority: 1;
+		tooltip: 'Inspect example';
+		icon: BrGlamorousVectorIcons eg;
+		action: [ :aButton | aButton phlow spawnObject: self example ];
+		primaryModifierAction: [ :aButton | aButton phlow showObject: self ]
+			mouseCursor: BlCopyCursor new
 ]
 
 { #category : #listeners }
@@ -65,7 +98,8 @@ GtSceneryUMLClassStencil >> handleDoubleClickForItem: anItem andElement: anItemE
 
 { #category : #initialization }
 GtSceneryUMLClassStencil >> initialize [
-	super initialize
+	super initialize.
+	exampleBlockString := self defaultExampleBlockString
 ]
 
 { #category : #accessing }
@@ -118,27 +152,32 @@ GtSceneryUMLClassStencil >> stencilForConnectionWithItemStencil: anItemStencil [
 	^ GtSceneryStraightArcStencil new
 ]
 
+{ #category : #printing }
+GtSceneryUMLClassStencil >> storeOnAttributes [
+	"Attributes used in the #storeOn:method"
+
+	^ super storeOnAttributes , {#exampleBlockString}
+]
+
 { #category : #'context menu' }
 GtSceneryUMLClassStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	<todo: 'spawn superclass or subclass nodes'>
+	| subMenuItems |
 	
-	|  subMenuItems |
+	(self isValidClass and: [ self asClass isAbstract not ])
+		ifTrue: [ aBrMenuItems
+				addItemLabel: 'Inspect example'
+				action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ] ].
 
 	subMenuItems := BrMenuItems new.
-	subMenuItems
-		addItemLabel: 'Superclass'
-		action: [ 
-			aGtSceneryElement redisplay ].
-	subMenuItems
-		addItemLabel: 'Subclasses'
-		action: [
-			aGtSceneryElement redisplay ].
-			
+	subMenuItems addItemLabel: 'Superclass' action: [ aGtSceneryElement redisplay ].
+	subMenuItems addItemLabel: 'Subclasses' action: [ aGtSceneryElement redisplay ].
+
 	aBrMenuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Spawn';
 				submenu: subMenuItems).
-				
+
 	^ aBrMenuItems
 ]
 

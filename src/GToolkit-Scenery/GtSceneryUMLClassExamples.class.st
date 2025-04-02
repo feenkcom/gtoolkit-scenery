@@ -16,20 +16,26 @@ GtSceneryUMLClassExamples >> byteStringCharacterAssociation [
 	"
 
 	<gtExample>
-| scenery item1 item2 |
-scenery := GtScenery new.
-item1 := scenery
-		addItem: (GtSceneryUMLClassStencil new label: 'ByteString') asItem.
-item1 position: 277.1608072916665 @ 274.9241129557292.
-item1 extent: 70.6619873046875 @ 28.0.
-item2 := scenery
-		addItem: (GtSceneryUMLClassStencil new label: 'Character') asItem.
-item2 position: 429.3033854166665 @ 275.5660400390625.
-item2 extent: 66.82600402832031 @ 28.0.
-scenery
-	addConnectionWithStencil: GtSceneryUMLConnectionStencil new
-	from: item1
-	to: item2.
+	| scenery item1 item2 |
+	scenery := GtScenery new.
+	item1 := scenery
+			addItem: (GtSceneryUMLClassStencil new
+					label: 'ByteString';
+					exampleBlockString: '[ ''hello world'' ]') asItem.
+	item1 position: 277.1608072916665 @ 274.9241129557292.
+	item1 extent: 70.6619873046875 @ 28.0.
+	item2 := scenery
+			addItem: (GtSceneryUMLClassStencil new
+					label: 'Character';
+					exampleBlockString: '[ $a  ]') asItem.
+	item2 position: 484.3033854166665 @ 272.5660400390625.
+	item2 extent: 66.82600402832031 @ 28.0.
+	scenery
+		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
+				labelText: 'holds';
+				navigationBlockString: '[ :aByteString | aByteString first ]')
+		from: item1
+		to: item2.
 	^ scenery
 ]
 
