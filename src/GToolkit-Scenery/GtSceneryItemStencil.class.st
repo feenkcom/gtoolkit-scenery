@@ -23,12 +23,6 @@ GtSceneryItemStencil >> isUMLClassStencil [
 	^ false
 ]
 
-{ #category : #testing }
-GtSceneryItemStencil >> isValid [
-	"Subclasses can override this."
-	^ true
-]
-
 { #category : #printing }
 GtSceneryItemStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method.

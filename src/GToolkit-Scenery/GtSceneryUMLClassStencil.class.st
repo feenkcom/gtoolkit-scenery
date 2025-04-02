@@ -55,14 +55,16 @@ GtSceneryUMLClassStencil >> isUMLClassStencil [
 ]
 
 { #category : #testing }
-GtSceneryUMLClassStencil >> isValid [
+GtSceneryUMLClassStencil >> isValidIn: aSceneryContext [
+	"We don't need the context."
+
 	^ self asClass isNotNil
 ]
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> label: aString [
 	super label: aString.
-	self isValid
+	(self isValidIn: nil)
 		ifTrue: [ self text foreground: self validForegroundColor ]
 		ifFalse: [ self text foreground: self invalidForegroundColor ]
 ]
