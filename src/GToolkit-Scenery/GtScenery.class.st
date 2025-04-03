@@ -58,6 +58,13 @@ GtScenery >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement
 ]
 
+{ #category : #'as yet unclassified' }
+GtScenery >> announceItemMoved: anItem [
+	<todo: 'This should be sent whenever an item''s position is changed. But items don''t have a reference to their scenery, so how can we ensure this, without explicitly sending this message wherever we happen to send GtSceneryItem>>#position:? We need a better solution ...'>
+	self announce: (GtSceneryItemMoved new item: anItem).
+	^ anItem
+]
+
 { #category : #accessing }
 GtScenery >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]

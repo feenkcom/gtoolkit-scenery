@@ -182,7 +182,10 @@ GtSceneryElement >> createConnectionElementFor: aConnection [
 
 { #category : #accessing }
 GtSceneryElement >> createItemElementFor: anItem [
-	"Instantiate the given item as an element, adding scenery-specific listeners."
+	"Instantiate the given item as an element, adding scenery-specific listeners.
+	NB: when items request an object to be spawned — generating a GtPhlowObjectToSpawn announcement
+	— this will cause the new object to be spawned as an item *within* the scenery itself.
+	GtSceneryObjectToSpawn must be used instead to spawn an inspector within the p hlow of the scenery."
 
 	<tag: #sceneryListeners>
 	| itemElement |
@@ -201,7 +204,9 @@ GtSceneryElement >> createItemElementFor: anItem [
 				forItem: anItem ].
 	itemElement
 		when: BlElementPositionChangedEvent
-		do: [ :e | anItem position: e currentTarget position ].
+		do: [ :e | 
+			anItem position: e currentTarget position.
+			self gtScenery announceItemMoved: anItem ].
 	itemElement
 		when: BlElementExtentChangedEvent
 		do: [ :e | anItem extent: e currentTarget extent ].
@@ -382,6 +387,15 @@ GtSceneryElement >> redisplay [
 ]
 
 { #category : #updating }
+GtSceneryElement >> relocateItem: anItem [
+	"In response to the scenery announcing that an item has moved."
+
+	| itemElement |
+	itemElement := self elementForItem: anItem ifNone: [ ^ self ].
+	itemElement relocate: anItem position
+]
+
+{ #category : #updating }
 GtSceneryElement >> removeConnection: aConnection [
 	"If the connection is not found, silently return."
 
@@ -474,6 +488,11 @@ GtSceneryElement >> subscribe [
 	self gtScenery announcer
 		when: GtSceneryConnectionDeleted
 		do: [ :announcement :subscriber | self removeConnection: announcement connection ]
+		for: self.
+
+	self gtScenery announcer
+		when: GtSceneryItemMoved
+		do: [ :announcement :subscriber | self relocateItem: announcement item ]
 		for: self
 ]
 
