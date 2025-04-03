@@ -32,24 +32,15 @@ GtSceneryDragHandler class >> for: aSceneryElement [
 
 { #category : #connecting }
 GtSceneryDragHandler >> addConnectionTo: endElement [
-	<tag: #shouldBeHandledByAnnouncement>
-	| fromItem toItem newConnection newConnectionElement |
+	"Update the model. The view will be updated via announcements."
+
+	| fromItem toItem newConnection |
 	self assert: endElement graph isNode.
 	fromItem := startElement graph model.
 	toItem := endElement graph model.
 	self assertIsSceneryItem: fromItem.
 	self assertIsSceneryItem: toItem.
-	newConnection := self scenery
-			addConnectionFrom: fromItem
-			to: toItem.
-
-	"Handle rest by announcement ..."
-	newConnectionElement := self sceneryElement
-			createConnectionElementFor: newConnection.
-
-	self sceneryElement container
-		addChild: newConnectionElement
-		as: (GtSceneryConnectionId indexed: self scenery connections size)
+	newConnection := self scenery addConnectionFrom: fromItem to: toItem
 ]
 
 { #category : #asserting }
