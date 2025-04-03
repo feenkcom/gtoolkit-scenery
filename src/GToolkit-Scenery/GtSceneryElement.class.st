@@ -400,7 +400,7 @@ GtSceneryElement >> removeConnection: aConnection [
 	"If the connection is not found, silently return."
 
 	| aConnectionElement |
-	aConnectionElement := self elementForConnection: aConnection ifNone: [ ^ self halt ].
+	aConnectionElement := self elementForConnection: aConnection ifNone: [ ^ self "halt" ].
 	aConnectionElement removeFromParent.
 	self updateItemIds
 ]
