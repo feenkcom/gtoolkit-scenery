@@ -381,6 +381,7 @@ GtScenery >> items: anObject [
 { #category : #updating }
 GtScenery >> removeConnection: aConnection [
 	self connections remove: aConnection.
+	self announce: (GtSceneryConnectionDeleted new connection: aConnection).
 	^ aConnection
 ]
 
@@ -400,6 +401,7 @@ GtScenery >> removeItemWithConnections: anItem [
 			select: [ :c | c from == anItem or: c to == anItem ].
 	connectionsToRemove do: [ :c | self removeConnection: c ].
 	self items remove: anItem.
+	self announce: (GtSceneryItemDeleted new item: anItem).
 	^ anItem
 ]
 

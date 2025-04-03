@@ -15,6 +15,7 @@ Class {
 GtSceneryConnection >> asElementIn: aContainerElement [
 	| line |
 	line := stencil asElement.
+	line graph model: self.
 	line graph beEdge.
 	aContainerElement
 		allChildrenBreadthFirstDetect: [ :each | each graph model = from ]
