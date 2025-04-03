@@ -20,30 +20,27 @@ Class {
 GtScenery >> addConnectionFrom: anItem1 to: anItem2 [
 	"Let the item decide the connection stencil to use."
 
-	| connection |
-	connection := GtSceneryConnection new
-			stencil: (anItem1 stencilForConnectionWith: anItem2);
-			from: anItem1;
-			to: anItem2.
-	connections add: connection.
-	^ connection
+	^ self addConnectionWithStencil: (anItem1 stencilForConnectionWith: anItem2) from: anItem1 to: anItem2
 ]
 
 { #category : #accessing }
-GtScenery >> addConnectionWithStencil: aStencil from: item1 to: item2 [
+GtScenery >> addConnectionWithStencil: aStencil from: anItem1 to: anItem2 [
 	"Explicitly set the stencil. Used by GtScenery>>#storeOn:"
 
 	| connection |
 	connection := GtSceneryConnection new
 			stencil: aStencil;
-			from: item1;
-			to: item2.
+			from: anItem1;
+			to: anItem2.
 	connections add: connection.
+	self announce: (GtSceneryConnectionAdded new connection: connection).
 	^ connection
 ]
 
 { #category : #accessing }
 GtScenery >> addItem: anItem [
+	"Not a great name. Too  many other methods in the system with the same selector."
+
 	items add: anItem.
 	self announce: (GtSceneryItemAdded new item: anItem).
 	^ anItem
@@ -52,15 +49,8 @@ GtScenery >> addItem: anItem [
 { #category : #accessing }
 GtScenery >> addItemForStencil: anItemStencil [
 	"So far not used anywhere?"
-	
-	"| item |
-	item := GtSceneryItem new stencil: anItemStencil."
-	
+
 	^ self addItem: (GtSceneryItem new stencil: anItemStencil)
-	
-	"items add: item.
-	self announce: (GtSceneryItemAdded new item: anItemStencil).
-	^ item"
 ]
 
 { #category : #accessing }

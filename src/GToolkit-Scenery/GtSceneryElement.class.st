@@ -14,20 +14,39 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
-{ #category : #'item menu' }
-GtSceneryElement >> addNewItemFor: anItemStencilClass at: position [
+{ #category : #updating }
+GtSceneryElement >> addConnectionToView: aConnection [
+	"I am used in reaction to a GtSceneryConnectionAdded announcement."
+	| newConnectionElement |
+	newConnectionElement := self createConnectionElementFor: aConnection.
+	self container addChild: newConnectionElement.
+	self updateItemIds.
+	^ newConnectionElement
+]
+
+{ #category : #updating }
+GtSceneryElement >> addItemToView: anItem [
+	"I am used in reaction to a GtSceneryItemAdded announcement."
+	| newItemElement |
+	newItemElement := self createItemElementFor: anItem.
+	self container addChild: newItemElement.
+	self updateItemIds.
+	^ newItemElement
+]
+
+{ #category : #updating }
+GtSceneryElement >> addNewItemFor: anItemStencilClass at: aPosition [
 	"Add a new item at the position of the triggering event."
 
 	<tag: #shouldBeHandledByAnnouncement>
-	| item newElement |
+	| item |
+	"Don't actually need to return anything ..."
 	item := anItemStencilClass new asItem.
-	item position: position.
-	self gtScenery addItem: item.	"Handle rest by announcement ..."
-
-	newElement := self createItemElementFor: item.
-	self container addChild: newElement.
-	self updateItemIds.
-	^ newElement
+	item position: aPosition.
+	self gtScenery addItem: item.
+	"Handle rest by announcement ..."
+	"self addItem: item."
+	
 ]
 
 { #category : #'connection menu' }
@@ -60,12 +79,9 @@ GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: a
 
 { #category : #'item menu' }
 GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
+	"Still need to handle deletion by announcements."
 	<tag: #shouldBeHandledByAnnouncement>
 	<tag: #sceneryContextMenu>
-	<todo: '
-	This should replace GtSceneryElement>>#itemContextMenuForItem:andElement:
-	Here we want extensible submenus. Instead of just listing the items for the Menu aptitude, we can explicitly create a nested menu.
-	We also want items themselves to offer new submenus ....'>
 	| menuItems |
 	menuItems := BrMenuItems new
 			id: #'gtScenery-item-menu';
@@ -153,7 +169,7 @@ GtSceneryElement >> container [
 	^ container
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryElement >> createConnectionElementFor: aConnection [
 	<tag: #sceneryListeners>
 	| connectionElement |
@@ -256,7 +272,7 @@ GtSceneryElement >> gtScenery [
 	^ gtScenery
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryElement >> gtScenery: aScenery [
 	| itemElement connectionElement |
 	self unsubscribe.
@@ -368,61 +384,43 @@ GtSceneryElement >> removeItemElementWithConnections: anItemElement [
 
 { #category : #'as yet unclassified' }
 GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
-	"I spawn a new item within the Scenery and the SceneryElement, starting from a given source item.
-	When the source item is dragged, the new item will by dragged with it."
-	<tag: #shouldBeHandledByAnnouncement>
+	"I spawn a new item within the Scenery. 
+	Updates to the view are handled by announcements. (See #subscribe.)"
 
-	| itemToSpawn elementToSpawn |
+	| itemToSpawn |
 	itemToSpawn := aStencil asItem.
 	itemToSpawn position: sourceItemElement bounds topRight + (40 @ 0).
 
 	sourceItem addLinkTo: itemToSpawn.
 	gtScenery addItem: itemToSpawn.
-	
-	elementToSpawn := self createItemElementFor: itemToSpawn.
-	sourceItemElement graph connectTo: elementToSpawn.
-	sourceItemElement
-		withDeep: [ :each | each graph nodesAlongIncomingEdges asArray ]
-		do: [ :each | each addEventHandler: (BlPullHandler new targetElement: elementToSpawn) ].
-	container addChild: elementToSpawn.
-	^ elementToSpawn
+
+	^ itemToSpawn	"Only needed when also connecting to the new item"
 ]
 
 { #category : #connecting }
 GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
 	<tag: #shouldBeHandledByAnnouncement>
-	| newItemElement newConnection newConnectionElement |
-	newItemElement := self
+	| newConnection newItem |
+	newItem := self
 			spawnItemWithStencil: aStencil
 			fromElement: sourceItemElement
 			forItem: sourceItem.
 
-	newConnection := self gtScenery
-			addConnectionFrom: sourceItem
-			to: newItemElement graph model.
-
-	"newConnectionElement := newConnection
-			asElementIn: container
-			forScenery: self gtScenery."
-	newConnectionElement := self createConnectionElementFor: newConnection.
-
-	container
-		addChild: newConnectionElement
-		as: (GtSceneryConnectionId indexed: self gtScenery connections size)
+	newConnection := self gtScenery addConnectionFrom: sourceItem to: newItem
 ]
 
 { #category : #announcement }
 GtSceneryElement >> subscribe [
-	"We want to see when a new item is added to the model.
-	NB: This conflicts with the spawnObject: logic in createElementFor:,
-	which also generates a new element for an item added."
+	"We subscribe to all  kinds of updates from the model."
 
 	self gtScenery announcer
 		when: GtSceneryItemAdded
-		do: [ :announcement :subscriber | 
-			"| newElement |
-			newElement := self createElementFor: announcement item.
-			self container addChild: newElement" ]
+		do: [ :announcement :subscriber | self addItemToView: announcement item ]
+		for: self.
+
+	self gtScenery announcer
+		when: GtSceneryConnectionAdded
+		do: [ :announcement :subscriber | self addConnectionToView: announcement connection ]
 		for: self
 ]
 
