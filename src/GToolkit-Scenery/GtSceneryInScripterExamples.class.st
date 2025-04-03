@@ -123,7 +123,7 @@ GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel15Factor250DragXM120Y30 
 { #category : #examples }
 GtSceneryInScripterExamples >> mindmapWithTwoSubnodes [
 	<gtExample>
-	^ self scripterWithModel: [ GtSceneryExamples new mindmapWithTwoSubnodes ]
+	^ self scripterWithModel: [ GtSceneryMindmapExamples new mindmapWithTwoSubnodes ]
 ]
 
 { #category : #examples }
