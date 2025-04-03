@@ -25,6 +25,9 @@ GtSceneryUMLClassElement >> stencilClass [
 
 { #category : #accessing }
 GtSceneryUMLClassElement >> text: aText [
+	"Is this the right place to listen to updates? Or should the scenery notify us instead that validity may have changed due to an item update?"
+
+	<tag: #shouldBeHandledByAnnouncement>
 	super text: aText.
 	self text when: BlTextStringsInserted do: [ self updateForegroundColor ].
 	self text when: BlTextsDeleted do: [ self updateForegroundColor ]
