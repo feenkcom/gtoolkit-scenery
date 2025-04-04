@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #announcements }
-GtSceneryEntity >> announce: anAnnouncement [ 
+GtSceneryEntity >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement
 ]
 

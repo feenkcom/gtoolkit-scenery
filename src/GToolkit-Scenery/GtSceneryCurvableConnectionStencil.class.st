@@ -51,23 +51,12 @@ GtSceneryCurvableConnectionStencil >> borderColor [
 
 { #category : #'instance creation' }
 GtSceneryCurvableConnectionStencil >> create [
-	| line |
-	line := self elementClass new
-			curvatureFraction: self curvatureFraction;
-			border: (BlBorder paint: self borderColor width: 1).
-	labelText notNil
-		ifTrue: [ line
-				addChild: (BrLabel new
-						text: labelText;
-						background: Color white;
-						aptitude: (BrGlamorousLabelAptitude new fontSize: self fontSize);
-						margin: (BlInsets top: 10);
-						constraintsDo: [ :c | 
-							c ignored vertical alignCenterAt: 0.3.
-							c ignored horizontal alignCenter.
-							c ignoreByLayout ]) ].
-	line := line toHead: self arrowHead.
-	^ line
+	^ self elementClass new
+]
+
+{ #category : #'context menu' }
+GtSceneryCurvableConnectionStencil >> curvatureDelta [
+	^ 0.2
 ]
 
 { #category : #accessing }
@@ -77,7 +66,8 @@ GtSceneryCurvableConnectionStencil >> curvatureFraction [
 
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> curvatureFraction: aFraction [
-	curvatureFraction := aFraction
+	curvatureFraction := aFraction.
+	self announceUpdate
 ]
 
 { #category : #accessing }
@@ -114,7 +104,8 @@ GtSceneryCurvableConnectionStencil >> fontSize [
 
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> fontSize: aFontSize [
-	fontSize := aFontSize
+	fontSize := aFontSize.
+	self announceUpdate
 ]
 
 { #category : #initialization }
@@ -133,7 +124,8 @@ GtSceneryCurvableConnectionStencil >> labelText [
 
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> labelText: aText [
-	labelText := aText
+	labelText := aText.
+	self announceUpdate
 ]
 
 { #category : #accessing }
@@ -151,25 +143,6 @@ GtSceneryCurvableConnectionStencil >> storeOnAttributes [
 		#curvatureFraction}
 ]
 
-{ #category : #printing }
-GtSceneryCurvableConnectionStencil >> storeOnOLD: aStream [
-	super storeOn: aStream.
-	aStream 
-		nextPutAll: ' labelText: '.
-	self labelText storeOn: aStream.
-	aStream 
-		nextPutAll: '; fontSize: '.
-	self fontSize storeOn: aStream.
-	aStream 
-		nextPutAll: '; curvatureFraction: '.
-	self curvatureFraction storeOn: aStream.
-	aStream 
-		nextPutAll: '; arrowHeadType: '.
-	self arrowHeadType storeOn: aStream.
-	aStream 
-		nextPutAll: '; yourself'.
-]
-
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> triangleArrowHead [
 	^ BlArrowheadTriangle new
@@ -180,21 +153,21 @@ GtSceneryCurvableConnectionStencil >> triangleArrowHead [
 { #category : #'context menu' }
 GtSceneryCurvableConnectionStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	| curvatureSubMenuItems brMenuItems |
-	brMenuItems := super updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement.
-	
+	brMenuItems := super
+			updateContextMenuItems: aBrMenuItems
+			forSceneryElement: aGtSceneryElement
+			andChildElement: aChildElement.
+
 	curvatureSubMenuItems := BrMenuItems new.
 	curvatureSubMenuItems
 		addItemLabel: 'Curve positively'
-		action: [ self curvatureFraction: 0.4.
-			aGtSceneryElement redisplay ].
+		action: [ self curvatureFraction: self curvatureFraction + self curvatureDelta ].
 	curvatureSubMenuItems
 		addItemLabel: 'Curve negatively'
-		action: [ self curvatureFraction: -0.4.
-			aGtSceneryElement redisplay ].
+		action: [ self curvatureFraction: self curvatureFraction - self curvatureDelta ].
 	curvatureSubMenuItems
 		addItemLabel: 'Be straight'
-		action: [ self curvatureFraction: 0.
-			aGtSceneryElement redisplay ].
+		action: [ self curvatureFraction: 0 ].
 
 	brMenuItems
 		addItem: (BrMenuSubmenuItem new

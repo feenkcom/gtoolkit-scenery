@@ -92,7 +92,8 @@ GtSceneryUMLConnectionStencil >> navigationBlockString: aClosureOrString [
 
 	navigationBlockString := aClosureOrString isClosure
 			ifTrue: [ aClosureOrString printString ]
-			ifFalse: [ aClosureOrString ]
+			ifFalse: [ aClosureOrString ].
+	self announceUpdate
 ]
 
 { #category : #accessing }
@@ -106,7 +107,8 @@ GtSceneryUMLConnectionStencil >> relationshipType: aSymbol [
 		assert: (self relationshipTypes includes: aSymbol)
 		description: aSymbol printString , ' is not a known relationship type'.
 	relationshipType := aSymbol.
-	self updateArrowhead
+	self updateArrowhead.
+	self announceUpdate
 ]
 
 { #category : #constants }
@@ -163,25 +165,6 @@ GtSceneryUMLConnectionStencil >> storeOnAttributes [
 		#curvatureFraction}
 ]
 
-{ #category : #printing }
-GtSceneryUMLConnectionStencil >> storeOnOLD: aStream [
-	aStream nextPutAll: self class name; nextPutAll: ' new'.
-	aStream 
-		nextPutAll: ' labelText: '.
-	self labelText storeOn: aStream.
-	aStream 
-		nextPutAll: '; fontSize: '.
-	self fontSize storeOn: aStream.
-	aStream 
-		nextPutAll: '; curvatureFraction: '.
-	self curvatureFraction storeOn: aStream.
-	aStream 
-		nextPutAll: '; relationshipType: '.
-	self relationshipType storeOn: aStream.
-	aStream 
-		nextPutAll: '; yourself'.
-]
-
 { #category : #accessing }
 GtSceneryUMLConnectionStencil >> updateArrowhead [
 	self relationshipType = #association ifTrue: [ ^ self arrowHeadType: #simple ].
@@ -200,12 +183,10 @@ GtSceneryUMLConnectionStencil >> updateContextMenuItems: aBrMenuItems forScenery
 	relationshipTypeSubMenuItems := BrMenuItems new.
 	relationshipTypeSubMenuItems
 		addItemLabel: 'Association'
-		action: [ self beAssociation.
-			aGtSceneryElement redisplay ].
+		action: [ self beAssociation ].
 	relationshipTypeSubMenuItems
 		addItemLabel: 'Inheritance'
-		action: [ self beInheritance.
-			aGtSceneryElement redisplay ].
+		action: [ self beInheritance ].
 
 	brMenuItems
 		addItem: (BrMenuSubmenuItem new

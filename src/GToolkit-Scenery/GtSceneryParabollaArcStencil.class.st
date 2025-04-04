@@ -164,6 +164,7 @@ GtSceneryParabollaArcStencil >> triangleArrowHead [
 
 { #category : #'context menu' }
 GtSceneryParabollaArcStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+	"NB: Since we create a plain BlParabollaArcElement we cannot set up announcements to update the element when the connection stencil changes, so we just locally redisplay the scenery element instead."
 	| curvatureSubMenuItems brMenuItems |
 	brMenuItems := super updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement.
 	

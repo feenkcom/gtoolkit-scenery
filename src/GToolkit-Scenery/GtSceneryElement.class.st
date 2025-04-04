@@ -204,12 +204,12 @@ GtSceneryElement >> createItemElementFor: anItem [
 				forItem: anItem ].
 	itemElement
 		when: BlElementPositionChangedEvent
-		do: [ :e | 
-			anItem position: e currentTarget position.
-			"self gtScenery announceItemMoved: anItem" ].
+		do: [ :e | anItem position: e currentTarget position	"self gtScenery announceItemMoved: anItem" ].
 	itemElement
 		when: BlElementExtentChangedEvent
-		do: [ :e | anItem extent: e currentTarget extent ].
+		do: [ :e | 
+			anItem extent: e currentTarget extent.
+			itemElement size: e currentTarget extent ].
 	^ itemElement
 ]
 
@@ -457,7 +457,7 @@ GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceI
 	newConnection := self gtScenery addConnectionFrom: sourceItem to: newItem
 ]
 
-{ #category : #announcement }
+{ #category : #announcements }
 GtSceneryElement >> subscribe [
 	"We subscribe to all  kinds of updates from the model."
 
@@ -482,7 +482,7 @@ GtSceneryElement >> subscribe [
 		for: self.
 ]
 
-{ #category : #announcement }
+{ #category : #announcements }
 GtSceneryElement >> unsubscribe [
 	gtScenery ifNotNil: [ gtScenery announcer unsubscribe: self ]
 ]

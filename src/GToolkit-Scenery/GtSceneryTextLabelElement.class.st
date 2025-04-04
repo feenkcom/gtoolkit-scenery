@@ -7,8 +7,8 @@ Subclasses should implement `idClass`.
 Class {
 	#name : #GtSceneryTextLabelElement,
 	#superclass : #BrEditableLabel,
-	#traits : 'TLeWithFontSize',
-	#classTraits : 'TLeWithFontSize classTrait',
+	#traits : 'TLeWithFontSize + TGtSceneryUpdatableElement',
+	#classTraits : 'TLeWithFontSize classTrait + TGtSceneryUpdatableElement classTrait',
 	#instVars : [
 		'labelAptitude'
 	],
@@ -27,16 +27,6 @@ GtSceneryTextLabelElement >> defaultLabelShortcuts [
 							toStencil: self stencilClass new;
 							yourself) ];
 			yourself} , super defaultLabelShortcuts
-]
-
-{ #category : #acccessing }
-GtSceneryTextLabelElement >> extent: aPoint [
-	"This is mainly a hook to answer requests to resize the item when listening for BlElementExtentChangedEvent"
-
-	self width: aPoint x.
-	self
-		hExact: self width;
-		vFitContent
 ]
 
 { #category : #initalization }
@@ -73,7 +63,27 @@ GtSceneryTextLabelElement >> labelAptitude [
 	^ labelAptitude ifNil: [ self initializeLabelAptitude ]
 ]
 
+{ #category : #acccessing }
+GtSceneryTextLabelElement >> size: aPoint [
+	"This is essentially a hook to answer requests to resize the item when listening for BlElementExtentChangedEvent in GtSceneryElement>>#createItemElementFor: "
+
+	self graph model stencil width: aPoint x.
+	self
+		hExact: self width;
+		vFitContent
+]
+
 { #category : #initalization }
 GtSceneryTextLabelElement >> stencilClass [
 	^ GtSceneryTextLabelStencil
+]
+
+{ #category : #announcements }
+GtSceneryTextLabelElement >> updateAppearance [
+	| stencil |
+	stencil := self graph model stencil.
+	stencil width = stencil defaultWidth
+		ifFalse: [ self
+				hExact: stencil width;
+				vFitContent ]
 ]

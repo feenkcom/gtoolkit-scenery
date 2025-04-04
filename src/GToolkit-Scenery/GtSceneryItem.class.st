@@ -45,12 +45,17 @@ GtSceneryItem >> asElementIn: aSceneryElement [
 	element graph model: self.
 	element graph beNode.
 	element beFocusable.
-	
+
 	self announcer
 		when: GtSceneryItemMoved
 		do: [ :announcement :subscriber | element relocate: self position ]
 		for: element.
-	
+
+	self announcer
+		when: GtSceneryItemUpdated
+		do: [ :announcement :subscriber | element isUpdatableSceneryEntityElement ifTrue: [ element updateAppearance ] ]
+		for: element.
+
 	element
 		when: BlClickEvent
 			do: [ :e | 
@@ -186,8 +191,10 @@ GtSceneryItem >> stencil [
 ]
 
 { #category : #accessing }
-GtSceneryItem >> stencil: anItemStencil [ 
-	stencil := anItemStencil
+GtSceneryItem >> stencil: anItemStencil [
+	self unsubscribe.
+	stencil := anItemStencil.
+	self subscribe
 ]
 
 { #category : #connecting }
@@ -195,6 +202,22 @@ GtSceneryItem >> stencilForConnectionWith: anItem [
 	"Let the stencil decide the connection stencil to use."
 
 	^ self stencil stencilForConnectionWithItemStencil: anItem stencil
+]
+
+{ #category : #announcements }
+GtSceneryItem >> subscribe [
+	self stencil isSceneryStencil ifFalse: [ ^ self ].
+	self stencil announcer
+		when: GtStencilUpdated
+		do: [ :announcement :subscriber | self announce: (GtSceneryItemUpdated new item: self) ]
+		for: self
+]
+
+{ #category : #announcements }
+GtSceneryItem >> unsubscribe [
+	self stencil
+		ifNotNil: [ self stencil isSceneryStencil
+				ifTrue: [ self stencil announcer unsubscribe: self ] ]
 ]
 
 { #category : #'item menu' }
