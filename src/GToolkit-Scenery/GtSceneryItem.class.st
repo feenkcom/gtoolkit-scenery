@@ -1,5 +1,5 @@
 "
-I am an item within a scenery. I wrap a stencil for an actual item. The stencil classes are subclasses of {{gtClass:name=GtSceneryItemStencil}}.
+I am an item within a scenery. I wrap a stencil for an actual item.
 "
 Class {
 	#name : #GtSceneryItem,
