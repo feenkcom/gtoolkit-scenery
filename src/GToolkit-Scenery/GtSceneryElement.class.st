@@ -102,7 +102,7 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 ]
 
 { #category : #initialization }
-GtSceneryElement >> buildItemCreationSubMenuForContext: aContext [
+GtSceneryElement >> buildItemCreationSubmenuForContext: aContext [
 	"Add a submenu action for each ItemStencil class."
 
 	<tag: #sceneryContextMenu>
@@ -122,12 +122,47 @@ GtSceneryElement >> buildItemCreationSubMenuForContext: aContext [
 ]
 
 { #category : #initialization }
+GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
+	"Add a submenu actions for selected layouts."
+
+	<tag: #sceneryContextMenu>
+	| submenuItems submenu |
+	submenu := BrMenuItems new.
+
+	submenuItems := BrMenuItems new.
+
+	(GtGradLayout allSubclasses reject: #isAbstract)
+		do: [ :layoutClass | 
+			submenuItems
+				addItemLabel: layoutClass name
+				action: [ self container layout: (BlOnceLayout new layout: layoutClass new) ] ].
+	submenu
+		addItem: (BrMenuSubmenuItem new
+				label: 'GtGrad Layouts';
+				submenu: submenuItems).
+
+
+	submenuItems := BrMenuItems new.
+	(GtGraphLayout allSubclasses reject: #isAbstract)
+		do: [ :layoutClass | 
+			submenuItems
+				addItemLabel: layoutClass name
+				action: [ self container layout: (BlOnceLayout new layout: layoutClass new) ] ].
+	submenu
+		addItem: (BrMenuSubmenuItem new
+				label: 'GtGraph Layouts';
+				submenu: submenuItems).
+
+	^ submenu
+]
+
+{ #category : #initialization }
 GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	"Build scenery context menu items.
 	aContext is a BrMenuInitialContext instance."
 
 	<tag: #sceneryContextMenu>
-	| menuItems subMenuItems |
+	| menuItems itemCreationSubmenu layoutSubmenu |
 	menuItems := BrMenuItems new
 			id: #'gtScenery-context-menu';
 			yourself.
@@ -139,11 +174,19 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 		action: [ aContext
 				childrenPositionDo: [ :aPoint | self addNewItemFor: self currentItemStencil at: aPoint ]
 				ifAbsentDo: [ 0 @ 0 ] ].
-	subMenuItems := self buildItemCreationSubMenuForContext: aContext.
+				
+	itemCreationSubmenu := self buildItemCreationSubmenuForContext: aContext.
 	menuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Add item';
-				submenu: subMenuItems).
+				submenu: itemCreationSubmenu).
+				
+	layoutSubmenu := self buildLayoutSubmenuForContext: aContext.
+	menuItems
+		addItem: (BrMenuSubmenuItem new
+				label: 'Update layout';
+				submenu: layoutSubmenu).
+				
 	menuItems addItemLabel: 'Redisplay' action: [ self redisplay ].
 	menuItems
 		addItemLabel: 'FAQ'
@@ -311,6 +354,10 @@ GtSceneryElement >> gtScenery: aScenery [
 	gtScenery items isEmpty
 		ifTrue: [ self container disableAutoScale ]
 		ifFalse: [ self container enableAutoScale ].
+		
+	gtScenery onceLayout
+		ifNotNil: [ self container layout: (BlOnceLayout new layout: gtScenery onceLayout) ].
+
 	self subscribe
 ]
 

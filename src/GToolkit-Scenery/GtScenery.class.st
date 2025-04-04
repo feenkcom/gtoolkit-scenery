@@ -11,7 +11,8 @@ Class {
 	#instVars : [
 		'connections',
 		'items',
-		'announcer'
+		'announcer',
+		'onceLayout'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -77,6 +78,12 @@ GtScenery >> connections: anObject [
 GtScenery >> create [
 	^ GtSceneryElement new
 		gtScenery: self
+]
+
+{ #category : #accessing }
+GtScenery >> defaultOnceLayout [
+	"If nil, don't apply any layout."
+	^ nil
 ]
 
 { #category : #page }
@@ -348,7 +355,8 @@ GtScenery >> initialize [
 	super initialize.
 	"self initializeDatabase."
 	items := OrderedCollection new .
-	connections := OrderedCollection new
+	connections := OrderedCollection new.
+	onceLayout := self defaultOnceLayout
 ]
 
 { #category : #accessing }
@@ -376,6 +384,18 @@ GtScenery >> items [
 { #category : #accessing }
 GtScenery >> items: anObject [
 	items := anObject
+]
+
+{ #category : #accessing }
+GtScenery >> onceLayout [
+	^ onceLayout
+]
+
+{ #category : #accessing }
+GtScenery >> onceLayout: aLayout [
+	"NB: A layout instance, not the class."
+
+	onceLayout := aLayout
 ]
 
 { #category : #updating }
