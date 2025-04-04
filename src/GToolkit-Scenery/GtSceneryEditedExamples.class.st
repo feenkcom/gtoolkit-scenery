@@ -201,20 +201,28 @@ GtSceneryEditedExamples >> simpleClassDiagram [
 	| scenery item1 item2 item3 item4 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryUMLClassStencil new label: 'GtScenery') asItem.
+			addItem: (GtSceneryUMLClassStencil new
+					label: 'GtScenery';
+					width: 73.70001220703125) asItem.
 	item1 position: 79.21819051106775 @ 81.21323649088544.
 	item1 extent: 73.70001220703125 @ 28.0.
 	item2 := scenery
-			addItem: (GtSceneryUMLClassStencil new label: 'GtSceneryItem') asItem.
+			addItem: (GtSceneryUMLClassStencil new
+					label: 'GtSceneryItem';
+					width: 102.27401733398438) asItem.
 	item2 position: 192.918202718099 @ 81.21323649088544.
 	item2 extent: 102.27401733398438 @ 28.0.
 	item3 := scenery
-			addItem: (GtSceneryUMLClassStencil new label: 'GtSceneryItemStencil') asItem.
+			addItem: (GtSceneryUMLClassStencil new
+					label: 'GtSceneryDraggableItemStencil';
+					width: 208.90681488834264) asItem.
 	item3 position: 335.19222005208337 @ 81.21323649088544.
-	item3 extent: 144.44200134277344 @ 28.0.
+	item3 extent: 208.90681488834264 @ 28.0.
 	item4 := scenery
-			addItem: (GtSceneryUMLClassStencil new label: 'GtSceneryTextLabelStencil') asItem.
-	item4 position: 322.83453369140625 @ 198.65036010742188.
+			addItem: (GtSceneryUMLClassStencil new
+					label: 'GtSceneryTextLabelStencil';
+					width: 175.41000366210938) asItem.
+	item4 position: 352.83453369140625 @ 185.65036010742188.
 	item4 extent: 175.41000366210938 @ 28.0.
 	scenery
 		addConnectionWithStencil: GtSceneryStraightArcStencil new

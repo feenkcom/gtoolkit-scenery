@@ -67,10 +67,12 @@ GtSceneryTextLabelElement >> labelAptitude [
 GtSceneryTextLabelElement >> size: aPoint [
 	"This is essentially a hook to answer requests to resize the item when listening for BlElementExtentChangedEvent in GtSceneryElement>>#createItemElementFor: "
 
-	self graph model stencil width: aPoint x.
-	self
-		hExact: self width;
-		vFitContent
+	self graph model
+		ifNil: [ super size: aPoint ]
+		ifNotNil: [ self graph model stencil width: aPoint x.
+			self
+				hExact: self width;
+				vFitContent ]
 ]
 
 { #category : #initalization }
