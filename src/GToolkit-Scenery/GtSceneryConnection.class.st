@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryConnection,
-	#superclass : #Object,
+	#superclass : #GtSceneryEntity,
 	#traits : 'TGtSceneryReporting',
 	#classTraits : 'TGtSceneryReporting classTrait',
 	#instVars : [

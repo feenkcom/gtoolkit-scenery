@@ -3,7 +3,7 @@ I am an abstract superclass for all scenery item announcements.
 "
 Class {
 	#name : #GtSceneryItemAnnouncement,
-	#superclass : #GtSceneryUpdateAnnouncement,
+	#superclass : #Announcement,
 	#instVars : [
 		'item'
 	],

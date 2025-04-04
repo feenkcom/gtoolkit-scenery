@@ -3,7 +3,7 @@ I am an abstract superclass for all scenery connection announcements.
 "
 Class {
 	#name : #GtSceneryConnectionAnnouncement,
-	#superclass : #GtSceneryUpdateAnnouncement,
+	#superclass : #Announcement,
 	#instVars : [
 		'connection'
 	],

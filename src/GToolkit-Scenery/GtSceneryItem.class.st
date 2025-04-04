@@ -3,7 +3,7 @@ I am an item within a scenery. I wrap a stencil for an actual item. The stencil 
 "
 Class {
 	#name : #GtSceneryItem,
-	#superclass : #Object,
+	#superclass : #GtSceneryEntity,
 	#traits : 'TGtSceneryReporting',
 	#classTraits : 'TGtSceneryReporting classTrait',
 	#instVars : [
@@ -45,6 +45,12 @@ GtSceneryItem >> asElementIn: aSceneryElement [
 	element graph model: self.
 	element graph beNode.
 	element beFocusable.
+	
+	self announcer
+		when: GtSceneryItemMoved
+		do: [ :announcement :subscriber | element relocate: self position ]
+		for: element.
+	
 	element
 		when: BlClickEvent
 			do: [ :e | 
@@ -62,7 +68,6 @@ GtSceneryItem >> asElementIn: aSceneryElement [
 					removeFromParent.
 				aSceneryElement container addChild: resizer.
 				resizer attachTo: element ].
-
 	element
 		when: BlDoubleClickEvent
 		do: [ :e | 
@@ -150,8 +155,9 @@ GtSceneryItem >> position [
 ]
 
 { #category : #accessing }
-GtSceneryItem >> position: aPoint [ 
-	position := aPoint
+GtSceneryItem >> position: aPoint [
+	position := aPoint.
+	self announce: (GtSceneryItemMoved new item: self)
 ]
 
 { #category : #updating }

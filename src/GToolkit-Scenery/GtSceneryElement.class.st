@@ -206,7 +206,7 @@ GtSceneryElement >> createItemElementFor: anItem [
 		when: BlElementPositionChangedEvent
 		do: [ :e | 
 			anItem position: e currentTarget position.
-			self gtScenery announceItemMoved: anItem ].
+			"self gtScenery announceItemMoved: anItem" ].
 	itemElement
 		when: BlElementExtentChangedEvent
 		do: [ :e | anItem extent: e currentTarget extent ].
@@ -387,15 +387,6 @@ GtSceneryElement >> redisplay [
 ]
 
 { #category : #updating }
-GtSceneryElement >> relocateItem: anItem [
-	"In response to the scenery announcing that an item has moved."
-
-	| itemElement |
-	itemElement := self elementForItem: anItem ifNone: [ ^ self ].
-	itemElement relocate: anItem position
-]
-
-{ #category : #updating }
 GtSceneryElement >> removeConnection: aConnection [
 	"If the connection is not found, silently return."
 
@@ -489,11 +480,6 @@ GtSceneryElement >> subscribe [
 		when: GtSceneryConnectionDeleted
 		do: [ :announcement :subscriber | self removeConnection: announcement connection ]
 		for: self.
-
-	self gtScenery announcer
-		when: GtSceneryItemMoved
-		do: [ :announcement :subscriber | self relocateItem: announcement item ]
-		for: self
 ]
 
 { #category : #announcement }
