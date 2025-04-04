@@ -98,7 +98,8 @@ GtSceneryTextLabelStencil >> emphasis [
 { #category : #accessing }
 GtSceneryTextLabelStencil >> emphasis: aSymbol [
 	"See BlFontEmphasisAttribute"
-	emphasis := aSymbol
+	emphasis := aSymbol.
+	self announceUpdate
 ]
 
 { #category : #initialization }
@@ -130,7 +131,8 @@ GtSceneryTextLabelStencil >> label [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> label: aString [
-	label := aString
+	label := aString.
+	self announceUpdate
 ]
 
 { #category : #printing }
@@ -162,17 +164,6 @@ GtSceneryTextLabelStencil >> storeOnAttributes [
 		#emphasis.
 		#weight.
 		#width}
-]
-
-{ #category : #printing }
-GtSceneryTextLabelStencil >> storeOnOLD: aStream [
-	super storeOn: aStream.
-	aStream
-		space;
-		nextPutAll: 'label: ('.
-	self label storeOn: aStream.
-	aStream nextPutAll: ' asRopedText)'.
-	width ifNotNil: [ aStream nextPutAll: '; width: (' , width storeString , ')' ]
 ]
 
 { #category : #accessing }
@@ -224,7 +215,8 @@ GtSceneryTextLabelStencil >> weight [
 { #category : #accessing }
 GtSceneryTextLabelStencil >> weight: aSymbol [
 	"See BlFontWeightAttribute"
-	weight := aSymbol
+	weight := aSymbol.
+	self announceUpdate
 ]
 
 { #category : #accessing }
@@ -234,5 +226,6 @@ GtSceneryTextLabelStencil >> width [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> width: aWidth [
-	width := aWidth
+	width := aWidth.
+	self announceUpdate
 ]

@@ -4,7 +4,7 @@ I am an abstract parent for GtSceneryConnection stencils.
 "
 Class {
 	#name : #GtSceneryConnectionStencil,
-	#superclass : #GtSceneryItemStencil,
+	#superclass : #GtSceneryEntityStencil,
 	#category : #'GToolkit-Scenery-Model'
 }
 

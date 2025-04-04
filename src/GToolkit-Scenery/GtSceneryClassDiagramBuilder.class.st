@@ -12,7 +12,7 @@ Class {
 		'classItemMap',
 		'associations'
 	],
-	#category : #'GToolkit-Scenery-Utility'
+	#category : #'GToolkit-Scenery-Utilities'
 }
 
 { #category : #accessing }

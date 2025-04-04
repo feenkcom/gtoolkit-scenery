@@ -72,7 +72,8 @@ GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
 			ifTrue: [ aClosureOrString printString ]
 			ifFalse: [ aClosureOrString ].
 
-	example := nil
+	example := nil.
+	self announceUpdate
 ]
 
 { #category : #'as yet unclassified' }
@@ -170,14 +171,14 @@ GtSceneryUMLClassStencil >> updateContextMenuItems: aBrMenuItems forSceneryEleme
 				action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ] ].
 
 	subMenuItems := BrMenuItems new.
-	subMenuItems addItemLabel: 'Superclass' action: [ aGtSceneryElement redisplay ].
-	subMenuItems addItemLabel: 'Subclasses' action: [ aGtSceneryElement redisplay ].
+	subMenuItems addItemLabel: 'Superclass' action: [ "to do" ].
+	subMenuItems addItemLabel: 'Subclasses' action: [ "to do" ].
 
-	aBrMenuItems
+	"aBrMenuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Spawn';
 				submenu: subMenuItems).
-
+"
 	^ aBrMenuItems
 ]
 

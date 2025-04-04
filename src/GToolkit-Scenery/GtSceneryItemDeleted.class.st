@@ -1,9 +1,9 @@
 "
-I am announced by a GtScenery whenever a new item is added.
+I am announced by a GtScenery whenever a new item is deleted.
 
 "
 Class {
-	#name : #GtSceneryItemAdded,
+	#name : #GtSceneryItemDeleted,
 	#superclass : #GtSceneryItemAnnouncement,
 	#category : #'GToolkit-Scenery-Announcements'
 }

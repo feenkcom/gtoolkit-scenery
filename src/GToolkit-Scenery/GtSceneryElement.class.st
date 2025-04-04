@@ -38,20 +38,15 @@ GtSceneryElement >> addItemToView: anItem [
 GtSceneryElement >> addNewItemFor: anItemStencilClass at: aPosition [
 	"Add a new item at the position of the triggering event."
 
-	<tag: #shouldBeHandledByAnnouncement>
-	| item |
-	"Don't actually need to return anything ..."
-	item := anItemStencilClass new asItem.
-	item position: aPosition.
-	self gtScenery addItem: item.
-	"Handle rest by announcement ..."
-	"self addItem: item."
-	
+	| newItem |
+	newItem := anItemStencilClass new asItem.
+	newItem position: aPosition.
+	self gtScenery addItem: newItem.
+	^ newItem
 ]
 
 { #category : #'connection menu' }
 GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: aConnectionElement [
-	<tag: #shouldBeHandledByAnnouncement>
 	<tag: #sceneryContextMenu>
 	| menuItems |
 	menuItems := BrMenuItems new
@@ -67,20 +62,16 @@ GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: a
 	aConnection
 		updateConnectionContextMenuItems: menuItems
 		forSceneryElement: self
-		andConnectionElement: aConnectionElement. 
+		andConnectionElement: aConnectionElement.
 
 	menuItems
 		addItemLabel: 'Delete connection'
-		action: [ :elt | 
-			self gtScenery removeConnection: aConnection.	"Next should be handled by announcement:"
-			self removeConnectionElement: aConnectionElement ].
+		action: [ :elt | self gtScenery removeConnection: aConnection ].
 	^ menuItems
 ]
 
 { #category : #'item menu' }
 GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
-	"Still need to handle deletion by announcements."
-	<tag: #shouldBeHandledByAnnouncement>
 	<tag: #sceneryContextMenu>
 	| menuItems |
 	menuItems := BrMenuItems new
@@ -106,14 +97,12 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 
 	menuItems
 		addItemLabel: 'Delete item'
-		action: [ :elt | 
-			self gtScenery removeItemWithConnections: anItem.	"Next should be handled by announcement:"
-			self removeItemElementWithConnections: anItemElement ].
+		action: [ :elt | self gtScenery removeItemWithConnections: anItem ].
 	^ menuItems
 ]
 
 { #category : #initialization }
-GtSceneryElement >> buildItemCreationSubMenuForContext: aContext [
+GtSceneryElement >> buildItemCreationSubmenuForContext: aContext [
 	"Add a submenu action for each ItemStencil class."
 
 	<tag: #sceneryContextMenu>
@@ -133,12 +122,47 @@ GtSceneryElement >> buildItemCreationSubMenuForContext: aContext [
 ]
 
 { #category : #initialization }
+GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
+	"Add a submenu actions for selected layouts."
+
+	<tag: #sceneryContextMenu>
+	| submenuItems submenu |
+	submenu := BrMenuItems new.
+
+	submenuItems := BrMenuItems new.
+
+	(GtGradLayout allSubclasses reject: #isAbstract)
+		do: [ :layoutClass | 
+			submenuItems
+				addItemLabel: layoutClass name
+				action: [ self container layout: (BlOnceLayout new layout: layoutClass new) ] ].
+	submenu
+		addItem: (BrMenuSubmenuItem new
+				label: 'GtGrad Layouts';
+				submenu: submenuItems).
+
+
+	submenuItems := BrMenuItems new.
+	(GtGraphLayout allSubclasses reject: #isAbstract)
+		do: [ :layoutClass | 
+			submenuItems
+				addItemLabel: layoutClass name
+				action: [ self container layout: (BlOnceLayout new layout: layoutClass new) ] ].
+	submenu
+		addItem: (BrMenuSubmenuItem new
+				label: 'GtGraph Layouts';
+				submenu: submenuItems).
+
+	^ submenu
+]
+
+{ #category : #initialization }
 GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	"Build scenery context menu items.
 	aContext is a BrMenuInitialContext instance."
 
 	<tag: #sceneryContextMenu>
-	| menuItems subMenuItems |
+	| menuItems itemCreationSubmenu layoutSubmenu |
 	menuItems := BrMenuItems new
 			id: #'gtScenery-context-menu';
 			yourself.
@@ -150,11 +174,19 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 		action: [ aContext
 				childrenPositionDo: [ :aPoint | self addNewItemFor: self currentItemStencil at: aPoint ]
 				ifAbsentDo: [ 0 @ 0 ] ].
-	subMenuItems := self buildItemCreationSubMenuForContext: aContext.
+				
+	itemCreationSubmenu := self buildItemCreationSubmenuForContext: aContext.
 	menuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Add item';
-				submenu: subMenuItems).
+				submenu: itemCreationSubmenu).
+				
+	layoutSubmenu := self buildLayoutSubmenuForContext: aContext.
+	menuItems
+		addItem: (BrMenuSubmenuItem new
+				label: 'Update layout';
+				submenu: layoutSubmenu).
+				
 	menuItems addItemLabel: 'Redisplay' action: [ self redisplay ].
 	menuItems
 		addItemLabel: 'FAQ'
@@ -193,7 +225,10 @@ GtSceneryElement >> createConnectionElementFor: aConnection [
 
 { #category : #accessing }
 GtSceneryElement >> createItemElementFor: anItem [
-	"Instantiate the given item as an element, adding scenery-specific listeners."
+	"Instantiate the given item as an element, adding scenery-specific listeners.
+	NB: when items request an object to be spawned — generating a GtPhlowObjectToSpawn announcement
+	— this will cause the new object to be spawned as an item *within* the scenery itself.
+	GtSceneryObjectToSpawn must be used instead to spawn an inspector within the p hlow of the scenery."
 
 	<tag: #sceneryListeners>
 	| itemElement |
@@ -212,10 +247,12 @@ GtSceneryElement >> createItemElementFor: anItem [
 				forItem: anItem ].
 	itemElement
 		when: BlElementPositionChangedEvent
-		do: [ :e | anItem position: e currentTarget position ].
+		do: [ :e | anItem position: e currentTarget position	"self gtScenery announceItemMoved: anItem" ].
 	itemElement
 		when: BlElementExtentChangedEvent
-		do: [ :e | anItem extent: e currentTarget extent ].
+		do: [ :e | 
+			anItem extent: e currentTarget extent.
+			itemElement size: e currentTarget extent ].
 	^ itemElement
 ]
 
@@ -234,6 +271,34 @@ GtSceneryElement >> currentItemStencil: anObject [
 { #category : #initialization }
 GtSceneryElement >> defaultItemStencilClass [
 	^ GtSceneryMindMapNodeStencil
+]
+
+{ #category : #accessing }
+GtSceneryElement >> elementForConnection: aConnection [
+	"Fails with NotFound error if absent."
+	^ self graph allEdgeChildren
+		detect: [ :element | element graph model == aConnection ]
+]
+
+{ #category : #accessing }
+GtSceneryElement >> elementForConnection: aConnection ifNone: exceptionBlock [
+	^ self graph allEdgeChildren
+		detect: [ :element | element graph model == aConnection ]
+		ifNone: exceptionBlock
+]
+
+{ #category : #accessing }
+GtSceneryElement >> elementForItem: anItem [
+	"Fails with NotFound error if absent."
+	^ self graph allNodeChildren
+		detect: [ :element | element graph model == anItem ]
+]
+
+{ #category : #accessing }
+GtSceneryElement >> elementForItem: anItem ifNone: exceptionBlock [
+	^ self graph allNodeChildren
+		detect: [ :element | element graph model == anItem ]
+		ifNone: exceptionBlock
 ]
 
 { #category : #accessing }
@@ -289,6 +354,10 @@ GtSceneryElement >> gtScenery: aScenery [
 	gtScenery items isEmpty
 		ifTrue: [ self container disableAutoScale ]
 		ifFalse: [ self container enableAutoScale ].
+		
+	gtScenery onceLayout
+		ifNotNil: [ self container layout: (BlOnceLayout new layout: gtScenery onceLayout) ].
+
 	self subscribe
 ]
 
@@ -365,7 +434,18 @@ GtSceneryElement >> redisplay [
 ]
 
 { #category : #updating }
+GtSceneryElement >> removeConnection: aConnection [
+	"If the connection is not found, silently return."
+
+	| aConnectionElement |
+	aConnectionElement := self elementForConnection: aConnection ifNone: [ ^ self "halt" ].
+	aConnectionElement removeFromParent.
+	self updateItemIds
+]
+
+{ #category : #updating }
 GtSceneryElement >> removeConnectionElement: aConnectionElement [
+	self deprecated: 'Use GtSceneryElement>>#removeConnection: instead'.
 	aConnectionElement removeFromParent.
 	self updateItemIds
 ]
@@ -373,12 +453,28 @@ GtSceneryElement >> removeConnectionElement: aConnectionElement [
 { #category : #updating }
 GtSceneryElement >> removeItemElementWithConnections: anItemElement [
 	| edges |
+	self deprecated: 'Use GtSceneryElement>>#removeItemWithConnections: instead'.
 	edges := self graph allEdgeChildren
 			select: [ :e | 
 				e fromAnchor referenceElement = anItemElement
 					or: [ e toAnchor referenceElement = anItemElement ] ].
 	edges do: [ :e | e removeFromParent ].
 	anItemElement removeFromParent.
+	self updateItemIds
+]
+
+{ #category : #updating }
+GtSceneryElement >> removeItemWithConnections: anItem [
+	"If the item is not found, silently return."
+
+	| edges itemElement |
+	itemElement := self elementForItem: anItem ifNone: [ ^ self ].
+	edges := self graph allEdgeChildren
+			select: [ :e | 
+				e fromAnchor referenceElement = itemElement
+					or: [ e toAnchor referenceElement = itemElement ] ].
+	edges do: [ :e | e removeFromParent ].
+	itemElement removeFromParent.
 	self updateItemIds
 ]
 
@@ -399,7 +495,6 @@ GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElemen
 
 { #category : #connecting }
 GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
-	<tag: #shouldBeHandledByAnnouncement>
 	| newConnection newItem |
 	newItem := self
 			spawnItemWithStencil: aStencil
@@ -409,7 +504,7 @@ GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceI
 	newConnection := self gtScenery addConnectionFrom: sourceItem to: newItem
 ]
 
-{ #category : #announcement }
+{ #category : #announcements }
 GtSceneryElement >> subscribe [
 	"We subscribe to all  kinds of updates from the model."
 
@@ -421,10 +516,20 @@ GtSceneryElement >> subscribe [
 	self gtScenery announcer
 		when: GtSceneryConnectionAdded
 		do: [ :announcement :subscriber | self addConnectionToView: announcement connection ]
-		for: self
+		for: self.
+
+	self gtScenery announcer
+		when: GtSceneryItemDeleted
+		do: [ :announcement :subscriber | self removeItemWithConnections: announcement item ]
+		for: self.
+
+	self gtScenery announcer
+		when: GtSceneryConnectionDeleted
+		do: [ :announcement :subscriber | self removeConnection: announcement connection ]
+		for: self.
 ]
 
-{ #category : #announcement }
+{ #category : #announcements }
 GtSceneryElement >> unsubscribe [
 	gtScenery ifNotNil: [ gtScenery announcer unsubscribe: self ]
 ]

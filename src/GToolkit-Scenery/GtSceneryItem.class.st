@@ -1,9 +1,9 @@
 "
-I am an item within a scenery. I wrap a stencil for an actual item. The stencil classes are subclasses of {{gtClass:name=GtSceneryItemStencil}}.
+I am an item within a scenery. I wrap a stencil for an actual item.
 "
 Class {
 	#name : #GtSceneryItem,
-	#superclass : #Object,
+	#superclass : #GtSceneryEntity,
 	#traits : 'TGtSceneryReporting',
 	#classTraits : 'TGtSceneryReporting classTrait',
 	#instVars : [
@@ -45,6 +45,17 @@ GtSceneryItem >> asElementIn: aSceneryElement [
 	element graph model: self.
 	element graph beNode.
 	element beFocusable.
+
+	self announcer
+		when: GtSceneryItemMoved
+		do: [ :announcement :subscriber | element relocate: self position ]
+		for: element.
+
+	self announcer
+		when: GtSceneryItemUpdated
+		do: [ :announcement :subscriber | element isUpdatableSceneryEntityElement ifTrue: [ element updateAppearance ] ]
+		for: element.
+
 	element
 		when: BlClickEvent
 			do: [ :e | 
@@ -62,7 +73,6 @@ GtSceneryItem >> asElementIn: aSceneryElement [
 					removeFromParent.
 				aSceneryElement container addChild: resizer.
 				resizer attachTo: element ].
-
 	element
 		when: BlDoubleClickEvent
 		do: [ :e | 
@@ -150,8 +160,9 @@ GtSceneryItem >> position [
 ]
 
 { #category : #accessing }
-GtSceneryItem >> position: aPoint [ 
-	position := aPoint
+GtSceneryItem >> position: aPoint [
+	position := aPoint.
+	self announce: (GtSceneryItemMoved new item: self)
 ]
 
 { #category : #updating }
@@ -180,8 +191,10 @@ GtSceneryItem >> stencil [
 ]
 
 { #category : #accessing }
-GtSceneryItem >> stencil: anItemStencil [ 
-	stencil := anItemStencil
+GtSceneryItem >> stencil: anItemStencil [
+	self unsubscribe.
+	stencil := anItemStencil.
+	self subscribe
 ]
 
 { #category : #connecting }
@@ -189,6 +202,22 @@ GtSceneryItem >> stencilForConnectionWith: anItem [
 	"Let the stencil decide the connection stencil to use."
 
 	^ self stencil stencilForConnectionWithItemStencil: anItem stencil
+]
+
+{ #category : #announcements }
+GtSceneryItem >> subscribe [
+	self stencil isSceneryStencil ifFalse: [ ^ self ].
+	self stencil announcer
+		when: GtStencilUpdated
+		do: [ :announcement :subscriber | self announce: (GtSceneryItemUpdated new item: self) ]
+		for: self
+]
+
+{ #category : #announcements }
+GtSceneryItem >> unsubscribe [
+	self stencil
+		ifNotNil: [ self stencil isSceneryStencil
+				ifTrue: [ self stencil announcer unsubscribe: self ] ]
 ]
 
 { #category : #'item menu' }

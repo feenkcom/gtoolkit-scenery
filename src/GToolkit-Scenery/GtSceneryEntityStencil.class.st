@@ -4,39 +4,64 @@ I am an abstract superclass for stencils of scenery items and connections.
 Subclasses should implement `storeOn:` and also `postCopy` so cloning will work correctly.
 "
 Class {
-	#name : #GtSceneryItemStencil,
+	#name : #GtSceneryEntityStencil,
 	#superclass : #BrStencil,
 	#traits : 'TGtSceneryShared',
 	#classTraits : 'TGtSceneryShared classTrait',
+	#instVars : [
+		'announcer'
+	],
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #'as yet unclassified' }
-GtSceneryItemStencil >> elementClass [
+{ #category : #announcements }
+GtSceneryEntityStencil >> announce: anAnnouncement [
+	self announcer announce: anAnnouncement
+]
+
+{ #category : #announcements }
+GtSceneryEntityStencil >> announceUpdate [
+	self announce: (GtStencilUpdated new stencil: self)
+]
+
+{ #category : #announcements }
+GtSceneryEntityStencil >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #accessing }
+GtSceneryEntityStencil >> elementClass [
 	"NB: Not used by all subclasses, but perhaps should be."
 	^ self subclassResponsibility
 ]
 
 { #category : #listeners }
-GtSceneryItemStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
+GtSceneryEntityStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
 	
 ]
 
 { #category : #testing }
-GtSceneryItemStencil >> isUMLClassStencil [
+GtSceneryEntityStencil >> isSceneryStencil [
+	"Only scenery stencils have announcers."
+
+	^ true
+]
+
+{ #category : #testing }
+GtSceneryEntityStencil >> isUMLClassStencil [
 	^ false
 ]
 
-{ #category : #'as yet unclassified' }
-GtSceneryItemStencil >> reportOn: aStream in: anItem [
+{ #category : #reporting }
+GtSceneryEntityStencil >> reportOn: aStream in: anItem [
 	"To be implemented by all subclasses that implement #isValidIn:."
 	^ self subclassResponsibility
 ]
 
 { #category : #printing }
-GtSceneryItemStencil >> storeOnAttributes [
+GtSceneryEntityStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method.
 	Each attribute #x should have a getter #x, setter #x: and a default #defaultX.
 	NB: the actual value need not be stored in an instance variable `x`,
@@ -49,7 +74,7 @@ GtSceneryItemStencil >> storeOnAttributes [
 ]
 
 { #category : #printing }
-GtSceneryItemStencil >> storeWithAttributesOn: aStream [
+GtSceneryEntityStencil >> storeWithAttributesOn: aStream [
 	"Can be used by subclasses to implement a #storeOn: method.
 	Attributes to be stored should be specified in #storeStringAttributes.
 	Iterate over `self storeStringAttributes` and export those
@@ -80,7 +105,7 @@ GtSceneryItemStencil >> storeWithAttributesOn: aStream [
 ]
 
 { #category : #'context menu' }
-GtSceneryItemStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+GtSceneryEntityStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	"Hook method for subclasses to provide more specific context menu items. By default do nothing."
 
 	^ aBrMenuItems

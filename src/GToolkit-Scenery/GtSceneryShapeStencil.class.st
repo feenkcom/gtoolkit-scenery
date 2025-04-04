@@ -29,7 +29,9 @@ GtSceneryShapeStencil >> backgroundColor [
 { #category : #accessing }
 GtSceneryShapeStencil >> backgroundColor: aColor [
 	"For backward compatibility"
-	self backgroundColorSelector: aColor name asSymbol
+
+	self backgroundColorSelector: aColor name asSymbol.
+	self announceUpdate
 ]
 
 { #category : #accessing }
@@ -42,12 +44,13 @@ GtSceneryShapeStencil >> backgroundColorSelector: aSelector [
 	self
 		assert: (Color registeredColorNames includes: aSelector)
 		description: aSelector , ' is not a registered Color name'.
-	backgroundColorSelector := aSelector
+	backgroundColorSelector := aSelector.
+	self announceUpdate
 ]
 
 { #category : #'instance creation' }
 GtSceneryShapeStencil >> create [
-	^ BlElement new
+	^ GtSceneryShapeElement new
 		size: extent;
 		background: self backgroundColor;
 		geometry: self geometry;
@@ -81,8 +84,9 @@ GtSceneryShapeStencil >> geometry [
 ]
 
 { #category : #accessing }
-GtSceneryShapeStencil >> geometry: anObject [
-	geometry := anObject
+GtSceneryShapeStencil >> geometry: aGeometry [
+	geometry := aGeometry.
+	self announceUpdate
 ]
 
 { #category : #listeners }
@@ -111,20 +115,26 @@ GtSceneryShapeStencil >> storeOnAttributes [
 		#backgroundColorSelector}
 ]
 
-{ #category : #printing }
-GtSceneryShapeStencil >> storeOnOLD: aStream [
-	super storeOn: aStream.
-	aStream
-		space;
-		nextPutAll: 'geometry: ('.
-	self geometry storeOn: aStream.
-	aStream
-		space;
-		nextPutAll: ');';
-		cr;
-		nextPutAll: ' backgroundColor: ('.
-	self backgroundColor storeOn: aStream.
-	aStream
-		space;
-		nextPutAll: ')'
+{ #category : #'context menu' }
+GtSceneryShapeStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+	| brMenuItems geometrySubmenu |
+	brMenuItems := super
+			updateContextMenuItems: aBrMenuItems
+			forSceneryElement: aGtSceneryElement
+			andChildElement: aChildElement.
+
+	geometrySubmenu := BrMenuItems new.
+	geometrySubmenu
+		addItemLabel: 'Be circular'
+		action: [ self geometry: BlCircleGeometry new ].
+	geometrySubmenu
+		addItemLabel: 'Be rectangular'
+		action: [ self geometry: BlRectangleGeometry new ].
+
+	brMenuItems
+		addItem: (BrMenuSubmenuItem new
+				label: 'Modify geometry';
+				submenu: geometrySubmenu).
+
+	^ brMenuItems
 ]

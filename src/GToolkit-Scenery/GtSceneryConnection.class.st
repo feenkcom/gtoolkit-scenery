@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryConnection,
-	#superclass : #Object,
+	#superclass : #GtSceneryEntity,
 	#traits : 'TGtSceneryReporting',
 	#classTraits : 'TGtSceneryReporting classTrait',
 	#instVars : [
@@ -15,7 +15,14 @@ Class {
 GtSceneryConnection >> asElementIn: aContainerElement [
 	| line |
 	line := stencil asElement.
+	line graph model: self.
 	line graph beEdge.
+
+	self announcer
+		when: GtSceneryConnectionUpdated
+		do: [ :announcement :subscriber | line isUpdatableSceneryEntityElement ifTrue: [ line updateAppearance ] ]
+		for: line.
+
 	aContainerElement
 		allChildrenBreadthFirstDetect: [ :each | each graph model = from ]
 		ifFound: [ :fromElement | 
@@ -30,6 +37,7 @@ GtSceneryConnection >> asElementIn: aContainerElement [
 				ifNone: [ self error: 'Could not find element' ] ]
 		ifNone: [ self error: 'Could not find element' ].
 	line userData at: #sceneryConnection put: true.
+	line isUpdatableSceneryEntityElement ifTrue: [ line updateAppearance ].
 	^ line
 ]
 
@@ -77,8 +85,19 @@ GtSceneryConnection >> stencil [
 ]
 
 { #category : #accessing }
-GtSceneryConnection >> stencil: aLineStencil [ 
-	stencil := aLineStencil
+GtSceneryConnection >> stencil: aLineStencil [
+	self unsubscribe.
+	stencil := aLineStencil.
+	self subscribe
+]
+
+{ #category : #announcements }
+GtSceneryConnection >> subscribe [
+	self stencil isSceneryStencil ifFalse: [ ^ self ].
+	self stencil announcer
+		when: GtStencilUpdated
+		do: [ :announcement :subscriber | self announce: (GtSceneryConnectionUpdated new connection: self) ]
+		for: self
 ]
 
 { #category : #accessing }
@@ -89,6 +108,13 @@ GtSceneryConnection >> to [
 { #category : #accessing }
 GtSceneryConnection >> to: item2 [ 
 	to := item2
+]
+
+{ #category : #announcements }
+GtSceneryConnection >> unsubscribe [
+	self stencil
+		ifNotNil: [ self stencil isSceneryStencil
+				ifTrue: [ self stencil announcer unsubscribe: self ] ]
 ]
 
 { #category : #'connection menu' }

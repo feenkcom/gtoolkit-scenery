@@ -1,9 +1,9 @@
 "
-I am announced by a GtScenery whenever a new connection is added.
+I am announced by a GtScenery whenever a new connection is deleted.
 
 "
 Class {
-	#name : #GtSceneryConnectionAdded,
+	#name : #GtSceneryConnectionDeleted,
 	#superclass : #GtSceneryConnectionAnnouncement,
 	#category : #'GToolkit-Scenery-Announcements'
 }
