@@ -131,15 +131,27 @@ Class {
 		'package',
 		'exampleMethods',
 		'exampleClasses',
-		'regularClasses',
-		'seeds'
+		'seeds',
+		'packageClasses',
+		'iterations'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
 
 { #category : #accessing }
 AssociationMiner class >> forClasses: aClassCollection [
+	^ self new
+		classes: aClassCollection;
+		initializeSeedsFromExamples;
+		yourself
+]
 
+{ #category : #accessing }
+AssociationMiner class >> forClassesWithFactories: aClassCollection [
+	^ self new
+		classes: aClassCollection;
+		initializeSeedsFromFactories;
+		yourself
 ]
 
 { #category : #'instance creation' }
@@ -148,7 +160,13 @@ AssociationMiner class >> forPackage: aSymbolOrRPackage [
 
 	^ self new
 		package: aSymbolOrRPackage;
+		initializeSeedsFromExamples;
 		yourself
+]
+
+{ #category : #accessing }
+AssociationMiner >> classes: aClassCollection [
+	packageClasses := aClassCollection asOrderedCollection sortedAs: #name
 ]
 
 { #category : #accessing }
@@ -156,13 +174,45 @@ AssociationMiner >> exampleClasses [
 	^ exampleClasses
 ]
 
+{ #category : #querying }
+AssociationMiner >> factoryMethods [
+	"Unary class methods that are presumed to be factory methods."
+
+	^ self packageClasses
+		flatCollect: [ :c | c class methods select: [ :m | m selector isUnary ] ]
+]
+
+{ #category : #views }
+AssociationMiner >> gtIterationsFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Iterations';
+		priority: 30;
+		items: [ self iterations ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Value' text: [ :each | each gtDisplayString ]
+]
+
+{ #category : #views }
+AssociationMiner >> gtSeedObjectsFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Seed objects';
+		priority: 20;
+		object: [ self seeds collect: #object ];
+		view: #gtItemsFor:
+]
+
 { #category : #views }
 AssociationMiner >> gtSeedsFor: aView [
 	<gtView>
-	seeds ifNil: [ ^ aView empty ].
+	self seeds ifNil: [ ^ aView empty ].
 	^ aView columnedList
 		title: 'Seeds';
-		items: [ seeds ];
+		priority: 10;
+		items: [ self seeds ];
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
@@ -172,15 +222,46 @@ AssociationMiner >> gtSeedsFor: aView [
 		column: 'Value' text: [ :each | each gtDisplayString ]
 ]
 
-{ #category : #initialization }
-AssociationMiner >> initializeFromPackage [
-	self assert: self package isNotNil.
+{ #category : #initalization }
+AssociationMiner >> initialize [
+	super initialize.
+	iterations := OrderedCollection new
+]
 
-	exampleMethods := (#gtExample gtPragmas & package gtPackageMatches) contents.
-	exampleClasses := (exampleMethods collect: #methodClass) asSet
-			asOrderedCollection.
-	regularClasses := package classes difference: exampleClasses.
-	seeds := exampleMethods collect: [ :m | AMExample forGtExample: m ]
+{ #category : #initialization }
+AssociationMiner >> initializeSeedsFromExamples [
+	"Seeds are created from all the <gtExample> methods found in the package classes."
+
+	| examples |
+	self assert: self packageClasses isNotNil.
+	self triageExamples.
+	examples := exampleMethods collect: [ :m | AMExample forGtExample: m ].
+	
+	self seeds: (examples reject: #isError)
+]
+
+{ #category : #initialization }
+AssociationMiner >> initializeSeedsFromFactories [
+	"Seeds are created from any factory (class) methods found in the [ackage classes, as well as by sending #new to every package class. Errors are filtered out."
+
+	| examples |
+	self assert: self packageClasses isNotNil.
+	examples := self factoryMethods collect: [ :m | AMExample forFactoryMethod: m ].
+	examples addAll: (self packageClasses collect: [ :c | AMExample forClass: c ]).
+
+	self seeds: (examples reject: #isError)
+]
+
+{ #category : #accessing }
+AssociationMiner >> iterations [
+	"NB: Updated by #seeds:"
+	^ iterations
+]
+
+{ #category : #querying }
+AssociationMiner >> navigationMethods [
+	^ self packageClasses
+		flatCollect: [ :c | c methods select: [ :m | m selector isUnary ] ]
 ]
 
 { #category : #accessing }
@@ -192,10 +273,37 @@ AssociationMiner >> package [
 { #category : #accessing }
 AssociationMiner >> package: aSymbolOrRPackage [
 	package := aSymbolOrRPackage asPackage.
-	self initializeFromPackage
+	packageClasses := package classes asOrderedCollection sortedAs: #name
+]
+
+{ #category : #accessing }
+AssociationMiner >> packageClasses [
+	^ packageClasses
 ]
 
 { #category : #accessing }
 AssociationMiner >> regularClasses [
-	^ regularClasses
+	^ packageClasses
+]
+
+{ #category : #accessing }
+AssociationMiner >> seeds [
+	^ seeds
+]
+
+{ #category : #accessing }
+AssociationMiner >> seeds: anExampleCollection [
+	seeds := anExampleCollection.
+	iterations := {AMIteration forSeeds: seeds andClasses: self packageClasses} asOrderedCollection
+]
+
+{ #category : #initialization }
+AssociationMiner >> triageExamples [
+	"exampleMethods := (#gtExample gtPragmas & package gtPackageMatches) contents."
+
+	exampleMethods := packageClasses
+			flatCollect: [ :c | c methods select: [ :m | m hasPragmaNamed: #gtExample ] ].
+	exampleClasses := (exampleMethods collect: #methodClass) asSet
+			asOrderedCollection.
+	packageClasses := packageClasses difference: exampleClasses
 ]
