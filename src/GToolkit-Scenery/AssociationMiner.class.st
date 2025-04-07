@@ -132,7 +132,8 @@ Class {
 		'exampleMethods',
 		'exampleClasses',
 		'seeds',
-		'packageClasses'
+		'packageClasses',
+		'iterations'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
@@ -182,23 +183,36 @@ AssociationMiner >> factoryMethods [
 ]
 
 { #category : #views }
+AssociationMiner >> gtIterationsFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Iterations';
+		priority: 30;
+		items: [ self iterations ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Value' text: [ :each | each gtDisplayString ]
+]
+
+{ #category : #views }
 AssociationMiner >> gtSeedObjectsFor: aView [
 	<gtView>
 	^ aView forward
 		title: 'Seed objects';
 		priority: 20;
-		object: [ seeds collect: #object ];
+		object: [ self seeds collect: #object ];
 		view: #gtItemsFor:
 ]
 
 { #category : #views }
 AssociationMiner >> gtSeedsFor: aView [
 	<gtView>
-	seeds ifNil: [ ^ aView empty ].
+	self seeds ifNil: [ ^ aView empty ].
 	^ aView columnedList
 		title: 'Seeds';
 		priority: 10;
-		items: [ seeds ];
+		items: [ self seeds ];
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
@@ -208,21 +222,40 @@ AssociationMiner >> gtSeedsFor: aView [
 		column: 'Value' text: [ :each | each gtDisplayString ]
 ]
 
+{ #category : #initalization }
+AssociationMiner >> initialize [
+	super initialize.
+	iterations := OrderedCollection new
+]
+
 { #category : #initialization }
 AssociationMiner >> initializeSeedsFromExamples [
+	"Seeds are created from all the <gtExample> methods found in the package classes."
+
+	| examples |
 	self assert: self packageClasses isNotNil.
 	self triageExamples.
-	seeds := (exampleMethods collect: [ :m | AMExample forGtExample: m ])
-			reject: #isError
+	examples := exampleMethods collect: [ :m | AMExample forGtExample: m ].
+	
+	self seeds: (examples reject: #isError)
 ]
 
 { #category : #initialization }
 AssociationMiner >> initializeSeedsFromFactories [
+	"Seeds are created from any factory (class) methods found in the [ackage classes, as well as by sending #new to every package class. Errors are filtered out."
+
+	| examples |
 	self assert: self packageClasses isNotNil.
-	seeds := (self factoryMethods collect: [ :m | AMExample forFactoryMethod: m ])
-			reject: #isError.
-	seeds
-		addAll: ((self packageClasses collect: [ :c | AMExample forClass: c ]) reject: #isError)
+	examples := self factoryMethods collect: [ :m | AMExample forFactoryMethod: m ].
+	examples addAll: (self packageClasses collect: [ :c | AMExample forClass: c ]).
+
+	self seeds: (examples reject: #isError)
+]
+
+{ #category : #accessing }
+AssociationMiner >> iterations [
+	"NB: Updated by #seeds:"
+	^ iterations
 ]
 
 { #category : #querying }
@@ -251,6 +284,17 @@ AssociationMiner >> packageClasses [
 { #category : #accessing }
 AssociationMiner >> regularClasses [
 	^ packageClasses
+]
+
+{ #category : #accessing }
+AssociationMiner >> seeds [
+	^ seeds
+]
+
+{ #category : #accessing }
+AssociationMiner >> seeds: anExampleCollection [
+	seeds := anExampleCollection.
+	iterations := {AMIteration forSeeds: seeds andClasses: self packageClasses} asOrderedCollection
 ]
 
 { #category : #initialization }
