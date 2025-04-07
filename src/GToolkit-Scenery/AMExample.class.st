@@ -20,9 +20,23 @@ Class {
 }
 
 { #category : #'instance creation' }
-AMExample class >> forGtExample: m [
+AMExample class >> forClass: aClass [
 	^ self new
-		initializeFromGtExample: m;
+		initializeFromClass: aClass;
+		yourself
+]
+
+{ #category : #'instance creation' }
+AMExample class >> forFactoryMethod: aMethod [
+	^ self new
+		initializeFromFactoryMethod: aMethod;
+		yourself
+]
+
+{ #category : #'instance creation' }
+AMExample class >> forGtExample: aMethod [
+	^ self new
+		initializeFromGtExample: aMethod;
 		yourself
 ]
 
@@ -45,12 +59,36 @@ AMExample >> evaluate [
 ]
 
 { #category : #initialization }
+AMExample >> initializeFromClass: aClass [
+	path := {aClass.
+			#new}.
+	self initializeObjectFromPath
+]
+
+{ #category : #initialization }
+AMExample >> initializeFromFactoryMethod: aFactoryMethod [
+	path := {aFactoryMethod methodClass.
+			aFactoryMethod selector}.
+	self initializeObjectFromPath
+]
+
+{ #category : #initialization }
 AMExample >> initializeFromGtExample: gtExampleMethod [
 	path := {gtExampleMethod methodClass.
 			#new.
 			gtExampleMethod selector}.
+	self initializeObjectFromPath
+]
+
+{ #category : #initialization }
+AMExample >> initializeObjectFromPath [
 	timeToRun := [ object := [ self evaluate ] onErrorDo: [ :err | err ] ]
 			timeToRun
+]
+
+{ #category : #testing }
+AMExample >> isError [
+	^ self object isKindOf: Exception
 ]
 
 { #category : #accessing }
