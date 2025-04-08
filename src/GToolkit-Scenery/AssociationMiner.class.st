@@ -6,8 +6,7 @@ The algorithm uses examples and unary methods to iteratively mine associations f
 The algorithm consists of three phases: 
 (i) collect an initial seed set of examples, from example methods, or from factory methods, 
 (ii) produce iterations, each of which consists of a set of associations and witnesses, stopping when we run out of examples, we don't produce any new associations for the package, or we reach some heuristic limits, and 
-(iii) we process the associations for which a source class can navigate to multiple target classes, to instead target a common superclass.
-
+(iii) we process the associations for which a source class example instance can navigate to multiple target classes, to instead target a common superclass.
 # Terminology and notation
 
 C is the set of all *classes* in the system.
@@ -54,59 +53,59 @@ NB: a map can be independently ambiguous or not, and monomorphic or not. An ambi
 This simplifies the resulting graph, producing fewer edges from the source class to targets.
 
 The association mining algorithm starts with a seed set of examples, and iteratively builds new, observations, until a stop condition is reached. At any stage, the set of observed associations may be transformed to become unambiguous, but possibly polymorphic.
-
 # Phase 1 — creating the initial seed example set
 
 The algorithm starts with a package P subset C of classes of interest, and a set Ex of example classes containing annotated example methods. The example classes may be part of an actual package to analyze, in which case we split it into P and Ex.
 
-We create an initial seed set of examples, Seed subset X, where:
+We create an initial seed set of examples, Seed_0 subset X, where:
 
-Seed = { x = `<`o,c new m`>` | c in Ex, m in u(c), o = eval(c new m) } 
+Seed_0 = { x = `<`o,c new m`>` | c in Ex, m in u(c), o = eval(c new m) } 
 
 Variant: there are no example classes, so instead we construct examples using factory messages of classes in P.
 
-Seed = { x = `<`o,c m`>` | c in P, m in f(c), o = eval(c m) }
+Seed_0 = { x = `<`o,c m`>` | c in P, m in f(c), o = eval(c m) }
 
+We then *clean* the initial set with a partial function clean : X -> X that filters out uninteresting examples, and transforms those that map to collections.
+Let x = `<`o,e`>`. Then we define x"" = clean(x) as follows.
+If class(x) = Error or Undefined, then clean(x) = ⊥ (bottom).
+If class(x) is a collection, then let x' = `<`o,e•#any`>`. if class(x') = Error or Undefined or collection, then clean(x) = ⊥, else clean(x) = x'.
+If class(x) is not a collection, then clean(x) = x.
+
+We now define Seed = clean(Seed_0) = { clean(x) | x in Seed_0, clean(x) != ⊥ }
 # Phase 2 — producing an iteration
 
-An *iteration* is a tuple It_n = `<`b_n,Xn`>` of extended observations and new examples to analyze.
-Xn is the set of *new examples* produced in that iteration, to be analyzed in the next iteration, and b_n is the association set produced thus far. The initial iteration consists of X_0 = Seed and b0 = A -> {}.
+An *iteration* is a tuple It_n = `<`b_n,X_n`>` of extended observations and new examples to analyze.
+X_n is the set of *new examples* produced in that iteration, to be analyzed in the next iteration, and b_n is the association set produced thus far. The initial iteration consists of X_0 = Seed and b_0 = A -> {}.
+We also define new(b_n,X_n) to be the *new asssociations* discovered in iteration n+1.
 
 A new iteration It_n+1 = `<`b_n+1, X_n+1`>` = iter(`<`b_n, X_n`>`) consists of
 (i) an updated observation map, b_n+1, where, for any a in A, b_n(a) subset b_n+1(a), and
 (ii) X_n+1, a set of new examples for analysis in the next iteration.
 X_n+1 may be empty (no new examples).
 
-X_n+1 and b_n+1 are defined as follows, by iterating X_n and b_n.
+X_n+1 and b_n+1 are defined as follows, by iterating over X_n.
 
-For each example x = `<`o,e`>` in Xn, and unary m in u(class(o)), let x' = `<`o',e'`>` where o' = eval(o m) and e' = em.
+For each example x = `<`o,e`>` in Xn, and unary m in u(class(o)), let x' = `<`o',e'`>` where o' = eval(o m) and e' = e•m.
 
-Note that the expressions always increase in length, so we can never create the same expression twice (though the resulting instances may be equal to ones we have seen before).
+Let x"" = clean(x'). If x"" is nil, discard it. 
+Otherwise let w = <x,m,x""> and a = <class(x),m,class(x"")>.
 
-If o' yields an error, a nil (undefined) object, or an empty collection, x' is not in X_n+1.
+If b_n(a) = Ø, then let a in new(b_n,X_n), and b_n+1(a) = {w}.
+Else let b_n+1(a) = b_n(a) U {w}.
 
-Let w' = `<`x,m,x'`>` be a new witness for association a' = `<`class(x),m,class(x')`>`.
+NB: Even if a is a new association, it might introduce an ambiguity if it shares the same source class and message but a different target for another witnessed association.
 
-If b_n(a') = Ø, then a' is a new association, so we let b_n+1(a') ‎ =  { w' }.
-If class(x') is in P, then x' is in X_n+1, otherwise it is discarded (not useful for further iterations).
+Alternative: if size(b_n(a)) exceeds some threshold, discard x' and let b_n+1(a) = b_n(a), i.e., not updating the set of witnesses.
 
-NB: Even if a' is a new association, it might introduce an ambiguity if the shares the same source class and message but a different target for another witnessed association.
+Let x"" in X_n+1 if class(x"") in P, o/w discard it.
 
-If b_n(a') is not empty, then w' is a new witness for an existing map.
-
-We let b_n+1(a') = b_n(a') U { w' }, adding the new witness.
-Again, if class(x') is in P, then x' is in Xn+1, otherwise it is discarded.
-
-Alternative: if size(b_n(a')) exceeds some threshold, discard x' and let b_n+1(a') = b_n(a'), i.e., not updating the set of witnesses.
+We keep witnesses that map outside of P, but not new examples.
 
 If Xn+1 is empty, then no new examples of interest have been mined, and we can stop iterating.
 
-Let new(b, b') ‎ = { a | b(a) = Ø, b'(a) != Ø } be the new associations observed in b' relative to b.
-
-If new(b_n,b+n+1) ‎ = Ø , then no new associations have been mined, and we can stop iterating. 
+If new(b_n,X_n) ‎ =  Ø, then no new associations have been mined, and we can stop iterating. 
 
 Note that since there is a finite number of possible navigations within a package P, eventually we will reach this stop condition.
-
 # Phase 3 — removing ambiguity
 
 If a given observation map b is ambiguous, we remove ambiguity by transforming it to b' = disambiguate(b) as follows.
@@ -116,7 +115,6 @@ Let Amb(b) = obs(b)|~ partition the observed associations into sets of divergent
 For every d in Amb(b), let merge(d) = `<`c,m,c'`>`, where c' = V { target(a) | a in d }. That is, we construct a new association representing all associations in the same divergent partition, with the target being least common superclass of all their targets.
 
 Now define b'(a) ‎ =  merge(d), for all d in Amb(b), else b'(a) ‎ =  Ø.
-
 # Phase 4 — cleaning
 
 In practice, only one witness is needed for each association, so the first (shortest) witness can be kept and the rest discarded.
@@ -219,6 +217,9 @@ AssociationMiner >> gtSeedsFor: aView [
 		column: 'Time to run'
 			text: [ :each  | each timeToRun ]
 			width: 100;
+		column: 'Class'
+			text: [ :each  | each objectClass ]
+			width: 150;
 		column: 'Value' text: [ :each | each gtDisplayString ]
 ]
 
@@ -237,7 +238,7 @@ AssociationMiner >> initializeSeedsFromExamples [
 	self triageExamples.
 	examples := exampleMethods collect: [ :m | AMExample forGtExample: m ].
 	
-	self seeds: (examples reject: #isError)
+	self seeds: examples
 ]
 
 { #category : #initialization }
@@ -249,7 +250,7 @@ AssociationMiner >> initializeSeedsFromFactories [
 	examples := self factoryMethods collect: [ :m | AMExample forFactoryMethod: m ].
 	examples addAll: (self packageClasses collect: [ :c | AMExample forClass: c ]).
 
-	self seeds: (examples reject: #isError)
+	self seeds: examples
 ]
 
 { #category : #accessing }
@@ -293,8 +294,15 @@ AssociationMiner >> seeds [
 
 { #category : #accessing }
 AssociationMiner >> seeds: anExampleCollection [
-	seeds := anExampleCollection.
-	iterations := {AMIteration forSeeds: seeds andClasses: self packageClasses} asOrderedCollection
+	"Process the initial collection, cleaning examples, removing discards, and keeping only relevant examples from the packageClasses of interest."
+
+anExampleCollection  inspect.
+	
+	seeds := anExampleCollection
+			collect: #clean
+			thenSelect: [ :eg | eg notNil and: [ self packageClasses includes: eg objectClass ] ].
+	iterations := {AMIteration forSeeds: seeds andClasses: self packageClasses}
+			asOrderedCollection
 ]
 
 { #category : #initialization }
