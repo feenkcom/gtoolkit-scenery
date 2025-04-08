@@ -125,13 +125,16 @@ In addition, we may have multiple associations between a source and target class
 Class {
 	#name : #AssociationMiner,
 	#superclass : #Object,
+	#traits : 'TAMUtility',
+	#classTraits : 'TAMUtility classTrait',
 	#instVars : [
 		'package',
 		'exampleMethods',
 		'exampleClasses',
 		'seeds',
 		'packageClasses',
-		'iterations'
+		'iterations',
+		'announcer'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
@@ -163,6 +166,20 @@ AssociationMiner class >> forPackage: aSymbolOrRPackage [
 ]
 
 { #category : #accessing }
+AssociationMiner >> addIteration [
+	self iterations addLast: self iterations last iterate.
+	self announcer
+		announce: (AMIterationAdded new
+				iteration: self iterations last;
+				yourself)
+]
+
+{ #category : #accessing }
+AssociationMiner >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #accessing }
 AssociationMiner >> classes: aClassCollection [
 	packageClasses := aClassCollection asOrderedCollection sortedAs: #name
 ]
@@ -172,12 +189,52 @@ AssociationMiner >> exampleClasses [
 	^ exampleClasses
 ]
 
+{ #category : #accessing }
+AssociationMiner >> exampleMethods [
+	^ exampleMethods
+]
+
 { #category : #querying }
 AssociationMiner >> factoryMethods [
 	"Unary class methods that are presumed to be factory methods."
 
 	^ self packageClasses
 		flatCollect: [ :c | c class methods select: [ :m | m selector isUnary ] ]
+]
+
+{ #category : #views }
+AssociationMiner >> gtClassesFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Example classes';
+		priority: 40;
+		items: [ self exampleClasses ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Value' text: [ :each | each gtDisplayString ];
+		actionUpdateButton
+]
+
+{ #category : #views }
+AssociationMiner >> gtExampleMethodsFor: aView [
+	<gtView>
+	^ (self
+		gtExamplesFor: aView
+		with: (self exampleMethods collect: [ :m | AMExample forGtExample: m ]))
+		title: 'Example methods';
+		priority: 45;
+		actionUpdateButton
+]
+
+{ #category : #'as yet unclassified' }
+AssociationMiner >> gtIterateActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		tooltip: 'Generate new iteration';
+		priority: 10;
+		icon: BrGlamorousIcons play;
+		action: [ :aButton | self addIteration ]
 ]
 
 { #category : #views }
@@ -190,37 +247,28 @@ AssociationMiner >> gtIterationsFor: aView [
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
-		column: 'Value' text: [ :each | each gtDisplayString ]
-]
-
-{ #category : #views }
-AssociationMiner >> gtSeedObjectsFor: aView [
-	<gtView>
-	^ aView forward
-		title: 'Seed objects';
-		priority: 20;
-		object: [ self seeds collect: #object ];
-		view: #gtItemsFor:
+		column: '# Classes'
+			text: [ :each | each classes size ]
+			width: 100;
+		column: '# Observations'
+			text: [ :each | each observations size ]
+			width: 100;
+		column: '# Examples'
+			text: [ :each | each examples size ]
+			width: 100;
+		column: '# New associations'
+			text: [ :each | each newAssociations size ]
+			width: 1560;
+		actionUpdateButton;
+		updateWhen: AMIterationAdded in: self announcer
 ]
 
 { #category : #views }
 AssociationMiner >> gtSeedsFor: aView [
 	<gtView>
-	self seeds ifNil: [ ^ aView empty ].
-	^ aView columnedList
+	^ (self gtExamplesFor: aView with: self seeds)
 		title: 'Seeds';
-		priority: 10;
-		items: [ self seeds ];
-		column: 'Index'
-			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
-			width: 45;
-		column: 'Time to run'
-			text: [ :each  | each timeToRun ]
-			width: 100;
-		column: 'Class'
-			text: [ :each  | each objectClass ]
-			width: 150;
-		column: 'Value' text: [ :each | each gtDisplayString ]
+		priority: 10
 ]
 
 { #category : #initalization }
@@ -296,11 +344,10 @@ AssociationMiner >> seeds [
 AssociationMiner >> seeds: anExampleCollection [
 	"Process the initial collection, cleaning examples, removing discards, and keeping only relevant examples from the packageClasses of interest."
 
-anExampleCollection  inspect.
-	
 	seeds := anExampleCollection
 			collect: #clean
 			thenSelect: [ :eg | eg notNil and: [ self packageClasses includes: eg objectClass ] ].
+
 	iterations := {AMIteration forSeeds: seeds andClasses: self packageClasses}
 			asOrderedCollection
 ]

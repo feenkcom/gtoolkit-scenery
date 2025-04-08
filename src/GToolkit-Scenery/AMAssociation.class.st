@@ -30,16 +30,14 @@ AMAssociation >> message: anObject [
 
 { #category : #'as yet unclassified' }
 AMAssociation >> printOn: aStream [
-	super printOn: aStream.
 	aStream
-		nextPut: $(;
+		nextPut: $<;
 		nextPutAll: self source name;
 		nextPut: $,;
 		nextPutAll: self message;
 		nextPut: $,;
 		nextPutAll: self target name;
-		nextPut: $)
-		
+		nextPut: $>
 ]
 
 { #category : #accessing }

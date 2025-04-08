@@ -11,10 +11,13 @@ In the ideal case, I start as a gtExample, followed by zero or more unary sends.
 Class {
 	#name : #AMExample,
 	#superclass : #Object,
+	#traits : 'TAMUtility',
+	#classTraits : 'TAMUtility classTrait',
 	#instVars : [
 		'object',
 		'timeToRun',
-		'path'
+		'path',
+		'timeOut'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
@@ -56,7 +59,7 @@ AMExample >> asBlockClosure [
 
 { #category : #converting }
 AMExample >> asBlockString [
-	^ '[ ' , path first name , ' ' , (' ' join: path allButFirst) , ' ]'
+	^ '[ ' , path first printString , ' ' , (' ' join: path allButFirst) , ' ]'
 ]
 
 { #category : #utility }
@@ -80,8 +83,13 @@ AMExample >> clean [
 	^ self
 ]
 
+{ #category : #initialization }
+AMExample >> defaultTimeOut [
+	^ 10 milliseconds
+]
+
 { #category : #initalization }
-AMExample >> evaluate [
+AMExample >> evaluatePath [
 	| result |
 	result := path first.
 	path allButFirst do: [ :sel | result := result perform: sel ].
@@ -89,54 +97,72 @@ AMExample >> evaluate [
 ]
 
 { #category : #views }
-AMExample >> gtSuccessorsFor: aView [
+AMExample >> gtObjectFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Object';
+		priority: 10;
+		object: [ self object ];
+		view: self objectViewSelector
+]
+
+{ #category : #views }
+AMExample >> gtPathFor: aView [
 	<gtView>
 	^ aView columnedList
-		title: 'Successors';
-		priority: 10;
-		items: [ self successors ];
+		title: 'Path';
+		priority: 40;
+		items: [ self path ];
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
-		column: 'Class'
-			text: [ :each  | each objectClass ]
-			width: 150;
 		column: 'Value' text: [ :each | each gtDisplayString ]
+]
+
+{ #category : #views }
+AMExample >> gtSuccessorsFor: aView [
+	<gtView>
+	^ (self gtExamplesFor: aView with: self successors)
+		title: 'Successors';
+		priority: 20
 ]
 
 { #category : #initialization }
 AMExample >> initializeFromClass: aClass [
 	path := {aClass.
 			#new}.
-	self initializeObjectFromPath
+	self initializeObject: [ aClass new ]
 ]
 
 { #category : #initialization }
 AMExample >> initializeFromExample: anExample sending: aSelector [
 	path := anExample path , {aSelector}.
-	timeToRun := [ object := [ anExample object perform: aSelector ] onErrorDo: [ :err | err ] ]
-			timeToRun
+	self initializeObject: [ anExample object perform: aSelector ]
 ]
 
 { #category : #initialization }
 AMExample >> initializeFromFactoryMethod: aFactoryMethod [
 	path := {aFactoryMethod methodClass.
 			aFactoryMethod selector}.
-	self initializeObjectFromPath
+	self
+		initializeObject: [ aFactoryMethod methodClass perform: aFactoryMethod selector ]
 ]
 
 { #category : #initialization }
 AMExample >> initializeFromGtExample: gtExampleMethod [
 	path := {gtExampleMethod methodClass.
 			#new.
-			gtExampleMethod selector}.
-	self initializeObjectFromPath
+			gtExampleMethod selector}.	"self halt."
+	self
+		initializeObject: [ gtExampleMethod methodClass new perform: gtExampleMethod selector ]
 ]
 
 { #category : #initialization }
-AMExample >> initializeObjectFromPath [
-	timeToRun := [ object := [ self evaluate ] onErrorDo: [ :err | err ] ]
-			timeToRun
+AMExample >> initializeObject: aBlock [
+	[ timeToRun := [ object := aBlock onErrorDo: [ :err | err ] ] timeToRun ]
+		valueWithin: self timeOut
+		onTimeout: [ object := TimedOut new
+					messageText: 'Exceeded timeout ' , self timeOut printString ]
 ]
 
 { #category : #accessing }
@@ -152,6 +178,15 @@ AMExample >> object: anObject [
 { #category : #querying }
 AMExample >> objectClass [
 	^ self object class
+]
+
+{ #category : #accessing }
+AMExample >> objectViewSelector [
+	"NB: We do not know a priori if there is a #gtLiveFor: view, so instead we just select the first nonempty view provided by the object, in priority order."
+
+	^ ((self object gtViewsInCurrentContext
+		reject: [ :v | v isKindOf: GtPhlowEmptyView ]) sortedAs: #priority) first
+		methodSelector
 ]
 
 { #category : #accessing }
@@ -172,11 +207,17 @@ AMExample >> printOn: aStream [
 
 { #category : #querying }
 AMExample >> successors [
-	"NB: This produces all possible successors, not just instances of the classes of interest."
+	"NB: This produces all possible clean successors, not just instances of the classes of interest.
+	Do we need this?"
 
 	^ (self unaryMethods collect: [ :m | AMExample send: m selector to: self ])
 		collect: #clean
 		thenSelect: [ :eg | eg notNil ]
+]
+
+{ #category : #initialization }
+AMExample >> timeOut [
+	^ timeOut ifNil: [ timeOut := self defaultTimeOut ]
 ]
 
 { #category : #accessing }
