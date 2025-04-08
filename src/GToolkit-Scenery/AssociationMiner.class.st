@@ -125,6 +125,8 @@ In addition, we may have multiple associations between a source and target class
 Class {
 	#name : #AssociationMiner,
 	#superclass : #Object,
+	#traits : 'TAMUtility',
+	#classTraits : 'TAMUtility classTrait',
 	#instVars : [
 		'package',
 		'exampleMethods',
@@ -196,21 +198,9 @@ AssociationMiner >> gtIterationsFor: aView [
 { #category : #views }
 AssociationMiner >> gtSeedsFor: aView [
 	<gtView>
-	self seeds ifNil: [ ^ aView empty ].
-	^ aView columnedList
+	^ (self gtExamplesFor: aView with: self seeds)
 		title: 'Seeds';
-		priority: 10;
-		items: [ self seeds ];
-		column: 'Index'
-			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
-			width: 45;
-		column: 'Time to run'
-			text: [ :each  | each timeToRun ]
-			width: 100;
-		column: 'Class'
-			text: [ :each  | each objectClass ]
-			width: 150;
-		column: 'Value' text: [ :each | each gtDisplayString ]
+		priority: 10
 ]
 
 { #category : #initalization }
@@ -285,13 +275,11 @@ AssociationMiner >> seeds [
 { #category : #accessing }
 AssociationMiner >> seeds: anExampleCollection [
 	"Process the initial collection, cleaning examples, removing discards, and keeping only relevant examples from the packageClasses of interest."
-	
+
 	seeds := anExampleCollection
 			collect: #clean
 			thenSelect: [ :eg | eg notNil and: [ self packageClasses includes: eg objectClass ] ].
-			
-			seeds := anExampleCollection.
-			
+
 	iterations := {AMIteration forSeeds: seeds andClasses: self packageClasses}
 			asOrderedCollection
 ]

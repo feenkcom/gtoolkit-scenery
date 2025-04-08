@@ -1,6 +1,8 @@
 Class {
 	#name : #AMIteration,
 	#superclass : #Object,
+	#traits : 'TAMUtility',
+	#classTraits : 'TAMUtility classTrait',
 	#instVars : [
 		'examples',
 		'observations',
@@ -46,14 +48,9 @@ AMIteration >> examples: anExampleCollection [
 { #category : #views }
 AMIteration >> gtExamplesFor: aView [
 	<gtView>
-	^ aView columnedList
+	^ (self gtExamplesFor: aView with: self examples)
 		title: 'Examples';
-		priority: 20;
-		items: [ self examples ];
-		column: 'Index'
-			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
-			width: 45;
-		column: 'Example' text: [ :each | each gtDisplayString ]
+		priority: 20
 ]
 
 { #category : #views }
