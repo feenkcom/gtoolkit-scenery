@@ -189,6 +189,11 @@ AssociationMiner >> exampleClasses [
 	^ exampleClasses
 ]
 
+{ #category : #accessing }
+AssociationMiner >> exampleMethods [
+	^ exampleMethods
+]
+
 { #category : #querying }
 AssociationMiner >> factoryMethods [
 	"Unary class methods that are presumed to be factory methods."

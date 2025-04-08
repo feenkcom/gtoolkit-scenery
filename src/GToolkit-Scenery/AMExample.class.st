@@ -16,7 +16,8 @@ Class {
 	#instVars : [
 		'object',
 		'timeToRun',
-		'path'
+		'path',
+		'timeOut'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
@@ -82,8 +83,13 @@ AMExample >> clean [
 	^ self
 ]
 
+{ #category : #initialization }
+AMExample >> defaultTimeOut [
+	^ 10 milliseconds
+]
+
 { #category : #initalization }
-AMExample >> evaluate [
+AMExample >> evaluatePath [
 	| result |
 	result := path first.
 	path allButFirst do: [ :sel | result := result perform: sel ].
@@ -112,21 +118,20 @@ AMExample >> gtSuccessorsFor: aView [
 AMExample >> initializeFromClass: aClass [
 	path := {aClass.
 			#new}.
-	self initializeObjectFromPath
+	self initializeObject: [ self evaluatePath ]
 ]
 
 { #category : #initialization }
 AMExample >> initializeFromExample: anExample sending: aSelector [
 	path := anExample path , {aSelector}.
-	timeToRun := [ object := [ anExample object perform: aSelector ] onErrorDo: [ :err | err ] ]
-			timeToRun
+	self initializeObject: [ anExample object perform: aSelector ]
 ]
 
 { #category : #initialization }
 AMExample >> initializeFromFactoryMethod: aFactoryMethod [
 	path := {aFactoryMethod methodClass.
 			aFactoryMethod selector}.
-	self initializeObjectFromPath
+	self initializeObject: [ self evaluatePath ]
 ]
 
 { #category : #initialization }
@@ -134,13 +139,17 @@ AMExample >> initializeFromGtExample: gtExampleMethod [
 	path := {gtExampleMethod methodClass.
 			#new.
 			gtExampleMethod selector}.
-	self initializeObjectFromPath
+	self initializeObject: [ self evaluatePath ]
 ]
 
 { #category : #initialization }
-AMExample >> initializeObjectFromPath [
-	timeToRun := [ object := [ self evaluate ] onErrorDo: [ :err | err ] ]
-			timeToRun
+AMExample >> initializeObject: aBlock [
+	"timeToRun := [ object := aBlock onErrorDo: [ :err | err ] ]
+			timeToRun"
+
+	[ timeToRun := [ object := aBlock onErrorDo: [ :err | err ] ] timeToRun ]
+		valueWithin: self timeOut
+		onTimeout: [ object := Error new messageText: 'Timeout exceeded' ]
 ]
 
 { #category : #accessing }
@@ -191,6 +200,11 @@ AMExample >> successors [
 	^ (self unaryMethods collect: [ :m | AMExample send: m selector to: self ])
 		collect: #clean
 		thenSelect: [ :eg | eg notNil ]
+]
+
+{ #category : #initialization }
+AMExample >> timeOut [
+	^ timeOut ifNil: [ timeOut := self defaultTimeOut ]
 ]
 
 { #category : #accessing }
