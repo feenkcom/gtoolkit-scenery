@@ -133,7 +133,8 @@ Class {
 		'exampleClasses',
 		'seeds',
 		'packageClasses',
-		'iterations'
+		'iterations',
+		'announcer'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
@@ -165,6 +166,20 @@ AssociationMiner class >> forPackage: aSymbolOrRPackage [
 ]
 
 { #category : #accessing }
+AssociationMiner >> addIteration [
+	self iterations addLast: self iterations last iterate.
+	self announcer
+		announce: (AMIterationAdded new
+				iteration: self iterations last;
+				yourself)
+]
+
+{ #category : #accessing }
+AssociationMiner >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #accessing }
 AssociationMiner >> classes: aClassCollection [
 	packageClasses := aClassCollection asOrderedCollection sortedAs: #name
 ]
@@ -182,6 +197,16 @@ AssociationMiner >> factoryMethods [
 		flatCollect: [ :c | c class methods select: [ :m | m selector isUnary ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+AssociationMiner >> gtIterateActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		tooltip: 'Generate new iteration';
+		priority: 10;
+		icon: BrGlamorousIcons play;
+		action: [ :aButton | self addIteration ]
+]
+
 { #category : #views }
 AssociationMiner >> gtIterationsFor: aView [
 	<gtView>
@@ -192,7 +217,20 @@ AssociationMiner >> gtIterationsFor: aView [
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
-		column: 'Value' text: [ :each | each gtDisplayString ]
+		column: '# Classes'
+			text: [ :each | each classes size ]
+			width: 100;
+		column: '# Observations'
+			text: [ :each | each observations size ]
+			width: 100;
+		column: '# Examples'
+			text: [ :each | each examples size ]
+			width: 100;
+		column: '# New associations'
+			text: [ :each | each newAssociations size ]
+			width: 1560;
+		actionUpdateButton;
+		updateWhen: AMIterationAdded in: self announcer
 ]
 
 { #category : #views }

@@ -185,7 +185,8 @@ AMExample >> printOn: aStream [
 
 { #category : #querying }
 AMExample >> successors [
-	"NB: This produces all possible successors, not just instances of the classes of interest."
+	"NB: This produces all possible clean successors, not just instances of the classes of interest.
+	Do we need this?"
 
 	^ (self unaryMethods collect: [ :m | AMExample send: m selector to: self ])
 		collect: #clean

@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'examples',
 		'observations',
-		'classes'
+		'classes',
+		'newAssociations'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
@@ -17,7 +18,6 @@ AMIteration class >> forSeeds: anExampleCollection andClasses: aClassCollection 
 
 	^ self new
 		examples: anExampleCollection;
-		observations: OrderedCollection new;
 		classes: aClassCollection;
 		yourself
 ]
@@ -54,26 +54,102 @@ AMIteration >> gtExamplesFor: aView [
 ]
 
 { #category : #views }
+AMIteration >> gtExamplesFor: aView with: examples [
+	"To be used in <gtView> method for a given examples list."
+
+	examples ifNil: [ ^ aView empty ].
+	^ aView columnedList
+		title: 'Seeds';
+		priority: 10;
+		items: [ examples ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Time to run'
+			text: [ :each | each timeToRun ]
+			width: 100;
+		column: 'Class'
+			text: [ :each | each objectClass ]
+			width: 150;
+		column: 'Value' text: [ :each | each gtDisplayString ]
+]
+
+{ #category : #views }
 AMIteration >> gtObservationsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Observations';
-		priority: 10;
-		items: [ self observations ];
+		items: [ self observations associations
+				collect: [ :keyVal | AMObservation for: keyVal ] ];
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
-		column: 'Value' text: [ :each | each gtDisplayString ]
+		column: 'Key' text: [ :each | each key gtDisplayString ];
+		column: 'Value' text: [ :each | each value gtDisplayString ];
+		send: [ :each | each value ];
+		actionUpdateButton
 ]
 
 { #category : #accessing }
-AMIteration >> nextExamples [
-	^ self examples flatCollect: #successors
+AMIteration >> iterate [
+	"Produce the next iteration. Iterate over the examples, producing successors,
+	keeping track of new associations, new examples and new observations,
+	discarding anything not of interest."
+
+	| nextNewAssociations newExamples newObservations |
+	newExamples := OrderedCollection new.
+	newObservations := self observations copy.
+	nextNewAssociations := OrderedCollection new.
+
+	self examples
+		do: [ :eg | 
+			((eg unaryMethods
+				collect: [ :m | m -> (AMExample send: m selector to: eg) clean ])
+				select: [ :keyVal | keyVal value notNil ])
+				do: [ :keyVal | 
+					| witness association oldWitnesses selector successor |
+					selector := keyVal key selector.
+					successor := keyVal value.
+					witness := AMWitness
+							example: eg
+							message: selector
+							result: successor.
+					association := AMAssociation
+							source: eg objectClass
+							message: selector
+							target: successor objectClass.
+					oldWitnesses := self observations
+							at: association
+							ifAbsent: [ OrderedCollection new ].
+					oldWitnesses
+						ifEmpty: [ nextNewAssociations add: association.
+							newObservations at: association put: {witness} asOrderedCollection ]
+						ifNotEmpty: [ newObservations
+								at: association
+								put: (oldWitnesses copyWith: witness) ] ] ].
+	^ AMIteration new
+		examples: newExamples;
+		observations: newObservations;
+		classes: self classes;
+		newAssociations: nextNewAssociations;
+		yourself
+]
+
+{ #category : #accessing }
+AMIteration >> newAssociations [
+	"Initially empty, and also at the end."
+
+	^ newAssociations ifNil: [ newAssociations := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+AMIteration >> newAssociations: anObject [
+	newAssociations := anObject
 ]
 
 { #category : #accessing }
 AMIteration >> observations [
-	^ observations ifNil: [ observations := OrderedCollection new ]
+	^ observations ifNil: [ observations := Dictionary new ]
 ]
 
 { #category : #accessing }
