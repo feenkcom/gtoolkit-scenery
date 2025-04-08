@@ -59,7 +59,7 @@ AMExample >> asBlockClosure [
 
 { #category : #converting }
 AMExample >> asBlockString [
-	^ '[ ' , path first name , ' ' , (' ' join: path allButFirst) , ' ]'
+	^ '[ ' , path first printString , ' ' , (' ' join: path allButFirst) , ' ]'
 ]
 
 { #category : #utility }
@@ -107,6 +107,19 @@ AMExample >> gtObjectFor: aView [
 ]
 
 { #category : #views }
+AMExample >> gtPathFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Path';
+		priority: 40;
+		items: [ self path ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Value' text: [ :each | each gtDisplayString ]
+]
+
+{ #category : #views }
 AMExample >> gtSuccessorsFor: aView [
 	<gtView>
 	^ (self gtExamplesFor: aView with: self successors)
@@ -139,17 +152,16 @@ AMExample >> initializeFromGtExample: gtExampleMethod [
 	path := {gtExampleMethod methodClass.
 			#new.
 			gtExampleMethod selector}.
+			"self halt."
 	self initializeObject: [ self evaluatePath ]
 ]
 
 { #category : #initialization }
 AMExample >> initializeObject: aBlock [
-	"timeToRun := [ object := aBlock onErrorDo: [ :err | err ] ]
-			timeToRun"
-
 	[ timeToRun := [ object := aBlock onErrorDo: [ :err | err ] ] timeToRun ]
 		valueWithin: self timeOut
-		onTimeout: [ object := Error new messageText: 'Timeout exceeded' ]
+		onTimeout: [ object := TimedOut new
+					messageText: 'Exceeded timeout ' , self timeOut printString ]
 ]
 
 { #category : #accessing }

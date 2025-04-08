@@ -202,6 +202,31 @@ AssociationMiner >> factoryMethods [
 		flatCollect: [ :c | c class methods select: [ :m | m selector isUnary ] ]
 ]
 
+{ #category : #views }
+AssociationMiner >> gtClassesFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Example classes';
+		priority: 40;
+		items: [ self exampleClasses ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Value' text: [ :each | each gtDisplayString ];
+		actionUpdateButton
+]
+
+{ #category : #views }
+AssociationMiner >> gtExampleMethodsFor: aView [
+	<gtView>
+	^ (self
+		gtExamplesFor: aView
+		with: (self exampleMethods collect: [ :m | AMExample forGtExample: m ]))
+		title: 'Example methods';
+		priority: 45;
+		actionUpdateButton
+]
+
 { #category : #'as yet unclassified' }
 AssociationMiner >> gtIterateActionFor: anAction [
 	<gtAction>
