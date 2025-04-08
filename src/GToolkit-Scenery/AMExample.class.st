@@ -131,7 +131,7 @@ AMExample >> gtSuccessorsFor: aView [
 AMExample >> initializeFromClass: aClass [
 	path := {aClass.
 			#new}.
-	self initializeObject: [ self evaluatePath ]
+	self initializeObject: [ aClass new ]
 ]
 
 { #category : #initialization }
@@ -144,16 +144,17 @@ AMExample >> initializeFromExample: anExample sending: aSelector [
 AMExample >> initializeFromFactoryMethod: aFactoryMethod [
 	path := {aFactoryMethod methodClass.
 			aFactoryMethod selector}.
-	self initializeObject: [ self evaluatePath ]
+	self
+		initializeObject: [ aFactoryMethod methodClass perform: aFactoryMethod selector ]
 ]
 
 { #category : #initialization }
 AMExample >> initializeFromGtExample: gtExampleMethod [
 	path := {gtExampleMethod methodClass.
 			#new.
-			gtExampleMethod selector}.
-			"self halt."
-	self initializeObject: [ self evaluatePath ]
+			gtExampleMethod selector}.	"self halt."
+	self
+		initializeObject: [ gtExampleMethod methodClass new perform: gtExampleMethod selector ]
 ]
 
 { #category : #initialization }
