@@ -59,6 +59,27 @@ AMExample >> asBlockString [
 	^ '[ ' , path first name , ' ' , (' ' join: path allButFirst) , ' ]'
 ]
 
+{ #category : #utility }
+AMExample >> clean [
+	"Return a clean example or nil.
+	If the example is a collection, select any element, and modify the execution path."
+
+	| someItem |
+	self object ifNil: [ ^ nil ].
+	(self object isKindOf: Exception) ifTrue: [ ^ nil ].
+	(self object isKindOf: Collection)
+		ifTrue: [ [ someItem := self object any ] onErrorDo: [ :err | ^ nil ].
+			someItem ifNil: [ ^ nil ].
+			(someItem isKindOf: Exception) ifTrue: [ ^ nil ].
+			(someItem isKindOf: Collection) ifTrue: [ ^ nil ].
+			^ AMExample new
+				object: someItem;
+				path: self path , {#any};
+				timeToRun: self timeToRun;
+				yourself ].
+	^ self
+]
+
 { #category : #initalization }
 AMExample >> evaluate [
 	| result |
@@ -77,6 +98,9 @@ AMExample >> gtSuccessorsFor: aView [
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
+		column: 'Class'
+			text: [ :each  | each objectClass ]
+			width: 150;
 		column: 'Value' text: [ :each | each gtDisplayString ]
 ]
 
@@ -115,14 +139,14 @@ AMExample >> initializeObjectFromPath [
 			timeToRun
 ]
 
-{ #category : #testing }
-AMExample >> isError [
-	^ self object isKindOf: Exception
-]
-
 { #category : #accessing }
 AMExample >> object [
 	^ object
+]
+
+{ #category : #accessing }
+AMExample >> object: anObject [
+	^ object := anObject
 ]
 
 { #category : #querying }
@@ -135,6 +159,11 @@ AMExample >> path [
 	^ path
 ]
 
+{ #category : #accessing }
+AMExample >> path: anObject [
+	path := anObject
+]
+
 { #category : #printing }
 AMExample >> printOn: aStream [
 	"super printOn: aStream."
@@ -143,13 +172,21 @@ AMExample >> printOn: aStream [
 
 { #category : #querying }
 AMExample >> successors [
+	"NB: This produces all possible successors, not just instances of the classes of interest."
+
 	^ (self unaryMethods collect: [ :m | AMExample send: m selector to: self ])
-		reject: #isError
+		collect: #clean
+		thenSelect: [ :eg | eg notNil ]
 ]
 
 { #category : #accessing }
 AMExample >> timeToRun [
 	^ timeToRun
+]
+
+{ #category : #accessing }
+AMExample >> timeToRun: anObject [
+	timeToRun := anObject
 ]
 
 { #category : #querying }
