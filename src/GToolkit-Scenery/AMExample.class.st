@@ -89,11 +89,21 @@ AMExample >> evaluate [
 ]
 
 { #category : #views }
+AMExample >> gtObjectFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Object';
+		priority: 10;
+		object: [ self object ];
+		view: self objectViewSelector
+]
+
+{ #category : #views }
 AMExample >> gtSuccessorsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Successors';
-		priority: 10;
+		priority: 20;
 		items: [ self successors ];
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
@@ -152,6 +162,15 @@ AMExample >> object: anObject [
 { #category : #querying }
 AMExample >> objectClass [
 	^ self object class
+]
+
+{ #category : #accessing }
+AMExample >> objectViewSelector [
+	"NB: We do not know a priori if there is a #gtLiveFor: view, so instead we just select the first nonempty view provided by the object, in priority order."
+
+	^ ((self object gtViewsInCurrentContext
+		reject: [ :v | v isKindOf: GtPhlowEmptyView ]) sortedAs: #priority) first
+		methodSelector
 ]
 
 { #category : #accessing }

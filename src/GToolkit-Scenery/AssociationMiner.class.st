@@ -194,16 +194,6 @@ AssociationMiner >> gtIterationsFor: aView [
 ]
 
 { #category : #views }
-AssociationMiner >> gtSeedObjectsFor: aView [
-	<gtView>
-	^ aView forward
-		title: 'Seed objects';
-		priority: 20;
-		object: [ self seeds collect: #object ];
-		view: #gtItemsFor:
-]
-
-{ #category : #views }
 AssociationMiner >> gtSeedsFor: aView [
 	<gtView>
 	self seeds ifNil: [ ^ aView empty ].
@@ -295,12 +285,13 @@ AssociationMiner >> seeds [
 { #category : #accessing }
 AssociationMiner >> seeds: anExampleCollection [
 	"Process the initial collection, cleaning examples, removing discards, and keeping only relevant examples from the packageClasses of interest."
-
-anExampleCollection  inspect.
 	
 	seeds := anExampleCollection
 			collect: #clean
 			thenSelect: [ :eg | eg notNil and: [ self packageClasses includes: eg objectClass ] ].
+			
+			seeds := anExampleCollection.
+			
 	iterations := {AMIteration forSeeds: seeds andClasses: self packageClasses}
 			asOrderedCollection
 ]
