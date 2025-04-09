@@ -91,10 +91,10 @@ AMIteration >> gtExamplesFor: aView with: examples [
 ]
 
 { #category : #views }
-AMIteration >> gtMergedObservationsFor: aView [
+AMIteration >> gtMergedTargetObservationsFor: aView [
 	<gtView>
-	^ (self gtObservationsFor: aView with: self mergedObservations)
-		title: 'Merged observations';
+	^ (self gtObservationsFor: aView with: self mergedTargetObservations)
+		title: 'Merged target observations';
 		priority: 50
 ]
 
@@ -119,7 +119,7 @@ AMIteration >> gtObservationsFor: aView [
 		priority: 10
 ]
 
-{ #category : #accessing }
+{ #category : #processing }
 AMIteration >> iterate [
 	"Produce the next iteration. Iterate over the examples, producing successors,
 	keeping track of new associations, new examples and new observations,
@@ -164,7 +164,7 @@ AMIteration >> iterate [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #processing }
 AMIteration >> joinClasses: aClassCollection [
 	^ ((aClassCollection allButFirst
 		inject: aClassCollection first allSuperclasses
@@ -172,23 +172,27 @@ AMIteration >> joinClasses: aClassCollection [
 		sortedAs: #classDepth) last
 ]
 
-{ #category : #accessing }
-AMIteration >> mergedObservations [
-	| mergedObservations |
-	mergedObservations := Dictionary new.
+{ #category : #processing }
+AMIteration >> mergedTargetObservations [
+	"If there are ambiguous observations with multiple targets (kv value size > 1), 
+	we merge them, take the join of the target classes.
+	E.g., observations returning True and False will be merged into one returning Boolean."
+
+	| mergedTargetObservations |
+	mergedTargetObservations := Dictionary new.
 	self groupDivergences
 		associationsDo: [ :kv | 
 			kv value size = 1
-				ifTrue: [ mergedObservations
+				ifTrue: [ mergedTargetObservations
 						at: kv value first key
 						put: (OrderedCollection withAll: kv value first value) ]
 				ifFalse: [ | classesToJoin join |
 					classesToJoin := kv value collect: [ :assoc | assoc key target ].
 					join := self joinClasses: classesToJoin.
-					mergedObservations
+					mergedTargetObservations
 						at: (kv value first key copyWithTarget: join)
 						put: (kv value flatCollect: #value) ] ].
-	^ mergedObservations
+	^ mergedTargetObservations
 ]
 
 { #category : #accessing }
