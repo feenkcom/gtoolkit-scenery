@@ -368,11 +368,12 @@ AssociationMiner >> seeds: anExampleCollection [
 
 { #category : #initialization }
 AssociationMiner >> triageExamples [
-	"Since any class might containg example methods, even if it is not a dedicated example class, we only assume a class is an example class if it contains example methods *and* its name ends with `Example`."
+	"Since any class might containg example methods, even if it is not a dedicated example class, we only assume a class is an example class if it contains example methods *and* its name ends with `Examples`."
 
 	exampleMethods := packageClasses
 			flatCollect: [ :c | c methods select: [ :m | m hasPragmaNamed: #gtExample ] ].
-	exampleClasses := (exampleMethods collect: #methodClass) asSet
-			asOrderedCollection.
+	exampleClasses := (exampleMethods
+			collect: #methodClass
+			thenSelect: [ :c | c name endsWith: 'Examples' ]) removeDuplicates.
 	packageClasses := packageClasses difference: exampleClasses
 ]
