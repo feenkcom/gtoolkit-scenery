@@ -75,10 +75,24 @@ AMIteration >> gtExamplesFor: aView with: examples [
 ]
 
 { #category : #views }
+AMIteration >> gtNewAssociationsFor: aView [
+	<gtView>
+	^ aView columnedList
+		priority: 25;
+		title: 'New Associations';
+		items: [ self newAssociations ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Associations' text: [ :each | each gtDisplayString ]
+]
+
+{ #category : #views }
 AMIteration >> gtObservationsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Observations';
+		priority: 10;
 		items: [ self observations associations
 				collect: [ :keyVal | AMObservation for: keyVal ] ];
 		column: 'Index'
@@ -86,7 +100,7 @@ AMIteration >> gtObservationsFor: aView [
 			width: 45;
 		column: 'Key' text: [ :each | each key gtDisplayString ];
 		column: 'Value' text: [ :each | each value gtDisplayString ];
-		send: [ :each | each value ];
+		send: [ :each | each key -> each value ];
 		actionUpdateButton
 ]
 

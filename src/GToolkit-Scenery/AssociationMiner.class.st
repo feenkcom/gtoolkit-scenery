@@ -110,7 +110,7 @@ Note that since there is a finite number of possible navigations within a packag
 
 If a given observation map b is ambiguous, we remove ambiguity by transforming it to b' = disambiguate(b) as follows.
 
-Let Amb(b) = obs(b)|~ partition the observed associations into sets of divergent ones, i.e., d in Amb(b), a, a' in d <=> a ~ a'.
+Let Amb(b) = obs(b)|~ partition the observed associations into sets of divergent ones, i.e., d in Amb(b), a, a' in d `<=>` a ~ a'.
 
 For every d in Amb(b), let merge(d) = `<`c,m,c'`>`, where c' = V { target(a) | a in d }. That is, we construct a new association representing all associations in the same divergent partition, with the target being least common superclass of all their targets.
 

@@ -1,15 +1,13 @@
 Class {
 	#name : #AMAssociation,
-	#superclass : #Object,
+	#superclass : #AMPreAssociation,
 	#instVars : [
-		'source',
-		'message',
 		'target'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 AMAssociation class >> source: aSourceClass message: aSelector target: aTargetClass [
 	^ self new
 		source: aSourceClass;
@@ -18,14 +16,19 @@ AMAssociation class >> source: aSourceClass message: aSelector target: aTargetCl
 		yourself
 ]
 
-{ #category : #accessing }
-AMAssociation >> message [
-	^ message
+{ #category : #comparing }
+AMAssociation >> = other [
+	^ super = other and: [ self target = other target ]
 ]
 
-{ #category : #accessing }
-AMAssociation >> message: anObject [
-	message := anObject
+{ #category : #converting }
+AMAssociation >> asPreassociation [
+	^ AMPreAssociation source: self source message: self message
+]
+
+{ #category : #comparing }
+AMAssociation >> hash [
+	^ super hash bitXor: self target hash
 ]
 
 { #category : #'as yet unclassified' }
@@ -41,21 +44,11 @@ AMAssociation >> printOn: aStream [
 ]
 
 { #category : #accessing }
-AMAssociation >> source [
-	^ source
-]
-
-{ #category : #accessing }
-AMAssociation >> source: anObject [
-	source := anObject
-]
-
-{ #category : #accessing }
 AMAssociation >> target [
 	^ target
 ]
 
 { #category : #accessing }
-AMAssociation >> target: anObject [
-	target := anObject
+AMAssociation >> target: aClass [
+	target := aClass
 ]
