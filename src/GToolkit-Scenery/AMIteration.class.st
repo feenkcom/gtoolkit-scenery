@@ -12,7 +12,7 @@ Class {
 	#category : #'GToolkit-Scenery-Mining'
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 AMIteration class >> forSeeds: anExampleCollection andClasses: aClassCollection [ 
 	"For the first iteration."
 
@@ -45,6 +45,22 @@ AMIteration >> examples: anExampleCollection [
 	examples := anExampleCollection
 ]
 
+{ #category : #processing }
+AMIteration >> groupDivergences [
+	"Return a dictionary mapping pre-associations <source,message> -> observation*
+	where each observation maps <source,message,target> -> witness* (source & message are the same)
+	Entry is divergent if there are multiple observations with the same source and message but different target class."
+
+	| partition |
+	partition := Dictionary new.
+	self observations
+		associationsDo: [ :keyValue | 
+			| pre |
+			pre := keyValue key asPreassociation.
+			(partition at: pre ifAbsentPut: [ OrderedCollection new ]) add: keyValue ].
+	^ partition
+]
+
 { #category : #views }
 AMIteration >> gtExamplesFor: aView [
 	<gtView>
@@ -75,6 +91,14 @@ AMIteration >> gtExamplesFor: aView with: examples [
 ]
 
 { #category : #views }
+AMIteration >> gtMergedObservationsFor: aView [
+	<gtView>
+	^ (self gtObservationsFor: aView with: self mergedObservations)
+		title: 'Merged observations';
+		priority: 50
+]
+
+{ #category : #views }
 AMIteration >> gtNewAssociationsFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -90,18 +114,9 @@ AMIteration >> gtNewAssociationsFor: aView [
 { #category : #views }
 AMIteration >> gtObservationsFor: aView [
 	<gtView>
-	^ aView columnedList
+	^ (self gtObservationsFor: aView with: self observations)
 		title: 'Observations';
-		priority: 10;
-		items: [ self observations associations
-				collect: [ :keyVal | AMObservation for: keyVal ] ];
-		column: 'Index'
-			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
-			width: 45;
-		column: 'Key' text: [ :each | each key gtDisplayString ];
-		column: 'Value' text: [ :each | each value gtDisplayString ];
-		send: [ :each | each key -> each value ];
-		actionUpdateButton
+		priority: 10
 ]
 
 { #category : #accessing }
@@ -147,6 +162,33 @@ AMIteration >> iterate [
 		classes: self classes;
 		newAssociations: nextNewAssociations;
 		yourself
+]
+
+{ #category : #accessing }
+AMIteration >> joinClasses: aClassCollection [
+	^ ((aClassCollection allButFirst
+		inject: aClassCollection first allSuperclasses
+		into: [ :intersection :each | intersection intersection: each allSuperclasses ])
+		sortedAs: #classDepth) last
+]
+
+{ #category : #accessing }
+AMIteration >> mergedObservations [
+	| mergedObservations |
+	mergedObservations := Dictionary new.
+	self groupDivergences
+		associationsDo: [ :kv | 
+			kv value size = 1
+				ifTrue: [ mergedObservations
+						at: kv value first key
+						put: (OrderedCollection withAll: kv value first value) ]
+				ifFalse: [ | classesToJoin join |
+					classesToJoin := kv value collect: [ :assoc | assoc key target ].
+					join := self joinClasses: classesToJoin.
+					mergedObservations
+						at: (kv value first key copyWithTarget: join)
+						put: (kv value flatCollect: #value) ] ].
+	^ mergedObservations
 ]
 
 { #category : #accessing }

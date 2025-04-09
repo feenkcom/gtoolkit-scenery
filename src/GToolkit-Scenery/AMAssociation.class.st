@@ -26,12 +26,17 @@ AMAssociation >> asPreassociation [
 	^ AMPreAssociation source: self source message: self message
 ]
 
+{ #category : #'instance creation' }
+AMAssociation >> copyWithTarget: aTargetClass [
+	^ self class source: self source message: self message target: aTargetClass
+]
+
 { #category : #comparing }
 AMAssociation >> hash [
 	^ super hash bitXor: self target hash
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 AMAssociation >> printOn: aStream [
 	aStream
 		nextPut: $<;
