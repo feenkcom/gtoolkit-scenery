@@ -46,6 +46,20 @@ AMIteration >> examples: anExampleCollection [
 ]
 
 { #category : #processing }
+AMIteration >> groupBySourceAndTarget [
+	"Return a dictionary mapping anonymous associations to observations with the same source and target."
+
+	| partition |
+	partition := Dictionary new.
+	self mergedTargetObservations
+		associationsDo: [ :keyValue | 
+			| anon |
+			anon := keyValue key asAnonymousAssociation.
+			(partition at: anon ifAbsentPut: [ OrderedCollection new ]) add: keyValue ].
+	^ partition
+]
+
+{ #category : #processing }
 AMIteration >> groupDivergences [
 	"Return a dictionary mapping pre-associations <source,message> -> observation*
 	where each observation maps <source,message,target> -> witness* (source & message are the same)
@@ -88,6 +102,14 @@ AMIteration >> gtExamplesFor: aView with: examples [
 			text: [ :each | each objectClass ]
 			width: 150;
 		column: 'Value' text: [ :each | each gtDisplayString ]
+]
+
+{ #category : #views }
+AMIteration >> gtMergedMessageObservationsFor: aView [
+	<gtView>
+	^ (self gtObservationsFor: aView with: self mergedMessageObservations)
+		title: 'Merged message observations';
+		priority: 52
 ]
 
 { #category : #views }
@@ -170,6 +192,29 @@ AMIteration >> joinClasses: aClassCollection [
 		inject: aClassCollection first allSuperclasses
 		into: [ :intersection :each | intersection intersection: each allSuperclasses ])
 		sortedAs: #classDepth) last
+]
+
+{ #category : #processing }
+AMIteration >> mergedMessageObservations [
+	"If there are multiple observations with the same source and target but different messages,
+	merge them, indicating a new pseudo-message that joins all the selectors. 
+	(This can be a placeholder for a  more suitable label at a later stage.)"
+
+	| mergedMessageObservations |
+	mergedMessageObservations := Dictionary new.
+	self groupBySourceAndTarget
+		associationsDo: [ :kv | 
+			kv value size = 1
+				ifTrue: [ mergedMessageObservations
+						at: kv value first key
+						put: (OrderedCollection withAll: kv value first value) ]
+				ifFalse: [ | selectorsToMerge merged |
+					selectorsToMerge := kv value collect: [ :assoc | assoc key message ].
+					merged := 'merged' , ('' join: (selectorsToMerge collect: #capitalized)).
+					mergedMessageObservations
+						at: (kv value first key copyWithMessage: merged asSymbol)
+						put: (kv value flatCollect: #value) ] ].
+	^ mergedMessageObservations
 ]
 
 { #category : #processing }
