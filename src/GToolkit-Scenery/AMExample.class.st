@@ -43,15 +43,6 @@ AMExample class >> forGtExample: aMethod [
 		yourself
 ]
 
-{ #category : #accessing }
-AMExample class >> send: aSelector to: anAMExample [
-	"Generate a new example by navigating from an existing one."
-
-	^ self new
-		initializeFromExample: anAMExample sending: aSelector;
-		yourself
-]
-
 { #category : #converting }
 AMExample >> asBlockClosure [
 	^ Smalltalk compiler evaluate: self asBlockString
@@ -96,6 +87,13 @@ AMExample >> evaluatePath [
 	^ result
 ]
 
+{ #category : #instantiation }
+AMExample >> freshObject [
+	"Return a new object instance."
+
+	^ self evaluatePath
+]
+
 { #category : #views }
 AMExample >> gtObjectFor: aView [
 	<gtView>
@@ -135,12 +133,6 @@ AMExample >> initializeFromClass: aClass [
 ]
 
 { #category : #initialization }
-AMExample >> initializeFromExample: anExample sending: aSelector [
-	path := anExample path , {aSelector}.
-	self initializeObject: [ anExample object perform: aSelector ]
-]
-
-{ #category : #initialization }
 AMExample >> initializeFromFactoryMethod: aFactoryMethod [
 	path := {aFactoryMethod methodClass.
 			aFactoryMethod selector}.
@@ -163,6 +155,14 @@ AMExample >> initializeObject: aBlock [
 		valueWithin: self timeOut
 		onTimeout: [ object := TimedOut new
 					messageText: 'Exceeded timeout ' , self timeOut printString ]
+]
+
+{ #category : #'instance creation' }
+AMExample >> navigateToSuccessorSending: aSelector [
+	^ AMExample new
+		path: self path , {aSelector};
+		object: (self freshObject perform: aSelector);
+		yourself
 ]
 
 { #category : #accessing }
@@ -195,8 +195,10 @@ AMExample >> path [
 ]
 
 { #category : #accessing }
-AMExample >> path: anObject [
-	path := anObject
+AMExample >> path: anArray [
+	"A receiver (class or literal) and a sequence of message sends (selectors)."
+
+	path := anArray
 ]
 
 { #category : #printing }
@@ -210,7 +212,9 @@ AMExample >> successors [
 	"NB: This produces all possible clean successors, not just instances of the classes of interest.
 	Do we need this?"
 
-	^ (self unaryMethods collect: [ :m | AMExample send: m selector to: self ])
+	^ (self unaryMethods collect: [ :m |
+			"AMExample send: m selector to: self"
+			self navigateToSuccessorSending: m selector ])
 		collect: #clean
 		thenSelect: [ :eg | eg notNil ]
 ]
@@ -240,7 +244,8 @@ AMExample >> witnesses [
 	^ self unaryMethods
 		collect: [ :m | 
 			| successor |
-			successor := AMExample send: m selector to: self.
+			"successor := AMExample send: m selector to: self."
+			successor := self navigateToSuccessorSending: m selector.
 
 			AMWitness
 				example: self
