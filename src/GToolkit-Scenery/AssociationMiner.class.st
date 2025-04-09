@@ -203,7 +203,7 @@ AssociationMiner >> factoryMethods [
 ]
 
 { #category : #views }
-AssociationMiner >> gtClassesFor: aView [
+AssociationMiner >> gtExampleClassesFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Example classes';
@@ -261,6 +261,20 @@ AssociationMiner >> gtIterationsFor: aView [
 			width: 1560;
 		actionUpdateButton;
 		updateWhen: AMIterationAdded in: self announcer
+]
+
+{ #category : #views }
+AssociationMiner >> gtPackageClassesFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Package classes';
+		priority: 40;
+		items: [ self packageClasses ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Value' text: [ :each | each gtDisplayString ];
+		actionUpdateButton
 ]
 
 { #category : #views }
@@ -354,7 +368,7 @@ AssociationMiner >> seeds: anExampleCollection [
 
 { #category : #initialization }
 AssociationMiner >> triageExamples [
-	"exampleMethods := (#gtExample gtPragmas & package gtPackageMatches) contents."
+	"Since any class might containg example methods, even if it is not a dedicated example class, we only assume a class is an example class if it contains example methods *and* its name ends with `Example`."
 
 	exampleMethods := packageClasses
 			flatCollect: [ :c | c methods select: [ :m | m hasPragmaNamed: #gtExample ] ].

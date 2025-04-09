@@ -43,7 +43,7 @@ AMExample class >> forGtExample: aMethod [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 AMExample class >> send: aSelector to: anAMExample [
 	"Generate a new example by navigating from an existing one."
 
@@ -96,6 +96,13 @@ AMExample >> evaluatePath [
 	^ result
 ]
 
+{ #category : #instantiation }
+AMExample >> freshObject [
+	"Return a new object instance."
+
+	^ self evaluatePath
+]
+
 { #category : #views }
 AMExample >> gtObjectFor: aView [
 	<gtView>
@@ -136,8 +143,10 @@ AMExample >> initializeFromClass: aClass [
 
 { #category : #initialization }
 AMExample >> initializeFromExample: anExample sending: aSelector [
+	"NB: We need a fresh copy of the object to avoid corrupting the state of the instance we hold."
+
 	path := anExample path , {aSelector}.
-	self initializeObject: [ anExample object perform: aSelector ]
+	self initializeObject: [ anExample freshObject perform: aSelector ]
 ]
 
 { #category : #initialization }
@@ -195,8 +204,10 @@ AMExample >> path [
 ]
 
 { #category : #accessing }
-AMExample >> path: anObject [
-	path := anObject
+AMExample >> path: anArray [
+	"A receiver (class or literal) and a sequence of message sends (selectors)."
+
+	path := anArray
 ]
 
 { #category : #printing }
