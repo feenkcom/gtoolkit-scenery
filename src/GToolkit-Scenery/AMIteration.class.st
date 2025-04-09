@@ -253,6 +253,11 @@ AMIteration >> newAssociations: anObject [
 ]
 
 { #category : #accessing }
+AMIteration >> normalizedObservations [
+	^ self mergedMessageObservations
+]
+
+{ #category : #accessing }
 AMIteration >> observations [
 	^ observations ifNil: [ observations := Dictionary new ]
 ]

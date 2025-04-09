@@ -167,6 +167,8 @@ AssociationMiner class >> forPackage: aSymbolOrRPackage [
 
 { #category : #accessing }
 AssociationMiner >> addIteration [
+	self canIterate ifFalse: [ ^ self inform: 'No examples left to iterate on.' ].
+
 	self iterations addLast: self iterations last iterate.
 	self announcer
 		announce: (AMIterationAdded new
@@ -177,6 +179,11 @@ AssociationMiner >> addIteration [
 { #category : #accessing }
 AssociationMiner >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #testing }
+AssociationMiner >> canIterate [
+	^ self iterations last examples notEmpty
 ]
 
 { #category : #accessing }
@@ -347,6 +354,21 @@ AssociationMiner >> packageClasses [
 { #category : #accessing }
 AssociationMiner >> regularClasses [
 	^ packageClasses
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryAssociations [
+	^ self iterations last normalizedObservations keys
+		collect: [ :association | association source -> association target ]
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryInheritances [
+	"Extract the inheritance relations amongst the package classes."
+
+	^ self packageClasses
+		collect: [ :c | c -> c superclass ]
+		thenSelect: [ :assoc | self packageClasses includes: assoc value ]
 ]
 
 { #category : #accessing }
