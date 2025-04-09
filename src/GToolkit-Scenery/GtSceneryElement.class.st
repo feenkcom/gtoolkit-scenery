@@ -129,6 +129,25 @@ GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
 	| submenuItems submenu |
 	submenu := BrMenuItems new.
 
+	submenu
+		addItemLabel: 'Sugiyama Tree Layout'
+		action: [ self container
+				layout: (BlOnceLayout new
+						layout: (GtGradSugiyamaTreeLayout new
+								reverse: true;
+								yourself)) ].
+	submenu
+		addItemLabel: 'West Layout'
+		action: [ self container
+				layout: (BlOnceLayout new layout: GtGradWestHierarchicalLayout new) ].
+	submenu
+		addItemLabel: 'Force Layout'
+		action: [ self container
+				layout: (BlOnceLayout new layout: (GtGraphForceBasedLayout new length: 500)) ].
+	submenu
+		addItemLabel: 'Circle Layout'
+		action: [ self container layout: (BlOnceLayout new layout: GtGradCircleLayout new) ].
+
 	submenuItems := BrMenuItems new.
 
 	(GtGradLayout allSubclasses reject: #isAbstract)
@@ -136,11 +155,11 @@ GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
 			submenuItems
 				addItemLabel: layoutClass name
 				action: [ self container layout: (BlOnceLayout new layout: layoutClass new) ] ].
+
 	submenu
 		addItem: (BrMenuSubmenuItem new
 				label: 'GtGrad Layouts';
 				submenu: submenuItems).
-
 
 	submenuItems := BrMenuItems new.
 	(GtGraphLayout allSubclasses reject: #isAbstract)

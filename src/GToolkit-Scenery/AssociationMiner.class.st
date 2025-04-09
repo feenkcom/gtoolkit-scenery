@@ -188,7 +188,8 @@ AssociationMiner >> canIterate [
 
 { #category : #accessing }
 AssociationMiner >> classes: aClassCollection [
-	packageClasses := aClassCollection asOrderedCollection sortedAs: #name
+	packageClasses := (aClassCollection asOrderedCollection sortedAs: #name)
+			asOrderedCollection
 ]
 
 { #category : #accessing }
@@ -343,7 +344,7 @@ AssociationMiner >> package [
 { #category : #accessing }
 AssociationMiner >> package: aSymbolOrRPackage [
 	package := aSymbolOrRPackage asPackage.
-	packageClasses := package classes asOrderedCollection sortedAs: #name
+	packageClasses := (package classes asOrderedCollection sortedAs: #name) asOrderedCollection
 ]
 
 { #category : #accessing }
@@ -360,6 +361,12 @@ AssociationMiner >> regularClasses [
 AssociationMiner >> sceneryAssociations [
 	^ self iterations last normalizedObservations keys
 		collect: [ :association | association source -> association target ]
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryClasses [
+	^ (self packageClasses copyWithAll: (self sceneryAssociations collect: #value))
+		removeDuplicates
 ]
 
 { #category : #accessing }
