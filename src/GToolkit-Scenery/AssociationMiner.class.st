@@ -241,7 +241,7 @@ AssociationMiner >> gtIterateActionFor: anAction [
 	^ anAction button
 		tooltip: 'Generate new iteration';
 		priority: 10;
-		icon: BrGlamorousIcons play;
+		icon: BrGlamorousVectorIcons play;
 		action: [ :aButton | self addIteration ]
 ]
 
@@ -283,6 +283,18 @@ AssociationMiner >> gtPackageClassesFor: aView [
 			width: 45;
 		column: 'Value' text: [ :each | each gtDisplayString ];
 		actionUpdateButton
+]
+
+{ #category : #'as yet unclassified' }
+AssociationMiner >> gtSceneryActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		tooltip: 'Generate scenery';
+		priority: 15;
+		icon: BrGlamorousVectorIcons playinspect;
+		action: [ :aButton | aButton phlow spawnObject: self scenery ];
+		primaryModifierAction: [ :aButton | aButton phlow showObject: self ]
+			mouseCursor: BlCopyCursor new
 ]
 
 { #category : #views }
@@ -344,7 +356,8 @@ AssociationMiner >> package [
 { #category : #accessing }
 AssociationMiner >> package: aSymbolOrRPackage [
 	package := aSymbolOrRPackage asPackage.
-	packageClasses := (package classes asOrderedCollection sortedAs: #name) asOrderedCollection
+	packageClasses := ((package classes select: #isClass) asOrderedCollection
+			sortedAs: #name) asOrderedCollection
 ]
 
 { #category : #accessing }
@@ -355,6 +368,21 @@ AssociationMiner >> packageClasses [
 { #category : #accessing }
 AssociationMiner >> regularClasses [
 	^ packageClasses
+]
+
+{ #category : #accessing }
+AssociationMiner >> scenery [
+	| builder scenery |
+	self iterations size < 2
+		ifTrue: [ self canIterate ifTrue: [ self addIteration ] ].
+	builder := GtSceneryClassDiagramBuilder
+			withClasses: self sceneryClasses
+			associations: self sceneryAssociations
+			andInheritances: self sceneryInheritances.
+	scenery := builder build
+			onceLayout: GtGradHorizontalTreeLayout new yourself;
+			yourself.
+	^ scenery
 ]
 
 { #category : #accessing }
