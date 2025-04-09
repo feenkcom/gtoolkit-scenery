@@ -104,10 +104,7 @@ AMIteration >> iterate [
 	self examples
 		do: [ :eg | 
 			((eg unaryMethods
-				collect: [ :m | 
-					"m -> (AMExample send: m selector to: eg) clean "
-					m -> (eg navigateToSuccessorSending: m selector ) clean 
-					])
+				collect: [ :m | m -> (eg navigateToSuccessorSending: m selector) clean ])
 				select: [ :keyVal | keyVal value notNil ])
 				do: [ :keyVal | 
 					| witness association oldWitnesses selector successor |
