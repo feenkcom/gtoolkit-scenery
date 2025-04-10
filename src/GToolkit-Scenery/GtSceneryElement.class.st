@@ -135,6 +135,13 @@ GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
 		action: [ self container
 				layout: (BlOnceLayout new layout: GtGradWestHierarchicalLayout new) ].
 	submenu
+		addItemLabel: 'Horizontal tree Layout'
+		action: [ self container
+				layout: (BlOnceLayout new
+						layout: (GtGradHorizontalTreeLayout new
+								levelDistance: 50;
+								nodeDistance: 20)) ].
+	submenu
 		addItemLabel: 'Force Layout'
 		action: [ self container
 				layout: (BlOnceLayout new layout: (GtGraphForceBasedLayout new length: 500)) ].
@@ -149,7 +156,7 @@ GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
 						layout: (GtGradSugiyamaTreeLayout new
 								reverse: true;
 								yourself)) ].
-								
+
 	submenuItems := BrMenuItems new.
 
 	(GtGradLayout allSubclasses reject: #isAbstract)
