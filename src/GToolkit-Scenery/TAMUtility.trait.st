@@ -23,3 +23,20 @@ TAMUtility >> gtExamplesFor: aView with: examples [
 			width: 150;
 		column: 'Value' text: [ :each | each gtDisplayString ]
 ]
+
+{ #category : #'as yet unclassified' }
+TAMUtility >> gtObservationsFor: aView with: observations [
+	"To be used in <gtView> method for a given observations list."
+
+	^ aView columnedList
+		title: 'Observations';
+		priority: 10;
+		items: [ observations associations collect: [ :keyVal | AMObservation for: keyVal ] ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Key' text: [ :each | each key gtDisplayString ];
+		column: 'Value' text: [ :each | each value gtDisplayString ];
+		send: [ :each | each key -> each value ];
+		actionUpdateButton
+]

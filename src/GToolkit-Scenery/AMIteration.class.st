@@ -12,7 +12,7 @@ Class {
 	#category : #'GToolkit-Scenery-Mining'
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 AMIteration class >> forSeeds: anExampleCollection andClasses: aClassCollection [ 
 	"For the first iteration."
 
@@ -35,6 +35,11 @@ AMIteration >> classes: aClassCollection [
 	classes := aClassCollection
 ]
 
+{ #category : #querying }
+AMIteration >> divergences [
+	^ self groupDivergences values reject: [ :obs | obs size = 1 ]
+]
+
 { #category : #accessing }
 AMIteration >> examples [
 	^ examples
@@ -43,6 +48,36 @@ AMIteration >> examples [
 { #category : #accessing }
 AMIteration >> examples: anExampleCollection [
 	examples := anExampleCollection
+]
+
+{ #category : #processing }
+AMIteration >> groupBySourceAndTarget [
+	"Return a dictionary mapping anonymous associations to observations with the same source and target."
+
+	| partition |
+	partition := Dictionary new.
+	self mergedTargetObservations
+		associationsDo: [ :keyValue | 
+			| anon |
+			anon := keyValue key asAnonymousAssociation.
+			(partition at: anon ifAbsentPut: [ OrderedCollection new ]) add: keyValue ].
+	^ partition
+]
+
+{ #category : #processing }
+AMIteration >> groupDivergences [
+	"Return a dictionary mapping pre-associations <source,message> -> observation*
+	where each observation maps <source,message,target> -> witness* (source & message are the same)
+	Entry is divergent if there are multiple observations with the same source and message but different target class."
+
+	| partition |
+	partition := Dictionary new.
+	self observations
+		associationsDo: [ :keyValue | 
+			| pre |
+			pre := keyValue key asPreassociation.
+			(partition at: pre ifAbsentPut: [ OrderedCollection new ]) add: keyValue ].
+	^ partition
 ]
 
 { #category : #views }
@@ -75,26 +110,48 @@ AMIteration >> gtExamplesFor: aView with: examples [
 ]
 
 { #category : #views }
-AMIteration >> gtObservationsFor: aView [
+AMIteration >> gtMergedMessageObservationsFor: aView [
+	<gtView>
+	^ (self gtObservationsFor: aView with: self mergedMessageObservations)
+		title: 'Merged message observations';
+		priority: 52
+]
+
+{ #category : #views }
+AMIteration >> gtMergedTargetObservationsFor: aView [
+	<gtView>
+	^ (self gtObservationsFor: aView with: self mergedTargetObservations)
+		title: 'Merged target observations';
+		priority: 50
+]
+
+{ #category : #views }
+AMIteration >> gtNewAssociationsFor: aView [
 	<gtView>
 	^ aView columnedList
-		title: 'Observations';
-		items: [ self observations associations
-				collect: [ :keyVal | AMObservation for: keyVal ] ];
+		priority: 25;
+		title: 'New Associations';
+		items: [ self newAssociations ];
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
-		column: 'Key' text: [ :each | each key gtDisplayString ];
-		column: 'Value' text: [ :each | each value gtDisplayString ];
-		send: [ :each | each value ];
-		actionUpdateButton
+		column: 'Associations' text: [ :each | each gtDisplayString ]
 ]
 
-{ #category : #accessing }
-AMIteration >> iterate [
+{ #category : #views }
+AMIteration >> gtObservationsFor: aView [
+	<gtView>
+	^ (self gtObservationsFor: aView with: self observations)
+		title: 'Observations';
+		priority: 10
+]
+
+{ #category : #processing }
+AMIteration >> iterateFor: aClassCollection [
 	"Produce the next iteration. Iterate over the examples, producing successors,
 	keeping track of new associations, new examples and new observations,
-	discarding anything not of interest."
+	discarding anything not of interest. We ignore successors whose result class 
+	is not in the class collection of interest."
 
 	| nextNewAssociations newExamples newObservations |
 	newExamples := OrderedCollection new.
@@ -104,11 +161,9 @@ AMIteration >> iterate [
 	self examples
 		do: [ :eg | 
 			((eg unaryMethods
-				collect: [ :m | 
-					"m -> (AMExample send: m selector to: eg) clean "
-					m -> (eg navigateToSuccessorSending: m selector ) clean 
-					])
-				select: [ :keyVal | keyVal value notNil ])
+				collect: [ :m | m -> (eg navigateToSuccessorSending: m selector) clean ])
+				select: [ :keyVal | keyVal value notNil 
+					and: [ aClassCollection includes: keyVal value objectClass ] ])
 				do: [ :keyVal | 
 					| witness association oldWitnesses selector successor |
 					selector := keyVal key selector.
@@ -138,6 +193,69 @@ AMIteration >> iterate [
 		yourself
 ]
 
+{ #category : #processing }
+AMIteration >> joinClasses: aClassCollection [
+	^ ((aClassCollection allButFirst
+		inject: aClassCollection first allSuperclasses
+		into: [ :intersection :each | intersection intersection: each allSuperclasses ])
+		sortedAs: #classDepth) last
+]
+
+{ #category : #processing }
+AMIteration >> mergedMessageObservations [
+	"If there are multiple observations with the same source and target but different messages,
+	merge them, indicating a new pseudo-message that joins all the selectors. 
+	(This can be a placeholder for a  more suitable label at a later stage.)"
+
+	<todo: 'Cache this value?'>
+	| mergedMessageObservations |
+	mergedMessageObservations := Dictionary new.
+	self groupBySourceAndTarget
+		associationsDo: [ :kv | 
+			kv value size = 1
+				ifTrue: [ mergedMessageObservations
+						at: kv value first key
+						put: (OrderedCollection withAll: kv value first value) ]
+				ifFalse: [ | selectorsToMerge merged |
+					selectorsToMerge := kv value collect: [ :assoc | assoc key message ].
+					merged := 'merged' , ('' join: (selectorsToMerge collect: #capitalized)).
+					mergedMessageObservations
+						at: (kv value first key copyWithMessage: merged asSymbol)
+						put: (kv value flatCollect: #value) ] ].
+	^ mergedMessageObservations
+]
+
+{ #category : #processing }
+AMIteration >> mergedTargetObservations [
+	"If there are ambiguous observations with multiple targets (kv value size > 1), 
+	we merge them, take the join of the target classes.
+	E.g., observations returning True and False will be merged into one returning Boolean."
+
+	<todo: 'Cache this value?'>
+	| mergedTargetObservations |
+	mergedTargetObservations := Dictionary new.
+	self groupDivergences
+		associationsDo: [ :kv | 
+			kv value size = 1
+				ifTrue: [ mergedTargetObservations
+						at: kv value first key
+						put: (OrderedCollection withAll: kv value first value) ]
+				ifFalse: [ | classesToJoin join |
+					classesToJoin := kv value collect: [ :assoc | assoc key target ].
+					join := self joinClasses: classesToJoin.
+					mergedTargetObservations
+						at: (kv value first key copyWithTarget: join)
+						put: (kv value flatCollect: #value) ] ].
+	^ mergedTargetObservations
+]
+
+{ #category : #querying }
+AMIteration >> navigationClusters [
+	"Clusters of observations with the same source and target but different navigation messages."
+
+	^ self groupBySourceAndTarget values reject: [ :obs | obs size = 1 ]
+]
+
 { #category : #accessing }
 AMIteration >> newAssociations [
 	"Initially empty, and also at the end."
@@ -148,6 +266,11 @@ AMIteration >> newAssociations [
 { #category : #accessing }
 AMIteration >> newAssociations: anObject [
 	newAssociations := anObject
+]
+
+{ #category : #accessing }
+AMIteration >> normalizedObservations [
+	^ self mergedMessageObservations
 ]
 
 { #category : #accessing }

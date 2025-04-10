@@ -95,11 +95,12 @@ Else let b_n+1(a) = b_n(a) U {w}.
 
 NB: Even if a is a new association, it might introduce an ambiguity if it shares the same source class and message but a different target for another witnessed association.
 
-Alternative: if size(b_n(a)) exceeds some threshold, discard x' and let b_n+1(a) = b_n(a), i.e., not updating the set of witnesses.
+Variant: if size(b_n(a)) exceeds some threshold, discard x' and let b_n+1(a) = b_n(a), i.e., not updating the set of witnesses.
 
 Let x"" in X_n+1 if class(x"") in P, o/w discard it.
 
 We keep witnesses that map outside of P, but not new examples.
+Variant: discard witnesses with results not in P (eliminate noise).
 
 If Xn+1 is empty, then no new examples of interest have been mined, and we can stop iterating.
 
@@ -110,7 +111,7 @@ Note that since there is a finite number of possible navigations within a packag
 
 If a given observation map b is ambiguous, we remove ambiguity by transforming it to b' = disambiguate(b) as follows.
 
-Let Amb(b) = obs(b)|~ partition the observed associations into sets of divergent ones, i.e., d in Amb(b), a, a' in d <=> a ~ a'.
+Let Amb(b) = obs(b)|~ partition the observed associations into sets of divergent ones, i.e., d in Amb(b), a, a' in d `<=>` a ~ a'.
 
 For every d in Amb(b), let merge(d) = `<`c,m,c'`>`, where c' = V { target(a) | a in d }. That is, we construct a new association representing all associations in the same divergent partition, with the target being least common superclass of all their targets.
 
@@ -134,7 +135,9 @@ Class {
 		'seeds',
 		'packageClasses',
 		'iterations',
-		'announcer'
+		'announcer',
+		'removeIsolatedClasses',
+		'removeSelfAssociations'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
@@ -158,7 +161,6 @@ AssociationMiner class >> forClassesWithFactories: aClassCollection [
 { #category : #'instance creation' }
 AssociationMiner class >> forPackage: aSymbolOrRPackage [
 	"We assume that the argument package has gtExample classes."
-
 	^ self new
 		package: aSymbolOrRPackage;
 		initializeSeedsFromExamples;
@@ -166,12 +168,8 @@ AssociationMiner class >> forPackage: aSymbolOrRPackage [
 ]
 
 { #category : #accessing }
-AssociationMiner >> addIteration [
-	self iterations addLast: self iterations last iterate.
-	self announcer
-		announce: (AMIterationAdded new
-				iteration: self iterations last;
-				yourself)
+AssociationMiner >> allMinerClasses [
+	^ self packageClasses , self exampleClasses
 ]
 
 { #category : #accessing }
@@ -179,9 +177,15 @@ AssociationMiner >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
+{ #category : #testing }
+AssociationMiner >> canIterate [
+	^ self iterations last examples notEmpty
+]
+
 { #category : #accessing }
 AssociationMiner >> classes: aClassCollection [
-	packageClasses := aClassCollection asOrderedCollection sortedAs: #name
+	packageClasses := (aClassCollection asOrderedCollection sortedAs: #name)
+			asOrderedCollection
 ]
 
 { #category : #accessing }
@@ -227,14 +231,35 @@ AssociationMiner >> gtExampleMethodsFor: aView [
 		actionUpdateButton
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #views }
+AssociationMiner >> gtExamplesFor: aView with: examples [
+	"To be used in <gtView> method for a given examples list."
+
+	examples ifNil: [ ^ aView empty ].
+	^ aView columnedList
+		title: 'Seeds';
+		priority: 10;
+		items: [ examples ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Time to run'
+			text: [ :each | each timeToRun ]
+			width: 100;
+		column: 'Class'
+			text: [ :each | each objectClass ]
+			width: 150;
+		column: 'Value' text: [ :each | each gtDisplayString ]
+]
+
+{ #category : #actions }
 AssociationMiner >> gtIterateActionFor: anAction [
 	<gtAction>
 	^ anAction button
 		tooltip: 'Generate new iteration';
 		priority: 10;
-		icon: BrGlamorousIcons play;
-		action: [ :aButton | self addIteration ]
+		icon: BrGlamorousVectorIcons play;
+		action: [ :aButton | self iterate ]
 ]
 
 { #category : #views }
@@ -264,6 +289,41 @@ AssociationMiner >> gtIterationsFor: aView [
 ]
 
 { #category : #views }
+AssociationMiner >> gtObservationsFor: aView with: observations [
+	"To be used in <gtView> method for a given observations list."
+
+	^ aView columnedList
+		title: 'Observations';
+		priority: 10;
+		items: [ observations associations collect: [ :keyVal | AMObservation for: keyVal ] ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Key' text: [ :each | each key gtDisplayString ];
+		column: 'Value' text: [ :each | each value gtDisplayString ];
+		send: [ :each | each key -> each value ];
+		actionUpdateButton
+]
+
+{ #category : #views }
+AssociationMiner >> gtOverviewFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Overview';
+		priority: 10;
+		items: [ self overview ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Key' text: #first;
+		column: 'Value'
+			text: #second
+			weight: 3;
+		send: #last;
+		actionUpdateButton
+]
+
+{ #category : #views }
 AssociationMiner >> gtPackageClassesFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -277,12 +337,35 @@ AssociationMiner >> gtPackageClassesFor: aView [
 		actionUpdateButton
 ]
 
+{ #category : #actions }
+AssociationMiner >> gtSceneryActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		tooltip: 'Generate scenery';
+		priority: 15;
+		icon: BrGlamorousVectorIcons playinspect;
+		action: [ :aButton | aButton phlow spawnObject: self scenery ];
+		primaryModifierAction: [ :aButton | aButton phlow showObject: self ]
+			mouseCursor: BlCopyCursor new
+]
+
+{ #category : #views }
+AssociationMiner >> gtSceneryFor: aView [
+	<gtView>
+	self canIterate ifTrue: [aView empty].
+	^ aView forward
+		title: 'Scenery';
+		priority: 45;
+		object: [ self scenery ];
+		view: #gtLiveFor:
+]
+
 { #category : #views }
 AssociationMiner >> gtSeedsFor: aView [
 	<gtView>
 	^ (self gtExamplesFor: aView with: self seeds)
 		title: 'Seeds';
-		priority: 10
+		priority: 20
 ]
 
 { #category : #initalization }
@@ -316,6 +399,17 @@ AssociationMiner >> initializeSeedsFromFactories [
 ]
 
 { #category : #accessing }
+AssociationMiner >> iterate [
+	self canIterate ifFalse: [ ^ self ].
+
+	self iterations addLast: (self iterations last iterateFor: self packageClasses).
+	self announcer
+		announce: (AMIterationAdded new
+				iteration: self iterations last;
+				yourself)
+]
+
+{ #category : #accessing }
 AssociationMiner >> iterations [
 	"NB: Updated by #seeds:"
 	^ iterations
@@ -327,6 +421,39 @@ AssociationMiner >> navigationMethods [
 		flatCollect: [ :c | c methods select: [ :m | m selector isUnary ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+AssociationMiner >> overview [
+	^ {{'# Package classes'.
+			self packageClasses size.
+			self packageClasses}.
+		{'# Example classes'.
+			self exampleClasses size.
+			self exampleClasses}.
+		{'# Example methods'.
+			self exampleMethods size.
+			self exampleMethods}.
+		{'# Seeds'.
+			self seeds size.
+			self seeds}.
+		{'# Iterations'.
+			self iterations size.
+			self iterations}.
+		{'Iterations completed'.
+			self canIterate not}.
+		{'# Divergences'.
+			self iterations last divergences size.
+			self iterations last divergences}.
+		{'# Navigation clusters'.
+			self iterations last navigationClusters size.
+			self iterations last navigationClusters}.
+		{'# Associations'.
+			self sceneryAssociations size.
+			self sceneryAssociations}.
+		{'# Inheritances'.
+			self sceneryInheritances size.
+			self sceneryInheritances}}
+]
+
 { #category : #accessing }
 AssociationMiner >> package [
 	"May be nil if the classes are set explicitly."
@@ -335,8 +462,11 @@ AssociationMiner >> package [
 
 { #category : #accessing }
 AssociationMiner >> package: aSymbolOrRPackage [
+	"NB: We only want the defined classes, not external classes that have been extended."
+
 	package := aSymbolOrRPackage asPackage.
-	packageClasses := package classes asOrderedCollection sortedAs: #name
+	packageClasses := ((package definedClasses select: #isClass)
+			asOrderedCollection sortedAs: #name) asOrderedCollection
 ]
 
 { #category : #accessing }
@@ -345,8 +475,105 @@ AssociationMiner >> packageClasses [
 ]
 
 { #category : #accessing }
+AssociationMiner >> packageName [
+	self allMinerClasses ifEmpty: [ ^ #EmptyPackage ].
+	^ self allMinerClasses first package packageName
+]
+
+{ #category : #printing }
+AssociationMiner >> printOn: aStream [
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		nextPutAll: self packageName;
+		nextPut: $)
+]
+
+{ #category : #accessing }
 AssociationMiner >> regularClasses [
 	^ packageClasses
+]
+
+{ #category : #accessing }
+AssociationMiner >> removeIsolatedClasses [
+	^ removeIsolatedClasses ifNil: [ removeIsolatedClasses := true ]
+]
+
+{ #category : #accessing }
+AssociationMiner >> removeIsolatedClasses: aBoolean [
+	removeIsolatedClasses := aBoolean
+]
+
+{ #category : #accessing }
+AssociationMiner >> removeSelfAssociations [
+	^ removeSelfAssociations ifNil: [ removeSelfAssociations := true ]
+]
+
+{ #category : #accessing }
+AssociationMiner >> removeSelfAssociations: aBoolean [
+	removeSelfAssociations := aBoolean
+]
+
+{ #category : #accessing }
+AssociationMiner >> scenery [
+	| builder scenery sceneryClasses sceneryAssociations |
+	"self iterations size < 2
+		ifTrue: [ self canIterate ifTrue: [ self iterate ] ]."
+	sceneryClasses := self removeIsolatedClasses
+			ifTrue: [ self sceneryConnectedClasses ]
+			ifFalse: [ self sceneryClasses ].
+	sceneryAssociations := self removeSelfAssociations
+			ifTrue: [ self sceneryNoSelfAssociations ]
+			ifFalse: [ self sceneryAssociations ].
+	builder := GtSceneryClassDiagramBuilder
+			withClasses: sceneryClasses
+			associations: sceneryAssociations
+			andInheritances: self sceneryInheritances.
+	scenery := builder build
+			onceLayout: GtGradHorizontalTreeLayout new yourself;
+			yourself.
+	^ scenery
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryAssociations [
+	^ self iterations last normalizedObservations keys
+		collect: [ :association | association source -> association target ]
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryClasses [
+	"Alternative: sceneryConnectedClasses"
+
+	^ (self packageClasses copyWithAll: (self sceneryAssociations collect: #value))
+		removeDuplicates
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryConnectedClasses [
+	"Alternative to sceneryClasses.
+	Only include classes that  occur in associations or inheritances."
+
+	^ ((self sceneryAssociations collect: #value)
+		copyWithAll: (self sceneryInheritances collect: #key)
+				, (self sceneryInheritances collect: #value)) asOrderedCollection
+		removeDuplicates
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryInheritances [
+	"Extract the inheritance relations amongst the package classes."
+
+	^ self packageClasses
+		collect: [ :c | c -> c superclass ]
+		thenSelect: [ :assoc | self packageClasses includes: assoc value ]
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryNoSelfAssociations [
+	^ (self iterations last normalizedObservations keys
+		collect: [ :association | association source -> association target ])
+		reject: [ :kv | kv key = kv value ]
 ]
 
 { #category : #accessing }

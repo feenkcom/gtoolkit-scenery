@@ -123,11 +123,39 @@ GtSceneryElement >> buildItemCreationSubmenuForContext: aContext [
 
 { #category : #initialization }
 GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
-	"Add a submenu actions for selected layouts."
+	"Add a submenu actions for selected layouts.
+	The Sugiyama layout sometimes fails -- why?"
 
 	<tag: #sceneryContextMenu>
 	| submenuItems submenu |
 	submenu := BrMenuItems new.
+
+	submenu
+		addItemLabel: 'West Layout'
+		action: [ self container
+				layout: (BlOnceLayout new layout: GtGradWestHierarchicalLayout new) ].
+	submenu
+		addItemLabel: 'Horizontal tree Layout'
+		action: [ self container
+				layout: (BlOnceLayout new
+						layout: (GtGradHorizontalTreeLayout new
+								levelDistance: 50;
+								nodeDistance: 20)) ].
+	submenu
+		addItemLabel: 'Force Layout'
+		action: [ self container
+				layout: (BlOnceLayout new layout: (GtGraphForceBasedLayout new length: 500)) ].
+	submenu
+		addItemLabel: 'Circle Layout'
+		action: [ self container layout: (BlOnceLayout new layout: GtGradCircleLayout new) ].
+
+	submenu
+		addItemLabel: 'Sugiyama Tree Layout'
+		action: [ self container
+				layout: (BlOnceLayout new
+						layout: (GtGradSugiyamaTreeLayout new
+								reverse: true;
+								yourself)) ].
 
 	submenuItems := BrMenuItems new.
 
@@ -136,11 +164,11 @@ GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
 			submenuItems
 				addItemLabel: layoutClass name
 				action: [ self container layout: (BlOnceLayout new layout: layoutClass new) ] ].
+
 	submenu
 		addItem: (BrMenuSubmenuItem new
 				label: 'GtGrad Layouts';
 				submenu: submenuItems).
-
 
 	submenuItems := BrMenuItems new.
 	(GtGraphLayout allSubclasses reject: #isAbstract)

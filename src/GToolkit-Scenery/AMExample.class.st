@@ -43,6 +43,14 @@ AMExample class >> forGtExample: aMethod [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+AMExample class >> path: anArray [
+	^ self new
+		path: anArray;
+		initializeObjectFromPath;
+		yourself
+]
+
 { #category : #converting }
 AMExample >> asBlockClosure [
 	^ Smalltalk compiler evaluate: self asBlockString
@@ -82,6 +90,8 @@ AMExample >> defaultTimeOut [
 { #category : #initalization }
 AMExample >> evaluatePath [
 	| result |
+	self assert: self path notNil.
+	self assert: self path isNotEmpty.
 	result := path first.
 	path allButFirst do: [ :sel | result := result perform: sel ].
 	^ result
@@ -122,7 +132,17 @@ AMExample >> gtSuccessorsFor: aView [
 	<gtView>
 	^ (self gtExamplesFor: aView with: self successors)
 		title: 'Successors';
-		priority: 20
+		priority: 35
+]
+
+{ #category : #views }
+AMExample >> gtUnaryMethodsFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Unary methods';
+		priority: 30;
+		items: [ self unaryMethods ];
+		column: 'Method' text: [ :each | each gtDisplayString ]
 ]
 
 { #category : #initialization }
@@ -157,17 +177,22 @@ AMExample >> initializeObject: aBlock [
 					messageText: 'Exceeded timeout ' , self timeOut printString ]
 ]
 
+{ #category : #accessing }
+AMExample >> initializeObjectFromPath [
+	^ object := self evaluatePath
+]
+
 { #category : #'instance creation' }
 AMExample >> navigateToSuccessorSending: aSelector [
 	^ AMExample new
 		path: self path , {aSelector};
-		object: (self freshObject perform: aSelector);
+		object: ([ self freshObject perform: aSelector ] onErrorDo: [ :err | err ]);
 		yourself
 ]
 
 { #category : #accessing }
 AMExample >> object [
-	^ object
+	^ object ifNil: [ self initializeObjectFromPath ]
 ]
 
 { #category : #accessing }
@@ -212,9 +237,8 @@ AMExample >> successors [
 	"NB: This produces all possible clean successors, not just instances of the classes of interest.
 	Do we need this?"
 
-	^ (self unaryMethods collect: [ :m |
-			"AMExample send: m selector to: self"
-			self navigateToSuccessorSending: m selector ])
+	^ (self unaryMethods
+		collect: [ :m | self navigateToSuccessorSending: m selector ])
 		collect: #clean
 		thenSelect: [ :eg | eg notNil ]
 ]
@@ -236,7 +260,8 @@ AMExample >> timeToRun: anObject [
 
 { #category : #querying }
 AMExample >> unaryMethods [
-	^ self objectClass methods select: [ :m | m selector isUnary ]
+	^ self objectClass methods
+		select: [ :m | m selector isUnary and: [ m isDeprecated not ] ]
 ]
 
 { #category : #accessing }
@@ -244,7 +269,6 @@ AMExample >> witnesses [
 	^ self unaryMethods
 		collect: [ :m | 
 			| successor |
-			"successor := AMExample send: m selector to: self."
 			successor := self navigateToSuccessorSending: m selector.
 
 			AMWitness
