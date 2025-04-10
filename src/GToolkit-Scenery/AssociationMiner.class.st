@@ -168,6 +168,11 @@ AssociationMiner class >> forPackage: aSymbolOrRPackage [
 ]
 
 { #category : #accessing }
+AssociationMiner >> allMinerClasses [
+	^ self packageClasses , self exampleClasses
+]
+
+{ #category : #accessing }
 AssociationMiner >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
@@ -345,6 +350,17 @@ AssociationMiner >> gtSceneryActionFor: anAction [
 ]
 
 { #category : #views }
+AssociationMiner >> gtSceneryFor: aView [
+	<gtView>
+	self canIterate ifTrue: [aView empty].
+	^ aView forward
+		title: 'Scenery';
+		priority: 45;
+		object: [ self scenery ];
+		view: #gtLiveFor:
+]
+
+{ #category : #views }
 AssociationMiner >> gtSeedsFor: aView [
 	<gtView>
 	^ (self gtExamplesFor: aView with: self seeds)
@@ -429,7 +445,13 @@ AssociationMiner >> overview [
 			self iterations last divergences}.
 		{'# Navigation clusters'.
 			self iterations last navigationClusters size.
-			self iterations last navigationClusters}}
+			self iterations last navigationClusters}.
+		{'# Associations'.
+			self sceneryAssociations size.
+			self sceneryAssociations}.
+		{'# Inheritances'.
+			self sceneryInheritances size.
+			self sceneryInheritances}}
 ]
 
 { #category : #accessing }
@@ -450,6 +472,21 @@ AssociationMiner >> package: aSymbolOrRPackage [
 { #category : #accessing }
 AssociationMiner >> packageClasses [
 	^ packageClasses
+]
+
+{ #category : #accessing }
+AssociationMiner >> packageName [
+	self allMinerClasses ifEmpty: [ ^ #EmptyPackage ].
+	^ self allMinerClasses first package packageName
+]
+
+{ #category : #printing }
+AssociationMiner >> printOn: aStream [
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		nextPutAll: self packageName;
+		nextPut: $)
 ]
 
 { #category : #accessing }
