@@ -54,6 +54,25 @@ GtScenery >> addItemForStencil: anItemStencil [
 	^ self addItem: (GtSceneryItem new stencil: anItemStencil)
 ]
 
+{ #category : #accessing }
+GtScenery >> addScenery: otherScenery [
+	"Experimental! Probably just useful for testing.
+	TODO: add the new items above the existing ones."
+
+	| space delta |
+	space := -50.
+	delta := (self boundingBox left - otherScenery boundingBox left)
+			@ (space + self boundingBox top - otherScenery boundingBox bottom).
+
+	otherScenery items
+		do: [ :item | 
+			item position: item position + delta.
+			self addItem: item ].
+	otherScenery connections
+		do: [ :connection | self addConnectionFrom: connection from to: connection to ].
+	^ self
+]
+
 { #category : #announcements }
 GtScenery >> announce: anAnnouncement [ 
 	self announcer announce: anAnnouncement
@@ -62,6 +81,13 @@ GtScenery >> announce: anAnnouncement [
 { #category : #accessing }
 GtScenery >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #accessing }
+GtScenery >> boundingBox [
+	^ Rectangle
+		encompassing: (self items collect: #position)
+				, (self items collect: [ :each | each position + each extent ])
 ]
 
 { #category : #accessing }
