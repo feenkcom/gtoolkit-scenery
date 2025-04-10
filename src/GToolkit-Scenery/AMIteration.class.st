@@ -142,10 +142,11 @@ AMIteration >> gtObservationsFor: aView [
 ]
 
 { #category : #processing }
-AMIteration >> iterate [
+AMIteration >> iterateFor: aClassCollection [
 	"Produce the next iteration. Iterate over the examples, producing successors,
 	keeping track of new associations, new examples and new observations,
-	discarding anything not of interest."
+	discarding anything not of interest. We ignore successors whose result class 
+	is not in the class collection of interest."
 
 	| nextNewAssociations newExamples newObservations |
 	newExamples := OrderedCollection new.
@@ -156,7 +157,8 @@ AMIteration >> iterate [
 		do: [ :eg | 
 			((eg unaryMethods
 				collect: [ :m | m -> (eg navigateToSuccessorSending: m selector) clean ])
-				select: [ :keyVal | keyVal value notNil ])
+				select: [ :keyVal | keyVal value notNil 
+					and: [ aClassCollection includes: keyVal value objectClass ] ])
 				do: [ :keyVal | 
 					| witness association oldWitnesses selector successor |
 					selector := keyVal key selector.

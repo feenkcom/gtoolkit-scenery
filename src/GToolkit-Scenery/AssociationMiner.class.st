@@ -95,11 +95,12 @@ Else let b_n+1(a) = b_n(a) U {w}.
 
 NB: Even if a is a new association, it might introduce an ambiguity if it shares the same source class and message but a different target for another witnessed association.
 
-Alternative: if size(b_n(a)) exceeds some threshold, discard x' and let b_n+1(a) = b_n(a), i.e., not updating the set of witnesses.
+Variant: if size(b_n(a)) exceeds some threshold, discard x' and let b_n+1(a) = b_n(a), i.e., not updating the set of witnesses.
 
 Let x"" in X_n+1 if class(x"") in P, o/w discard it.
 
 We keep witnesses that map outside of P, but not new examples.
+Variant: discard witnesses with results not in P (eliminate noise).
 
 If Xn+1 is empty, then no new examples of interest have been mined, and we can stop iterating.
 
@@ -169,7 +170,7 @@ AssociationMiner class >> forPackage: aSymbolOrRPackage [
 AssociationMiner >> addIteration [
 	self canIterate ifFalse: [ ^ self inform: 'No examples left to iterate on.' ].
 
-	self iterations addLast: self iterations last iterate.
+	self iterations addLast: (self iterations last iterateFor: self packageClasses).
 	self announcer
 		announce: (AMIterationAdded new
 				iteration: self iterations last;
