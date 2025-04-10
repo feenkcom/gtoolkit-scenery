@@ -159,7 +159,6 @@ AssociationMiner class >> forClassesWithFactories: aClassCollection [
 { #category : #'instance creation' }
 AssociationMiner class >> forPackage: aSymbolOrRPackage [
 	"We assume that the argument package has gtExample classes."
-
 	^ self new
 		package: aSymbolOrRPackage;
 		initializeSeedsFromExamples;
@@ -439,9 +438,11 @@ AssociationMiner >> package [
 
 { #category : #accessing }
 AssociationMiner >> package: aSymbolOrRPackage [
+	"NB: We only want the defined classes, not external classes that have been extended."
+
 	package := aSymbolOrRPackage asPackage.
-	packageClasses := ((package classes select: #isClass) asOrderedCollection
-			sortedAs: #name) asOrderedCollection
+	packageClasses := ((package definedClasses select: #isClass)
+			asOrderedCollection sortedAs: #name) asOrderedCollection
 ]
 
 { #category : #accessing }
