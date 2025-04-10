@@ -167,17 +167,6 @@ AssociationMiner class >> forPackage: aSymbolOrRPackage [
 ]
 
 { #category : #accessing }
-AssociationMiner >> addIteration [
-	self canIterate ifFalse: [ ^ self inform: 'No examples left to iterate on.' ].
-
-	self iterations addLast: (self iterations last iterateFor: self packageClasses).
-	self announcer
-		announce: (AMIterationAdded new
-				iteration: self iterations last;
-				yourself)
-]
-
-{ #category : #accessing }
 AssociationMiner >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
@@ -236,14 +225,35 @@ AssociationMiner >> gtExampleMethodsFor: aView [
 		actionUpdateButton
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #views }
+AssociationMiner >> gtExamplesFor: aView with: examples [
+	"To be used in <gtView> method for a given examples list."
+
+	examples ifNil: [ ^ aView empty ].
+	^ aView columnedList
+		title: 'Seeds';
+		priority: 10;
+		items: [ examples ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Time to run'
+			text: [ :each | each timeToRun ]
+			width: 100;
+		column: 'Class'
+			text: [ :each | each objectClass ]
+			width: 150;
+		column: 'Value' text: [ :each | each gtDisplayString ]
+]
+
+{ #category : #actions }
 AssociationMiner >> gtIterateActionFor: anAction [
 	<gtAction>
 	^ anAction button
 		tooltip: 'Generate new iteration';
 		priority: 10;
 		icon: BrGlamorousVectorIcons play;
-		action: [ :aButton | self addIteration ]
+		action: [ :aButton | self iterate ]
 ]
 
 { #category : #views }
@@ -273,6 +283,41 @@ AssociationMiner >> gtIterationsFor: aView [
 ]
 
 { #category : #views }
+AssociationMiner >> gtObservationsFor: aView with: observations [
+	"To be used in <gtView> method for a given observations list."
+
+	^ aView columnedList
+		title: 'Observations';
+		priority: 10;
+		items: [ observations associations collect: [ :keyVal | AMObservation for: keyVal ] ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Key' text: [ :each | each key gtDisplayString ];
+		column: 'Value' text: [ :each | each value gtDisplayString ];
+		send: [ :each | each key -> each value ];
+		actionUpdateButton
+]
+
+{ #category : #views }
+AssociationMiner >> gtOverviewFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Overview';
+		priority: 10;
+		items: [ self overview ];
+		column: 'Index'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Key' text: #first;
+		column: 'Value'
+			text: #second
+			weight: 3;
+		send: #last;
+		actionUpdateButton
+]
+
+{ #category : #views }
 AssociationMiner >> gtPackageClassesFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -286,7 +331,7 @@ AssociationMiner >> gtPackageClassesFor: aView [
 		actionUpdateButton
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 AssociationMiner >> gtSceneryActionFor: anAction [
 	<gtAction>
 	^ anAction button
@@ -303,7 +348,7 @@ AssociationMiner >> gtSeedsFor: aView [
 	<gtView>
 	^ (self gtExamplesFor: aView with: self seeds)
 		title: 'Seeds';
-		priority: 10
+		priority: 20
 ]
 
 { #category : #initalization }
@@ -337,6 +382,17 @@ AssociationMiner >> initializeSeedsFromFactories [
 ]
 
 { #category : #accessing }
+AssociationMiner >> iterate [
+	self canIterate ifFalse: [ ^ self ].
+
+	self iterations addLast: (self iterations last iterateFor: self packageClasses).
+	self announcer
+		announce: (AMIterationAdded new
+				iteration: self iterations last;
+				yourself)
+]
+
+{ #category : #accessing }
 AssociationMiner >> iterations [
 	"NB: Updated by #seeds:"
 	^ iterations
@@ -346,6 +402,33 @@ AssociationMiner >> iterations [
 AssociationMiner >> navigationMethods [
 	^ self packageClasses
 		flatCollect: [ :c | c methods select: [ :m | m selector isUnary ] ]
+]
+
+{ #category : #'as yet unclassified' }
+AssociationMiner >> overview [
+	^ {{'# Package classes'.
+			self packageClasses size.
+			self packageClasses}.
+		{'# Example classes'.
+			self exampleClasses size.
+			self exampleClasses}.
+		{'# Example methods'.
+			self exampleMethods size.
+			self exampleMethods}.
+		{'# Seeds'.
+			self seeds size.
+			self seeds}.
+		{'# Iterations'.
+			self iterations size.
+			self iterations}.
+		{'Iterations completed'.
+			self canIterate not}.
+		{'# Divergences'.
+			self iterations last divergences size.
+			self iterations last divergences}.
+		{'# Navigation clusters'.
+			self iterations last navigationClusters size.
+			self iterations last navigationClusters}}
 ]
 
 { #category : #accessing }
@@ -374,8 +457,8 @@ AssociationMiner >> regularClasses [
 { #category : #accessing }
 AssociationMiner >> scenery [
 	| builder scenery |
-	self iterations size < 2
-		ifTrue: [ self canIterate ifTrue: [ self addIteration ] ].
+	"self iterations size < 2
+		ifTrue: [ self canIterate ifTrue: [ self iterate ] ]."
 	builder := GtSceneryClassDiagramBuilder
 			withClasses: self sceneryClasses
 			associations: self sceneryAssociations

@@ -35,6 +35,11 @@ AMIteration >> classes: aClassCollection [
 	classes := aClassCollection
 ]
 
+{ #category : #querying }
+AMIteration >> divergences [
+	^ self groupDivergences values reject: [ :obs | obs size = 1 ]
+]
+
 { #category : #accessing }
 AMIteration >> examples [
 	^ examples
@@ -202,6 +207,7 @@ AMIteration >> mergedMessageObservations [
 	merge them, indicating a new pseudo-message that joins all the selectors. 
 	(This can be a placeholder for a  more suitable label at a later stage.)"
 
+	<todo: 'Cache this value?'>
 	| mergedMessageObservations |
 	mergedMessageObservations := Dictionary new.
 	self groupBySourceAndTarget
@@ -225,6 +231,7 @@ AMIteration >> mergedTargetObservations [
 	we merge them, take the join of the target classes.
 	E.g., observations returning True and False will be merged into one returning Boolean."
 
+	<todo: 'Cache this value?'>
 	| mergedTargetObservations |
 	mergedTargetObservations := Dictionary new.
 	self groupDivergences
@@ -240,6 +247,13 @@ AMIteration >> mergedTargetObservations [
 						at: (kv value first key copyWithTarget: join)
 						put: (kv value flatCollect: #value) ] ].
 	^ mergedTargetObservations
+]
+
+{ #category : #querying }
+AMIteration >> navigationClusters [
+	"Clusters of observations with the same source and target but different navigation messages."
+
+	^ self groupBySourceAndTarget values reject: [ :obs | obs size = 1 ]
 ]
 
 { #category : #accessing }
