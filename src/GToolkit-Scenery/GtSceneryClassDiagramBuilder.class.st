@@ -1,7 +1,10 @@
 "
 I am a utility offering a compact API for creating UML class diagrams as instances of GtScenery.
 
+I mainly keep track of the mapping between classes and the Scenery items that wrap them to create the connections.
+
 *Caveat:* the interface is expected to evolve.
+
 "
 Class {
 	#name : #GtSceneryClassDiagramBuilder,

@@ -135,7 +135,9 @@ Class {
 		'seeds',
 		'packageClasses',
 		'iterations',
-		'announcer'
+		'announcer',
+		'removeIsolatedClasses',
+		'removeSelfAssociations'
 	],
 	#category : #'GToolkit-Scenery-Mining'
 }
@@ -456,13 +458,39 @@ AssociationMiner >> regularClasses [
 ]
 
 { #category : #accessing }
+AssociationMiner >> removeIsolatedClasses [
+	^ removeIsolatedClasses ifNil: [ removeIsolatedClasses := true ]
+]
+
+{ #category : #accessing }
+AssociationMiner >> removeIsolatedClasses: aBoolean [
+	removeIsolatedClasses := aBoolean
+]
+
+{ #category : #accessing }
+AssociationMiner >> removeSelfAssociations [
+	^ removeSelfAssociations ifNil: [ removeSelfAssociations := true ]
+]
+
+{ #category : #accessing }
+AssociationMiner >> removeSelfAssociations: aBoolean [
+	removeSelfAssociations := aBoolean
+]
+
+{ #category : #accessing }
 AssociationMiner >> scenery [
-	| builder scenery |
+	| builder scenery sceneryClasses sceneryAssociations |
 	"self iterations size < 2
 		ifTrue: [ self canIterate ifTrue: [ self iterate ] ]."
+	sceneryClasses := self removeIsolatedClasses
+			ifTrue: [ self sceneryConnectedClasses ]
+			ifFalse: [ self sceneryClasses ].
+	sceneryAssociations := self removeSelfAssociations
+			ifTrue: [ self sceneryNoSelfAssociations ]
+			ifFalse: [ self sceneryAssociations ].
 	builder := GtSceneryClassDiagramBuilder
-			withClasses: self sceneryClasses
-			associations: self sceneryAssociations
+			withClasses: sceneryClasses
+			associations: sceneryAssociations
 			andInheritances: self sceneryInheritances.
 	scenery := builder build
 			onceLayout: GtGradHorizontalTreeLayout new yourself;
@@ -478,7 +506,20 @@ AssociationMiner >> sceneryAssociations [
 
 { #category : #accessing }
 AssociationMiner >> sceneryClasses [
+	"Alternative: sceneryConnectedClasses"
+
 	^ (self packageClasses copyWithAll: (self sceneryAssociations collect: #value))
+		removeDuplicates
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryConnectedClasses [
+	"Alternative to sceneryClasses.
+	Only include classes that  occur in associations or inheritances."
+
+	^ ((self sceneryAssociations collect: #value)
+		copyWithAll: (self sceneryInheritances collect: #key)
+				, (self sceneryInheritances collect: #value)) asOrderedCollection
 		removeDuplicates
 ]
 
@@ -489,6 +530,13 @@ AssociationMiner >> sceneryInheritances [
 	^ self packageClasses
 		collect: [ :c | c -> c superclass ]
 		thenSelect: [ :assoc | self packageClasses includes: assoc value ]
+]
+
+{ #category : #accessing }
+AssociationMiner >> sceneryNoSelfAssociations [
+	^ (self iterations last normalizedObservations keys
+		collect: [ :association | association source -> association target ])
+		reject: [ :kv | kv key = kv value ]
 ]
 
 { #category : #accessing }
