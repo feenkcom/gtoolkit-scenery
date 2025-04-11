@@ -238,11 +238,6 @@ GtSceneryElement >> createConnectionElementFor: aConnection [
 	connectionElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 
 	connectionElement
-		addAptitude: (BrStyleCommonAptitude new
-				default: [ :elt | elt border: (BlBorder paint: Color black width: 2) ];
-				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ]).
-
-	connectionElement
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
 				menu: [ self
 						buildConnectionContextMenuForItem: aConnection
@@ -275,7 +270,7 @@ GtSceneryElement >> createItemElementFor: anItem [
 				forItem: anItem ].
 	itemElement
 		when: BlElementPositionChangedEvent
-		do: [ :e | anItem position: e currentTarget position	"self gtScenery announceItemMoved: anItem" ].
+		do: [ :e | anItem position: e currentTarget position ].
 	itemElement
 		when: BlElementExtentChangedEvent
 		do: [ :e | 

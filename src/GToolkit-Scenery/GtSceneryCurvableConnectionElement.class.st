@@ -7,14 +7,27 @@ Class {
 	#traits : 'TGtSceneryUpdatableElement',
 	#classTraits : 'TGtSceneryUpdatableElement classTrait',
 	#instVars : [
-		'label'
+		'label',
+		'borderColor'
 	],
 	#category : #'GToolkit-Scenery-UI'
 }
 
 { #category : #accessing }
 GtSceneryCurvableConnectionElement >> borderColor [
-	^ Color black
+	"May be dynamically updated in subclasses."
+
+	^ borderColor ifNil: [ borderColor := Color black ]
+]
+
+{ #category : #accessing }
+GtSceneryCurvableConnectionElement >> borderColor: aColor [
+	borderColor := aColor
+]
+
+{ #category : #accessing }
+GtSceneryCurvableConnectionElement >> hoverColor [
+	^ Color blue
 ]
 
 { #category : #initalization }
