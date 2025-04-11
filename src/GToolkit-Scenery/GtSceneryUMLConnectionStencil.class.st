@@ -93,7 +93,7 @@ GtSceneryUMLConnectionStencil >> navigationBlockString: aClosureOrString [
 	navigationBlockString := aClosureOrString isClosure
 			ifTrue: [ aClosureOrString printString ]
 			ifFalse: [ aClosureOrString ].
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #accessing }
@@ -108,7 +108,7 @@ GtSceneryUMLConnectionStencil >> relationshipType: aSymbol [
 		description: aSymbol printString , ' is not a known relationship type'.
 	relationshipType := aSymbol.
 	self updateArrowhead.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #constants }

@@ -54,7 +54,7 @@ GtSceneryTextStencil >> text [
 ]
 
 { #category : #accessing }
-GtSceneryTextStencil >> text: anObject [
-	text := anObject.
-	self announceUpdate
+GtSceneryTextStencil >> text: aText [
+	text := aText.
+	self announceStencilUpdate
 ]

@@ -33,7 +33,7 @@ GtSceneryLepiterPageStencil >> databaseName [
 { #category : #accessing }
 GtSceneryLepiterPageStencil >> databaseName: aDatabaseName [
 	databaseName := aDatabaseName.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #accessing }
@@ -73,7 +73,7 @@ GtSceneryLepiterPageStencil >> pageName [
 { #category : #accessing }
 GtSceneryLepiterPageStencil >> pageName: aString [
 	pageName := aString.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #copying }

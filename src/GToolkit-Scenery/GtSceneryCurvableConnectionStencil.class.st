@@ -67,7 +67,7 @@ GtSceneryCurvableConnectionStencil >> curvatureFraction [
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> curvatureFraction: aFraction [
 	curvatureFraction := aFraction.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #accessing }
@@ -105,7 +105,7 @@ GtSceneryCurvableConnectionStencil >> fontSize [
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> fontSize: aFontSize [
 	fontSize := aFontSize.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #initialization }
@@ -125,7 +125,7 @@ GtSceneryCurvableConnectionStencil >> labelText [
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> labelText: aText [
 	labelText := aText.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #accessing }

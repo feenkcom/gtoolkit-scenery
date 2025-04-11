@@ -31,7 +31,7 @@ GtSceneryShapeStencil >> backgroundColor: aColor [
 	"For backward compatibility"
 
 	self backgroundColorSelector: aColor name asSymbol.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #accessing }
@@ -45,7 +45,7 @@ GtSceneryShapeStencil >> backgroundColorSelector: aSelector [
 		assert: (Color registeredColorNames includes: aSelector)
 		description: aSelector , ' is not a registered Color name'.
 	backgroundColorSelector := aSelector.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #'instance creation' }
@@ -86,7 +86,7 @@ GtSceneryShapeStencil >> geometry [
 { #category : #accessing }
 GtSceneryShapeStencil >> geometry: aGeometry [
 	geometry := aGeometry.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #listeners }

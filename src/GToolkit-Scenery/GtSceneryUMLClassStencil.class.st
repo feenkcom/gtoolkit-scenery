@@ -73,7 +73,7 @@ GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
 			ifFalse: [ aClosureOrString ].
 
 	example := nil.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #'as yet unclassified' }
