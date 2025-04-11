@@ -47,7 +47,7 @@ GtSceneryInspectorStencil >> storeOn: aStream [
 { #category : #copying }
 GtSceneryInspectorStencil >> target: aBlock [
 	targetBlock := aBlock.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #accessing }

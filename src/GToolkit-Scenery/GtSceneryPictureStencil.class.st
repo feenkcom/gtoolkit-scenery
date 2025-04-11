@@ -32,7 +32,7 @@ GtSceneryPictureStencil >> fileReference [
 { #category : #accessing }
 GtSceneryPictureStencil >> fileReference: aFileReference [
 	fileReference := aFileReference.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #example }

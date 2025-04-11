@@ -23,19 +23,17 @@ GtSceneryUMLClassElement >> stencilClass [
 	^ GtSceneryUMLClassStencil
 ]
 
-{ #category : #accessing }
-GtSceneryUMLClassElement >> text: aText [
-	"Is this the right place to listen to updates? Or should the scenery notify us instead that validity may have changed due to an item update?"
-
-	<tag: #shouldBeHandledByAnnouncement>
-	super text: aText.
-	self text when: BlTextStringsInserted do: [ self updateForegroundColor ].
-	self text when: BlTextsDeleted do: [ self updateForegroundColor ]
-]
-
 { #category : #validity }
 GtSceneryUMLClassElement >> umlStencil [
 	^ self graph model stencil
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryUMLClassElement >> updateAppearance [
+	"Hook for GtSceneryItemUpdated announcements."
+
+	super updateAppearance.
+	self updateForegroundColor
 ]
 
 { #category : #validity }

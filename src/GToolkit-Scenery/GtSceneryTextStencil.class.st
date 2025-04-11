@@ -1,5 +1,5 @@
 "
-Should be deprecated in favour of {{gtClass:name=GtSceneryTextLabelStencil}}
+Should be deprecated in favour of `GtSceneryTextLabelStencil`
 "
 Class {
 	#name : #GtSceneryTextStencil,
@@ -54,7 +54,7 @@ GtSceneryTextStencil >> text [
 ]
 
 { #category : #accessing }
-GtSceneryTextStencil >> text: anObject [
-	text := anObject.
-	self announceUpdate
+GtSceneryTextStencil >> text: aText [
+	text := aText.
+	self announceStencilUpdate
 ]

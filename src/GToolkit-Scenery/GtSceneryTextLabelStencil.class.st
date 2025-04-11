@@ -6,13 +6,13 @@ I have a `label` (a string), and several attributes that can be configured.
 
 label — the String label
 width — if not zero, the width for wrapping the text label
-weight— a symbol (see unary methods of {{gtClass:name=BlFontWeightAttribute}})
-emphasis — a symbol (see {{gtClass:name=BlFontEmphasisAttribute}})
+weight— a symbol (see unary methods of `BlFontWeightAttribute`)
+emphasis — a symbol (see `BlFontEmphasisAttribute`)
 
 *to be added:*
 
 fontSize — a number
-backgroundColor — a Symbol (see {{gtClass:Color}} class methods)
+backgroundColor — a Symbol (see `Color` class methods)
 
 
 
@@ -99,7 +99,7 @@ GtSceneryTextLabelStencil >> emphasis [
 GtSceneryTextLabelStencil >> emphasis: aSymbol [
 	"See BlFontEmphasisAttribute"
 	emphasis := aSymbol.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #initialization }
@@ -113,15 +113,21 @@ GtSceneryTextLabelStencil >> initialize [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> initializeText [
-
 	text := self label asRopedText.
-	
-	text when: BlTextStringsInserted do: [self label: text asString ].
-	text when: BlTextsDeleted do: [self label: text asString ].
+
+	text
+		when: BlTextStringsInserted
+		do: [ self label: text asString.
+			self announceStencilUpdate ].
+	text
+		when: BlTextsDeleted
+		do: [ self label: text asString.
+			self announceStencilUpdate ].
+			
 	"text when: BlTextAttributesAdded do: [self label: text asString ].
 	text when: BlTextAttributesRemoved do: [self label: text asString ]."
-	
-	^  text
+
+	^ text
 ]
 
 { #category : #accessing }
@@ -132,7 +138,7 @@ GtSceneryTextLabelStencil >> label [
 { #category : #accessing }
 GtSceneryTextLabelStencil >> label: aString [
 	label := aString.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #printing }
@@ -216,7 +222,7 @@ GtSceneryTextLabelStencil >> weight [
 GtSceneryTextLabelStencil >> weight: aSymbol [
 	"See BlFontWeightAttribute"
 	weight := aSymbol.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #accessing }
@@ -227,5 +233,5 @@ GtSceneryTextLabelStencil >> width [
 { #category : #accessing }
 GtSceneryTextLabelStencil >> width: aWidth [
 	width := aWidth.
-	self announceUpdate
+	self announceStencilUpdate
 ]

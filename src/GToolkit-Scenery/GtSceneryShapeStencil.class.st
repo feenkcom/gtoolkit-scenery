@@ -1,5 +1,5 @@
 "
-I represent a variety of shapes. I should replace {{gtClass:name=GtSceneryRectangleStencil}}.
+I represent a variety of shapes. I should replace `GtSceneryRectangleStencil`.
 For the moment only my `geometry` can be set.
 Later it should be possible to style me:
 - border width and color
@@ -31,7 +31,7 @@ GtSceneryShapeStencil >> backgroundColor: aColor [
 	"For backward compatibility"
 
 	self backgroundColorSelector: aColor name asSymbol.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #accessing }
@@ -45,7 +45,7 @@ GtSceneryShapeStencil >> backgroundColorSelector: aSelector [
 		assert: (Color registeredColorNames includes: aSelector)
 		description: aSelector , ' is not a registered Color name'.
 	backgroundColorSelector := aSelector.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #'instance creation' }
@@ -86,7 +86,7 @@ GtSceneryShapeStencil >> geometry [
 { #category : #accessing }
 GtSceneryShapeStencil >> geometry: aGeometry [
 	geometry := aGeometry.
-	self announceUpdate
+	self announceStencilUpdate
 ]
 
 { #category : #listeners }

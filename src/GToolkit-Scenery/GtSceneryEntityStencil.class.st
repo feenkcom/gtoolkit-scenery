@@ -1,5 +1,6 @@
 "
 I am an abstract superclass for stencils of scenery items and connections.
+I have an announcer, so my subclasses can announce updates using `#announceStencilUpdate`.
 
 Subclasses should implement `storeOn:` and also `postCopy` so cloning will work correctly.
 "
@@ -20,7 +21,7 @@ GtSceneryEntityStencil >> announce: anAnnouncement [
 ]
 
 { #category : #announcements }
-GtSceneryEntityStencil >> announceUpdate [
+GtSceneryEntityStencil >> announceStencilUpdate [
 	self announce: (GtStencilUpdated new stencil: self)
 ]
 

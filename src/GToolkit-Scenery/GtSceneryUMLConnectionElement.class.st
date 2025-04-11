@@ -9,14 +9,26 @@ GtSceneryUMLConnectionElement >> invalidForegroundColor [
 	^ Color red
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryUMLConnectionElement >> updateAppearance [
+	"Hook for GtSceneryItemUpdated announcements."
+
+	super updateAppearance.
+	
+	"NOT YET WORKING CORRECTLY"
+	
+	"self updateValidityColor"
+]
+
 { #category : #validity }
-GtSceneryUMLConnectionElement >> updateValidityColorFor: aConnection [
-	"This should be done with the help of listeners whenever the connection changes.
-	Currently not used."
+GtSceneryUMLConnectionElement >> updateValidityColor [
+	"This should be done with the help of listeners whenever the connection changes."
 
 	<tag: #shouldBeHandledByAnnouncement>
+	| connection |
+	connection := self graph model.
 	self
-		updateConnectionColor: (aConnection isValid
+		updateConnectionColor: (connection isValid
 				ifTrue: [ self validForegroundColor ]
 				ifFalse: [ self invalidForegroundColor ])
 ]

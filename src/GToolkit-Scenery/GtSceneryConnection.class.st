@@ -47,8 +47,9 @@ GtSceneryConnection >> from [
 ]
 
 { #category : #accessing }
-GtSceneryConnection >> from: anItem [ 
-	from := anItem
+GtSceneryConnection >> from: anItem [
+	from := anItem.
+	self subscribeToItem: anItem
 ]
 
 { #category : #views }
@@ -100,14 +101,24 @@ GtSceneryConnection >> subscribe [
 		for: self
 ]
 
+{ #category : #announcements }
+GtSceneryConnection >> subscribeToItem: anItem [
+	"Transform updates from my connected items to my subscribers."
+	anItem announcer
+		when: GtSceneryItemUpdated
+		do: [ :announcement :subscriber | self announce: (GtSceneryConnectionUpdated new connection: self) ]
+		for: self
+]
+
 { #category : #accessing }
 GtSceneryConnection >> to [
 	^ to
 ]
 
 { #category : #accessing }
-GtSceneryConnection >> to: item2 [ 
-	to := item2
+GtSceneryConnection >> to: anItem [ 
+	to := anItem.
+	self subscribeToItem: anItem
 ]
 
 { #category : #announcements }

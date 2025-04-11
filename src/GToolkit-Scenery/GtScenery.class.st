@@ -1,6 +1,6 @@
 "
 I am a stencil for a scene containing graphical items and possibly connections between them.
-My items are instances of {{gtClass:name=GtSceneryItem}}, each of which wraps a stencil for a different kind of item.
+My items are instances of `GtSceneryItem`, each of which wraps a stencil for a different kind of item.
 My items may be explicitly positioned or resized.
 "
 Class {
@@ -57,12 +57,12 @@ GtScenery >> addItemForStencil: anItemStencil [
 { #category : #accessing }
 GtScenery >> addScenery: otherScenery [
 	"Experimental! Probably just useful for testing.
-	TODO: add the new items above the existing ones."
+	Adds all the items and connections of another scenery above the bounding box of this one."
 
-	| space delta |
-	space := -50.
+	| spacing delta |
+	spacing := 50.
 	delta := (self boundingBox left - otherScenery boundingBox left)
-			@ (space + self boundingBox top - otherScenery boundingBox bottom).
+			@ (self boundingBox top - otherScenery boundingBox bottom - spacing).
 
 	otherScenery items
 		do: [ :item | 
