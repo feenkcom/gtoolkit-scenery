@@ -8,7 +8,8 @@ Class {
 	#classTraits : 'TGtSceneryUpdatableElement classTrait',
 	#instVars : [
 		'label',
-		'borderColor'
+		'borderColor',
+		'borderWidth'
 	],
 	#category : #'GToolkit-Scenery-UI'
 }
@@ -26,6 +27,16 @@ GtSceneryCurvableConnectionElement >> borderColor: aColor [
 ]
 
 { #category : #accessing }
+GtSceneryCurvableConnectionElement >> borderWidth [
+	^ borderWidth ifNil: [ borderWidth := 2 ]
+]
+
+{ #category : #accessing }
+GtSceneryCurvableConnectionElement >> borderWidth: aNumber [
+	borderWidth := aNumber
+]
+
+{ #category : #accessing }
 GtSceneryCurvableConnectionElement >> hoverColor [
 	^ Color blue
 ]
@@ -33,7 +44,7 @@ GtSceneryCurvableConnectionElement >> hoverColor [
 { #category : #initalization }
 GtSceneryCurvableConnectionElement >> initialize [
 	super initialize.
-	self border: (BlBorder paint: self borderColor width: 1).
+	"self border: (BlBorder paint: self borderColor width: self borderWidth)."
 	label := (BrLabel new
 						background: Color white;
 						margin: (BlInsets top: 10);
