@@ -1,5 +1,5 @@
 "
-I am an element for rendering a {{gtClass:name=GtScenery}}. I render the scenery using a `container` which is an instance of {{gtClass:name=BlCanvassableElement}}. 
+I am an element for rendering a `GtScenery`. I render the scenery using a `container` which is an instance of `BlCanvassableElement`. 
 
 By default, autoscaling is initially turned on, so the scenery will be displayed to take up the entire visible canvas.
 "

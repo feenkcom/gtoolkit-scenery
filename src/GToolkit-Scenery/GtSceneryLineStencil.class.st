@@ -1,7 +1,7 @@
 "
 I am a stencil for a simple, straight line connection between items.
 
-A better alternative is {{gtClass:name=GtSceneryCurvableConnectionStencil}}.
+A better alternative is `GtSceneryCurvableConnectionStencil`.
 
 "
 Class {

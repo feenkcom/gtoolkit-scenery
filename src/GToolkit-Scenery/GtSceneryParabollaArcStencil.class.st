@@ -1,7 +1,7 @@
 "
 I am a stencil for a curved connection between scenery items.
 
-Probably you should use {{gtClass:name=GtSceneryCurvableConnectionStencil}} instead.
+Probably you should use `GtSceneryCurvableConnectionStencil` instead.
 "
 Class {
 	#name : #GtSceneryParabollaArcStencil,

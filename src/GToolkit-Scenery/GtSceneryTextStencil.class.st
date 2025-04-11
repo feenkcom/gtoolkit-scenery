@@ -1,5 +1,5 @@
 "
-Should be deprecated in favour of {{gtClass:name=GtSceneryTextLabelStencil}}
+Should be deprecated in favour of `GtSceneryTextLabelStencil`
 "
 Class {
 	#name : #GtSceneryTextStencil,

@@ -1,5 +1,5 @@
 "
-I am a kind of {{gtClass:name=GtSceneryTextLabelStencil}}, but I am intended to be used as a node within a Mind map.
+I am a kind of `GtSceneryTextLabelStencil`, but I am intended to be used as a node within a Mind map.
 I should support a choice of colors and backgrounds, and possibly links to other kinds of related objects inside or outside of GT.
 
 "

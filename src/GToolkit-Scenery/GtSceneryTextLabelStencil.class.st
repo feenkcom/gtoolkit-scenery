@@ -6,13 +6,13 @@ I have a `label` (a string), and several attributes that can be configured.
 
 label — the String label
 width — if not zero, the width for wrapping the text label
-weight— a symbol (see unary methods of {{gtClass:name=BlFontWeightAttribute}})
-emphasis — a symbol (see {{gtClass:name=BlFontEmphasisAttribute}})
+weight— a symbol (see unary methods of `BlFontWeightAttribute`)
+emphasis — a symbol (see `BlFontEmphasisAttribute`)
 
 *to be added:*
 
 fontSize — a number
-backgroundColor — a Symbol (see {{gtClass:Color}} class methods)
+backgroundColor — a Symbol (see `Color` class methods)
 
 
 

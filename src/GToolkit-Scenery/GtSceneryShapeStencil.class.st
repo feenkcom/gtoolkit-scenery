@@ -1,5 +1,5 @@
 "
-I represent a variety of shapes. I should replace {{gtClass:name=GtSceneryRectangleStencil}}.
+I represent a variety of shapes. I should replace `GtSceneryRectangleStencil`.
 For the moment only my `geometry` can be set.
 Later it should be possible to style me:
 - border width and color

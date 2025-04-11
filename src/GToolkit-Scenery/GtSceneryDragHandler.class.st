@@ -1,5 +1,5 @@
 "
-I handle a Ctrl-click and drag event between two items in a {{gtClass:name=GtScenery}} to create an connection.
+I handle a Ctrl-click and drag event between two items in a `GtScenery` to create an connection.
 
 I must be on a node both when starting and stopping.
 
