@@ -21,7 +21,17 @@ GtSceneryConnection >> asElementIn: aContainerElement [
 	self announcer
 		when: GtSceneryConnectionUpdated
 		do: [ :announcement :subscriber | line isUpdatableSceneryEntityElement ifTrue: [ line updateAppearance ] ]
-		for: line.
+		for: line.	"	line isUpdatableSceneryEntityElement
+		ifTrue: [ line
+				addAptitude: (BrStyleCommonAptitude new
+						default: [ :elt | elt border: (BlBorder paint: Color black) ];
+						hovered: [ :elt | elt border: (BlBorder paint: Color blue) ]) ]."
+	line isUpdatableSceneryEntityElement
+		ifTrue: [ line
+				addAptitude: (BrStyleCommonAptitude new
+						default: [ :elt | elt border: (BlBorder paint: [ line borderColor ] value) ];
+						hovered: [ :elt | elt border: (BlBorder paint: [ line hoverColor ] value) ]) ].
+
 
 	aContainerElement
 		allChildrenBreadthFirstDetect: [ :each | each graph model = from ]
