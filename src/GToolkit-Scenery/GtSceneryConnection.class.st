@@ -29,8 +29,8 @@ GtSceneryConnection >> asElementIn: aContainerElement [
 	line isUpdatableSceneryEntityElement
 		ifTrue: [ line
 				addAptitude: (BrStyleCommonAptitude new
-						default: [ :elt | elt border: (BlBorder paint: [ line borderColor ] value) ];
-						hovered: [ :elt | elt border: (BlBorder paint: [ line hoverColor ] value) ]) ].
+						default: [ :elt | elt border: (BlBorder paint: [ line borderColor ] value width: line borderWidth) ];
+						hovered: [ :elt | elt border: (BlBorder paint: [ line hoverColor ] value width: line borderWidth) ]) ].
 
 
 	aContainerElement
