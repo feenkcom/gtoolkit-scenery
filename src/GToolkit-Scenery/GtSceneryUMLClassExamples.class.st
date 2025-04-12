@@ -133,6 +133,28 @@ GtSceneryUMLClassExamples >> nonsenseClassNameIsNotValid [
 ]
 
 { #category : #example }
+GtSceneryUMLClassExamples >> objectBagInheritanceIsInvalid [
+	<gtExample>
+	| scenery item1 item2 |
+	scenery := GtScenery new.
+	item1 := scenery addItem: (GtSceneryUMLClassStencil new label: 'Object') asItem.
+	item1 position: -44.0 @ -48.0.
+	item2 := scenery
+			addItem: (GtSceneryUMLClassStencil new label: 'Bag') asItem.
+	item2 position: -19.0 @ 26.0.
+	scenery
+		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
+				relationshipType: #inheritance)
+		from: item2
+		to: item1.
+
+	self assert: scenery connections first isInvalid.
+	self assert: scenery isInvalid.
+
+	^ scenery
+]
+
+{ #category : #example }
 GtSceneryUMLClassExamples >> objectClassIsValid [
 	"Double-clicking goes to the class"
 

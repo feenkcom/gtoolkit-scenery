@@ -53,7 +53,7 @@ GtSceneryItem >> asElementIn: aSceneryElement [
 
 	self announcer
 		when: GtSceneryItemUpdated
-		do: [ :announcement :subscriber | element isUpdatableSceneryEntityElement ifTrue: [ element updateAppearance ] ]
+		do: [ :announcement :subscriber | element isSceneryElement ifTrue: [ element updateAppearance ] ]
 		for: element.
 
 	element

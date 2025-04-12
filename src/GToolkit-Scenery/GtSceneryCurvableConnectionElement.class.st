@@ -4,8 +4,8 @@ I am a BlParabollaArcElement that can be extended with Connection-specific behav
 Class {
 	#name : #GtSceneryCurvableConnectionElement,
 	#superclass : #BlParabollaArcElement,
-	#traits : 'TGtSceneryUpdatableElement',
-	#classTraits : 'TGtSceneryUpdatableElement classTrait',
+	#traits : 'TGtSceneryConnectionElement',
+	#classTraits : 'TGtSceneryConnectionElement classTrait',
 	#instVars : [
 		'label',
 		'borderColor',
@@ -64,7 +64,17 @@ GtSceneryCurvableConnectionElement >> label [
 	^ label
 ]
 
-{ #category : #announcements }
+{ #category : #painting }
+GtSceneryCurvableConnectionElement >> resetConnectionColor [
+	self border: (BlBorder paint: self borderColor width: self borderWidth)
+]
+
+{ #category : #painting }
+GtSceneryCurvableConnectionElement >> setHoverConnectionColor [
+	self border: (BlBorder paint: self hoverColor width: self borderWidth)
+]
+
+{ #category : #'as yet unclassified' }
 GtSceneryCurvableConnectionElement >> updateAppearance [
 	| stencil |
 	stencil := self graph model stencil.
@@ -76,10 +86,6 @@ GtSceneryCurvableConnectionElement >> updateAppearance [
 				aptitude: (BrGlamorousLabelAptitude new fontSize: stencil fontSize).
 			self label visibility: BlVisibility visible ]
 		ifFalse: [ self label visibility: BlVisibility gone ].
-	self toHead: stencil arrowHead
-]
-
-{ #category : #painting }
-GtSceneryCurvableConnectionElement >> updateConnectionColor: aColor [
-	self border: (BlBorder paint: aColor)
+	self toHead: stencil arrowHead.
+	self resetConnectionColor
 ]
