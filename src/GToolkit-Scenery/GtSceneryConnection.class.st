@@ -20,17 +20,13 @@ GtSceneryConnection >> asElementIn: aContainerElement [
 
 	self announcer
 		when: GtSceneryConnectionUpdated
-		do: [ :announcement :subscriber | line isUpdatableSceneryEntityElement ifTrue: [ line updateAppearance ] ]
-		for: line.	"	line isUpdatableSceneryEntityElement
+		do: [ :announcement :subscriber | line isSceneryElement ifTrue: [ line updateAppearance ] ]
+		for: line.
+	line isSceneryElement
 		ifTrue: [ line
 				addAptitude: (BrStyleCommonAptitude new
-						default: [ :elt | elt border: (BlBorder paint: Color black) ];
-						hovered: [ :elt | elt border: (BlBorder paint: Color blue) ]) ]."
-	line isUpdatableSceneryEntityElement
-		ifTrue: [ line
-				addAptitude: (BrStyleCommonAptitude new
-						default: [ :elt | elt border: (BlBorder paint: [ line borderColor ] value width: line borderWidth) ];
-						hovered: [ :elt | elt border: (BlBorder paint: [ line hoverColor ] value width: line borderWidth) ]) ].
+						default: [ :elt | line resetConnectionColor ];
+						hovered: [ :elt | line setHoverConnectionColor ]) ].
 
 
 	aContainerElement
@@ -47,7 +43,7 @@ GtSceneryConnection >> asElementIn: aContainerElement [
 				ifNone: [ self error: 'Could not find element' ] ]
 		ifNone: [ self error: 'Could not find element' ].
 	line userData at: #sceneryConnection put: true.
-	line isUpdatableSceneryEntityElement ifTrue: [ line updateAppearance ].
+	line isSceneryElement ifTrue: [ line updateAppearance ].
 	^ line
 ]
 
@@ -58,6 +54,7 @@ GtSceneryConnection >> from [
 
 { #category : #accessing }
 GtSceneryConnection >> from: anItem [
+	self unsubscribeToItem: self from.
 	from := anItem.
 	self subscribeToItem: anItem
 ]
@@ -114,6 +111,7 @@ GtSceneryConnection >> subscribe [
 { #category : #announcements }
 GtSceneryConnection >> subscribeToItem: anItem [
 	"Transform updates from my connected items to my subscribers."
+
 	anItem announcer
 		when: GtSceneryItemUpdated
 		do: [ :announcement :subscriber | self announce: (GtSceneryConnectionUpdated new connection: self) ]
@@ -126,7 +124,8 @@ GtSceneryConnection >> to [
 ]
 
 { #category : #accessing }
-GtSceneryConnection >> to: anItem [ 
+GtSceneryConnection >> to: anItem [
+	self unsubscribeToItem: self to.
 	to := anItem.
 	self subscribeToItem: anItem
 ]
@@ -136,6 +135,13 @@ GtSceneryConnection >> unsubscribe [
 	self stencil
 		ifNotNil: [ self stencil isSceneryStencil
 				ifTrue: [ self stencil announcer unsubscribe: self ] ]
+]
+
+{ #category : #announcements }
+GtSceneryConnection >> unsubscribeToItem: anItem [
+	"Transform updates from my connected items to my subscribers."
+
+	anItem ifNotNil: [ anItem announcer unsubscribe: self ]
 ]
 
 { #category : #'connection menu' }

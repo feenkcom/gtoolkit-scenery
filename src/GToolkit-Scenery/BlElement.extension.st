@@ -1,8 +1,8 @@
 Extension { #name : #BlElement }
 
 { #category : #'*GToolkit-Scenery' }
-BlElement >> isUpdatableSceneryEntityElement [
-	"Ad hoc elements can't subscribe to scenery item or connection updates."
+BlElement >> isSceneryElement [
+	"Ad hoc elements in a GTScenery don't support the TGtSceneryElement API."
 
 	^ false
 ]

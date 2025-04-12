@@ -11,18 +11,21 @@ GtSceneryUMLConnectionElement >> invalidForegroundColor [
 
 { #category : #'as yet unclassified' }
 GtSceneryUMLConnectionElement >> updateAppearance [
-	super updateAppearance.
-	self updateValidityColor
+	self updateValidityColor.
+	super updateAppearance
 ]
 
 { #category : #validity }
 GtSceneryUMLConnectionElement >> updateValidityColor [
+	"The actual visual update is made by updateAppearance."
+
 	| connection |
 	connection := self graph model.
 	connection isValid
-		ifTrue: [ self borderColor: self validForegroundColor ]
-		ifFalse: [ self borderColor: self invalidForegroundColor ].
-	self updateConnectionColor: self borderColor
+		ifTrue: [ "self inform: 'Status is VALID'."
+			self borderColor: self validForegroundColor ]
+		ifFalse: [ "self inform: 'Status is INVALID !!!'."
+			self borderColor: self invalidForegroundColor ]
 ]
 
 { #category : #acccessing }
