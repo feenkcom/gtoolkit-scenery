@@ -22,10 +22,8 @@ GtSceneryUMLConnectionElement >> updateValidityColor [
 	| connection |
 	connection := self graph model.
 	connection isValid
-		ifTrue: [ "self inform: 'Status is VALID'."
-			self borderColor: self validForegroundColor ]
-		ifFalse: [ "self inform: 'Status is INVALID !!!'."
-			self borderColor: self invalidForegroundColor ]
+		ifTrue: [ self borderColor: self validForegroundColor ]
+		ifFalse: [ self borderColor: self invalidForegroundColor ]
 ]
 
 { #category : #acccessing }
