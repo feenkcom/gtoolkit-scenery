@@ -76,7 +76,7 @@ GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
 	self announceStencilUpdate
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 GtSceneryUMLClassStencil >> gtExampleButtonFor: anAction [
 	<gtAction>
 	^ anAction button
