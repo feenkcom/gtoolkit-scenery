@@ -151,10 +151,10 @@ GtSceneryCurvableConnectionStencil >> triangleArrowHead [
 ]
 
 { #category : #'context menu' }
-GtSceneryCurvableConnectionStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+GtSceneryCurvableConnectionStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	| curvatureSubMenuItems brMenuItems |
 	brMenuItems := super
-			updateContextMenuItems: aBrMenuItems
+			updateItemContextMenuItems: aBrMenuItems
 			forSceneryElement: aGtSceneryElement
 			andChildElement: aChildElement.
 

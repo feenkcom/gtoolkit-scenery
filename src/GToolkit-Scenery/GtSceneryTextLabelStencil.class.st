@@ -187,10 +187,11 @@ GtSceneryTextLabelStencil >> text: aText [
 ]
 
 { #category : #'item menu' }
-GtSceneryTextLabelStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+GtSceneryTextLabelStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
-
-	"| subMenuItems |
+	
+"
+	| subMenuItems |
 	subMenuItems := BrMenuItems new.
 
 	subMenuItems
@@ -201,6 +202,7 @@ GtSceneryTextLabelStencil >> updateContextMenuItems: aBrMenuItems forSceneryElem
 		addItemLabel: 'Decrease font size'
 		action: [ aChildElement decreaseFontSize.
 			self text fontSize: aChildElement fontSize ].
+			
 	subMenuItems
 		addItemLabel: 'Reset font size'
 		action: [ aChildElement resetFontSize.

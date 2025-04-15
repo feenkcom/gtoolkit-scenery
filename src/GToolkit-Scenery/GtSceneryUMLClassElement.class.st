@@ -44,5 +44,4 @@ GtSceneryUMLClassElement >> updateForegroundColor [
 		defaultForeground: (self umlStencil isValidClass
 				ifTrue: [ self umlStencil validForegroundColor ]
 				ifFalse: [ self umlStencil invalidForegroundColor ]).
-	self aptitude: self labelAptitude
 ]

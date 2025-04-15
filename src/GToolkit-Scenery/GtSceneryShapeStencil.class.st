@@ -116,10 +116,10 @@ GtSceneryShapeStencil >> storeOnAttributes [
 ]
 
 { #category : #'context menu' }
-GtSceneryShapeStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+GtSceneryShapeStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	| brMenuItems geometrySubmenu |
 	brMenuItems := super
-			updateContextMenuItems: aBrMenuItems
+			updateItemContextMenuItems: aBrMenuItems
 			forSceneryElement: aGtSceneryElement
 			andChildElement: aChildElement.
 
