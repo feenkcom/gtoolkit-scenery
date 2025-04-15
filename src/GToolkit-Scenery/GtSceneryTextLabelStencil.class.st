@@ -105,9 +105,9 @@ GtSceneryTextLabelStencil >> emphasis: aSymbol [
 { #category : #initialization }
 GtSceneryTextLabelStencil >> initialize [
 	super initialize.
-	emphasis := self defaultEmphasis.
+	emphasis := self defaultEmphasis. "Not used?"
 	label := self defaultLabel.
-	weight := self defaultWeight.
+	weight := self defaultWeight. "Not used?"
 	width := self defaultWidth
 ]
 

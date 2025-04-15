@@ -1,10 +1,8 @@
 Class {
 	#name : #GtSceneryLepiterPageStencil,
 	#superclass : #GtSceneryDraggableItemStencil,
-	#instVars : [
-		'databaseName',
-		'pageName'
-	],
+	#traits : 'TGtSceneryLePageWrapper',
+	#classTraits : 'TGtSceneryLePageWrapper classTrait',
 	#category : #'GToolkit-Scenery-Model'
 }
 
@@ -25,30 +23,9 @@ GtSceneryLepiterPageStencil >> create [
 				size: self defaultExtent ]
 ]
 
-{ #category : #accessing }
-GtSceneryLepiterPageStencil >> databaseName [
-	^ databaseName ifNil: [databaseName := self defaultDatabaseName]
-]
-
-{ #category : #accessing }
-GtSceneryLepiterPageStencil >> databaseName: aDatabaseName [
-	databaseName := aDatabaseName.
-	self announceStencilUpdate
-]
-
-{ #category : #accessing }
-GtSceneryLepiterPageStencil >> defaultDatabaseName [
-	^ LeDatabase gtBookName
-]
-
 { #category : #'as yet unclassified' }
 GtSceneryLepiterPageStencil >> defaultExtent [
 	^ 400 @ 300
-]
-
-{ #category : #accessing }
-GtSceneryLepiterPageStencil >> defaultPageName [
-	^ 'Glamorous Toolkit Book'
 ]
 
 { #category : #listeners }
@@ -63,32 +40,6 @@ GtSceneryLepiterPageStencil >> handleDoubleClickForItem: anItem andElement: anIt
 GtSceneryLepiterPageStencil >> initialize [ 
 	super initialize.
 	extent := self defaultExtent
-]
-
-{ #category : #accessing }
-GtSceneryLepiterPageStencil >> pageName [
-	^ pageName ifNil:[ pageName := self defaultPageName ] 
-]
-
-{ #category : #accessing }
-GtSceneryLepiterPageStencil >> pageName: aString [
-	pageName := aString.
-	self announceStencilUpdate
-]
-
-{ #category : #copying }
-GtSceneryLepiterPageStencil >> postCopy [
-	super postCopy.
-	databaseName := self databaseName copy.
-	pageName:= self pageName copy
-]
-
-{ #category : #accessing }
-GtSceneryLepiterPageStencil >> startPage [
-	| database |
-	database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase
-			databaseNamed: self databaseName.
-	^ database pageNamed: self pageName
 ]
 
 { #category : #accessing }
