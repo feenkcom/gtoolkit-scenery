@@ -31,6 +31,15 @@ Class {
 }
 
 { #category : #acccessing }
+GtSceneryTextLabelStencil class >> itemCreationMenuSpecification [
+	<sceneryItemCreationSpecification>
+	^ LeContextMenuItemSpecification new
+		priority: 10;
+		snippetClass: self;
+		title: self itemCreationSubmenuLabel
+]
+
+{ #category : #acccessing }
 GtSceneryTextLabelStencil class >> itemCreationSubmenuLabel [
 	^ 'Text label'
 ]

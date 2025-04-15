@@ -12,6 +12,15 @@ GtSceneryLePageTitleLabelStencil class >> defaultWeight [
 ]
 
 { #category : #accessing }
+GtSceneryLePageTitleLabelStencil class >> itemCreationMenuSpecification [
+	<sceneryItemCreationSpecification>
+	^ LeContextMenuItemSpecification new
+		"priority: 1;"
+		snippetClass: self;
+		title: self itemCreationSubmenuLabel
+]
+
+{ #category : #accessing }
 GtSceneryLePageTitleLabelStencil class >> itemCreationSubmenuLabel [
 	^ 'Lepiter page title'
 ]
