@@ -15,6 +15,11 @@ TGtSceneryLePageWrapper >> announceStencilUpdate [
 	self explicitRequirement
 ]
 
+{ #category : #copying }
+TGtSceneryLePageWrapper >> database [
+	^ LeDatabase databaseNamed: self databaseName
+]
+
 { #category : #accessing }
 TGtSceneryLePageWrapper >> databaseName [
 	^ databaseName ifNil: [databaseName := self defaultDatabaseName]
@@ -57,7 +62,6 @@ TGtSceneryLePageWrapper >> postCopy [
 { #category : #copying }
 TGtSceneryLePageWrapper >> startPage [
 	| database |
-	database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase
-			databaseNamed: self databaseName.
+	database := self database.
 	^ database pageNamed: self pageName
 ]
