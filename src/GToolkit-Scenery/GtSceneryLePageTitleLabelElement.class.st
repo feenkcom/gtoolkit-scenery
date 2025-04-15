@@ -6,24 +6,32 @@ Class {
 
 { #category : #'as yet unclassified' }
 GtSceneryLePageTitleLabelElement >> hoverColor [
-	"^ self database
-		pageNamed: self title
-		ifPresent: [ Color paleBlue ]
-		ifAbsent: [ Color pink ]"
-	^ Color paleBlue
+	"Currently not used as it is not clear how not tocompute the hover color eagerly."
+
+	| item |
+	item := self graph model.
+	^ item ifNil: [ Color paleGreen ] ifNotNil: [ item stencil hoverColor ]
 ]
 
 { #category : #initalization }
 GtSceneryLePageTitleLabelElement >> initializeLabelAptitude [
-	"Default label with grey background, rounded rectangle and no border."
+	"Default label with white background, and no border."
 
-	labelAptitude := (BrGlamorousEditableLabelAptitude new
+	<todo: 'The hover color is eagerly computed by BrStyleAptitude>>#when:style: -- how can we look it up dynamically?'>
+	labelAptitude := BrGlamorousEditableLabelAptitude new
 			glamorousRegularFontAndSize bold
 			defaultBackground: Color white;
-			yourself)
-			+ (BrStyleCommonAptitude new
-					hovered: [ :aStyle | aStyle background: self hoverColor ]).
-	^ labelAptitude
+			yourself.
+	labelAptitude styleLook
+		default: [ :aStyle | 
+			aStyle geometry: (BlRoundedRectangleGeometry cornerRadius: 0).
+			aStyle background: Color white.
+			aStyle border: BlBorder empty ].
+	"labelAptitude styleLook
+		when: [ :aState | aState hovered and: BrEditorModeState readOnly ]
+		style: [ :aStyle | aStyle background: self hoverColor ]."
+	^ labelAptitude	"+ (BrStyleCommonAptitude new
+						hovered: [ :aStyle | aStyle background: self hoverColor ])"
 ]
 
 { #category : #initalization }

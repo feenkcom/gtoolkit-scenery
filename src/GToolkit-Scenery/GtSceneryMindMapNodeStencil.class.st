@@ -10,6 +10,15 @@ Class {
 }
 
 { #category : #acccessing }
+GtSceneryMindMapNodeStencil class >> itemCreationMenuSpecification [
+	<sceneryItemCreationSpecification>
+	^ LeContextMenuItemSpecification new
+		"priority: 1;"
+		snippetClass: self;
+		title: self itemCreationSubmenuLabel
+]
+
+{ #category : #acccessing }
 GtSceneryMindMapNodeStencil class >> itemCreationSubmenuLabel [
 	^ 'Mind map bubble'
 ]

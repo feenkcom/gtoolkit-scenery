@@ -7,6 +7,15 @@ Class {
 }
 
 { #category : #acccessing }
+GtSceneryLepiterPageStencil class >> itemCreationMenuSpecification [
+	<sceneryItemCreationSpecification>
+	^ LeContextMenuItemSpecification new
+		"priority: 1;"
+		snippetClass: self;
+		title: self itemCreationSubmenuLabel
+]
+
+{ #category : #acccessing }
 GtSceneryLepiterPageStencil class >> itemCreationSubmenuLabel [
 	^ 'Lepiter page'
 ]

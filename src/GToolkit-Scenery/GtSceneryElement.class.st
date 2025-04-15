@@ -108,15 +108,14 @@ GtSceneryElement >> buildItemCreationSubmenuForContext: aContext [
 	<tag: #sceneryContextMenu>
 	| subMenuItems |
 	subMenuItems := BrMenuItems new.
-	(GtSceneryDraggableItemStencil allSubclasses
-		select: [ :c | c class includesSelector: #itemCreationSubmenuLabel ])
-		do: [ :itemStencilClass | 
+	GtSceneryItemCreationContextMenuCollector new collectMenuItems
+		do: [ :spec | 
 			subMenuItems
-				addItemLabel: itemStencilClass itemCreationSubmenuLabel
+				addItemLabel: spec title
 				action: [ aContext
 						childrenPositionDo: [ :aPoint | 
-							self addNewItemFor: itemStencilClass at: aPoint.
-							self currentItemStencil: itemStencilClass ]
+							self addNewItemFor: spec snippetClass at: aPoint.
+							self currentItemStencil: spec snippetClass ]
 						ifAbsentDo: [ 0 @ 0 ] ] ].
 	^ subMenuItems
 ]

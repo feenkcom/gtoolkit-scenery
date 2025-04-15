@@ -12,11 +12,62 @@ GtSceneryLePageTitleLabelStencil class >> defaultWeight [
 ]
 
 { #category : #accessing }
+GtSceneryLePageTitleLabelStencil class >> itemCreationMenuSpecification [
+	<sceneryItemCreationSpecification>
+	^ LeContextMenuItemSpecification new
+		"priority: 1;"
+		snippetClass: self;
+		title: self itemCreationSubmenuLabel
+]
+
+{ #category : #accessing }
 GtSceneryLePageTitleLabelStencil class >> itemCreationSubmenuLabel [
 	^ 'Lepiter page title'
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryLePageTitleLabelStencil >> defaultLabel [
+	^ self defaultPageName
 ]
 
 { #category : #'api - instantiation' }
 GtSceneryLePageTitleLabelStencil >> elementClass [
 	^ GtSceneryLePageTitleLabelElement
+]
+
+{ #category : #listeners }
+GtSceneryLePageTitleLabelStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
+	"Spawn the page"
+	self database
+		pageNamed: self pageName
+		ifPresent: [ anItemElement
+				fireEvent: (GtSceneryObjectToSpawn new object: self startPage asPagePhlowTool) ]
+		ifAbsent: [  ]
+]
+
+{ #category : #accessing }
+GtSceneryLePageTitleLabelStencil >> hoverColor [
+	^ self database
+		pageNamed: self pageName
+		ifPresent: [ Color paleBlue ]
+		ifAbsent: [ Color pink ]
+]
+
+{ #category : #accessing }
+GtSceneryLePageTitleLabelStencil >> pageName [
+	"We ignore the instance variable from the trait and use the label instead."
+	^ self label
+]
+
+{ #category : #copying }
+GtSceneryLePageTitleLabelStencil >> pageName: aString [
+	self label: aString
+]
+
+{ #category : #copying }
+GtSceneryLePageTitleLabelStencil >> postCopy [
+	"NB: In this class we use label to store the pageName."
+
+	super postCopy.
+	databaseName := self databaseName copy	"pageName:= self pageName copy"
 ]

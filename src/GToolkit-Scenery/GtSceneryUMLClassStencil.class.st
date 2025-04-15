@@ -19,6 +19,15 @@ Class {
 }
 
 { #category : #accessing }
+GtSceneryUMLClassStencil class >> itemCreationMenuSpecification [
+	<sceneryItemCreationSpecification>
+	^ LeContextMenuItemSpecification new
+		"priority: 1;"
+		snippetClass: self;
+		title: self itemCreationSubmenuLabel
+]
+
+{ #category : #accessing }
 GtSceneryUMLClassStencil class >> itemCreationSubmenuLabel [
 	^ 'UML Class'
 ]

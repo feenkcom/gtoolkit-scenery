@@ -11,6 +11,15 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GtSceneryTextStencil class >> itemCreationMenuSpecification [
+	"<sceneryItemCreationSpecification>"
+	^ LeContextMenuItemSpecification new
+		"priority: 1;"
+		snippetClass: self;
+		title: self itemCreationSubmenuLabel
+]
+
+{ #category : #'as yet unclassified' }
 GtSceneryTextStencil class >> itemCreationSubmenuLabel [
 	^ 'Text (old)'
 ]
