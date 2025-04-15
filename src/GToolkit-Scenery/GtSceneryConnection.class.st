@@ -146,5 +146,5 @@ GtSceneryConnection >> unsubscribeToItem: anItem [
 
 { #category : #'connection menu' }
 GtSceneryConnection >> updateConnectionContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andConnectionElement: aConnectionElement [
-	self stencil updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aConnectionElement
+	self stencil updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aConnectionElement
 ]

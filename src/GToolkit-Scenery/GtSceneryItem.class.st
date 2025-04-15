@@ -223,7 +223,7 @@ GtSceneryItem >> unsubscribe [
 { #category : #'item menu' }
 GtSceneryItem >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andItemElement: anItemElement [
 	self stencil
-		updateContextMenuItems: aBrMenuItems
+		updateItemContextMenuItems: aBrMenuItems
 		forSceneryElement: aGtSceneryElement
 		andChildElement: anItemElement
 ]

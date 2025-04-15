@@ -161,9 +161,9 @@ GtSceneryUMLClassStencil >> storeOnAttributes [
 ]
 
 { #category : #'context menu' }
-GtSceneryUMLClassStencil >> updateContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+GtSceneryUMLClassStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	<todo: 'spawn superclass or subclass nodes'>
-	| subMenuItems |
+	"| subMenuItems |
 	
 	(self isValidClass and: [ self asClass isAbstract not ])
 		ifTrue: [ aBrMenuItems
@@ -171,14 +171,14 @@ GtSceneryUMLClassStencil >> updateContextMenuItems: aBrMenuItems forSceneryEleme
 				action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ] ].
 
 	subMenuItems := BrMenuItems new.
-	subMenuItems addItemLabel: 'Superclass' action: [ "to do" ].
-	subMenuItems addItemLabel: 'Subclasses' action: [ "to do" ].
+	subMenuItems addItemLabel: 'Superclass' action: [  ].
+	subMenuItems addItemLabel: 'Subclasses' action: [  ]."
 
 	"aBrMenuItems
 		addItem: (BrMenuSubmenuItem new
 				label: 'Spawn';
-				submenu: subMenuItems).
-"
+				submenu: subMenuItems)."
+
 	^ aBrMenuItems
 ]
 
