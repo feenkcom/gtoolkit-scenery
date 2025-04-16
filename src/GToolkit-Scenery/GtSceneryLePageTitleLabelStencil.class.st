@@ -71,3 +71,32 @@ GtSceneryLePageTitleLabelStencil >> postCopy [
 	super postCopy.
 	databaseName := self databaseName copy	"pageName:= self pageName copy"
 ]
+
+{ #category : #menu }
+GtSceneryLePageTitleLabelStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
+	"| subMenuItems |"
+
+	<todo: 'spawn superclass or subclass nodes'>
+"	self startPage allOutgoingTargets
+		do: [ :aPage | 
+			[ aGtSceneryElement
+				fireEvent: (GtSceneryAddNewConnection new
+						fromItemElement: self;
+						toStencil: self stencilClass new;
+						yourself) ] ].	"
+						
+	"
+	(self isValidClass and: [ self asClass isAbstract not ])
+		ifTrue: [ aBrMenuItems
+				addItemLabel: 'Inspect example'
+				action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ] ].
+
+	subMenuItems := BrMenuItems new.
+	subMenuItems addItemLabel: 'Superclass' action: [  ].
+	subMenuItems addItemLabel: 'Subclasses' action: [  ]."	"aBrMenuItems
+		addItem: (BrMenuSubmenuItem new
+				label: 'Spawn outgoing link';
+				submenu: subMenuItems)."
+
+	^ aBrMenuItems
+]

@@ -105,7 +105,7 @@ GtSceneryEntityStencil >> storeWithAttributesOn: aStream [
 					separator := '; ' ] ]
 ]
 
-{ #category : #'context menu' }
+{ #category : #menu }
 GtSceneryEntityStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	"Hook method for subclasses to provide more specific context menu items. By default do nothing."
 

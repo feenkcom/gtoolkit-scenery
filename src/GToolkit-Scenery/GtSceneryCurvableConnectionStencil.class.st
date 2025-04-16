@@ -150,7 +150,7 @@ GtSceneryCurvableConnectionStencil >> triangleArrowHead [
 		border: (BlBorder paint: Color black)
 ]
 
-{ #category : #'context menu' }
+{ #category : #menu }
 GtSceneryCurvableConnectionStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	| curvatureSubMenuItems brMenuItems |
 	brMenuItems := super

@@ -124,7 +124,7 @@ GtSceneryShapeStencil >> storeOnAttributes [
 		#backgroundColorSelector}
 ]
 
-{ #category : #'context menu' }
+{ #category : #menu }
 GtSceneryShapeStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	| brMenuItems geometrySubmenu |
 	brMenuItems := super

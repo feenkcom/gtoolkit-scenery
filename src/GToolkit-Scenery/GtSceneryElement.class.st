@@ -55,7 +55,7 @@ GtSceneryElement >> applyOnceLayoutNamed: key [
 	^ self applyOnceLayout: (self onceLayouts at: key) value
 ]
 
-{ #category : #'connection menu' }
+{ #category : #menu }
 GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: aConnectionElement [
 	<tag: #sceneryContextMenu>
 	| menuItems |
@@ -80,7 +80,7 @@ GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: a
 	^ menuItems
 ]
 
-{ #category : #'item menu' }
+{ #category : #menu }
 GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
 	<tag: #sceneryContextMenu>
 	| menuItems |
@@ -417,29 +417,29 @@ GtSceneryElement >> initializeEventListers [
 						menu: (self buildSceneryContextMenuForContext: aContext) ])
 ]
 
-{ #category : #'connection menu' }
+{ #category : #menu }
 GtSceneryElement >> inspectConnection: aConnection forElement: aConnectionElement [
 	^ aConnectionElement fireEvent: (GtSceneryObjectToSpawn new object: aConnection stencil)
 ]
 
-{ #category : #'connection menu' }
+{ #category : #menu }
 GtSceneryElement >> inspectConnectionWrapper: aConnection forElement: aConnectionElement [
 	^ aConnectionElement fireEvent: (GtSceneryObjectToSpawn new object: aConnection)
 ]
 
-{ #category : #'item menu' }
+{ #category : #menu }
 GtSceneryElement >> inspectItem: anItem forElement: anItemElement [
 	"Inspect the actual stencil rather than the item wrapper."
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem stencil)
 ]
 
-{ #category : #'item menu' }
+{ #category : #menu }
 GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 	"Inspect the GtSceneryItem instance instead of the stencil it wraps."
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem)
 ]
 
-{ #category : #'item menu' }
+{ #category : #menu }
 GtSceneryElement >> onceLayouts [
 	^ {#west -> ('West Layout' -> GtGradWestHierarchicalLayout new).
 		#horizontal
@@ -511,6 +511,9 @@ GtSceneryElement >> removeItemWithConnections: anItem [
 GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
 	"I spawn a new item within the Scenery. 
 	Updates to the view are handled by announcements. (See #subscribe.)"
+	
+	<todo: 'If there is already such an item in the scenery, don''t add it?'>
+	<todo: 'Need a better way to select the position for a new item!'>
 
 	| itemToSpawn |
 	itemToSpawn := aStencil asItem.

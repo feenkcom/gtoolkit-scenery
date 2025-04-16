@@ -195,7 +195,7 @@ GtSceneryTextLabelStencil >> text: aText [
 	self label: aText asString
 ]
 
-{ #category : #'item menu' }
+{ #category : #menu }
 GtSceneryTextLabelStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
 	
