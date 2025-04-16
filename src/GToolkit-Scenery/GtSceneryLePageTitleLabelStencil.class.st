@@ -53,6 +53,11 @@ GtSceneryLePageTitleLabelStencil >> hoverColor [
 		ifAbsent: [ Color pink ]
 ]
 
+{ #category : #testing }
+GtSceneryLePageTitleLabelStencil >> isValid [
+	^ self database hasPageNamed: self pageName
+]
+
 { #category : #accessing }
 GtSceneryLePageTitleLabelStencil >> pageName [
 	"We ignore the instance variable from the trait and use the label instead."
@@ -74,15 +79,17 @@ GtSceneryLePageTitleLabelStencil >> postCopy [
 
 { #category : #menu }
 GtSceneryLePageTitleLabelStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	| subMenu incomingFromMyDb outgoing sourceItem |
+	"Create menu items for every outgoing link, and every incoming link within the same database."
+
+	| incomingFromMyDb outgoing sourceItem |
+	self isValid ifFalse: [ ^ aBrMenuItems ].
 	sourceItem := aChildElement graph model.
-
-	subMenu := BrMenuItems new.
-
 	outgoing := self startPage allOutgoingTargets.
 	outgoing
-		ifNotEmpty: [ outgoing
+		ifNotEmpty: [ | subMenu |
+			outgoing
 				do: [ :aPage | 
+					subMenu := BrMenuItems new.
 					subMenu
 						addItemLabel: aPage title
 						action: [ aGtSceneryElement gtScenery
@@ -101,7 +108,8 @@ GtSceneryLePageTitleLabelStencil >> updateItemContextMenuItems: aBrMenuItems for
 			collect: [ :aLink | aLink origin page ]
 			thenSelect: [ :aPage | aPage database databaseName = self databaseName ].
 	incomingFromMyDb
-		ifNotEmpty: [ subMenu := BrMenuItems new.
+		ifNotEmpty: [ | subMenu |
+			subMenu := BrMenuItems new.
 			incomingFromMyDb
 				do: [ :aPage | 
 					subMenu
@@ -112,7 +120,6 @@ GtSceneryLePageTitleLabelStencil >> updateItemContextMenuItems: aBrMenuItems for
 										pageName: aPage title;
 										databaseName: self databaseName;
 										yourself) ] ].
-
 			aBrMenuItems
 				addItem: (BrMenuSubmenuItem new
 						label: 'Spawn incoming link';
