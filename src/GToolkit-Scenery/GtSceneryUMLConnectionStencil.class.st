@@ -56,6 +56,9 @@ GtSceneryUMLConnectionStencil >> isValidAssociationFrom: fromItem to: toItem [
 	in fact gives us a result of the target class."
 
 	| example result |
+	
+	true ifTrue: [^ true]. "for now, disable checking"
+	
 	fromItem isValid ifFalse: [ ^ false ].
 	toItem isValid ifFalse: [ ^ false ].
 	self navigationBlockString isEmpty ifTrue: [ ^ false ].

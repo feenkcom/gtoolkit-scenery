@@ -45,6 +45,16 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: aPosition [
 	^ newItem
 ]
 
+{ #category : #updating }
+GtSceneryElement >> applyOnceLayout: aLayout [
+	self container layout: (BlOnceLayout new layout: aLayout)
+]
+
+{ #category : #updating }
+GtSceneryElement >> applyOnceLayoutNamed: key [
+	^ self applyOnceLayout: (self onceLayouts at: key) value
+]
+
 { #category : #'connection menu' }
 GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: aConnectionElement [
 	<tag: #sceneryContextMenu>
@@ -128,24 +138,14 @@ GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
 	| submenuItems submenu |
 	submenu := BrMenuItems new.
 
-	submenu
-		addItemLabel: 'West Layout'
-		action: [ self container
-				layout: (BlOnceLayout new layout: GtGradWestHierarchicalLayout new) ].
-	submenu
-		addItemLabel: 'Horizontal tree Layout'
-		action: [ self container
-				layout: (BlOnceLayout new
-						layout: (GtGradHorizontalTreeLayout new
-								levelDistance: 50;
-								nodeDistance: 20)) ].
-	submenu
-		addItemLabel: 'Force Layout'
-		action: [ self container
-				layout: (BlOnceLayout new layout: (GtGraphForceBasedLayout new length: 500)) ].
-	submenu
-		addItemLabel: 'Circle Layout'
-		action: [ self container layout: (BlOnceLayout new layout: GtGradCircleLayout new) ].
+	({#west.
+		#horizontal.
+		#force.
+		#circle} collect: [ :key | self onceLayouts at: key ])
+		do: [ :labelLayout | 
+			submenu
+				addItemLabel: labelLayout key
+				action: [ self applyOnceLayout: labelLayout value ] ].
 
 	submenuItems := BrMenuItems new.
 
@@ -153,7 +153,7 @@ GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
 		do: [ :layoutClass | 
 			submenuItems
 				addItemLabel: layoutClass name
-				action: [ self container layout: (BlOnceLayout new layout: layoutClass new) ] ].
+				action: [ self applyOnceLayout: layoutClass new ] ].
 
 	submenu
 		addItem: (BrMenuSubmenuItem new
@@ -165,7 +165,7 @@ GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
 		do: [ :layoutClass | 
 			submenuItems
 				addItemLabel: layoutClass name
-				action: [ self container layout: (BlOnceLayout new layout: layoutClass new) ] ].
+				action: [ self applyOnceLayout: layoutClass new ] ].
 	submenu
 		addItem: (BrMenuSubmenuItem new
 				label: 'GtGraph Layouts';
@@ -437,6 +437,22 @@ GtSceneryElement >> inspectItem: anItem forElement: anItemElement [
 GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 	"Inspect the GtSceneryItem instance instead of the stencil it wraps."
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem)
+]
+
+{ #category : #'item menu' }
+GtSceneryElement >> onceLayouts [
+	^ {#west -> ('West Layout' -> GtGradWestHierarchicalLayout new).
+		#horizontal
+			-> ('Horizontal tree Layout'
+					-> (GtGradHorizontalTreeLayout new
+							levelDistance: 50;
+							nodeDistance: 20)).
+		#force
+			-> ('Force Layout'
+					-> (GtGraphForceBasedLayout new
+							charge: -5000;
+							length: 100)).
+		#circle -> ('Circle Layout' -> GtGradCircleLayout new)} asDictionary
 ]
 
 { #category : #utility }
