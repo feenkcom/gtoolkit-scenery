@@ -206,6 +206,13 @@ AssociationMiner >> factoryMethods [
 		flatCollect: [ :c | c class methods select: [ :m | m selector isUnary ] ]
 ]
 
+{ #category : #layouts }
+AssociationMiner >> forceBasedLayout [
+	^ GtGraphForceBasedLayout new
+		charge: -5000;
+		length: 100
+]
+
 { #category : #views }
 AssociationMiner >> gtExampleClassesFor: aView [
 	<gtView>
@@ -366,6 +373,13 @@ AssociationMiner >> gtSeedsFor: aView [
 	^ (self gtExamplesFor: aView with: self seeds)
 		title: 'Seeds';
 		priority: 20
+]
+
+{ #category : #layouts }
+AssociationMiner >> horizontalTreeLayout [
+	^ GtGradHorizontalTreeLayout new
+		levelDistance: 50;
+		nodeDistance: 20
 ]
 
 { #category : #initalization }
@@ -569,11 +583,9 @@ AssociationMiner >> sceneryInheritances [
 		thenSelect: [ :assoc | self packageClasses includes: assoc value ]
 ]
 
-{ #category : #accessing }
+{ #category : #layouts }
 AssociationMiner >> sceneryLayout [
-	^ GtGradHorizontalTreeLayout new
-		levelDistance: 50;
-		nodeDistance: 20
+	^ self forceBasedLayout
 ]
 
 { #category : #accessing }
