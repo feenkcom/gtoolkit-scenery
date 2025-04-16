@@ -141,8 +141,7 @@ GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
 								nodeDistance: 20)) ].
 	submenu
 		addItemLabel: 'Force Layout'
-		action: [ self container
-				layout: (BlOnceLayout new layout: (GtGraphForceBasedLayout new length: 500)) ].
+		action: [ self container layout: (BlOnceLayout new layout: self forceBasedLayout) ].
 	submenu
 		addItemLabel: 'Circle Layout'
 		action: [ self container layout: (BlOnceLayout new layout: GtGradCircleLayout new) ].
@@ -312,6 +311,13 @@ GtSceneryElement >> elementForItem: anItem ifNone: exceptionBlock [
 	^ self graph allNodeChildren
 		detect: [ :element | element graph model == anItem ]
 		ifNone: exceptionBlock
+]
+
+{ #category : #initialization }
+GtSceneryElement >> forceBasedLayout [
+	^ GtGraphForceBasedLayout new
+		charge: -550;
+		length: 200
 ]
 
 { #category : #accessing }
