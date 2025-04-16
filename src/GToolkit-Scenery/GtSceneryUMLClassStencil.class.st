@@ -169,7 +169,7 @@ GtSceneryUMLClassStencil >> storeOnAttributes [
 	^ super storeOnAttributes , {#exampleBlockString}
 ]
 
-{ #category : #'context menu' }
+{ #category : #menu }
 GtSceneryUMLClassStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	<todo: 'spawn superclass or subclass nodes'>
 	"| subMenuItems |

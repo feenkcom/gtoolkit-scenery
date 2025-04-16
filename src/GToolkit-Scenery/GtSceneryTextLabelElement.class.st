@@ -23,7 +23,7 @@ GtSceneryTextLabelElement >> defaultLabelShortcuts [
 			combination: BlKeyCombination tab;
 			performBlock: [ self
 					fireEvent: (GtSceneryAddNewConnection new
-							fromItemElement: self;
+							fromItem: self graph model;
 							toStencil: self stencilClass new;
 							yourself) ];
 			yourself} , super defaultLabelShortcuts

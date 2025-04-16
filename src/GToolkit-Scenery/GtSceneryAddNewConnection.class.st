@@ -11,24 +11,19 @@ Class {
 	#superclass : #GtPhlowObjectEvent,
 	#instVars : [
 		'toStencil',
-		'fromItemElement'
+		'fromItem'
 	],
 	#category : #'GToolkit-Scenery-Announcements'
 }
 
 { #category : #accessing }
 GtSceneryAddNewConnection >> fromItem [
-	^ fromItemElement graph model
+	^ fromItem
 ]
 
 { #category : #accessing }
-GtSceneryAddNewConnection >> fromItemElement [
-	^ fromItemElement
-]
-
-{ #category : #accessing }
-GtSceneryAddNewConnection >> fromItemElement: anObject [
-	fromItemElement := anObject
+GtSceneryAddNewConnection >> fromItem: aGtSceneryItem [
+	fromItem := aGtSceneryItem
 ]
 
 { #category : #accessing }
@@ -37,6 +32,6 @@ GtSceneryAddNewConnection >> toStencil [
 ]
 
 { #category : #accessing }
-GtSceneryAddNewConnection >> toStencil: anObject [
-	toStencil := anObject
+GtSceneryAddNewConnection >> toStencil: aGtSceneryStencil [
+	toStencil := aGtSceneryStencil
 ]

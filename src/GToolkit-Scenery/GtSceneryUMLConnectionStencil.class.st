@@ -175,7 +175,7 @@ GtSceneryUMLConnectionStencil >> updateArrowhead [
 		ifTrue: [ ^ self arrowHeadType: #triangle ]
 ]
 
-{ #category : #'context menu' }
+{ #category : #menu }
 GtSceneryUMLConnectionStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
 	| relationshipTypeSubMenuItems brMenuItems |
 	brMenuItems := super
