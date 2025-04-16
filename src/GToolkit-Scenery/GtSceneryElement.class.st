@@ -403,10 +403,7 @@ GtSceneryElement >> initializeEventListers [
 		when: GtSceneryAddNewConnection
 		do: [ :e | 
 			e consumed: true.
-			self
-				spawnNewConnectionWithStencil: e toStencil
-				fromElement: e fromItemElement
-				forItem: e fromItem ].
+			self gtScenery spawnConnectionFrom: e fromItem to: e toStencil ].
 	self container
 		when: BlDoubleClickEvent
 		do: [ :evt | self addNewItemFor: self currentItemStencil at: evt childrenPosition ].
@@ -505,35 +502,6 @@ GtSceneryElement >> removeItemWithConnections: anItem [
 	edges do: [ :e | e removeFromParent ].
 	itemElement removeFromParent.
 	self updateItemIds
-]
-
-{ #category : #'as yet unclassified' }
-GtSceneryElement >> spawnItemWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
-	"I spawn a new item within the Scenery. 
-	Updates to the view are handled by announcements. (See #subscribe.)"
-	
-	<todo: 'If there is already such an item in the scenery, don''t add it?'>
-	<todo: 'Need a better way to select the position for a new item!'>
-
-	| itemToSpawn |
-	itemToSpawn := aStencil asItem.
-	itemToSpawn position: sourceItemElement bounds topRight + (40 @ 0).
-
-	sourceItem addLinkTo: itemToSpawn.
-	gtScenery addItem: itemToSpawn.
-
-	^ itemToSpawn	"Only needed when also connecting to the new item"
-]
-
-{ #category : #connecting }
-GtSceneryElement >> spawnNewConnectionWithStencil: aStencil fromElement: sourceItemElement forItem: sourceItem [
-	| newConnection newItem |
-	newItem := self
-			spawnItemWithStencil: aStencil
-			fromElement: sourceItemElement
-			forItem: sourceItem.
-
-	newConnection := self gtScenery addConnectionFrom: sourceItem to: newItem
 ]
 
 { #category : #announcements }

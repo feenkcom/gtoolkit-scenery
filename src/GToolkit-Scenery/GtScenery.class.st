@@ -451,6 +451,22 @@ GtScenery >> removeItemWithConnections: anItem [
 	^ anItem
 ]
 
+{ #category : #updating }
+GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil [
+	<todo: 'Need a better way to compute a sensible new position'>
+	<todo: 'Check if the item already exists. Ditto for the connection!'>
+	| newTargetItem newPosition |
+	newTargetItem := aStencil asItem.
+
+	newPosition := aSourceItem position + ((100 + aSourceItem extent x) @ 0).
+	newTargetItem position: newPosition.
+
+	aSourceItem addLinkTo: newTargetItem.
+	self addItem: newTargetItem.
+
+	self addConnectionFrom: aSourceItem to: newTargetItem
+]
+
 { #category : #accessing }
 GtScenery >> storeOn: aStream [
 	aStream nextPutAll: '| scenery'.
