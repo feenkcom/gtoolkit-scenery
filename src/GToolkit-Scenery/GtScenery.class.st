@@ -453,18 +453,33 @@ GtScenery >> removeItemWithConnections: anItem [
 
 { #category : #updating }
 GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil [
+	<todo: 'Check if the connection already '>
+	| newItem |
+	newItem := self spawnNewItemFor: aSourceItem using: aStencil.
+	self addConnectionFrom: aSourceItem to: newItem
+]
+
+{ #category : #updating }
+GtScenery >> spawnConnectionTo: aSourceItem from: aStencil [
+	<todo: 'Check if the connection already '>
+	| newItem  |
+	newItem := self spawnNewItemFor: aSourceItem using: aStencil.
+	self addConnectionFrom: newItem  to:  aSourceItem
+]
+
+{ #category : #updating }
+GtScenery >> spawnNewItemFor: aSourceItem using: aStencil [
 	<todo: 'Need a better way to compute a sensible new position'>
-	<todo: 'Check if the item already exists. Ditto for the connection!'>
-	| newTargetItem newPosition |
-	newTargetItem := aStencil asItem.
+	<todo: 'Check if the item already exists.'>
+	| newItem newPosition |
+	newItem := aStencil asItem.
 
 	newPosition := aSourceItem position + ((100 + aSourceItem extent x) @ 0).
-	newTargetItem position: newPosition.
+	newItem position: newPosition.
 
-	aSourceItem addLinkTo: newTargetItem.
-	self addItem: newTargetItem.
-
-	self addConnectionFrom: aSourceItem to: newTargetItem
+	aSourceItem addLinkTo: newItem.
+	self addItem: newItem.
+	^ newItem
 ]
 
 { #category : #accessing }

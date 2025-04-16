@@ -74,29 +74,49 @@ GtSceneryLePageTitleLabelStencil >> postCopy [
 
 { #category : #menu }
 GtSceneryLePageTitleLabelStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	"| subMenuItems |"
+	| subMenu incomingFromMyDb outgoing sourceItem |
+	sourceItem := aChildElement graph model.
 
-	<todo: 'spawn superclass or subclass nodes'>
-"	self startPage allOutgoingTargets
-		do: [ :aPage | 
-			[ aGtSceneryElement
-				fireEvent: (GtSceneryAddNewConnection new
-						fromItemElement: self;
-						toStencil: self stencilClass new;
-						yourself) ] ].	"
-						
-	"
-	(self isValidClass and: [ self asClass isAbstract not ])
-		ifTrue: [ aBrMenuItems
-				addItemLabel: 'Inspect example'
-				action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ] ].
+	subMenu := BrMenuItems new.
 
-	subMenuItems := BrMenuItems new.
-	subMenuItems addItemLabel: 'Superclass' action: [  ].
-	subMenuItems addItemLabel: 'Subclasses' action: [  ]."	"aBrMenuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Spawn outgoing link';
-				submenu: subMenuItems)."
+	outgoing := self startPage allOutgoingTargets.
+	outgoing
+		ifNotEmpty: [ outgoing
+				do: [ :aPage | 
+					subMenu
+						addItemLabel: aPage title
+						action: [ aGtSceneryElement gtScenery
+								spawnConnectionFrom: sourceItem
+								to: (self class new
+										pageName: aPage title;
+										databaseName: self databaseName;
+										yourself) ] ].
+
+			aBrMenuItems
+				addItem: (BrMenuSubmenuItem new
+						label: 'Spawn outgoing link';
+						submenu: subMenu) ].
+
+	incomingFromMyDb := self startPage incomingLinks
+			collect: [ :aLink | aLink origin page ]
+			thenSelect: [ :aPage | aPage database databaseName = self databaseName ].
+	incomingFromMyDb
+		ifNotEmpty: [ subMenu := BrMenuItems new.
+			incomingFromMyDb
+				do: [ :aPage | 
+					subMenu
+						addItemLabel: aPage title
+						action: [ aGtSceneryElement gtScenery
+								spawnConnectionTo: sourceItem
+								from: (self class new
+										pageName: aPage title;
+										databaseName: self databaseName;
+										yourself) ] ].
+
+			aBrMenuItems
+				addItem: (BrMenuSubmenuItem new
+						label: 'Spawn incoming link';
+						submenu: subMenu) ].
 
 	^ aBrMenuItems
 ]

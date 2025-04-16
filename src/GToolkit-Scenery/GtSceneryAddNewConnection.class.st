@@ -1,9 +1,9 @@
 "
 I am a request from an item to add a new connected item, for example, from a mindmap node to add a new subnode.
 
-`fromItemElement` — the source element in the view
+`fromItem` — the source item of the element in the view
 `toStencil` — the stencil for the new, connected item to be created
-
+*Caveat:* In other cases where we spawn new elements we have the scenery element in hand, so we can directly ask the scenery to spawn the new items and connections. Perhaps we do not need this at all ...
 
 "
 Class {
