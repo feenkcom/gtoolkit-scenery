@@ -26,6 +26,12 @@ GtSceneryLePageTitleLabelStencil class >> itemCreationSubmenuLabel [
 ]
 
 { #category : #'as yet unclassified' }
+GtSceneryLePageTitleLabelStencil class >> leJsonV4Name [
+	"The name (symbol) for this type of stencil in the JSON representation."
+	^ #sceneryLePageTitleLabelStencil
+]
+
+{ #category : #'as yet unclassified' }
 GtSceneryLePageTitleLabelStencil >> defaultLabel [
 	^ self defaultPageName
 ]

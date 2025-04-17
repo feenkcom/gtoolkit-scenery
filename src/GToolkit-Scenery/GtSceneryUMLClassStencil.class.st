@@ -32,6 +32,12 @@ GtSceneryUMLClassStencil class >> itemCreationSubmenuLabel [
 	^ 'UML Class'
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryUMLClassStencil class >> leJsonV4Name [
+	"The name (symbol) for this type of stencil in the JSON representation."
+	^ #sceneryUMLClassStencil
+]
+
 { #category : #conversion }
 GtSceneryUMLClassStencil >> asClass [
 	"nil needed for #isValid"
