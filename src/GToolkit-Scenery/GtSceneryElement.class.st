@@ -95,11 +95,7 @@ GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElemen
 		action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ].
 	menuItems
 		addItemLabel: 'Clone item'
-		action: [ :elt | 
-			self
-				spawnItemWithStencil: anItem stencil copy
-				fromElement: anItemElement
-				forItem: anItem ].
+		action: [ :elt | self gtScenery spawnNewItemFor: anItem using: anItem stencil copy ].
 	anItem
 		updateItemContextMenuItems: menuItems
 		forSceneryElement: self
@@ -254,10 +250,9 @@ GtSceneryElement >> createItemElementFor: anItem [
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
 			e consumed: true.
-			self
-				spawnItemWithStencil: (GtSceneryInspectorStencil new target: [ e object ])
-				fromElement: itemElement
-				forItem: anItem ].
+			self gtScenery
+				spawnNewItemFor: anItem
+				using: (GtSceneryInspectorStencil new target: [ e object ]) ].
 	itemElement
 		when: BlElementPositionChangedEvent
 		do: [ :e | anItem position: e currentTarget position ].
