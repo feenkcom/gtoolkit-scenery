@@ -16,6 +16,13 @@ GtSceneryDraggableItemStencil class >> itemCreationSubmenuLabel [
 	self subclassResponsibility
 ]
 
+{ #category : #jsonV4 }
+GtSceneryDraggableItemStencil class >> leJsonV4AttributeMapping [
+	^ super leJsonV4AttributeMapping
+		add: #extent -> #extent;
+		yourself
+]
+
 { #category : #converting }
 GtSceneryDraggableItemStencil >> asItem [
 	^ GtSceneryItem new

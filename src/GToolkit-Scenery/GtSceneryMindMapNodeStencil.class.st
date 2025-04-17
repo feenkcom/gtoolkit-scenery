@@ -23,6 +23,12 @@ GtSceneryMindMapNodeStencil class >> itemCreationSubmenuLabel [
 	^ 'Mind map bubble'
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryMindMapNodeStencil class >> leJsonV4Name [
+	"The name (symbol) for this type of stencil in the JSON representation."
+	^ #sceneryMindMapNodeStencil
+]
+
 { #category : #'api - instantiation' }
 GtSceneryMindMapNodeStencil >> elementClass [
 	^ GtSceneryMindMapNodeElement

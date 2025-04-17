@@ -15,6 +15,15 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #jsonV4 }
+GtSceneryEntityStencil class >> leJsonV4AttributeMapping [
+	"Answer the Collection of attribute to store keys.
+	Subclasses should override this with their own attributes.
+	Subclasses should also define the class  method leJsonV4Name"
+
+	^ OrderedCollection new
+]
+
 { #category : #announcements }
 GtSceneryEntityStencil >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement

@@ -44,6 +44,22 @@ GtSceneryTextLabelStencil class >> itemCreationSubmenuLabel [
 	^ 'Text label'
 ]
 
+{ #category : #jsonV4 }
+GtSceneryTextLabelStencil class >> leJsonV4AttributeMapping [
+	^ super leJsonV4AttributeMapping
+		add: #label -> #label;
+		add: #emphasis -> #emphasis;
+		add: #weight -> #weight;
+		add: #width -> #width;
+		yourself
+]
+
+{ #category : #jsonV4 }
+GtSceneryTextLabelStencil class >> leJsonV4Name [
+	"The name (symbol) for this type of stencil in the JSON representation."
+	^ #sceneryTextLabelStencil
+]
+
 { #category : #converting }
 GtSceneryTextLabelStencil >> asItem [
 	^ GtSceneryItem new
