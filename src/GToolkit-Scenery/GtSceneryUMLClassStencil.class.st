@@ -142,6 +142,14 @@ GtSceneryUMLClassStencil >> label: aString [
 		ifFalse: [ self text foreground: self invalidForegroundColor ]
 ]
 
+{ #category : #menu }
+GtSceneryUMLClassStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	<todo: 'spawn superclass or subclass nodes'>
+	(self isValidClass and: [ self asClass isAbstract not ]) ifFalse: [ ^ {} ].
+	^ {'Inspect example'
+			-> [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ]}
+]
+
 { #category : #validity }
 GtSceneryUMLClassStencil >> reportOn: aStream in: anItem [
 	self isValidClass
@@ -167,28 +175,6 @@ GtSceneryUMLClassStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method"
 
 	^ super storeOnAttributes , {#exampleBlockString}
-]
-
-{ #category : #menu }
-GtSceneryUMLClassStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	<todo: 'spawn superclass or subclass nodes'>
-	"| subMenuItems |
-	
-	(self isValidClass and: [ self asClass isAbstract not ])
-		ifTrue: [ aBrMenuItems
-				addItemLabel: 'Inspect example'
-				action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ] ].
-
-	subMenuItems := BrMenuItems new.
-	subMenuItems addItemLabel: 'Superclass' action: [  ].
-	subMenuItems addItemLabel: 'Subclasses' action: [  ]."
-
-	"aBrMenuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Spawn';
-				submenu: subMenuItems)."
-
-	^ aBrMenuItems
 ]
 
 { #category : #accessing }

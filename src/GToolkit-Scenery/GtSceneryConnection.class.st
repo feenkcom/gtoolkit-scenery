@@ -143,8 +143,3 @@ GtSceneryConnection >> unsubscribeToItem: anItem [
 
 	anItem ifNotNil: [ anItem announcer unsubscribe: self ]
 ]
-
-{ #category : #menu }
-GtSceneryConnection >> updateConnectionContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andConnectionElement: aConnectionElement [
-	self stencil updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aConnectionElement
-]

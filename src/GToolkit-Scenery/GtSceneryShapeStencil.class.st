@@ -112,6 +112,13 @@ GtSceneryShapeStencil >> initialize [
 	backgroundColorSelector := self defaultBackgroundColorSelector
 ]
 
+{ #category : #menu }
+GtSceneryShapeStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	^ {'Modify geometry'
+			-> {'Be circular' -> [ self geometry: BlCircleGeometry new ].
+					'Be rectangular' -> [ self geometry: BlRectangleGeometry new ]}}
+]
+
 { #category : #printing }
 GtSceneryShapeStencil >> storeOn: aStream [
 	"self storeOnOLD: aStream"
@@ -122,28 +129,4 @@ GtSceneryShapeStencil >> storeOn: aStream [
 GtSceneryShapeStencil >> storeOnAttributes [
 	^ {#geometry.
 		#backgroundColorSelector}
-]
-
-{ #category : #menu }
-GtSceneryShapeStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	| brMenuItems geometrySubmenu |
-	brMenuItems := super
-			updateItemContextMenuItems: aBrMenuItems
-			forSceneryElement: aGtSceneryElement
-			andChildElement: aChildElement.
-
-	geometrySubmenu := BrMenuItems new.
-	geometrySubmenu
-		addItemLabel: 'Be circular'
-		action: [ self geometry: BlCircleGeometry new ].
-	geometrySubmenu
-		addItemLabel: 'Be rectangular'
-		action: [ self geometry: BlRectangleGeometry new ].
-
-	brMenuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Modify geometry';
-				submenu: geometrySubmenu).
-
-	^ brMenuItems
 ]

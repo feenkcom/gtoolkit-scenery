@@ -55,6 +55,15 @@ GtSceneryEntityStencil >> isUMLClassStencil [
 	^ false
 ]
 
+{ #category : #menu }
+GtSceneryEntityStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	"Hook method for subclasses to provide more specific context menu items.
+	The hook should return a nested association array of labels and blocks that we can send #asBrMenuItems to.
+	By default return an empty spec."
+
+	^ {}
+]
+
 { #category : #reporting }
 GtSceneryEntityStencil >> reportOn: aStream in: anItem [
 	"To be implemented by all subclasses that implement #isValidIn:."
@@ -103,11 +112,4 @@ GtSceneryEntityStencil >> storeWithAttributesOn: aStream [
 						ifFalse: [ attributeValue storeOn: aStream ].
 					aStream nextPutAll: ')'.
 					separator := '; ' ] ]
-]
-
-{ #category : #menu }
-GtSceneryEntityStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	"Hook method for subclasses to provide more specific context menu items. By default do nothing."
-
-	^ aBrMenuItems
 ]

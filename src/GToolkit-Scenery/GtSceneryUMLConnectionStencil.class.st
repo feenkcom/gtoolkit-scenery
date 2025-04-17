@@ -84,6 +84,13 @@ GtSceneryUMLConnectionStencil >> isValidInheritanceFrom: fromItem to: toItem [
 	^ fromItem stencil asClass superclass = toItem stencil asClass
 ]
 
+{ #category : #menu }
+GtSceneryUMLConnectionStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	^ {'Modify relationship'
+			-> {'Association' -> [ self beAssociation ].
+					'Inheritance' -> [ self beInheritance ]}}
+]
+
 { #category : #accessing }
 GtSceneryUMLConnectionStencil >> navigationBlockString [
 	^ navigationBlockString
@@ -173,28 +180,4 @@ GtSceneryUMLConnectionStencil >> updateArrowhead [
 	self relationshipType = #association ifTrue: [ ^ self arrowHeadType: #simple ].
 	self relationshipType = #inheritance
 		ifTrue: [ ^ self arrowHeadType: #triangle ]
-]
-
-{ #category : #menu }
-GtSceneryUMLConnectionStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	| relationshipTypeSubMenuItems brMenuItems |
-	brMenuItems := super
-			updateItemContextMenuItems: aBrMenuItems
-			forSceneryElement: aGtSceneryElement
-			andChildElement: aChildElement.
-
-	relationshipTypeSubMenuItems := BrMenuItems new.
-	relationshipTypeSubMenuItems
-		addItemLabel: 'Association'
-		action: [ self beAssociation ].
-	relationshipTypeSubMenuItems
-		addItemLabel: 'Inheritance'
-		action: [ self beInheritance ].
-
-	brMenuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Modify relationship';
-				submenu: relationshipTypeSubMenuItems).
-
-	^ brMenuItems
 ]

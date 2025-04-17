@@ -150,6 +150,21 @@ GtSceneryTextLabelStencil >> label: aString [
 	self announceStencilUpdate
 ]
 
+{ #category : #menu }
+GtSceneryTextLabelStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
+	^ {'Modify font'
+			-> {'Increase font size'
+						-> [ aChildElement increaseFontSize.
+							self text fontSize: aChildElement fontSize ].
+					'Decrease font size'
+						-> [ aChildElement decreaseFontSize.
+							self text fontSize: aChildElement fontSize ].
+					'Reset font size'
+						-> [ aChildElement resetFontSize.
+							self text fontSize: aChildElement fontSize ]}}
+]
+
 { #category : #printing }
 GtSceneryTextLabelStencil >> postCopy [
 	super postCopy.
@@ -193,35 +208,6 @@ GtSceneryTextLabelStencil >> text [
 GtSceneryTextLabelStencil >> text: aText [
 	"Deprecated -- use label: instead"
 	self label: aText asString
-]
-
-{ #category : #menu }
-GtSceneryTextLabelStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
-	
-"
-	| subMenuItems |
-	subMenuItems := BrMenuItems new.
-
-	subMenuItems
-		addItemLabel: 'Increase font size'
-		action: [ aChildElement increaseFontSize.
-			self text fontSize: aChildElement fontSize ].
-	subMenuItems
-		addItemLabel: 'Decrease font size'
-		action: [ aChildElement decreaseFontSize.
-			self text fontSize: aChildElement fontSize ].
-			
-	subMenuItems
-		addItemLabel: 'Reset font size'
-		action: [ aChildElement resetFontSize.
-			self text fontSize: aChildElement fontSize ].
-	aBrMenuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Modify font';
-				submenu: subMenuItems)."
-
-	^ aBrMenuItems
 ]
 
 { #category : #accessing }

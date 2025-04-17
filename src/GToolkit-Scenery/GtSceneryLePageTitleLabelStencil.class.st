@@ -58,6 +58,44 @@ GtSceneryLePageTitleLabelStencil >> isValid [
 	^ self database hasPageNamed: self pageName
 ]
 
+{ #category : #menu }
+GtSceneryLePageTitleLabelStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	"Create menu items for every outgoing link, and every incoming link within the same database."
+	
+	<todo: 'Remove duplicates!'>
+
+	| incoming outgoing sourceItem |
+	self isValid ifFalse: [ ^ {} ].
+	sourceItem := aChildElement graph model.
+
+	outgoing := self startPage allOutgoingTargets
+			collect: [ :aPage | 
+				aPage title
+					-> [ aGtSceneryElement gtScenery
+							spawnConnectionFrom: sourceItem
+							to: (self class new
+									pageName: aPage title;
+									databaseName: self databaseName;
+									yourself) ] ].
+
+
+	incoming := (self startPage incomingLinks
+			collect: [ :aLink | aLink origin page ]
+			thenSelect: [ :aPage | aPage database databaseName = self databaseName ])
+			collect: [ :aPage | 
+				aPage title
+					-> [ aGtSceneryElement gtScenery
+							spawnConnectionTo: sourceItem
+							from: (self class new
+									pageName: aPage title;
+									databaseName: self databaseName;
+									yourself) ] ].
+
+	^ {'Spawn outgoing link' -> outgoing asArray.
+		'Spawn incoming link' -> incoming asArray}
+		select: [ :each | each value notEmpty ]
+]
+
 { #category : #accessing }
 GtSceneryLePageTitleLabelStencil >> pageName [
 	"We ignore the instance variable from the trait and use the label instead."
@@ -75,55 +113,4 @@ GtSceneryLePageTitleLabelStencil >> postCopy [
 
 	super postCopy.
 	databaseName := self databaseName copy	"pageName:= self pageName copy"
-]
-
-{ #category : #menu }
-GtSceneryLePageTitleLabelStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	"Create menu items for every outgoing link, and every incoming link within the same database."
-
-	| incomingFromMyDb outgoing sourceItem |
-	self isValid ifFalse: [ ^ aBrMenuItems ].
-	sourceItem := aChildElement graph model.
-	outgoing := self startPage allOutgoingTargets.
-	outgoing
-		ifNotEmpty: [ | subMenu |
-			outgoing
-				do: [ :aPage | 
-					subMenu := BrMenuItems new.
-					subMenu
-						addItemLabel: aPage title
-						action: [ aGtSceneryElement gtScenery
-								spawnConnectionFrom: sourceItem
-								to: (self class new
-										pageName: aPage title;
-										databaseName: self databaseName;
-										yourself) ] ].
-
-			aBrMenuItems
-				addItem: (BrMenuSubmenuItem new
-						label: 'Spawn outgoing link';
-						submenu: subMenu) ].
-
-	incomingFromMyDb := self startPage incomingLinks
-			collect: [ :aLink | aLink origin page ]
-			thenSelect: [ :aPage | aPage database databaseName = self databaseName ].
-	incomingFromMyDb
-		ifNotEmpty: [ | subMenu |
-			subMenu := BrMenuItems new.
-			incomingFromMyDb
-				do: [ :aPage | 
-					subMenu
-						addItemLabel: aPage title
-						action: [ aGtSceneryElement gtScenery
-								spawnConnectionTo: sourceItem
-								from: (self class new
-										pageName: aPage title;
-										databaseName: self databaseName;
-										yourself) ] ].
-			aBrMenuItems
-				addItem: (BrMenuSubmenuItem new
-						label: 'Spawn incoming link';
-						submenu: subMenu) ].
-
-	^ aBrMenuItems
 ]

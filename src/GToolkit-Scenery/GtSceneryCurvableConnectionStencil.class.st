@@ -128,6 +128,16 @@ GtSceneryCurvableConnectionStencil >> labelText: aText [
 	self announceStencilUpdate
 ]
 
+{ #category : #menu }
+GtSceneryCurvableConnectionStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	^ {'Modify curvature'
+			-> {'Curve positively'
+						-> [ self curvatureFraction: self curvatureFraction + self curvatureDelta ].
+					'Curve negatively'
+						-> [ self curvatureFraction: self curvatureFraction - self curvatureDelta ].
+					'Be straight' -> [ self curvatureFraction: 0 ]}}
+]
+
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> simpleArrowHead [
 	^ BlArrowheadSimpleArrow new
@@ -148,31 +158,4 @@ GtSceneryCurvableConnectionStencil >> triangleArrowHead [
 	^ BlArrowheadTriangle new
 		scale: 4;
 		border: (BlBorder paint: Color black)
-]
-
-{ #category : #menu }
-GtSceneryCurvableConnectionStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	| curvatureSubMenuItems brMenuItems |
-	brMenuItems := super
-			updateItemContextMenuItems: aBrMenuItems
-			forSceneryElement: aGtSceneryElement
-			andChildElement: aChildElement.
-
-	curvatureSubMenuItems := BrMenuItems new.
-	curvatureSubMenuItems
-		addItemLabel: 'Curve positively'
-		action: [ self curvatureFraction: self curvatureFraction + self curvatureDelta ].
-	curvatureSubMenuItems
-		addItemLabel: 'Curve negatively'
-		action: [ self curvatureFraction: self curvatureFraction - self curvatureDelta ].
-	curvatureSubMenuItems
-		addItemLabel: 'Be straight'
-		action: [ self curvatureFraction: 0 ].
-
-	brMenuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Modify curvature';
-				submenu: curvatureSubMenuItems).
-
-	^ brMenuItems
 ]

@@ -125,6 +125,20 @@ GtSceneryParabollaArcStencil >> labelText: aText [
 	labelText := aText
 ]
 
+{ #category : #menu }
+GtSceneryParabollaArcStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	^ {'Modify curvature'
+			-> {'Curve positively'
+						-> [ self curvatureFraction: 0.4.
+							aGtSceneryElement redisplay ].
+					'Curve negatively'
+						-> [ self curvatureFraction: -0.4.
+							aGtSceneryElement redisplay ].
+					'Be straight'
+						-> [ self curvatureFraction: 0.
+							aGtSceneryElement redisplay ]}}
+]
+
 { #category : #accessing }
 GtSceneryParabollaArcStencil >> simpleArrowHead [
 	^ BlArrowheadSimpleArrow new
@@ -160,32 +174,4 @@ GtSceneryParabollaArcStencil >> triangleArrowHead [
 	^ BlArrowheadTriangle new
 		scale: 4;
 		border: (BlBorder paint: Color black)
-]
-
-{ #category : #menu }
-GtSceneryParabollaArcStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	"NB: Since we create a plain BlParabollaArcElement we cannot set up announcements to update the element when the connection stencil changes, so we just locally redisplay the scenery element instead."
-	| curvatureSubMenuItems brMenuItems |
-	brMenuItems := super updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement.
-	
-	curvatureSubMenuItems := BrMenuItems new.
-	curvatureSubMenuItems
-		addItemLabel: 'Curve positively'
-		action: [ self curvatureFraction: 0.4.
-			aGtSceneryElement redisplay ].
-	curvatureSubMenuItems
-		addItemLabel: 'Curve negatively'
-		action: [ self curvatureFraction: -0.4.
-			aGtSceneryElement redisplay ].
-	curvatureSubMenuItems
-		addItemLabel: 'Be straight'
-		action: [ self curvatureFraction: 0.
-			aGtSceneryElement redisplay ].
-
-	brMenuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Modify curvature';
-				submenu: curvatureSubMenuItems).
-
-	^ brMenuItems
 ]
