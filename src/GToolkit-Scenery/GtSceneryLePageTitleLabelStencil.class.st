@@ -67,40 +67,45 @@ GtSceneryLePageTitleLabelStencil >> isValid [
 { #category : #menu }
 GtSceneryLePageTitleLabelStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	"Create menu items for every outgoing link, and every incoming link within the same database."
-	
+
 	<todo: 'Remove duplicates!'>
 	<todo: 'Rewrite to get rid of asBrMenuItems'>
-
-	| incoming outgoing sourceItem |
-	self isValid ifFalse: [ ^ BrMenuItems new ].
+	| menu sourceItem submenu |
+	menu := BrMenuItems new.
+	self isValid ifFalse: [ ^ menu ].
 	sourceItem := aChildElement graph model.
 
-	outgoing := self startPage allOutgoingTargets
-			collect: [ :aPage | 
-				aPage title
-					-> [ aGtSceneryElement gtScenery
-							spawnConnectionFrom: sourceItem
-							to: (self class new
-									pageName: aPage title;
-									databaseName: self databaseName;
-									yourself) ] ].
-
-
-	incoming := (self startPage incomingLinks
-			collect: [ :aLink | aLink origin page ]
-			thenSelect: [ :aPage | aPage database databaseName = self databaseName ])
-			collect: [ :aPage | 
-				aPage title
-					-> [ aGtSceneryElement gtScenery
-							spawnConnectionTo: sourceItem
-							from: (self class new
-									pageName: aPage title;
-									databaseName: self databaseName;
-									yourself) ] ].
-
-	^ ({'Spawn outgoing link' -> outgoing asArray.
-		'Spawn incoming link' -> incoming asArray}
-		select: [ :each | each value notEmpty ]) asBrMenuItems
+	menu
+		addItemLabel: 'Spawn outgoing link'
+		submenu: [ submenu := BrMenuItems new.
+			self startPage allOutgoingTargets
+				do: [ :aPage | 
+					submenu
+						addItemLabel: aPage title
+						action: [ aGtSceneryElement gtScenery
+								spawnConnectionFrom: sourceItem
+								to: (self class new
+										pageName: aPage title;
+										databaseName: self databaseName;
+										yourself) ] ].
+			submenu ] value.
+	menu
+		addItemLabel: 'Spawn incoming link'
+		submenu: [ submenu := BrMenuItems new.
+			(self startPage incomingLinks
+				collect: [ :aLink | aLink origin page ]
+				thenSelect: [ :aPage | aPage database databaseName = self databaseName ])
+				do: [ :aPage | 
+					submenu
+						addItemLabel: aPage title
+						action: [ aGtSceneryElement gtScenery
+								spawnConnectionTo: sourceItem
+								from: (self class new
+										pageName: aPage title;
+										databaseName: self databaseName;
+										yourself) ] ].
+			submenu ] value.
+	^ menu
 ]
 
 { #category : #accessing }

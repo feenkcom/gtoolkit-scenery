@@ -341,14 +341,18 @@ GtSceneryElement >> itemCreationSubmenuForContext: aContext [
 	"Add a submenu action for each ItemStencil class."
 
 	<tag: #sceneryContextMenu>
-	^ ((GtSceneryItemCreationContextMenuCollector new collectMenuItems
-		collect: [ :spec | 
-			spec title
-				-> [ aContext
+	| menu |
+	menu := BrMenuItems new.
+	GtSceneryItemCreationContextMenuCollector new collectMenuItems
+		do: [ :spec | 
+			menu
+				addItemLabel: spec title
+				action: [ aContext
 						childrenPositionDo: [ :aPoint | 
 							self addNewItemFor: spec snippetClass at: aPoint.
 							self currentItemStencil: spec snippetClass ]
-						ifAbsentDo: [ 0 @ 0 ] ] ]) asArray) asBrMenuItems
+						ifAbsentDo: [ 0 @ 0 ] ] ].
+	^ menu
 ]
 
 { #category : #menu }
@@ -357,22 +361,37 @@ GtSceneryElement >> layoutSubmenuForContext: aContext [
 	To add more layouts, update #onceLayouts and add the key below in the desired order."
 
 	<tag: #sceneryContextMenu>
-	^ (({#west.
+	| menu submenu |
+	menu := BrMenuItems new.
+	{#west.
 		#horizontal.
 		#force.
 		#circle}
-		collect: [ :key | 
+		do: [ :key | 
 			| labelLayout |
 			labelLayout := self onceLayouts at: key.
-			labelLayout key -> [ self applyOnceLayout: labelLayout value ] ])
-		, {'GtGrad Layouts'
-					-> ((GtGradLayout allSubclasses reject: #isAbstract)
-							collect: [ :layoutClass | layoutClass name -> [ self applyOnceLayout: layoutClass new ] ])
-							asArray.
-				'GtGraph Layouts'
-					-> ((GtGraphLayout allSubclasses reject: #isAbstract)
-							collect: [ :layoutClass | layoutClass name -> [ self applyOnceLayout: layoutClass new ] ])
-							asArray}) asBrMenuItems
+			menu
+				addItemLabel: labelLayout key
+				action: [ self applyOnceLayout: labelLayout value ] ].
+	menu
+		addItemLabel: 'GtGrad Layouts'
+		submenu: [ submenu := BrMenuItems new.
+			(GtGradLayout allSubclasses reject: #isAbstract)
+				do: [ :layoutClass | 
+					submenu
+						addItemLabel: layoutClass name
+						action: [ self applyOnceLayout: layoutClass new ] ].
+			submenu ] value.
+	menu
+		addItemLabel: 'GtGraph Layouts'
+		submenu: [ submenu := BrMenuItems new.
+			(GtGraphLayout allSubclasses reject: #isAbstract)
+				do: [ :layoutClass | 
+					submenu
+						addItemLabel: layoutClass name
+						action: [ self applyOnceLayout: layoutClass new ] ].
+			submenu ] value.
+	^ menu
 ]
 
 { #category : #menu }
