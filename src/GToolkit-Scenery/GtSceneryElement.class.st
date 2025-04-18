@@ -58,46 +58,35 @@ GtSceneryElement >> applyOnceLayoutNamed: key [
 { #category : #menu }
 GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: aConnectionElement [
 	<tag: #sceneryContextMenu>
-	| brMenuItems |
-	brMenuItems := BrMenuItems new
-			addItemLabel: 'Inspect stencil'
-				action: [ :elt | self inspectConnection: aConnection forElement: aConnectionElement ];
-			addItemLabel: 'Inspect connection'
-				action: [ :elt | self inspectConnectionWrapper: aConnection forElement: aConnectionElement ];
-			yourself.
-
-	brMenuItems
+	^ BrMenuItems new
+		addItemLabel: 'Inspect stencil'
+			action: [ :elt | self inspectConnection: aConnection forElement: aConnectionElement ];
+		addItemLabel: 'Inspect connection'
+			action: [ :elt | self inspectConnectionWrapper: aConnection forElement: aConnectionElement ];
 		addItems: (aConnection stencil
 				menuForChildElement: aConnectionElement
-				andSceneryElement: self) items.
-	brMenuItems
+				andSceneryElement: self) items;
 		addItemLabel: 'Delete connection'
-		action: [ :elt | self gtScenery removeConnection: aConnection ].
-
-	^ brMenuItems
+			action: [ :elt | self gtScenery removeConnection: aConnection ];
+		yourself
 ]
 
 { #category : #menu }
 GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
 	<tag: #sceneryContextMenu>
-	| brMenuItems |
-	brMenuItems := BrMenuItems new
-			id: #'gtScenery-item-menu';
-			addItemLabel: 'Inspect stencil'
-				action: [ :elt | self inspectItem: anItem forElement: anItemElement ];
-			addItemLabel: 'Inspect item'
-				action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ];
-			addItemLabel: 'Clone item'
-				action: [ :elt | self gtScenery spawnNewItemFor: anItem using: anItem stencil copy ];
-			yourself.
-	brMenuItems
+	^ BrMenuItems new
+		id: #'gtScenery-item-menu';
+		addItemLabel: 'Inspect stencil'
+			action: [ :elt | self inspectItem: anItem forElement: anItemElement ];
+		addItemLabel: 'Inspect item'
+			action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ];
+		addItemLabel: 'Clone item'
+			action: [ :elt | self gtScenery spawnNewItemFor: anItem using: anItem stencil copy ];
 		addItems: (anItem stencil menuForChildElement: anItemElement andSceneryElement: self)
-				items.
-	brMenuItems
+				items;
 		addItemLabel: 'Delete item'
-		action: [ :elt | self gtScenery removeItemWithConnections: anItem ].
-
-	^ brMenuItems
+			action: [ :elt | self gtScenery removeItemWithConnections: anItem ];
+		yourself
 ]
 
 { #category : #initialization }
@@ -106,23 +95,23 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	aContext is a BrMenuInitialContext instance."
 
 	<tag: #sceneryContextMenu>
-	| brMenuItems |
-	brMenuItems := {'Inspect Scenery'
-				-> [ :elt | elt phlow spawnObject: self gtScenery ].
-			'Add item here'
-				-> [ aContext
-						childrenPositionDo: [ :aPoint | self addNewItemFor: self currentItemStencil at: aPoint ]
-						ifAbsentDo: [ 0 @ 0 ] ].
-			'Add item' -> (self itemCreationSubmenuSpecForContext: aContext).
-			'Update layout' -> (self layoutSubmenuSpecForContext: aContext).
-			'Redisplay' -> [ self redisplay ].
-			'FAQ'
-				-> [ :e | 
-					e phlow
-						spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPagePhlowTool ]}
-			asBrMenuItems.
-	^ brMenuItems
+	^ BrMenuItems new
 		id: #'gtScenery-context-menu';
+		addItemLabel: 'Inspect Scenery'
+			action: [ :elt | elt phlow spawnObject: self gtScenery ];
+		addItemLabel: 'Add item here'
+			action: [ aContext
+					childrenPositionDo: [ :aPoint | self addNewItemFor: self currentItemStencil at: aPoint ]
+					ifAbsentDo: [ 0 @ 0 ] ];
+		addItemLabel: 'Add item'
+			submenu: (self itemCreationSubmenuForContext: aContext);
+		addItemLabel: 'Update layout'
+			submenu: (self layoutSubmenuForContext: aContext);
+		addItemLabel: 'Redisplay' action: [ self redisplay ];
+		addItemLabel: 'FAQ'
+			action: [ :e | 
+				e phlow
+					spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPagePhlowTool ];
 		yourself
 ]
 
@@ -348,27 +337,27 @@ GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 ]
 
 { #category : #menu }
-GtSceneryElement >> itemCreationSubmenuSpecForContext: aContext [
+GtSceneryElement >> itemCreationSubmenuForContext: aContext [
 	"Add a submenu action for each ItemStencil class."
 
 	<tag: #sceneryContextMenu>
-	^ (GtSceneryItemCreationContextMenuCollector new collectMenuItems
+	^ ((GtSceneryItemCreationContextMenuCollector new collectMenuItems
 		collect: [ :spec | 
 			spec title
 				-> [ aContext
 						childrenPositionDo: [ :aPoint | 
 							self addNewItemFor: spec snippetClass at: aPoint.
 							self currentItemStencil: spec snippetClass ]
-						ifAbsentDo: [ 0 @ 0 ] ] ]) asArray
+						ifAbsentDo: [ 0 @ 0 ] ] ]) asArray) asBrMenuItems
 ]
 
 { #category : #menu }
-GtSceneryElement >> layoutSubmenuSpecForContext: aContext [
+GtSceneryElement >> layoutSubmenuForContext: aContext [
 	"Add a submenu actions for selected layouts.
 	To add more layouts, update #onceLayouts and add the key below in the desired order."
 
 	<tag: #sceneryContextMenu>
-	^ ({#west.
+	^ (({#west.
 		#horizontal.
 		#force.
 		#circle}
@@ -383,7 +372,7 @@ GtSceneryElement >> layoutSubmenuSpecForContext: aContext [
 				'GtGraph Layouts'
 					-> ((GtGraphLayout allSubclasses reject: #isAbstract)
 							collect: [ :layoutClass | layoutClass name -> [ self applyOnceLayout: layoutClass new ] ])
-							asArray}
+							asArray}) asBrMenuItems
 ]
 
 { #category : #menu }
