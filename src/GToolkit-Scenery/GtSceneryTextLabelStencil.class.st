@@ -167,18 +167,22 @@ GtSceneryTextLabelStencil >> label: aString [
 ]
 
 { #category : #menu }
-GtSceneryTextLabelStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
-	^ {'Modify font'
-			-> {'Increase font size'
-						-> [ aChildElement increaseFontSize.
-							self text fontSize: aChildElement fontSize ].
-					'Decrease font size'
-						-> [ aChildElement decreaseFontSize.
-							self text fontSize: aChildElement fontSize ].
-					'Reset font size'
-						-> [ aChildElement resetFontSize.
-							self text fontSize: aChildElement fontSize ]}}
+	^ BrMenuItems new
+		addItemLabel: 'Modify font'
+			submenu: (BrMenuItems new
+					addItemLabel: 'Increase font size'
+						action: [ aChildElement increaseFontSize.
+							self text fontSize: aChildElement fontSize ];
+					addItemLabel: 'Decrease font size'
+						action: [ aChildElement decreaseFontSize.
+							self text fontSize: aChildElement fontSize ];
+					addItemLabel: 'Reset font size'
+						action: [ aChildElement resetFontSize.
+							self text fontSize: aChildElement fontSize ];
+					yourself);
+		yourself
 ]
 
 { #category : #printing }

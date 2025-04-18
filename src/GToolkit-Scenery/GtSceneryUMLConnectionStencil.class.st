@@ -85,10 +85,14 @@ GtSceneryUMLConnectionStencil >> isValidInheritanceFrom: fromItem to: toItem [
 ]
 
 { #category : #menu }
-GtSceneryUMLConnectionStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	^ {'Modify relationship'
-			-> {'Association' -> [ self beAssociation ].
-					'Inheritance' -> [ self beInheritance ]}}
+GtSceneryUMLConnectionStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	^ BrMenuItems new
+		addItemLabel: 'Modify relationship'
+			submenu: (BrMenuItems new
+					addItemLabel: 'Association' action: [ self beAssociation ];
+					addItemLabel: 'Inheritance' action: [ self beInheritance ];
+					yourself);
+		yourself
 ]
 
 { #category : #accessing }

@@ -149,11 +149,14 @@ GtSceneryUMLClassStencil >> label: aString [
 ]
 
 { #category : #menu }
-GtSceneryUMLClassStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	<todo: 'spawn superclass or subclass nodes'>
-	(self isValidClass and: [ self asClass isAbstract not ]) ifFalse: [ ^ {} ].
-	^ {'Inspect example'
-			-> [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ]}
+	(self isValidClass and: [ self asClass isAbstract not ])
+		ifFalse: [ ^ BrMenuItems new ].
+	^ BrMenuItems new
+		addItemLabel: 'Inspect example'
+			action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ];
+		yourself
 ]
 
 { #category : #validity }

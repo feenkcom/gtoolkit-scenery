@@ -65,12 +65,10 @@ GtSceneryEntityStencil >> isUMLClassStencil [
 ]
 
 { #category : #menu }
-GtSceneryEntityStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	"Hook method for subclasses to provide more specific context menu items.
-	The hook should return a nested association array of labels and blocks that we can send #asBrMenuItems to.
-	By default return an empty spec."
+GtSceneryEntityStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	"Hook method for subclasses to provide more specific context menu items to be composed into the parent menu."
 
-	^ {}
+	^ BrMenuItems new
 ]
 
 { #category : #reporting }

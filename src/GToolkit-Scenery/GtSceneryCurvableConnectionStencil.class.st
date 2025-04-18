@@ -129,13 +129,17 @@ GtSceneryCurvableConnectionStencil >> labelText: aText [
 ]
 
 { #category : #menu }
-GtSceneryCurvableConnectionStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	^ {'Modify curvature'
-			-> {'Curve positively'
-						-> [ self curvatureFraction: self curvatureFraction + self curvatureDelta ].
-					'Curve negatively'
-						-> [ self curvatureFraction: self curvatureFraction - self curvatureDelta ].
-					'Be straight' -> [ self curvatureFraction: 0 ]}}
+GtSceneryCurvableConnectionStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	^ BrMenuItems new
+		addItemLabel: 'Modify curvature'
+			submenu: (BrMenuItems new
+					addItemLabel: 'Curve positively'
+						action: [ self curvatureFraction: self curvatureFraction + self curvatureDelta ];
+					addItemLabel: 'Curve negatively'
+						action: [ self curvatureFraction: self curvatureFraction - self curvatureDelta ];
+					addItemLabel: 'Be straight' action: [ self curvatureFraction: 0 ];
+					yourself);
+		yourself
 ]
 
 { #category : #accessing }

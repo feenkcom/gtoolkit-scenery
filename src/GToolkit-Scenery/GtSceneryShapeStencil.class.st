@@ -113,10 +113,16 @@ GtSceneryShapeStencil >> initialize [
 ]
 
 { #category : #menu }
-GtSceneryShapeStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	^ {'Modify geometry'
-			-> {'Be circular' -> [ self geometry: BlCircleGeometry new ].
-					'Be rectangular' -> [ self geometry: BlRectangleGeometry new ]}}
+GtSceneryShapeStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	^ BrMenuItems new
+		addItemLabel: 'Modify geometry'
+			submenu: (BrMenuItems new
+					addItemLabel: 'Be circular'
+						action: [ self geometry: BlCircleGeometry new ];
+					addItemLabel: 'Be rectangular'
+						action: [ self geometry: BlRectangleGeometry new ];
+					yourself);
+		yourself
 ]
 
 { #category : #printing }

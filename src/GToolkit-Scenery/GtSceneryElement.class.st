@@ -58,35 +58,46 @@ GtSceneryElement >> applyOnceLayoutNamed: key [
 { #category : #menu }
 GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: aConnectionElement [
 	<tag: #sceneryContextMenu>
-	| menuSpec |
-	menuSpec := {'Inspect stencil'
-				-> [ :elt | self inspectConnection: aConnection forElement: aConnectionElement ].
-			'Inspect connection'
-				-> [ :elt | self inspectConnectionWrapper: aConnection forElement: aConnectionElement ]}
-			, (aConnection stencil
-					menuSpecForChildElement: aConnectionElement
-					andSceneryElement: self)
-			, {'Delete connection' -> [ :elt | self gtScenery removeConnection: aConnection ]}.
-	^ menuSpec asBrMenuItems
-		id: #'gtScenery-connection-menu';
-		yourself
+	| brMenuItems |
+	brMenuItems := BrMenuItems new
+			addItemLabel: 'Inspect stencil'
+				action: [ :elt | self inspectConnection: aConnection forElement: aConnectionElement ];
+			addItemLabel: 'Inspect connection'
+				action: [ :elt | self inspectConnectionWrapper: aConnection forElement: aConnectionElement ];
+			yourself.
+
+	brMenuItems
+		addItems: (aConnection stencil
+				menuForChildElement: aConnectionElement
+				andSceneryElement: self) items.
+	brMenuItems
+		addItemLabel: 'Delete connection'
+		action: [ :elt | self gtScenery removeConnection: aConnection ].
+
+	^ brMenuItems
 ]
 
 { #category : #menu }
 GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
 	<tag: #sceneryContextMenu>
-	| menuSpec |
-	menuSpec := {'Inspect stencil'
-				-> [ :elt | self inspectItem: anItem forElement: anItemElement ].
-			'Inspect item'
-				-> [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ].
-			'Clone item'
-				-> [ :elt | self gtScenery spawnNewItemFor: anItem using: anItem stencil copy ]}
-			, (anItem stencil menuSpecForChildElement: anItemElement andSceneryElement: self)
-			, {'Delete item' -> [ :elt | self gtScenery removeItemWithConnections: anItem ]}.
-	^ menuSpec asBrMenuItems
-		id: #'gtScenery-item-menu';
-		yourself
+	| brMenuItems |
+	brMenuItems := BrMenuItems new
+			id: #'gtScenery-item-menu';
+			addItemLabel: 'Inspect stencil'
+				action: [ :elt | self inspectItem: anItem forElement: anItemElement ];
+			addItemLabel: 'Inspect item'
+				action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ];
+			addItemLabel: 'Clone item'
+				action: [ :elt | self gtScenery spawnNewItemFor: anItem using: anItem stencil copy ];
+			yourself.
+	brMenuItems
+		addItems: (anItem stencil menuForChildElement: anItemElement andSceneryElement: self)
+				items.
+	brMenuItems
+		addItemLabel: 'Delete item'
+		action: [ :elt | self gtScenery removeItemWithConnections: anItem ].
+
+	^ brMenuItems
 ]
 
 { #category : #initialization }

@@ -126,17 +126,21 @@ GtSceneryParabollaArcStencil >> labelText: aText [
 ]
 
 { #category : #menu }
-GtSceneryParabollaArcStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	^ {'Modify curvature'
-			-> {'Curve positively'
-						-> [ self curvatureFraction: 0.4.
-							aGtSceneryElement redisplay ].
-					'Curve negatively'
-						-> [ self curvatureFraction: -0.4.
-							aGtSceneryElement redisplay ].
-					'Be straight'
-						-> [ self curvatureFraction: 0.
-							aGtSceneryElement redisplay ]}}
+GtSceneryParabollaArcStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	^ BrMenuItems new
+		addItemLabel: 'Modify curvature'
+			submenu: (BrMenuItems new
+					addItemLabel: 'Curve positively'
+						action: [ self curvatureFraction: 0.4.
+							aGtSceneryElement redisplay ];
+					addItemLabel: 'Curve negatively'
+						action: [ self curvatureFraction: -0.4.
+							aGtSceneryElement redisplay ];
+					addItemLabel: 'Be straight'
+						action: [ self curvatureFraction: 0.
+							aGtSceneryElement redisplay ];
+					yourself);
+		yourself
 ]
 
 { #category : #accessing }

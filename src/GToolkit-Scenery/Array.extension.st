@@ -22,3 +22,50 @@ Array >> asBrMenuItems [
 												submenu: each value asBrMenuItems) ] ] ] ].
 	^ menuItems
 ]
+
+{ #category : #'*GToolkit-Scenery' }
+Array >> asBrMenuItemsStoreString [
+	"Temporary hack to rewrite the association lists as straight code.
+	To be removed ..."
+
+	| stream |
+	stream := '' writeStream.
+	self asBrMenuItemsStoreStringOn: stream.
+	^ stream contents
+]
+
+{ #category : #'*GToolkit-Scenery' }
+Array >> asBrMenuItemsStoreStringOn: aStream [
+	"Temporary hack to rewrite the association lists as straight code.
+	To be removed ..."
+
+	aStream
+		nextPutAll: 'BrMenuItems new';
+		cr.
+	self
+		associationsDo: [ :each | 
+			each isAssociation
+				ifTrue: [ each value isBlock
+						ifTrue: [ aStream
+								nextPutAll: 'addItemLabel: ';
+								nextPutAll: each key printString;
+								nextPutAll: ' action: ';
+								nextPutAll: each value printString;
+								nextPutAll: ';';
+								cr ]
+						ifFalse: [ each value isArray
+								ifTrue: [ aStream
+										nextPutAll: 'addItemLabel: ';
+										nextPutAll: each key printString;
+										cr;
+										nextPutAll: ' submenu: (';
+										cr.
+									each value asBrMenuItemsStoreStringOn: aStream.
+									aStream
+										nextPutAll: ');';
+										cr ] ] ] ].
+							
+	aStream
+		nextPutAll: 'yourself';
+		cr.
+]

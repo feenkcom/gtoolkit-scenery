@@ -65,13 +65,13 @@ GtSceneryLePageTitleLabelStencil >> isValid [
 ]
 
 { #category : #menu }
-GtSceneryLePageTitleLabelStencil >> menuSpecForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+GtSceneryLePageTitleLabelStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	"Create menu items for every outgoing link, and every incoming link within the same database."
 	
 	<todo: 'Remove duplicates!'>
 
 	| incoming outgoing sourceItem |
-	self isValid ifFalse: [ ^ {} ].
+	self isValid ifFalse: [ ^ BrMenuItems new ].
 	sourceItem := aChildElement graph model.
 
 	outgoing := self startPage allOutgoingTargets
@@ -97,9 +97,9 @@ GtSceneryLePageTitleLabelStencil >> menuSpecForChildElement: aChildElement andSc
 									databaseName: self databaseName;
 									yourself) ] ].
 
-	^ {'Spawn outgoing link' -> outgoing asArray.
+	^ ({'Spawn outgoing link' -> outgoing asArray.
 		'Spawn incoming link' -> incoming asArray}
-		select: [ :each | each value notEmpty ]
+		select: [ :each | each value notEmpty ]) asBrMenuItems
 ]
 
 { #category : #accessing }
