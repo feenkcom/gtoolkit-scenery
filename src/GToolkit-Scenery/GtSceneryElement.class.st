@@ -58,116 +58,35 @@ GtSceneryElement >> applyOnceLayoutNamed: key [
 { #category : #menu }
 GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: aConnectionElement [
 	<tag: #sceneryContextMenu>
-	| menuItems |
-	menuItems := BrMenuItems new
-			id: #'gtScenery-connection-menu';
-			yourself.
-	menuItems
+	^ BrMenuItems new
 		addItemLabel: 'Inspect stencil'
-		action: [ :elt | self inspectConnection: aConnection forElement: aConnectionElement ].
-	menuItems
+			action: [ :elt | self inspectConnection: aConnection forElement: aConnectionElement ];
 		addItemLabel: 'Inspect connection'
-		action: [ :elt | self inspectConnectionWrapper: aConnection forElement: aConnectionElement ].
-
-	aConnection
-		updateConnectionContextMenuItems: menuItems
-		forSceneryElement: self
-		andConnectionElement: aConnectionElement.
-
-	menuItems
+			action: [ :elt | self inspectConnectionWrapper: aConnection forElement: aConnectionElement ];
+		addItems: (aConnection stencil
+				menuForChildElement: aConnectionElement
+				andSceneryElement: self) items;
 		addItemLabel: 'Delete connection'
-		action: [ :elt | self gtScenery removeConnection: aConnection ].
-	^ menuItems
+			action: [ :elt | self gtScenery removeConnection: aConnection ];
+		yourself
 ]
 
 { #category : #menu }
 GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
 	<tag: #sceneryContextMenu>
-	| menuItems |
-	menuItems := BrMenuItems new
-			id: #'gtScenery-item-menu';
-			yourself.
-	menuItems
+	^ BrMenuItems new
+		id: #'gtScenery-item-menu';
 		addItemLabel: 'Inspect stencil'
-		action: [ :elt | self inspectItem: anItem forElement: anItemElement ].
-	menuItems
+			action: [ :elt | self inspectItem: anItem forElement: anItemElement ];
 		addItemLabel: 'Inspect item'
-		action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ].
-	menuItems
+			action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ];
 		addItemLabel: 'Clone item'
-		action: [ :elt | self gtScenery spawnNewItemFor: anItem using: anItem stencil copy ].
-	anItem
-		updateItemContextMenuItems: menuItems
-		forSceneryElement: self
-		andItemElement: anItemElement.
-
-	menuItems
+			action: [ :elt | self gtScenery spawnNewItemFor: anItem using: anItem stencil copy ];
+		addItems: (anItem stencil menuForChildElement: anItemElement andSceneryElement: self)
+				items;
 		addItemLabel: 'Delete item'
-		action: [ :elt | self gtScenery removeItemWithConnections: anItem ].
-	^ menuItems
-]
-
-{ #category : #initialization }
-GtSceneryElement >> buildItemCreationSubmenuForContext: aContext [
-	"Add a submenu action for each ItemStencil class."
-
-	<tag: #sceneryContextMenu>
-	| subMenuItems |
-	subMenuItems := BrMenuItems new.
-	GtSceneryItemCreationContextMenuCollector new collectMenuItems
-		do: [ :spec | 
-			subMenuItems
-				addItemLabel: spec title
-				action: [ aContext
-						childrenPositionDo: [ :aPoint | 
-							self addNewItemFor: spec snippetClass at: aPoint.
-							self currentItemStencil: spec snippetClass ]
-						ifAbsentDo: [ 0 @ 0 ] ] ].
-	^ subMenuItems
-]
-
-{ #category : #initialization }
-GtSceneryElement >> buildLayoutSubmenuForContext: aContext [
-	"Add a submenu actions for selected layouts."
-
-	<tag: #sceneryContextMenu>
-	| submenuItems submenu |
-	submenu := BrMenuItems new.
-
-	({#west.
-		#horizontal.
-		#force.
-		#circle} collect: [ :key | self onceLayouts at: key ])
-		do: [ :labelLayout | 
-			submenu
-				addItemLabel: labelLayout key
-				action: [ self applyOnceLayout: labelLayout value ] ].
-
-	submenuItems := BrMenuItems new.
-
-	(GtGradLayout allSubclasses reject: #isAbstract)
-		do: [ :layoutClass | 
-			submenuItems
-				addItemLabel: layoutClass name
-				action: [ self applyOnceLayout: layoutClass new ] ].
-
-	submenu
-		addItem: (BrMenuSubmenuItem new
-				label: 'GtGrad Layouts';
-				submenu: submenuItems).
-
-	submenuItems := BrMenuItems new.
-	(GtGraphLayout allSubclasses reject: #isAbstract)
-		do: [ :layoutClass | 
-			submenuItems
-				addItemLabel: layoutClass name
-				action: [ self applyOnceLayout: layoutClass new ] ].
-	submenu
-		addItem: (BrMenuSubmenuItem new
-				label: 'GtGraph Layouts';
-				submenu: submenuItems).
-
-	^ submenu
+			action: [ :elt | self gtScenery removeItemWithConnections: anItem ];
+		yourself
 ]
 
 { #category : #initialization }
@@ -176,38 +95,24 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	aContext is a BrMenuInitialContext instance."
 
 	<tag: #sceneryContextMenu>
-	| menuItems itemCreationSubmenu layoutSubmenu |
-	menuItems := BrMenuItems new
-			id: #'gtScenery-context-menu';
-			yourself.
-	menuItems
+	^ BrMenuItems new
+		id: #'gtScenery-context-menu';
 		addItemLabel: 'Inspect Scenery'
-		action: [ :elt | elt phlow spawnObject: self gtScenery ].
-	menuItems
+			action: [ :elt | elt phlow spawnObject: self gtScenery ];
 		addItemLabel: 'Add item here'
-		action: [ aContext
-				childrenPositionDo: [ :aPoint | self addNewItemFor: self currentItemStencil at: aPoint ]
-				ifAbsentDo: [ 0 @ 0 ] ].
-				
-	itemCreationSubmenu := self buildItemCreationSubmenuForContext: aContext.
-	menuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Add item';
-				submenu: itemCreationSubmenu).
-				
-	layoutSubmenu := self buildLayoutSubmenuForContext: aContext.
-	menuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Update layout';
-				submenu: layoutSubmenu).
-				
-	menuItems addItemLabel: 'Redisplay' action: [ self redisplay ].
-	menuItems
+			action: [ aContext
+					childrenPositionDo: [ :aPoint | self addNewItemFor: self currentItemStencil at: aPoint ]
+					ifAbsentDo: [ 0 @ 0 ] ];
+		addItemLabel: 'Add item'
+			submenu: (self itemCreationSubmenuForContext: aContext);
+		addItemLabel: 'Update layout'
+			submenu: (self layoutSubmenuForContext: aContext);
+		addItemLabel: 'Redisplay' action: [ self redisplay ];
 		addItemLabel: 'FAQ'
-		action: [ :e | 
-			e phlow
-				spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPagePhlowTool ].
-	^ menuItems
+			action: [ :e | 
+				e phlow
+					spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPagePhlowTool ];
+		yourself
 ]
 
 { #category : #accessing }
@@ -429,6 +334,64 @@ GtSceneryElement >> inspectItem: anItem forElement: anItemElement [
 GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
 	"Inspect the GtSceneryItem instance instead of the stencil it wraps."
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem)
+]
+
+{ #category : #menu }
+GtSceneryElement >> itemCreationSubmenuForContext: aContext [
+	"Add a submenu action for each ItemStencil class."
+
+	<tag: #sceneryContextMenu>
+	| menu |
+	menu := BrMenuItems new.
+	GtSceneryItemCreationContextMenuCollector new collectMenuItems
+		do: [ :spec | 
+			menu
+				addItemLabel: spec title
+				action: [ aContext
+						childrenPositionDo: [ :aPoint | 
+							self addNewItemFor: spec snippetClass at: aPoint.
+							self currentItemStencil: spec snippetClass ]
+						ifAbsentDo: [ 0 @ 0 ] ] ].
+	^ menu
+]
+
+{ #category : #menu }
+GtSceneryElement >> layoutSubmenuForContext: aContext [
+	"Add a submenu actions for selected layouts.
+	To add more layouts, update #onceLayouts and add the key below in the desired order."
+
+	<tag: #sceneryContextMenu>
+	| menu submenu |
+	menu := BrMenuItems new.
+	{#west.
+		#horizontal.
+		#force.
+		#circle}
+		do: [ :key | 
+			| labelLayout |
+			labelLayout := self onceLayouts at: key.
+			menu
+				addItemLabel: labelLayout key
+				action: [ self applyOnceLayout: labelLayout value ] ].
+	menu
+		addItemLabel: 'GtGrad Layouts'
+		submenu: [ submenu := BrMenuItems new.
+			(GtGradLayout allSubclasses reject: #isAbstract)
+				do: [ :layoutClass | 
+					submenu
+						addItemLabel: layoutClass name
+						action: [ self applyOnceLayout: layoutClass new ] ].
+			submenu ] value.
+	menu
+		addItemLabel: 'GtGraph Layouts'
+		submenu: [ submenu := BrMenuItems new.
+			(GtGraphLayout allSubclasses reject: #isAbstract)
+				do: [ :layoutClass | 
+					submenu
+						addItemLabel: layoutClass name
+						action: [ self applyOnceLayout: layoutClass new ] ].
+			submenu ] value.
+	^ menu
 ]
 
 { #category : #menu }

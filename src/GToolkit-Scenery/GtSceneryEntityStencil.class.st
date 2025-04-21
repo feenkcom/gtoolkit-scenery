@@ -15,6 +15,15 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #jsonV4 }
+GtSceneryEntityStencil class >> leJsonV4AttributeMapping [
+	"Answer the Collection of attribute to store keys.
+	Subclasses should override this with their own attributes.
+	Subclasses should also define the class  method leJsonV4Name"
+
+	^ OrderedCollection new
+]
+
 { #category : #announcements }
 GtSceneryEntityStencil >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement
@@ -53,6 +62,13 @@ GtSceneryEntityStencil >> isSceneryStencil [
 { #category : #testing }
 GtSceneryEntityStencil >> isUMLClassStencil [
 	^ false
+]
+
+{ #category : #menu }
+GtSceneryEntityStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	"Hook method for subclasses to provide more specific context menu items to be composed into the parent menu."
+
+	^ BrMenuItems new
 ]
 
 { #category : #reporting }
@@ -103,11 +119,4 @@ GtSceneryEntityStencil >> storeWithAttributesOn: aStream [
 						ifFalse: [ attributeValue storeOn: aStream ].
 					aStream nextPutAll: ')'.
 					separator := '; ' ] ]
-]
-
-{ #category : #menu }
-GtSceneryEntityStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	"Hook method for subclasses to provide more specific context menu items. By default do nothing."
-
-	^ aBrMenuItems
 ]

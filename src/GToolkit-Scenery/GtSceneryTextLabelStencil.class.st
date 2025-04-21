@@ -44,6 +44,22 @@ GtSceneryTextLabelStencil class >> itemCreationSubmenuLabel [
 	^ 'Text label'
 ]
 
+{ #category : #jsonV4 }
+GtSceneryTextLabelStencil class >> leJsonV4AttributeMapping [
+	^ super leJsonV4AttributeMapping
+		add: #label -> #label;
+		add: #emphasis -> #emphasis;
+		add: #weight -> #weight;
+		add: #width -> #width;
+		yourself
+]
+
+{ #category : #jsonV4 }
+GtSceneryTextLabelStencil class >> leJsonV4Name [
+	"The name (symbol) for this type of stencil in the JSON representation."
+	^ #sceneryTextLabelStencil
+]
+
 { #category : #converting }
 GtSceneryTextLabelStencil >> asItem [
 	^ GtSceneryItem new
@@ -150,6 +166,25 @@ GtSceneryTextLabelStencil >> label: aString [
 	self announceStencilUpdate
 ]
 
+{ #category : #menu }
+GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
+	^ BrMenuItems new
+		addItemLabel: 'Modify font'
+			submenu: (BrMenuItems new
+					addItemLabel: 'Increase font size'
+						action: [ aChildElement increaseFontSize.
+							self text fontSize: aChildElement fontSize ];
+					addItemLabel: 'Decrease font size'
+						action: [ aChildElement decreaseFontSize.
+							self text fontSize: aChildElement fontSize ];
+					addItemLabel: 'Reset font size'
+						action: [ aChildElement resetFontSize.
+							self text fontSize: aChildElement fontSize ];
+					yourself);
+		yourself
+]
+
 { #category : #printing }
 GtSceneryTextLabelStencil >> postCopy [
 	super postCopy.
@@ -193,35 +228,6 @@ GtSceneryTextLabelStencil >> text [
 GtSceneryTextLabelStencil >> text: aText [
 	"Deprecated -- use label: instead"
 	self label: aText asString
-]
-
-{ #category : #menu }
-GtSceneryTextLabelStencil >> updateItemContextMenuItems: aBrMenuItems forSceneryElement: aGtSceneryElement andChildElement: aChildElement [
-	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
-	
-"
-	| subMenuItems |
-	subMenuItems := BrMenuItems new.
-
-	subMenuItems
-		addItemLabel: 'Increase font size'
-		action: [ aChildElement increaseFontSize.
-			self text fontSize: aChildElement fontSize ].
-	subMenuItems
-		addItemLabel: 'Decrease font size'
-		action: [ aChildElement decreaseFontSize.
-			self text fontSize: aChildElement fontSize ].
-			
-	subMenuItems
-		addItemLabel: 'Reset font size'
-		action: [ aChildElement resetFontSize.
-			self text fontSize: aChildElement fontSize ].
-	aBrMenuItems
-		addItem: (BrMenuSubmenuItem new
-				label: 'Modify font';
-				submenu: subMenuItems)."
-
-	^ aBrMenuItems
 ]
 
 { #category : #accessing }
