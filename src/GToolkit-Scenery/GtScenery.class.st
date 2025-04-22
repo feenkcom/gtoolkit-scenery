@@ -86,6 +86,7 @@ GtScenery >> announcer [
 
 { #category : #accessing }
 GtScenery >> boundingBox [
+	self items ifEmpty: [ ^ 0 @ 0 corner: 100 @ 50 ].
 	^ Rectangle
 		encompassing: (self items collect: #position)
 				, (self items collect: [ :each | each position + each extent ])
@@ -573,15 +574,20 @@ GtScenery >> storeOn: aStream [
 
 { #category : #accessing }
 GtScenery >> storeStringMethod [
-	"Return a valid compiled method from the storeStringMethodName, or nil.
+	^ self storeStringMethodFor: self storeStringMethodName
+]
+
+{ #category : #accessing }
+GtScenery >> storeStringMethodFor: aMethodName [
+	"Return a valid compiled method from aMethodName, or nil.
 	The method name must be a String of the form 'ClassName>>#unarySelector'
 	where a class named 'ClassName' exists, #unarySelector is a valid unary selector.
 	If the method exists, it should already be a noTest gtExample method."
 
 	<todo: 'Instead of checking assertions, just return nil if an assertion fails?'>
 	| parts className selector class method |
-	self storeStringMethodName ifNil: [ ^ nil ].
-	parts := '>>#' split: self storeStringMethodName.
+	aMethodName ifNil: [ ^ nil ].
+	parts := '>>#' split: aMethodName.
 	self assert: parts size equals: 2.
 	className := parts first.
 	selector := parts second asSymbol.
@@ -605,10 +611,10 @@ GtScenery >> storeStringMethod [
 	method
 		ifNotNil: [ self
 				assert: (method hasPragmaNamed: #gtExample)
-				description: 'Method ' , self storeStringMethodName , ' exists but is not a gtExample method'.
+				description: 'Method ' , aMethodName , ' exists but is not a gtExample method'.
 			self
 				assert: (method hasPragmaNamed: #noTest)
-				description: 'Method ' , self storeStringMethodName , ' exists but is not a noTest method' ].
+				description: 'Method ' , aMethodName , ' exists but is not a noTest method' ].
 	^ method
 ]
 
@@ -621,10 +627,18 @@ GtScenery >> storeStringMethodName [
 ]
 
 { #category : #accessing }
-GtScenery >> storeStringMethodName: methodName [
+GtScenery >> storeStringMethodName: aMethodName [
 	"The method name must be a String of the form 'ClassName>>#unarySelector'
 	where a class named 'ClassName' exists, #unarySelector is a valid unary selector.
-	If the method exists, it should already be a noTest gtExample method."
+	If the method exists, it should already be a noTest gtExample method.
+	NB: setting the name will load all the scenery items of that method, if it exists."
 
-	storeStringMethodName := methodName
+	| method |
+	method := self storeStringMethodFor: aMethodName.
+	method
+		ifNotNil: [ | storedScenery |
+			storedScenery := method methodClass new perform: method selector.
+			self addScenery: storedScenery ].
+
+	storeStringMethodName := aMethodName
 ]

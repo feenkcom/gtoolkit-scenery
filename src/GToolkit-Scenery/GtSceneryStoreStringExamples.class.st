@@ -18,8 +18,16 @@ GtSceneryStoreStringExamples >> classScripterDemo [
 
 	<gtExample>
 	<noTest>
-	| scenery |
+	| scenery item1 item2 |
 	scenery := GtScenery new.
+	item1 := scenery
+			addItem: (GtSceneryMindMapNodeStencil new width: 102.93202209472656) asItem.
+	item1 position: 291.18631998697856 @ 140.68599446614587.
+	item1 extent: 102.93202209472656 @ 28.0.
+	item2 := scenery
+			addItem: (GtSceneryMindMapNodeStencil new width: 102.93202209472656) asItem.
+	item2 position: 456.2032063802076 @ 318.6256001790365.
+	item2 extent: 102.93202209472656 @ 28.0.
 	scenery.
 	^ scenery
 ]
