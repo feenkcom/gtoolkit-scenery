@@ -18,6 +18,21 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #comparison }
+GtScenery >> = otherScenery [
+	<todo: 'implement = for all parts'>
+	self == otherScenery ifTrue: [ ^ true ].
+	self class = otherScenery class ifFalse: [ ^ false ].
+	self items size = otherScenery items size ifFalse: [ ^ false ].
+	self connections size = otherScenery connections size ifFalse: [ ^ false ].
+	"self items
+		withIndexDo: [ :item :idx | item = (otherScenery items at: idx) ifFalse: [ ^ false ] ].
+	self connections
+		withIndexDo: [ :connection :idx | connection = (otherScenery connections at: idx) ifFalse: [ ^ false ] ]."
+
+	^ true
+]
+
 { #category : #connecting }
 GtScenery >> addConnectionFrom: anItem1 to: anItem2 [
 	"Let the item decide the connection stencil to use."
@@ -61,6 +76,7 @@ GtScenery >> addScenery: otherScenery [
 	Adds all the items and connections of another scenery above the bounding box of this one."
 
 	| spacing delta |
+	otherScenery items ifEmpty: [ ^ self ].
 	spacing := 50.
 	delta := (self boundingBox left - otherScenery boundingBox left)
 			@ (self boundingBox top - otherScenery boundingBox bottom - spacing).
@@ -399,6 +415,12 @@ GtScenery >> gtStoreExampleMethodAction: anAction [
 				spawnTool: (GtMethodCoderTool compiledMethod: self storeAsExampleMethod) ]
 ]
 
+{ #category : #comparison }
+GtScenery >> hash [
+	<todo: 'implement hash for all parts'>
+	^ self items hash bitXor: self connections hash
+]
+
 { #category : #accessing }
 GtScenery >> initialize [
 	super initialize.
@@ -491,6 +513,12 @@ GtScenery >> removeItemWithConnections: anItem [
 	^ anItem
 ]
 
+{ #category : #storing }
+GtScenery >> restored [
+	"Mainly for testing."
+	^ Smalltalk compiler evaluate: self storeString
+]
+
 { #category : #updating }
 GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil [
 	<todo: 'Check if the connection already exists'>
@@ -536,7 +564,7 @@ GtScenery >> storeAsExampleMethod [
 	^ newMethod
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 GtScenery >> storeOn: aStream [
 	aStream nextPutAll: '| scenery'.
 	items doWithIndex: [ :eachItem :i | aStream nextPutAll: ' item' , i asString ].
@@ -572,12 +600,12 @@ GtScenery >> storeOn: aStream [
 	aStream nextPutAll: 'scenery'
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 GtScenery >> storeStringMethod [
 	^ self storeStringMethodFor: self storeStringMethodName
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 GtScenery >> storeStringMethodFor: aMethodName [
 	"Return a valid compiled method from aMethodName, or nil.
 	The method name must be a String of the form 'ClassName>>#unarySelector'
@@ -606,7 +634,7 @@ GtScenery >> storeStringMethodFor: aMethodName [
 		description: selector printString , ' is not a valid unary selector'.
 	method := class
 			compiledMethodAt: selector
-			ifAbsent: [ class compile: selector , ' <gtExample> <noTest> ^ #nil '.
+			ifAbsent: [ class compile: selector , ' <gtExample> <noTest> ^ GtScenery new '.
 				class >> selector ].
 	method
 		ifNotNil: [ self

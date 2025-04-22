@@ -20,6 +20,13 @@ GtSceneryLepiterPageStencil class >> itemCreationSubmenuLabel [
 	^ 'Lepiter page'
 ]
 
+{ #category : #required }
+GtSceneryLepiterPageStencil >> announceStencilUpdate [
+	"Actually we inherit this, but we make the trait happy by duplicating the code."
+
+	self announce: (GtStencilUpdated new stencil: self)
+]
+
 { #category : #accessing }
 GtSceneryLepiterPageStencil >> create [
 	^ self startPage asPhlowTool
