@@ -492,7 +492,7 @@ GtScenery >> removeItemWithConnections: anItem [
 
 { #category : #updating }
 GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil [
-	<todo: 'Check if the connection already '>
+	<todo: 'Check if the connection already exists'>
 	| newItem |
 	newItem := self spawnNewItemFor: aSourceItem using: aStencil.
 	self addConnectionFrom: aSourceItem to: newItem
@@ -500,7 +500,7 @@ GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil [
 
 { #category : #updating }
 GtScenery >> spawnConnectionTo: aSourceItem from: aStencil [
-	<todo: 'Check if the connection already '>
+	<todo: 'Check if the connection already exists'>
 	| newItem  |
 	newItem := self spawnNewItemFor: aSourceItem using: aStencil.
 	self addConnectionFrom: newItem  to:  aSourceItem
