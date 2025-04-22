@@ -386,6 +386,7 @@ GtScenery >> gtReportFor: aView [
 { #category : #'as yet unclassified' }
 GtScenery >> gtStoreExampleMethodAction: anAction [
 	<gtAction>
+	<todo: 'Instead of hiding the action, if the method name is nil, offer the possibility to set it?'>
 	self storeStringMethodName ifNil: [ ^ anAction empty ].
 	^ anAction button
 		tooltip: 'Save to ' , self storeStringMethodName;
