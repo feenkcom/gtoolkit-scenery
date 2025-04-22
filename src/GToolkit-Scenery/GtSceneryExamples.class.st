@@ -32,7 +32,7 @@ GtSceneryExamples >> notAGtExampleMethod [
 ]
 
 { #category : #example }
-GtSceneryExamples >> sceneryWithCheckedInavalidStoreStringMethodNames [
+GtSceneryExamples >> sceneryWithCheckedInvalidStoreStringMethodNames [
 	"Check that invalid names are rejected."
 
 	<gtExample>
