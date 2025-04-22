@@ -12,7 +12,8 @@ Class {
 		'connections',
 		'items',
 		'announcer',
-		'onceLayout'
+		'onceLayout',
+		'storeStringMethodName'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -106,9 +107,15 @@ GtScenery >> create [
 		gtScenery: self
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtScenery >> defaultOnceLayout [
 	"If nil, don't apply any layout."
+	^ nil
+]
+
+{ #category : #initialization }
+GtScenery >> defaultStoreStringMethodName [
+	"If nil, don't offer a store action."
 	^ nil
 ]
 
@@ -376,13 +383,49 @@ GtScenery >> gtReportFor: aView [
 		column: 'Item' text: [ :eachItem | eachItem reportString ]
 ]
 
+{ #category : #'as yet unclassified' }
+GtScenery >> gtStoreExampleMethodAction: anAction [
+	<gtAction>
+	^ anAction button
+		tooltip: 'Go to repository';
+		priority: 25;
+		icon: BrGlamorousVectorIcons down;
+		id: #gtSceneryStoreExampleAction;
+		action: [ :aButton | 
+			| repository |
+			repository := self class repository.
+			repository
+				ifNil: [ aButton phlow
+						spawnTool: (GtPhlowExplicitTool new
+								stencil: [ GtGitAddToRepositoryElement new package: self class package ]) ]
+				ifNotNil: [ aButton phlow
+						spawnTool: (GtGitPhlowTool new repository: repository) ] ]
+]
+
 { #category : #accessing }
 GtScenery >> initialize [
 	super initialize.
 	"self initializeDatabase."
 	items := OrderedCollection new .
 	connections := OrderedCollection new.
-	onceLayout := self defaultOnceLayout
+	onceLayout := self defaultOnceLayout.
+	storeStringMethodName := self defaultStoreStringMethodName
+]
+
+{ #category : #initialization }
+GtScenery >> initializeDatabase [
+	"Create and initialize a transient Lepiter database for the dynamically created pages. We need to create a transient registry as well, so that links will work within the database. Automatically load all pages defined in methods with a <lePage> pragma."
+
+	database
+		ifNil: [ database := LeDatabase new monitor: LeVolatileMonitor new.
+			LeBasicDatabasesRegistry new
+				defaultLogicalDatabase: (LeLogicalDatabase new primaryDB: database) ].
+
+	self pageMethods
+		do: [ :m | 
+			| page |
+			page := self perform: m selector.
+			(database hasPageNamed: page title) ifFalse: [ database addPage: page ] ]
 ]
 
 { #category : #accessing }
@@ -483,6 +526,19 @@ GtScenery >> spawnNewItemFor: aSourceItem using: aStencil [
 ]
 
 { #category : #accessing }
+GtScenery >> storeAsExampleMethod [
+	| oldMethod newMethod |
+	oldMethod := self storeStringMethod.
+	oldMethod ifNil: [ ^ nil ].
+	oldMethod methodClass
+		compile: oldMethod selector , ' <gtExample> <noTest> ' , self storeString
+				, '. ^ scenery '.
+	(oldMethod methodClass >> oldMethod selector) reformat.
+	newMethod := oldMethod methodClass >> oldMethod selector.
+	^ newMethod
+]
+
+{ #category : #accessing }
 GtScenery >> storeOn: aStream [
 	aStream nextPutAll: '| scenery'.
 	items doWithIndex: [ :eachItem :i | aStream nextPutAll: ' item' , i asString ].
@@ -516,4 +572,49 @@ GtScenery >> storeOn: aStream [
 				nextPutAll: ' to: item', (items indexOf: eachConnection to) asString, '.';
 				cr ].
 	aStream nextPutAll: 'scenery'
+]
+
+{ #category : #accessing }
+GtScenery >> storeStringMethod [
+	"Return a valid compiled method from the storeStringMethodName, or nil.
+	The method name must be a String of the form 'ClassName>>#unarySelector'
+	where a class named 'ClassName' exists, #unarySelector is a valid unary selector.
+	If the method exists, it should already be a noTest gtExample method."
+
+	<todo: 'Instead of checking assertions, just return nil if an assertion fails?'>
+	| parts className selector class method |
+	self storeStringMethodName ifNil: [ ^ nil ].
+	parts := '>>#' split: self storeStringMethodName.
+	self assert: parts size equals: 2.
+	className := parts first.
+	selector := parts second asSymbol.
+	self assert: className isValidGlobalName.
+	class := className asClassIfAbsent: [ nil ].
+	self assert: class isClass.
+	self assert: selector isValidSelector.
+	self assert: selector isUnary.
+	method := class
+			compiledMethodAt: selector
+			ifAbsent: [ class compile: selector , ' <gtExample> <noTest> ^ #nil ' ].
+	method
+		ifNotNil: [ self assert: (method hasPragmaNamed: #gtExample).
+			self assert: (method hasPragmaNamed: #noTest) ].
+	^ method
+]
+
+{ #category : #accessing }
+GtScenery >> storeStringMethodName [
+	"A gtExample method that can be rewritten to save the corrent storeString.
+	If nil, this possibility is not offered as an action."
+
+	^ storeStringMethodName
+]
+
+{ #category : #accessing }
+GtScenery >> storeStringMethodName: methodName [
+	"The method name must be a String of the form 'ClassName>>#unarySelector'
+	where a class named 'ClassName' exists, #unarySelector is a valid unary selector.
+	If the method exists, it should already be a noTest gtExample method."
+
+	storeStringMethodName := methodName
 ]
