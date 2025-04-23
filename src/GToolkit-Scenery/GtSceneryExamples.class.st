@@ -32,7 +32,7 @@ GtSceneryExamples >> notAGtExampleMethod [
 ]
 
 { #category : #example }
-GtSceneryExamples >> sceneryWithCheckedInavalidStoreStringMethodNames [
+GtSceneryExamples >> sceneryWithCheckedInvalidStoreStringMethodNames [
 	"Check that invalid names are rejected."
 
 	<gtExample>
@@ -149,6 +149,7 @@ GtSceneryExamples >> sceneryWithValidStoreStringMethodName [
 	scenery := GtScenery new.
 	self assert: scenery items size equals: 0.
 	scenery storeStringMethodName: 'GtSceneryExamples>>#validStoreStringMethod'.
+	scenery addSceneryFromStoreStringMethod.
 	self assert: scenery items size equals: 1.
 	^ scenery
 ]

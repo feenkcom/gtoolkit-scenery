@@ -31,6 +31,13 @@ GtSceneryLePageTitleLabelStencil class >> leJsonV4Name [
 	^ #sceneryLePageTitleLabelStencil
 ]
 
+{ #category : #required }
+GtSceneryLePageTitleLabelStencil >> announceStencilUpdate [
+	"Actually we inherit this, but we make the trait happy by duplicating the code."
+
+	self announce: (GtStencilUpdated new stencil: self)
+]
+
 { #category : #'as yet unclassified' }
 GtSceneryLePageTitleLabelStencil >> defaultLabel [
 	^ self defaultPageName

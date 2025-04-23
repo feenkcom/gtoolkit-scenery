@@ -4,12 +4,17 @@ Class {
 	#traits : 'TGtSceneryReporting',
 	#classTraits : 'TGtSceneryReporting classTrait',
 	#instVars : [
-		'stencil',
 		'from',
 		'to'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
+
+{ #category : #comparing }
+GtSceneryConnection >> = otherConnection [
+	super = otherConnection ifFalse: [ ^ false ].
+	^ self from = otherConnection from and: [ self to = otherConnection to ]
+]
 
 { #category : #accessing }
 GtSceneryConnection >> asElementIn: aContainerElement [
@@ -69,6 +74,11 @@ GtSceneryConnection >> gtLiveFor: aView [
 		view: #gtLiveFor:
 ]
 
+{ #category : #comparing }
+GtSceneryConnection >> hash [
+	^ (self stencil hash bitXor: self from hash) bitXor: self to hash
+]
+
 { #category : #validity }
 GtSceneryConnection >> isValid [
 	^ self stencil isValidIn: self
@@ -85,11 +95,6 @@ GtSceneryConnection >> sceneryForConnection [
 		from: from
 		to: to.
 	^ scenery
-]
-
-{ #category : #accessing }
-GtSceneryConnection >> stencil [
-	^ stencil
 ]
 
 { #category : #accessing }

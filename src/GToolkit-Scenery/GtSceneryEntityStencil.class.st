@@ -24,6 +24,15 @@ GtSceneryEntityStencil class >> leJsonV4AttributeMapping [
 	^ OrderedCollection new
 ]
 
+{ #category : #comparing }
+GtSceneryEntityStencil >> = otherStencil [
+	self == otherStencil ifTrue: [ ^ true ].
+	self class = otherStencil class ifFalse: [ ^ false ].
+	self storeOnAttributes
+		do: [ :getter | (self perform: getter) = (otherStencil perform: getter) ifFalse: [ ^ false ] ].
+	^ true
+]
+
 { #category : #announcements }
 GtSceneryEntityStencil >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement
@@ -50,6 +59,15 @@ GtSceneryEntityStencil >> handleDoubleClickForItem: anItem andElement: anItemEle
 	"Hook method for subclasses."
 
 	
+]
+
+{ #category : #comparing }
+GtSceneryEntityStencil >> hash [
+	| hash |
+	hash := super hash.
+	self storeOnAttributes
+		do: [ :getter | hash := hash bitXor: (self perform: getter) hash ].
+	^ hash
 ]
 
 { #category : #testing }
