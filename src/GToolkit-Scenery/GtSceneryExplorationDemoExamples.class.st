@@ -15,14 +15,25 @@ GtSceneryExplorationDemoExamples >> classScripterDemo [
 
 	<gtExample>
 	<noTest>
-	| scenery item1 |
+	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
 			addItem: (GtSceneryTextLabelStencil new
-					label: 'I should contain an example of GtCoderSlideshow>>#createClassScripter. But first the inspector stencil needs to be extended with storeString support and view selection.';
-					width: 267.73405590719403) asItem.
-	item1 position: -2.3971055764459552 @ 133.0667600096533.
-	item1 extent: 267.73405590719403 @ 100.0.
+					label: 'I should contain an example of GtCoderSlideshow>>#createClassScripter with dynamically activated explanations. How to do this?';
+					width: 254.3040835764649) asItem.
+	item1 position: -1143.397105576446 @ 103.06676000965331.
+	item1 extent: 254.3040835764649 @ 82.0.
+	item2 := scenery
+			addItem: (GtSceneryTextLabelStencil new
+					label: 'We need to extend the Inspector stencil to support selected views.';
+					width: 194.18100484212232) asItem.
+	item2 position: -496.4930776946836 @ -95.8667602539063.
+	item2 extent: 194.18100484212232 @ 46.0.
+	item3 := scenery
+			addItem: (GtSceneryInspectorStencil new
+					target: [ GtCoderSlideshow new createClassScripter ]) asItem.
+	item3 position: -689.756208332525 @ 164.38118640135554.
+	item3 extent: 860.8783648558588 @ 740.3032975748649.
 	scenery
 		storeStringMethodName: 'GtSceneryExplorationDemoExamples>>#classScripterDemo'.
 	^ scenery
