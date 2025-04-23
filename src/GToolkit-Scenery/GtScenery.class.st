@@ -20,16 +20,14 @@ Class {
 
 { #category : #comparison }
 GtScenery >> = otherScenery [
-	<todo: 'implement = for all parts'>
 	self == otherScenery ifTrue: [ ^ true ].
 	self class = otherScenery class ifFalse: [ ^ false ].
 	self items size = otherScenery items size ifFalse: [ ^ false ].
 	self connections size = otherScenery connections size ifFalse: [ ^ false ].
-	"self items
-		withIndexDo: [ :item :idx | item = (otherScenery items at: idx) ifFalse: [ ^ false ] ]."
-	"self connections
-		withIndexDo: [ :connection :idx | connection = (otherScenery connections at: idx) ifFalse: [ ^ false ] ]."
-
+	self items
+		withIndexDo: [ :item :idx | item = (otherScenery items at: idx) ifFalse: [ ^ false ] ].
+	self connections
+		withIndexDo: [ :connection :idx | connection = (otherScenery connections at: idx) ifFalse: [ ^ false ] ].
 	^ true
 ]
 
