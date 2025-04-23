@@ -5,10 +5,19 @@ Class {
 	#name : #GtSceneryEntity,
 	#superclass : #Object,
 	#instVars : [
-		'announcer'
+		'announcer',
+		'stencil'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
+
+{ #category : #comparing }
+GtSceneryEntity >> = otherEntity [
+	<todo: 'Should equality for items take position and extent into account, or ignore them?'>
+	self == otherEntity ifTrue: [ ^ true ].
+	self class = otherEntity class ifFalse: [ ^ false ].
+	^ self stencil = otherEntity stencil
+]
 
 { #category : #announcements }
 GtSceneryEntity >> announce: anAnnouncement [
@@ -18,4 +27,14 @@ GtSceneryEntity >> announce: anAnnouncement [
 { #category : #announcements }
 GtSceneryEntity >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #comparing }
+GtSceneryEntity >> hash [
+^ self stencil hash
+]
+
+{ #category : #accessing }
+GtSceneryEntity >> stencil [
+	^ stencil
 ]

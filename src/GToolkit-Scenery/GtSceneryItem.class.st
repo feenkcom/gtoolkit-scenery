@@ -7,7 +7,6 @@ Class {
 	#traits : 'TGtSceneryReporting',
 	#classTraits : 'TGtSceneryReporting classTrait',
 	#instVars : [
-		'stencil',
 		'position',
 		'extent',
 		'incomingLinks',
@@ -183,11 +182,6 @@ GtSceneryItem >> resizeOnlyMiddleRight [
 GtSceneryItem >> resizer [
 	^ resizer
 		ifNil: [ resizer := BlResizerElement new preventMouseEvents zIndex: 100 ]
-]
-
-{ #category : #accessing }
-GtSceneryItem >> stencil [
-	^ stencil
 ]
 
 { #category : #accessing }

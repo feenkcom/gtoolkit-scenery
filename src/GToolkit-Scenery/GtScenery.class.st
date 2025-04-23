@@ -26,8 +26,8 @@ GtScenery >> = otherScenery [
 	self items size = otherScenery items size ifFalse: [ ^ false ].
 	self connections size = otherScenery connections size ifFalse: [ ^ false ].
 	"self items
-		withIndexDo: [ :item :idx | item = (otherScenery items at: idx) ifFalse: [ ^ false ] ].
-	self connections
+		withIndexDo: [ :item :idx | item = (otherScenery items at: idx) ifFalse: [ ^ false ] ]."
+	"self connections
 		withIndexDo: [ :connection :idx | connection = (otherScenery connections at: idx) ifFalse: [ ^ false ] ]."
 
 	^ true

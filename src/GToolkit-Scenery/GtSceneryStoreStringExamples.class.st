@@ -197,6 +197,7 @@ GtSceneryStoreStringExamples >> textLabelSceneryRestored [
 	<gtExample>
 	| scenery |
 	scenery := self textLabelScenery.
+	"self assert: scenery items first stencil equals: scenery restored items first stencil."
 	self assert: scenery equals: scenery restored.
 	^ scenery
 ]
