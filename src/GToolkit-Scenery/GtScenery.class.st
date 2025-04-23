@@ -340,7 +340,7 @@ GtScenery >> gtDatabaseFor: aView [
 ]
 
 { #category : #accessing }
-GtScenery >> gtIteStencilsFor: aView [
+GtScenery >> gtItemStencilsFor: aView [
 	"<gtView>"
 	^ aView columnedList
 		title: 'Item Stencils';
