@@ -20,9 +20,10 @@ GtSceneryExplorationDemoExamples >> classScripterDemo [
 	item1 := scenery
 			addItem: (GtSceneryTextLabelStencil new
 					label: 'I should contain an example of GtCoderSlideshow>>#createClassScripter. But first the inspector stencil needs to be extended with storeString support and view selection.';
-					width: 244.94455464680982) asItem.
-	item1 position: 107.23826556836491 @ -20.62284454779865.
-	item1 extent: 244.94455464680982 @ 100.0.
-	scenery.
+					width: 267.73405590719403) asItem.
+	item1 position: -2.3971055764459552 @ 133.0667600096533.
+	item1 extent: 267.73405590719403 @ 100.0.
+	scenery
+		storeStringMethodName: 'GtSceneryExplorationDemoExamples>>#classScripterDemo'.
 	^ scenery
 ]
