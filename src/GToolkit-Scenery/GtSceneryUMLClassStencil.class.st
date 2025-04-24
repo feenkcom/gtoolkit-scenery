@@ -104,7 +104,7 @@ GtSceneryUMLClassStencil >> gtExampleButtonFor: anAction [
 ]
 
 { #category : #listeners }
-GtSceneryUMLClassStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
+GtSceneryUMLClassStencil >> handleDoubleClickForItemElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
 	self isValidClass

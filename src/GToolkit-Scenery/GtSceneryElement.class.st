@@ -56,13 +56,15 @@ GtSceneryElement >> applyOnceLayoutNamed: key [
 ]
 
 { #category : #menu }
-GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: aConnectionElement [
+GtSceneryElement >> buildConnectionContextMenuForConnectionElement: aConnectionElement [
 	<tag: #sceneryContextMenu>
+	| aConnection |
+	aConnection := aConnectionElement graph model.
 	^ BrMenuItems new
 		addItemLabel: 'Inspect stencil'
-			action: [ :elt | self inspectConnection: aConnection forElement: aConnectionElement ];
+			action: [ :elt | self inspectConnectionForElement: aConnectionElement ];
 		addItemLabel: 'Inspect connection'
-			action: [ :elt | self inspectConnectionWrapper: aConnection forElement: aConnectionElement ];
+			action: [ :elt | self inspectConnectionWrapperForElement: aConnectionElement ];
 		addItems: (aConnection stencil
 				menuForChildElement: aConnectionElement
 				andSceneryElement: self) items;
@@ -72,14 +74,16 @@ GtSceneryElement >> buildConnectionContextMenuForItem: aConnection andElement: a
 ]
 
 { #category : #menu }
-GtSceneryElement >> buildItemContextMenuForItem: anItem andElement: anItemElement [
+GtSceneryElement >> buildItemContextMenuForItemElement: anItemElement [
 	<tag: #sceneryContextMenu>
+	| anItem |
+	anItem := anItemElement graph model.
 	^ BrMenuItems new
 		id: #'gtScenery-item-menu';
 		addItemLabel: 'Inspect stencil'
-			action: [ :elt | self inspectItem: anItem forElement: anItemElement ];
+			action: [ :elt | self inspectItemForElement: anItemElement ];
 		addItemLabel: 'Inspect item'
-			action: [ :elt | self inspectItemWrapper: anItem forElement: anItemElement ];
+			action: [ :elt | self inspectItemWrapperForElement: anItemElement ];
 		addItemLabel: 'Clone item'
 			action: [ :elt | self gtScenery spawnNewItemFor: anItem using: anItem stencil copy ];
 		addItems: (anItem stencil menuForChildElement: anItemElement andSceneryElement: self)
@@ -130,9 +134,7 @@ GtSceneryElement >> createConnectionElementFor: aConnection [
 
 	connectionElement
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
-				menu: [ self
-						buildConnectionContextMenuForItem: aConnection
-						andElement: connectionElement ]).
+				menu: [ self buildConnectionContextMenuForConnectionElement: connectionElement ]).
 
 	^ connectionElement
 ]
@@ -150,7 +152,7 @@ GtSceneryElement >> createItemElementFor: anItem [
 	itemElement when: GtPhlowObjectToSelect do: [ :e | e consumed: true ].
 	itemElement
 		addAptitude: (BrGlamorousWithExplicitContextMenuAptitude
-				menu: [ self buildItemContextMenuForItem: anItem andElement: itemElement ]).
+				menu: [ self buildItemContextMenuForItemElement: itemElement ]).
 	itemElement
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
@@ -315,24 +317,33 @@ GtSceneryElement >> initializeEventListers [
 ]
 
 { #category : #menu }
-GtSceneryElement >> inspectConnection: aConnection forElement: aConnectionElement [
-	^ aConnectionElement fireEvent: (GtSceneryObjectToSpawn new object: aConnection stencil)
+GtSceneryElement >> inspectConnectionForElement: aConnectionElement [
+	| aConnection |
+	aConnection := aConnectionElement graph model.
+	^ aConnectionElement
+		fireEvent: (GtSceneryObjectToSpawn new object: aConnection stencil)
 ]
 
 { #category : #menu }
-GtSceneryElement >> inspectConnectionWrapper: aConnection forElement: aConnectionElement [
+GtSceneryElement >> inspectConnectionWrapperForElement: aConnectionElement [
+	| aConnection |
+	aConnection := aConnectionElement graph model.
 	^ aConnectionElement fireEvent: (GtSceneryObjectToSpawn new object: aConnection)
 ]
 
 { #category : #menu }
-GtSceneryElement >> inspectItem: anItem forElement: anItemElement [
+GtSceneryElement >> inspectItemForElement: anItemElement [
 	"Inspect the actual stencil rather than the item wrapper."
+	| anItem |
+	anItem := anItemElement graph model.
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem stencil)
 ]
 
 { #category : #menu }
-GtSceneryElement >> inspectItemWrapper: anItem forElement: anItemElement [
+GtSceneryElement >> inspectItemWrapperForElement: anItemElement [
 	"Inspect the GtSceneryItem instance instead of the stencil it wraps."
+	| anItem |
+	anItem := anItemElement graph model.
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem)
 ]
 
@@ -435,20 +446,7 @@ GtSceneryElement >> removeConnectionElement: aConnectionElement [
 ]
 
 { #category : #updating }
-GtSceneryElement >> removeItemElementWithConnections: anItemElement [
-	| edges |
-	self deprecated: 'Use GtSceneryElement>>#removeItemWithConnections: instead'.
-	edges := self graph allEdgeChildren
-			select: [ :e | 
-				e fromAnchor referenceElement = anItemElement
-					or: [ e toAnchor referenceElement = anItemElement ] ].
-	edges do: [ :e | e removeFromParent ].
-	anItemElement removeFromParent.
-	self updateItemIds
-]
-
-{ #category : #updating }
-GtSceneryElement >> removeItemWithConnections: anItem [
+GtSceneryElement >> removeItemElementWithConnections: anItem [
 	"If the item is not found, silently return."
 
 	| edges itemElement |
@@ -478,7 +476,7 @@ GtSceneryElement >> subscribe [
 
 	self gtScenery announcer
 		when: GtSceneryItemDeleted
-		do: [ :announcement :subscriber | self removeItemWithConnections: announcement item ]
+		do: [ :announcement :subscriber | self removeItemElementWithConnections: announcement item ]
 		for: self.
 
 	self gtScenery announcer

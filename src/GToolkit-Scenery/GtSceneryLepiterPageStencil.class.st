@@ -45,7 +45,7 @@ GtSceneryLepiterPageStencil >> defaultExtent [
 ]
 
 { #category : #listeners }
-GtSceneryLepiterPageStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
+GtSceneryLepiterPageStencil >> handleDoubleClickForItemElement: anItemElement inSceneryElement: aSceneryElement [
 	"Spawn the page"
 
 	anItemElement

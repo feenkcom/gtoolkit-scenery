@@ -77,8 +77,7 @@ GtSceneryItem >> asElementIn: aSceneryElement [
 		do: [ :e | 
 			e consumed: true.
 			stencil
-				handleDoubleClickForItem: self
-				andElement: element
+				handleDoubleClickForItemElement: element
 				inSceneryElement: aSceneryElement ].
 
 	element
