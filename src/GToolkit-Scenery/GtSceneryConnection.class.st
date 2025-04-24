@@ -35,10 +35,10 @@ GtSceneryConnection >> asElementIn: aContainerElement [
 
 
 	aContainerElement
-		allChildrenBreadthFirstDetect: [ :each | each graph model = from ]
+		allChildrenBreadthFirstDetect: [ :each | each graph model == from ]
 		ifFound: [ :fromElement | 
 			aContainerElement
-				allChildrenBreadthFirstDetect: [ :each | each graph model = to ]
+				allChildrenBreadthFirstDetect: [ :each | each graph model == to ]
 				ifFound: [ :toElement | 
 					line
 						fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: toElement from: fromElement).

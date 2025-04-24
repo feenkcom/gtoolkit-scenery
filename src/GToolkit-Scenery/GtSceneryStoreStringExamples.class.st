@@ -174,6 +174,29 @@ GtSceneryStoreStringExamples >> inspectorOn42SceneryRestored [
 	^ scenery
 ]
 
+{ #category : #example }
+GtSceneryStoreStringExamples >> inspectorOn42SceneryWithSpawnedObject [
+	<gtExample>
+	| scenery item42 itemByteString42 itemBubble connection |
+	scenery := self inspectorOn42Scenery.
+	item42 := scenery items first.
+	itemByteString42 := scenery
+			spawnNewItemFrom: item42
+			for: item42 stencil targetValue printString.
+	itemBubble := scenery
+			addItem: (GtSceneryMindMapNodeStencil new label: 'Connect me to the spawned object')
+					asItem.
+	connection := scenery
+			addConnectionWithStencil: (GtSceneryStraightArcStencil new
+					curvatureFraction: 0)
+			from: itemBubble
+			to: itemByteString42.
+
+	self assert: connection from equals: itemBubble.
+	self assert: connection to equals: itemByteString42.
+	^ scenery
+]
+
 { #category : #'as yet unclassified' }
 GtSceneryStoreStringExamples >> inspectorWithSpawnedObjects [
 	<gtExample>
