@@ -99,10 +99,10 @@ GtSceneryShapeStencil >> geometry: aGeometry [
 ]
 
 { #category : #listeners }
-GtSceneryShapeStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
+GtSceneryShapeStencil >> handleDoubleClickForItemElement: anItemElement inSceneryElement: aSceneryElement [
 	"Inspect the stencil."
 
-	aSceneryElement inspectItem: anItem  forElement: anItemElement
+	aSceneryElement inspectItemForElement: anItemElement
 ]
 
 { #category : #initialization }

@@ -49,7 +49,7 @@ GtSceneryLePageTitleLabelStencil >> elementClass [
 ]
 
 { #category : #listeners }
-GtSceneryLePageTitleLabelStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
+GtSceneryLePageTitleLabelStencil >> handleDoubleClickForItemElement: anItemElement inSceneryElement: aSceneryElement [
 	"Spawn the page"
 	self database
 		pageNamed: self pageName

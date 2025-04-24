@@ -55,7 +55,7 @@ GtSceneryEntityStencil >> elementClass [
 ]
 
 { #category : #listeners }
-GtSceneryEntityStencil >> handleDoubleClickForItem: anItem andElement: anItemElement inSceneryElement: aSceneryElement [
+GtSceneryEntityStencil >> handleDoubleClickForItemElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
 
 	
