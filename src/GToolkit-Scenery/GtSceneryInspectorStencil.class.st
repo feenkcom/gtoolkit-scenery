@@ -28,7 +28,7 @@ GtSceneryInspectorStencil >> create [
 	view := self targetValue gtViewsFor: GtPhlowView empty ]
 		onErrorDo: [ :error | 
 			view := (GtSceneryInspectorOnError new errorValue: error)
-					gtViewsFor: GtPhlowView empty ].
+					gtViewWithExceptionInStencilFor: GtPhlowView empty ].
 
 	^ view
 		asElementDo: [ :e | 
