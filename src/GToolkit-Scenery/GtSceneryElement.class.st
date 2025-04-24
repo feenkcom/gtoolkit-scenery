@@ -435,20 +435,7 @@ GtSceneryElement >> removeConnectionElement: aConnectionElement [
 ]
 
 { #category : #updating }
-GtSceneryElement >> removeItemElementWithConnections: anItemElement [
-	| edges |
-	self deprecated: 'Use GtSceneryElement>>#removeItemWithConnections: instead'.
-	edges := self graph allEdgeChildren
-			select: [ :e | 
-				e fromAnchor referenceElement = anItemElement
-					or: [ e toAnchor referenceElement = anItemElement ] ].
-	edges do: [ :e | e removeFromParent ].
-	anItemElement removeFromParent.
-	self updateItemIds
-]
-
-{ #category : #updating }
-GtSceneryElement >> removeItemWithConnections: anItem [
+GtSceneryElement >> removeItemElementWithConnections: anItem [
 	"If the item is not found, silently return."
 
 	| edges itemElement |
@@ -478,7 +465,7 @@ GtSceneryElement >> subscribe [
 
 	self gtScenery announcer
 		when: GtSceneryItemDeleted
-		do: [ :announcement :subscriber | self removeItemWithConnections: announcement item ]
+		do: [ :announcement :subscriber | self removeItemElementWithConnections: announcement item ]
 		for: self.
 
 	self gtScenery announcer

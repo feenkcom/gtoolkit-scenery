@@ -505,14 +505,6 @@ GtScenery >> removeConnection: aConnection [
 ]
 
 { #category : #updating }
-GtScenery >> removeItem: anItem [
-	"Just removes an item, but not its connections."
-	self  deprecated: 'Use removeItemWithConnections: instead'.
-	items remove: anItem.
-	^ anItem
-]
-
-{ #category : #updating }
 GtScenery >> removeItemWithConnections: anItem [
 	| connectionsToRemove |
 	"NB: first compute the connections, *then* remove them!"
