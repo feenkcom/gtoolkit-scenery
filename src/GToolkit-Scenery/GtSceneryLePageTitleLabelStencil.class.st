@@ -76,7 +76,6 @@ GtSceneryLePageTitleLabelStencil >> menuForChildElement: aChildElement andScener
 	"Create menu items for every outgoing link, and every incoming link within the same database."
 
 	<todo: 'Remove duplicates!'>
-	<todo: 'Rewrite to get rid of asBrMenuItems'>
 	| menu sourceItem submenu |
 	menu := BrMenuItems new.
 	self isValid ifFalse: [ ^ menu ].

@@ -531,7 +531,7 @@ GtScenery >> restored [
 GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil [
 	<todo: 'Check if the connection already exists'>
 	| newItem |
-	newItem := self spawnNewItemFor: aSourceItem using: aStencil.
+	newItem := self spawnNewItemFrom: aSourceItem using: aStencil.
 	self addConnectionFrom: aSourceItem to: newItem
 ]
 
@@ -539,12 +539,30 @@ GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil [
 GtScenery >> spawnConnectionTo: aSourceItem from: aStencil [
 	<todo: 'Check if the connection already exists'>
 	| newItem  |
-	newItem := self spawnNewItemFor: aSourceItem using: aStencil.
+	newItem := self spawnNewItemFrom: aSourceItem using: aStencil.
 	self addConnectionFrom: newItem  to:  aSourceItem
 ]
 
 { #category : #updating }
-GtScenery >> spawnNewItemFor: aSourceItem using: aStencil [
+GtScenery >> spawnNewItemFrom: aSourceItem for: anObject [
+	"If the object to spawn is a LePage, use the lepiter page stencil instead."
+
+	<todo: 'Handle more special cases of stencils to create?'>
+	<todo: 'Instead of type-checking an object ask it what stencil to use to spawn it.'>
+	| stencil |
+	stencil := GtSceneryInspectorStencil new target: [ anObject ].
+	(anObject isKindOf: GtPhlowCompositeTool)
+		ifTrue: [ | theObject |
+			theObject := anObject tools first object.
+			(theObject isKindOf: LePage)
+				ifTrue: [ stencil := GtSceneryLepiterPageStencil new
+							pageName: theObject title;
+							databaseName: theObject database databaseName ] ].
+	self spawnNewItemFrom: aSourceItem using: stencil
+]
+
+{ #category : #updating }
+GtScenery >> spawnNewItemFrom: aSourceItem using: aStencil [
 	<todo: 'Need a better way to compute a sensible new position'>
 	<todo: 'Check if the item already exists.'>
 	| newItem newPosition |
