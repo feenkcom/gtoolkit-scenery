@@ -85,7 +85,7 @@ GtSceneryElement >> buildItemContextMenuForItemElement: anItemElement [
 		addItemLabel: 'Inspect item'
 			action: [ :elt | self inspectItemWrapperForElement: anItemElement ];
 		addItemLabel: 'Clone item'
-			action: [ :elt | self gtScenery spawnNewItemFor: anItem using: anItem stencil copy ];
+			action: [ :elt | self gtScenery spawnNewItemFrom: anItem using: anItem stencil copy ];
 		addItems: (anItem stencil menuForChildElement: anItemElement andSceneryElement: self)
 				items;
 		addItemLabel: 'Delete item'
@@ -157,9 +157,7 @@ GtSceneryElement >> createItemElementFor: anItem [
 		when: GtPhlowObjectToSpawn
 		do: [ :e | 
 			e consumed: true.
-			self gtScenery
-				spawnNewItemFor: anItem
-				using: (GtSceneryInspectorStencil new target: [ e object ]) ].
+			self gtScenery spawnNewItemFrom: anItem for: e object ].
 	itemElement
 		when: BlElementPositionChangedEvent
 		do: [ :e | anItem position: e currentTarget position ].
