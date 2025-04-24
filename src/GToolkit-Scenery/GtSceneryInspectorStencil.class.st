@@ -23,7 +23,14 @@ GtSceneryInspectorStencil class >> itemCreationSubmenuLabel [
 
 { #category : #accessing }
 GtSceneryInspectorStencil >> create [
-	^ (self targetValue gtViewsFor: GtPhlowView empty)
+	| targetValue view |
+	[ targetValue := self targetValue.
+	view := self targetValue gtViewsFor: GtPhlowView empty ]
+		onErrorDo: [ :error | 
+			view := (GtSceneryInspectorOnError new errorValue: error)
+					gtViewsFor: GtPhlowView empty ].
+
+	^ view
 		asElementDo: [ :e | 
 			e
 				size: extent;
