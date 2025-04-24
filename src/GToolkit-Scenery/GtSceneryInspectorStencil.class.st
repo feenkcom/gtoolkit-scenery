@@ -3,7 +3,8 @@ Class {
 	#superclass : #GtSceneryDraggableItemStencil,
 	#instVars : [
 		'targetBlock',
-		'isSpawned'
+		'isSpawned',
+		'viewMethodSelector'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -26,7 +27,9 @@ GtSceneryInspectorStencil class >> itemCreationSubmenuLabel [
 GtSceneryInspectorStencil >> create [
 	| targetValue view |
 	[ targetValue := self targetValue.
-	view := self targetValue gtViewsFor: GtPhlowView empty ]
+	viewMethodSelector
+		ifNil: [ view := self targetValue gtViewsFor: GtPhlowView empty ]
+		ifNotNil: [ view := self targetValue perform: self viewMethodSelector with: GtPhlowView empty ] ]
 		onErrorDo: [ :error | 
 			view := (GtSceneryInspectorOnError new errorValue: error)
 					gtViewWithExceptionInStencilFor: GtPhlowView empty ].
@@ -53,7 +56,24 @@ GtSceneryInspectorStencil >> isSpawned [
 	^ isSpawned
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #menu }
+GtSceneryInspectorStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	| submenu |
+	^ BrMenuItems new
+		addItemLabel: 'Inspect target value'
+			action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self targetValue) ];
+		addItemLabel: 'Select view'
+			submenu: [ | viewMethods |
+				submenu := BrMenuItems new.
+				viewMethods := self targetValue class allMethods
+						select: [ :m | m hasPragmaNamed: #gtView ].
+				viewMethods
+					do: [ :m | submenu addItemLabel: m selector action: [ self viewMethodSelector: m selector ] ].
+				submenu ] value;
+		yourself
+]
+
+{ #category : #copying }
 GtSceneryInspectorStencil >> postCopy [
 	super postCopy.
 	targetBlock := targetBlock copy
@@ -93,4 +113,14 @@ GtSceneryInspectorStencil >> target: aBlock [
 { #category : #accessing }
 GtSceneryInspectorStencil >> targetValue [
 	^ targetBlock value
+]
+
+{ #category : #accessing }
+GtSceneryInspectorStencil >> viewMethodSelector [
+	^ viewMethodSelector
+]
+
+{ #category : #accessing }
+GtSceneryInspectorStencil >> viewMethodSelector: aSelector [
+	viewMethodSelector := aSelector
 ]

@@ -13,7 +13,7 @@ Trait {
 
 { #category : #testing }
 TGtSceneryElement >> isSceneryElement [
-	"I support the TGtSceneryElement API. In partiuclar I subscribe to update events and support #updateAppearance."
+	"I support the TGtSceneryElement API. In particular I subscribe to update events and support #updateAppearance."
 
 	^ true
 ]
