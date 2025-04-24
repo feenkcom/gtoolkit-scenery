@@ -506,12 +506,17 @@ GtScenery >> removeConnection: aConnection [
 
 { #category : #updating }
 GtScenery >> removeItemWithConnections: anItem [
-	| connectionsToRemove |
-	"NB: first compute the connections, *then* remove them!"
+	"Use object identity, *not* equality, to find the item to delete.
+	Return silently if the item is not found.
+	NB: First compute the connections, *then* remove them, to avoid nasty
+	bugs modifying a collection while iterating over it."
+
+	| itemIndex connectionsToRemove |
+	itemIndex := self items identityIndexOf: anItem ifAbsent: [ ^ anItem ].
 	connectionsToRemove := self connections
 			select: [ :c | c from == anItem or: c to == anItem ].
 	connectionsToRemove do: [ :c | self removeConnection: c ].
-	self items remove: anItem.
+	self items removeIndex: itemIndex.
 	self announce: (GtSceneryItemDeleted new item: anItem).
 	^ anItem
 ]
