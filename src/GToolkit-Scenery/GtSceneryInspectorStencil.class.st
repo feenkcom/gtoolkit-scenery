@@ -2,7 +2,8 @@ Class {
 	#name : #GtSceneryInspectorStencil,
 	#superclass : #GtSceneryDraggableItemStencil,
 	#instVars : [
-		'targetBlock'
+		'targetBlock',
+		'isSpawned'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -44,6 +45,12 @@ GtSceneryInspectorStencil >> initialize [
 	super initialize.
 	targetBlock := [ nil ].
 	extent := 200@400.
+	isSpawned := false.
+]
+
+{ #category : #accessing }
+GtSceneryInspectorStencil >> isSpawned [
+	^ isSpawned
 ]
 
 { #category : #'as yet unclassified' }
@@ -53,11 +60,28 @@ GtSceneryInspectorStencil >> postCopy [
 ]
 
 { #category : #accessing }
+GtSceneryInspectorStencil >> setIsSpawnedTrue [
+	"To be set in GtScenery>>#spawnNewItemFrom:for:
+	In this case we may have non-serializable target block."
+	isSpawned := true
+]
+
+{ #category : #accessing }
 GtSceneryInspectorStencil >> storeOn: aStream [
+	"If I am a stencil for a spawned object, then the target block is `[ anObject ]`, which must be rewritten.
+If the object is seralizable, we generate a new target block. Otherwise we generate a placeholder."
+
+	| target |
 	super storeOn: aStream.
+	self isSpawned
+		ifTrue: [ self targetValue implementsStoreOn
+				ifTrue: [ target := '[ ' , self targetValue storeString , ' ]' ]
+				ifFalse: [ target := '[ Error signal: ''Could not serialize '
+							, self targetValue printString , ''' ]' ] ]
+		ifFalse: [ target := targetBlock asString ].
 	aStream
 		space;
-		nextPutAll: 'target: ', targetBlock asString
+		nextPutAll: 'target: ' , target
 ]
 
 { #category : #copying }
