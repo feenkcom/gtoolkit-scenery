@@ -1,3 +1,8 @@
+"
+I am used to display an Item in a Scenery whose stencil generates an Error.
+For an example, see GtSceneryStoreStringExamples>>#inspectorWithSpawnedObjectsRestored
+
+"
 Class {
 	#name : #GtSceneryInspectorOnError,
 	#superclass : #Object,

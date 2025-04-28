@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryInspectorStencil,
-	#superclass : #OldStyleSceneryItemStencil,
+	#superclass : #NewStyleSceneryItemStencil,
 	#instVars : [
 		'targetBlock',
 		'isSpawned',
@@ -25,22 +25,21 @@ GtSceneryInspectorStencil class >> itemCreationSubmenuLabel [
 
 { #category : #accessing }
 GtSceneryInspectorStencil >> create [
-	| targetValue view |
-	[ targetValue := self targetValue.
-	viewMethodSelector
-		ifNil: [ view := self targetValue gtViewsFor: GtPhlowView empty ]
-		ifNotNil: [ view := self targetValue perform: self viewMethodSelector with: GtPhlowView empty ] ]
-		onErrorDo: [ :error | 
-			view := (GtSceneryInspectorOnError new errorValue: error)
-					gtViewWithExceptionInStencilFor: GtPhlowView empty ].
+	^ self elementClass new
+		stencil: self;
+		updateAppearanceFor: self;
+		yourself
+]
 
-	^ view
-		asElementDo: [ :e | 
-			e
-				size: extent;
-				background: Color white;
-				margin: (BlInsets all: 10);
-				addAptitude: BrShadowAptitude ]
+{ #category : #accessing }
+GtSceneryInspectorStencil >> defaultViewMethodSelector [
+	^ nil
+]
+
+{ #category : #'api - instantiation' }
+GtSceneryInspectorStencil >> elementClass [
+	^ GtSceneryInspectorElement
+
 ]
 
 { #category : #accessing }
@@ -53,6 +52,7 @@ GtSceneryInspectorStencil >> initialize [
 
 { #category : #accessing }
 GtSceneryInspectorStencil >> isSpawned [
+	"See #setIsSpawnedTrue"
 	^ isSpawned
 ]
 
@@ -65,6 +65,7 @@ GtSceneryInspectorStencil >> menuForChildElement: aChildElement andSceneryElemen
 		addItemLabel: 'Select view'
 			submenu: [ | viewMethods |
 				submenu := BrMenuItems new.
+				submenu addItemLabel: 'All' action: [ self viewMethodSelector: nil ].
 				viewMethods := self targetValue class allMethods
 						select: [ :m | m hasPragmaNamed: #gtView ].
 				viewMethods
@@ -90,6 +91,8 @@ GtSceneryInspectorStencil >> setIsSpawnedTrue [
 GtSceneryInspectorStencil >> storeOn: aStream [
 	"If I am a stencil for a spawned object, then the target block is `[ anObject ]`, which must be rewritten.
 If the object is seralizable, we generate a new target block. Otherwise we generate a placeholder."
+
+	<todo: 'FIX THIS to use the new scheme. Add the viewMethod attribute. Update the target attribute before saving.'>
 
 	| target |
 	super storeOn: aStream.
@@ -122,5 +125,6 @@ GtSceneryInspectorStencil >> viewMethodSelector [
 
 { #category : #accessing }
 GtSceneryInspectorStencil >> viewMethodSelector: aSelector [
-	viewMethodSelector := aSelector
+	viewMethodSelector := aSelector.
+	self announceStencilUpdate
 ]
