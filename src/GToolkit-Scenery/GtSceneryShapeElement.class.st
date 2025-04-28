@@ -1,8 +1,8 @@
 Class {
 	#name : #GtSceneryShapeElement,
 	#superclass : #BlElement,
-	#traits : 'TGtSceneryItemEement',
-	#classTraits : 'TGtSceneryItemEement classTrait',
+	#traits : 'TGtSceneryItemElement',
+	#classTraits : 'TGtSceneryItemElement classTrait',
 	#category : #'GToolkit-Scenery-UI'
 }
 
