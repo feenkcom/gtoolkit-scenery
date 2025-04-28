@@ -26,7 +26,8 @@ GtSceneryInspectorStencil class >> itemCreationSubmenuLabel [
 { #category : #accessing }
 GtSceneryInspectorStencil >> create [
 	^ self elementClass new
-		updateViewFor: self;
+		stencil: self;
+		updateAppearanceFor: self;
 		yourself
 ]
 

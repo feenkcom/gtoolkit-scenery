@@ -7,7 +7,7 @@ Trait {
 TGtSceneryShared >> gtStoreOnFor: aView [
 	<gtView>
 	^ aView explicit
-		title: 'Store on';
+		title: 'Store string';
 		priority: 120;
 		stencil: [ (GtPharoSnippetCoder new
 				forSource: self storeString;

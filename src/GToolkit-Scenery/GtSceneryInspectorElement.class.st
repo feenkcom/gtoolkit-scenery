@@ -8,6 +8,9 @@ Class {
 	#superclass : #BlElement,
 	#traits : 'TGtSceneryItemElement',
 	#classTraits : 'TGtSceneryItemElement classTrait',
+	#instVars : [
+		'view'
+	],
 	#category : #'GToolkit-Scenery-UI'
 }
 
@@ -27,6 +30,14 @@ GtSceneryInspectorElement >> initialize [
 		addAptitude: BrShadowAptitude
 ]
 
+{ #category : #accessing }
+GtSceneryInspectorElement >> stencil: aGtSceneryInspectorStencil [
+	self assert: (aGtSceneryInspectorStencil isKindOf: GtSceneryInspectorStencil).
+	self graph model: aGtSceneryInspectorStencil.
+	self graph beNode.
+	self updateAppearanceFor: aGtSceneryInspectorStencil
+]
+
 { #category : #initialization }
 GtSceneryInspectorElement >> stencilClass [
 	^ GtSceneryInspectorStencil
@@ -34,21 +45,22 @@ GtSceneryInspectorElement >> stencilClass [
 
 { #category : #announcements }
 GtSceneryInspectorElement >> updateAppearance [
-	"Sent in reponse to a GtSceneryItemUpdated or GtSceneryConnectionUpdated announcement.
-	The trait user should override this."
-
-	<todo: 'Update when the view is changed ...'>
-	self updateViewFor: self graph model stencil
+	| myStencil |
+	myStencil := self graph model.
+	self
+		assert: myStencil notNil
+		description: '#updateAppearance sent before #stencil:'.
+	self updateAppearanceFor: myStencil
 ]
 
-{ #category : #initialization }
-GtSceneryInspectorElement >> updateViewFor: anInspectorStencil [
-	| targetValue newView |
-	[ targetValue := anInspectorStencil targetValue.
-	anInspectorStencil viewMethodSelector
+{ #category : #announcements }
+GtSceneryInspectorElement >> updateAppearanceFor: aStencil [
+	| newView targetValue  |
+	[ targetValue := aStencil targetValue.
+	aStencil viewMethodSelector
 		ifNil: [ newView := targetValue gtViewsFor: GtPhlowView empty ]
 		ifNotNil: [ newView := targetValue
-					perform: anInspectorStencil viewMethodSelector
+					perform: aStencil viewMethodSelector
 					with: GtPhlowView empty ] ]
 		onErrorDo: [ :error | 
 			newView := (GtSceneryInspectorOnError new errorValue: error)
@@ -56,4 +68,9 @@ GtSceneryInspectorElement >> updateViewFor: anInspectorStencil [
 	self removeChildren.
 	view := newView.
 	self addChild: view asElement
+]
+
+{ #category : #accessing }
+GtSceneryInspectorElement >> view [
+	^ view
 ]
