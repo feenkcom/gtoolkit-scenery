@@ -1,6 +1,9 @@
+"
+I am deprecated in favor of GtSceneryShapeStencil
+"
 Class {
 	#name : #GtSceneryRectangleStencil,
-	#superclass : #GtSceneryDraggableItemStencil,
+	#superclass : #OldStyleSceneryItemStencil,
 	#category : #'GToolkit-Scenery-Model'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryLepiterPageStencil,
-	#superclass : #GtSceneryDraggableItemStencil,
+	#superclass : #OldStyleSceneryItemStencil,
 	#traits : 'TGtSceneryLePageWrapper',
 	#classTraits : 'TGtSceneryLePageWrapper classTrait',
 	#category : #'GToolkit-Scenery-Model'

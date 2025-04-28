@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryInspectorStencil,
-	#superclass : #GtSceneryDraggableItemStencil,
+	#superclass : #OldStyleSceneryItemStencil,
 	#instVars : [
 		'targetBlock',
 		'isSpawned',
