@@ -53,6 +53,7 @@ GtSceneryInspectorStencil >> initialize [
 
 { #category : #accessing }
 GtSceneryInspectorStencil >> isSpawned [
+	"See #setIsSpawnedTrue"
 	^ isSpawned
 ]
 
