@@ -372,8 +372,8 @@ GtSceneryElement >> layoutSubmenuForContext: aContext [
 	<tag: #sceneryContextMenu>
 	| menu submenu |
 	menu := BrMenuItems new.
-	{#west.
-		#horizontal.
+	{#horizontal.
+		#west.
 		#force.
 		#circle}
 		do: [ :key | 

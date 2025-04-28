@@ -8,7 +8,7 @@ Later it should be possible to style me:
 "
 Class {
 	#name : #GtSceneryShapeStencil,
-	#superclass : #GtSceneryDraggableItemStencil,
+	#superclass : #NewStyleSceneryItemStencil,
 	#instVars : [
 		'geometry',
 		'backgroundColorSelector'
@@ -123,12 +123,6 @@ GtSceneryShapeStencil >> menuForChildElement: aChildElement andSceneryElement: a
 						action: [ self geometry: BlRectangleGeometry new ];
 					yourself);
 		yourself
-]
-
-{ #category : #printing }
-GtSceneryShapeStencil >> storeOn: aStream [
-	"self storeOnOLD: aStream"
-	self storeWithAttributesOn: aStream
 ]
 
 { #category : #accessing }

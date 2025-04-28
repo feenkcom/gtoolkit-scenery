@@ -3,7 +3,7 @@ Should be deprecated in favour of `GtSceneryTextLabelStencil`
 "
 Class {
 	#name : #GtSceneryTextStencil,
-	#superclass : #GtSceneryDraggableItemStencil,
+	#superclass : #OldStyleSceneryItemStencil,
 	#instVars : [
 		'text'
 	],

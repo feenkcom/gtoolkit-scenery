@@ -19,7 +19,7 @@ backgroundColor — a Symbol (see `Color` class methods)
 "
 Class {
 	#name : #GtSceneryTextLabelStencil,
-	#superclass : #GtSceneryDraggableItemStencil,
+	#superclass : #NewStyleSceneryItemStencil,
 	#instVars : [
 		'width',
 		'label',
@@ -199,11 +199,6 @@ GtSceneryTextLabelStencil >> printOn: aStream [
 		nextPut: $(;
 		nextPutAll: self label;
 		nextPut: $)
-]
-
-{ #category : #printing }
-GtSceneryTextLabelStencil >> storeOn: aStream [
-	self storeWithAttributesOn: aStream
 ]
 
 { #category : #printing }
