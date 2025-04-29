@@ -7,7 +7,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryPictureStencil class >> itemCreationMenuSpecification [
 	<sceneryItemCreationSpecification>
 	^ LeContextMenuItemSpecification new
@@ -16,7 +16,7 @@ GtSceneryPictureStencil class >> itemCreationMenuSpecification [
 		title: self itemCreationSubmenuLabel
 ]
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryPictureStencil class >> itemCreationSubmenuLabel [
 	^ 'Picture file'
 ]

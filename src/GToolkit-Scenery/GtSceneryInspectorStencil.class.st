@@ -9,7 +9,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryInspectorStencil class >> itemCreationMenuSpecification [
 	<sceneryItemCreationSpecification>
 	^ LeContextMenuItemSpecification new
@@ -18,7 +18,7 @@ GtSceneryInspectorStencil class >> itemCreationMenuSpecification [
 		title: self itemCreationSubmenuLabel
 ]
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryInspectorStencil class >> itemCreationSubmenuLabel [
 	^ 'Inspector'
 ]
@@ -61,7 +61,7 @@ GtSceneryInspectorStencil >> hash [
 	^ targetBlock printString hash bitXor: self viewMethodSelector hash
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryInspectorStencil >> initialize [
 	super initialize.
 	targetBlock := [ nil ].
@@ -96,7 +96,7 @@ GtSceneryInspectorStencil >> menuForChildElement: aChildElement andSceneryElemen
 { #category : #copying }
 GtSceneryInspectorStencil >> postCopy [
 	super postCopy.
-	targetBlock := targetBlock copy
+	targetBlock := targetBlock copy.
 ]
 
 { #category : #accessing }
