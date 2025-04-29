@@ -23,12 +23,28 @@ GtSceneryInspectorStencil class >> itemCreationSubmenuLabel [
 	^ 'Inspector'
 ]
 
+{ #category : #comparing }
+GtSceneryInspectorStencil >> = otherStencil [
+	"Need special case to test equality of blocks."
+	self == otherStencil ifTrue: [ ^ true ].
+	self class = otherStencil class ifFalse: [ ^ false ].
+	self viewMethodSelector printString
+		= otherStencil viewMethodSelector printString ifFalse: [ ^ false ].
+	self target printString = otherStencil target printString ifFalse: [ ^ false ].
+	^ true
+]
+
 { #category : #accessing }
 GtSceneryInspectorStencil >> create [
 	^ self elementClass new
 		stencil: self;
 		updateAppearance;
 		yourself
+]
+
+{ #category : #accessing }
+GtSceneryInspectorStencil >> defaultTarget [
+	^ [nil]
 ]
 
 { #category : #accessing }
@@ -39,14 +55,18 @@ GtSceneryInspectorStencil >> defaultViewMethodSelector [
 { #category : #'api - instantiation' }
 GtSceneryInspectorStencil >> elementClass [
 	^ GtSceneryInspectorElement
+]
 
+{ #category : #comparing }
+GtSceneryInspectorStencil >> hash [
+	^ targetBlock printString hash bitXor: self viewMethodSelector hash
 ]
 
 { #category : #accessing }
 GtSceneryInspectorStencil >> initialize [
 	super initialize.
 	targetBlock := [ nil ].
-	extent := 200@400.
+	extent := 300@400.
 	isSpawned := false.
 ]
 
@@ -87,24 +107,34 @@ GtSceneryInspectorStencil >> setIsSpawnedTrue [
 	isSpawned := true
 ]
 
-{ #category : #accessing }
-GtSceneryInspectorStencil >> storeOn: aStream [
-	"If I am a stencil for a spawned object, then the target block is `[ anObject ]`, which must be rewritten.
-If the object is seralizable, we generate a new target block. Otherwise we generate a placeholder."
+{ #category : #storing }
+GtSceneryInspectorStencil >> storeOnAttributes [
+	^ {#target.
+		#viewMethodSelector}
+]
 
-	<todo: 'FIX THIS to use the new scheme. Add the viewMethod attribute. Update the target attribute before saving.'>
+{ #category : #accessing }
+GtSceneryInspectorStencil >> target [
+	"NB: the actual stored value is #targetBlock, but we may need to compute a #target depending on the actual target value, if it has been spawned."
 
 	| target |
-	super storeOn: aStream.
 	self isSpawned
 		ifTrue: [ self targetValue implementsStoreOn
-				ifTrue: [ target := '[ ' , self targetValue storeString , ' ]' ]
-				ifFalse: [ target := '[ Error signal: ''Could not serialize '
-							, self targetValue printString , ''' ]' ] ]
-		ifFalse: [ target := targetBlock asString ].
-	aStream
-		space;
-		nextPutAll: 'target: ' , target
+				ifTrue: [ target := Smalltalk compiler
+							evaluate: '[ ' , self targetValue storeString , ' ]' ]
+				ifFalse: [
+				
+				 target := 
+				 Smalltalk compiler
+							evaluate:
+				 
+				 '[ Error signal: ''Could not serialize ' , self targetValue printString , ''' ]' 
+							
+							
+							
+							] ]
+		ifFalse: [ target := targetBlock ].
+	^ target
 ]
 
 { #category : #copying }

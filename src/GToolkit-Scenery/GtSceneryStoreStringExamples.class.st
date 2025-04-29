@@ -174,8 +174,12 @@ GtSceneryStoreStringExamples >> inspectorOn42Scenery [
 { #category : #example }
 GtSceneryStoreStringExamples >> inspectorOn42SceneryRestored [
 	<gtExample>
-	| scenery |
+	| scenery item1 |
 	scenery := self inspectorOn42Scenery.
+	item1 := scenery items first.
+	self
+		assert: item1 stencil storeString
+		equals: 'GtSceneryInspectorStencil new target: [ 42 ]'.
 	self assert: scenery equals: scenery restored.
 	^ scenery
 ]
@@ -225,10 +229,17 @@ GtSceneryStoreStringExamples >> inspectorWithSpawnedObjects [
 
 { #category : #'as yet unclassified' }
 GtSceneryStoreStringExamples >> inspectorWithSpawnedObjectsRestored [
+	"The spawned items are the third and last ones.
+	The restored ByteString should be ok because it has a proper storeString,
+	but the restored Ludo player is expected to be broken because it lacks a storeString."
+
 	<gtExample>
 	| scenery restored |
 	scenery := self inspectorWithSpawnedObjects.
 	restored := scenery restored.
+
+	self assert: (scenery items third stencil targetValue isKindOf: ByteString).
+	self assert: (restored items third stencil targetValue isKindOf: ByteString).
 
 	self assert: (scenery items last stencil targetValue isKindOf: GtLudoPlayer).
 	self should: [ restored items last stencil targetValue ] raise: Error.
