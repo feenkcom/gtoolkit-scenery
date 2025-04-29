@@ -352,6 +352,27 @@ GtSceneryStoreStringExamples >> sceneryWithTwoInspectors [
 ]
 
 { #category : #example }
+GtSceneryStoreStringExamples >> sceneryWithTwoInspectorsAndSelectedViews [
+	"Check that selected views persist."
+
+	<gtExample>
+	| scenery restored |
+	scenery := self sceneryWithTwoInspectors.
+	scenery items first stencil viewMethodSelector: #gtPrintFor:.
+	scenery items second stencil viewMethodSelector: #gtPositionsFor:.
+	restored := scenery restored.
+
+	self
+		assert: restored items first stencil viewMethodSelector
+		equals: #gtPrintFor:.
+	self
+		assert: restored items second stencil viewMethodSelector
+		equals: #gtPositionsFor:.
+
+	^ restored
+]
+
+{ #category : #example }
 GtSceneryStoreStringExamples >> sceneryWithValidStoreStringMethodName [
 	"Check that the scenery of the existing method is loaded."
 

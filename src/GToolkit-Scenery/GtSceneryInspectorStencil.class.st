@@ -38,7 +38,6 @@ GtSceneryInspectorStencil >> = otherStencil [
 GtSceneryInspectorStencil >> create [
 	^ self elementClass new
 		stencil: self;
-		updateAppearance;
 		yourself
 ]
 

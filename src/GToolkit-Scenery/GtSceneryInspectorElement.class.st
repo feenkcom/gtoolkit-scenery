@@ -9,7 +9,8 @@ Class {
 	#traits : 'TGtSceneryItemElement',
 	#classTraits : 'TGtSceneryItemElement classTrait',
 	#instVars : [
-		'view'
+		'view',
+		'stencil'
 	],
 	#category : #'GToolkit-Scenery-UI'
 }
@@ -28,12 +29,16 @@ GtSceneryInspectorElement >> initialize [
 ]
 
 { #category : #accessing }
+GtSceneryInspectorElement >> stencil [
+	^ stencil
+]
+
+{ #category : #accessing }
 GtSceneryInspectorElement >> stencil: aGtSceneryInspectorStencil [
 	self assert: (aGtSceneryInspectorStencil isKindOf: GtSceneryInspectorStencil).
 
-	self size: aGtSceneryInspectorStencil extent.
-	self graph model: aGtSceneryInspectorStencil.
-	self graph beNode.
+	stencil := aGtSceneryInspectorStencil.
+	self size: self stencil extent.
 	self updateAppearance
 ]
 
@@ -44,17 +49,16 @@ GtSceneryInspectorElement >> stencilClass [
 
 { #category : #announcements }
 GtSceneryInspectorElement >> updateAppearance [
-	| myStencil targetValue |
-	myStencil := self graph model.
+	| targetValue |
 	self
-		assert: myStencil notNil
-		description: '#updateAppearance sent before #stencil:'.
-	self size: myStencil extent.
-	[ targetValue := myStencil targetValue.
-	myStencil viewMethodSelector
+		assert: self stencil notNil
+		description: '#updateAppearance sent before element is initialized'.
+	self size: self stencil extent.
+	[ targetValue := self stencil targetValue.
+	self stencil viewMethodSelector
 		ifNil: [ view := targetValue gtViewsFor: GtPhlowView empty ]
 		ifNotNil: [ view := targetValue
-					perform: myStencil viewMethodSelector
+					perform: self stencil viewMethodSelector
 					with: GtPhlowView empty ] ]
 		onErrorDo: [ :error | 
 			view := (GtSceneryInspectorOnError new errorValue: error)
