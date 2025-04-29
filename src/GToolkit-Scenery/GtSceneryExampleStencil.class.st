@@ -21,9 +21,15 @@ GtSceneryExampleStencil class >> itemCreationSubmenuLabel [
 	^ 'Example'
 ]
 
+{ #category : #example }
+GtSceneryExampleStencil >> defaultExampleMethod [
+	<gtExample>
+	^ nil
+]
+
 { #category : #initialization }
 GtSceneryExampleStencil >> defaultExampleMethodName [
-	^ nil
+	^ 'GtSceneryExampleStencil>>#defaultExampleMethod'
 ]
 
 { #category : #accessing }
