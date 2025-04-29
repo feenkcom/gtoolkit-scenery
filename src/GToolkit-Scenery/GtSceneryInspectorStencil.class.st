@@ -1,10 +1,9 @@
 Class {
 	#name : #GtSceneryInspectorStencil,
-	#superclass : #NewStyleSceneryItemStencil,
+	#superclass : #AbstractGtSceneryInspectorStencil,
 	#instVars : [
 		'targetBlock',
-		'isSpawned',
-		'viewMethodSelector'
+		'isSpawned'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -35,25 +34,8 @@ GtSceneryInspectorStencil >> = otherStencil [
 ]
 
 { #category : #accessing }
-GtSceneryInspectorStencil >> create [
-	^ self elementClass new
-		stencil: self;
-		yourself
-]
-
-{ #category : #accessing }
 GtSceneryInspectorStencil >> defaultTarget [
 	^ [nil]
-]
-
-{ #category : #accessing }
-GtSceneryInspectorStencil >> defaultViewMethodSelector [
-	^ nil
-]
-
-{ #category : #'api - instantiation' }
-GtSceneryInspectorStencil >> elementClass [
-	^ GtSceneryInspectorElement
 ]
 
 { #category : #comparing }
@@ -65,7 +47,6 @@ GtSceneryInspectorStencil >> hash [
 GtSceneryInspectorStencil >> initialize [
 	super initialize.
 	targetBlock := [ nil ].
-	extent := 300@400.
 	isSpawned := false.
 ]
 
@@ -75,22 +56,9 @@ GtSceneryInspectorStencil >> isSpawned [
 	^ isSpawned
 ]
 
-{ #category : #menu }
-GtSceneryInspectorStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	| submenu |
-	^ BrMenuItems new
-		addItemLabel: 'Inspect value'
-			action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self targetValue) ];
-		addItemLabel: 'Select view'
-			submenu: [ | viewMethods |
-				submenu := BrMenuItems new.
-				submenu addItemLabel: 'All' action: [ self viewMethodSelector: nil ].
-				viewMethods := self targetValue class allMethods
-						select: [ :m | m hasPragmaNamed: #gtView ].
-				viewMethods
-					do: [ :m | submenu addItemLabel: m selector action: [ self viewMethodSelector: m selector ] ].
-				submenu ] value;
-		yourself
+{ #category : #accessing }
+GtSceneryInspectorStencil >> objectValue [
+	^ self targetValue
 ]
 
 { #category : #copying }
@@ -108,8 +76,7 @@ GtSceneryInspectorStencil >> setIsSpawnedTrue [
 
 { #category : #storing }
 GtSceneryInspectorStencil >> storeOnAttributes [
-	^ {#target.
-		#viewMethodSelector}
+	^ super storeOnAttributes , {#target}
 ]
 
 { #category : #accessing }
@@ -145,15 +112,4 @@ GtSceneryInspectorStencil >> target: aBlock [
 { #category : #accessing }
 GtSceneryInspectorStencil >> targetValue [
 	^ targetBlock value
-]
-
-{ #category : #accessing }
-GtSceneryInspectorStencil >> viewMethodSelector [
-	^ viewMethodSelector
-]
-
-{ #category : #accessing }
-GtSceneryInspectorStencil >> viewMethodSelector: aSelector [
-	viewMethodSelector := aSelector.
-	self announceStencilUpdate
 ]

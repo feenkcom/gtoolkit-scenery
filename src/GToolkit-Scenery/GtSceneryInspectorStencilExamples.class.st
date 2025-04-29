@@ -7,7 +7,7 @@ Class {
 	#category : #'GToolkit-Scenery-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
 GtSceneryInspectorStencilExamples >> errorScenery [
 	"A scenery with an inspector on an error."
 
@@ -20,7 +20,7 @@ GtSceneryInspectorStencilExamples >> errorScenery [
 	^ scenery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
 GtSceneryInspectorStencilExamples >> ludoGameScenery [
 	"A scenery with a plain inspector of an object."
 
@@ -45,7 +45,7 @@ GtSceneryInspectorStencilExamples >> ludoGameScenery [
 	^ scenery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
 GtSceneryInspectorStencilExamples >> ludoGameSceneryBoardView [
 	<gtExample>
 	| scenery ludoItem |
@@ -54,5 +54,20 @@ GtSceneryInspectorStencilExamples >> ludoGameSceneryBoardView [
 	ludoItem stencil viewMethodSelector: #gtPositionsFor:.
 	ludoItem extent: 617.0312500000001 @ 654.5247395833334.
 	self assert: ludoItem stencil viewMethodSelector equals: #gtPositionsFor:.
+	^ scenery
+]
+
+{ #category : #example }
+GtSceneryInspectorStencilExamples >> memoryExampleScenery [
+	<gtExample>
+	| scenery item1 |
+	scenery := GtScenery new.
+	item1 := scenery
+			addItem: (GtSceneryExampleStencil new
+					viewMethodSelector: #gtLiveFor:;
+					exampleMethodName: 'GtMemoryGameExamples>>#afterSomeMoves') asItem.
+	item1 position: -29.446614583333258 @ 180.99833170572919.
+	item1 extent: 351.9303385416665 @ 352.1028645833334.
+	self assert: item1 stencil viewMethodSelector equals: #gtLiveFor:.
 	^ scenery
 ]

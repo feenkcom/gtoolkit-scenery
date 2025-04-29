@@ -1,8 +1,8 @@
 Class {
 	#name : #GtSceneryExampleStencil,
-	#superclass : #GtSceneryInspectorStencil,
+	#superclass : #AbstractGtSceneryInspectorStencil,
 	#instVars : [
-		'exampleMethod'
+		'exampleMethodName'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -22,27 +22,34 @@ GtSceneryExampleStencil class >> itemCreationSubmenuLabel [
 ]
 
 { #category : #initialization }
-GtSceneryExampleStencil >> defaultExampleMethod [
+GtSceneryExampleStencil >> defaultExampleMethodName [
 	^ nil
 ]
 
 { #category : #accessing }
 GtSceneryExampleStencil >> exampleMethod [
-	^ exampleMethod
+	^ MethodByName for: self exampleMethodName
 ]
 
 { #category : #accessing }
-GtSceneryExampleStencil >> exampleMethod: anExampleMethod [
-	exampleMethod := anExampleMethod.
-	targetBlock := [ anExampleMethod methodClass new
-			perform: anExampleMethod selector ].
+GtSceneryExampleStencil >> exampleMethodName [
+	^ exampleMethodName
+]
+
+{ #category : #accessing }
+GtSceneryExampleStencil >> exampleMethodName: aStringOrMethod [
+	aStringOrMethod isString
+		ifTrue: [ exampleMethodName := aStringOrMethod ]
+		ifFalse: [ aStringOrMethod isCompiledMethod
+				ifTrue: [ exampleMethodName := aStringOrMethod printString ]
+				ifFalse: [ ^ self ] ].
 	self announceStencilUpdate
 ]
 
 { #category : #initialization }
 GtSceneryExampleStencil >> initialize [
 	super initialize.
-	exampleMethod := self defaultExampleMethod
+	exampleMethodName := self defaultExampleMethodName
 ]
 
 { #category : #menu }
@@ -51,8 +58,12 @@ GtSceneryExampleStencil >> menuForChildElement: aChildElement andSceneryElement:
 	^ super menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement
 ]
 
+{ #category : #accessing }
+GtSceneryExampleStencil >> objectValue [
+	^ self exampleMethod methodClass new perform: self exampleMethod selector
+]
+
 { #category : #storing }
 GtSceneryExampleStencil >> storeOnAttributes [
-	^ {#exampleMethod.
-		#viewMethodSelector}
+	^ super storeOnAttributes , {#exampleMethodName}
 ]
