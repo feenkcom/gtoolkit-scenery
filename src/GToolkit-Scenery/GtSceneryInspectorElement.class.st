@@ -22,9 +22,6 @@ GtSceneryInspectorElement >> initialize [
 	super initialize.
 	self
 		layout: BlFrameLayout new;
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ];
 		background: Color white;
 		margin: (BlInsets all: 10);
 		addAptitude: BrShadowAptitude
@@ -33,9 +30,11 @@ GtSceneryInspectorElement >> initialize [
 { #category : #accessing }
 GtSceneryInspectorElement >> stencil: aGtSceneryInspectorStencil [
 	self assert: (aGtSceneryInspectorStencil isKindOf: GtSceneryInspectorStencil).
+
+	self size: aGtSceneryInspectorStencil extent.
 	self graph model: aGtSceneryInspectorStencil.
 	self graph beNode.
-	self updateAppearanceFor: aGtSceneryInspectorStencil
+	self updateAppearance
 ]
 
 { #category : #initialization }
@@ -45,32 +44,21 @@ GtSceneryInspectorElement >> stencilClass [
 
 { #category : #announcements }
 GtSceneryInspectorElement >> updateAppearance [
-	| myStencil |
+	| myStencil targetValue |
 	myStencil := self graph model.
 	self
 		assert: myStencil notNil
 		description: '#updateAppearance sent before #stencil:'.
-	self updateAppearanceFor: myStencil
-]
-
-{ #category : #announcements }
-GtSceneryInspectorElement >> updateAppearanceFor: aStencil [
-	| targetValue |
-	
-	[ targetValue := aStencil targetValue.
-	aStencil viewMethodSelector
+	self size: myStencil extent.
+	[ targetValue := myStencil targetValue.
+	myStencil viewMethodSelector
 		ifNil: [ view := targetValue gtViewsFor: GtPhlowView empty ]
 		ifNotNil: [ view := targetValue
-					perform: aStencil viewMethodSelector
+					perform: myStencil viewMethodSelector
 					with: GtPhlowView empty ] ]
 		onErrorDo: [ :error | 
 			view := (GtSceneryInspectorOnError new errorValue: error)
 					gtViewWithExceptionInStencilFor: GtPhlowView empty ].
-	
-	"targetValue := aStencil targetValue.
-	view := targetValue gtViewsFor: GtPhlowView empty."
-	"self halt."
-	
 	self removeChildren.
 	self addChild: view asElement
 ]

@@ -27,7 +27,7 @@ GtSceneryInspectorStencil class >> itemCreationSubmenuLabel [
 GtSceneryInspectorStencil >> create [
 	^ self elementClass new
 		stencil: self;
-		updateAppearanceFor: self;
+		updateAppearance;
 		yourself
 ]
 
