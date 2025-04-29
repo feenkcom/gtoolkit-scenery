@@ -10,6 +10,5 @@ Class {
 
 { #category : #printing }
 NewStyleSceneryItemStencil >> storeOn: aStream [
-	"self storeOnOLD: aStream"
 	self storeWithAttributesOn: aStream
 ]

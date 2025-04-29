@@ -55,18 +55,23 @@ GtSceneryInspectorElement >> updateAppearance [
 
 { #category : #announcements }
 GtSceneryInspectorElement >> updateAppearanceFor: aStencil [
-	| newView targetValue  |
+	| targetValue |
+	
 	[ targetValue := aStencil targetValue.
 	aStencil viewMethodSelector
-		ifNil: [ newView := targetValue gtViewsFor: GtPhlowView empty ]
-		ifNotNil: [ newView := targetValue
+		ifNil: [ view := targetValue gtViewsFor: GtPhlowView empty ]
+		ifNotNil: [ view := targetValue
 					perform: aStencil viewMethodSelector
 					with: GtPhlowView empty ] ]
 		onErrorDo: [ :error | 
-			newView := (GtSceneryInspectorOnError new errorValue: error)
+			view := (GtSceneryInspectorOnError new errorValue: error)
 					gtViewWithExceptionInStencilFor: GtPhlowView empty ].
+	
+	"targetValue := aStencil targetValue.
+	view := targetValue gtViewsFor: GtPhlowView empty."
+	"self halt."
+	
 	self removeChildren.
-	view := newView.
 	self addChild: view asElement
 ]
 

@@ -60,7 +60,7 @@ GtSceneryInspectorStencil >> isSpawned [
 GtSceneryInspectorStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	| submenu |
 	^ BrMenuItems new
-		addItemLabel: 'Inspect target value'
+		addItemLabel: 'Inspect value'
 			action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self targetValue) ];
 		addItemLabel: 'Select view'
 			submenu: [ | viewMethods |
