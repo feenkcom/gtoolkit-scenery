@@ -1,3 +1,8 @@
+"
+Some initial examples of the AssociationMiner class that mines associations for classes within a package from the examples.
+
+To be expanded ...
+"
 Class {
 	#name : #AssociationMinerExamples,
 	#superclass : #Object,

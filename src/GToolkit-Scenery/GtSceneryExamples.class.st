@@ -1,5 +1,7 @@
 "
 Initial GtSCenery examples.
+
+These should continue to work even as gtScenery evolves.
 "
 Class {
 	#name : #GtSceneryExamples,
