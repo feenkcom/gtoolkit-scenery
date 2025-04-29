@@ -131,10 +131,12 @@ GtSceneryEntityStencil >> storeWithAttributesOn: aStream [
 				ifFalse: [ aStream
 						nextPutAll: separator;
 						nextPutAll: attribute asString;
-						nextPutAll: ': ('.
+						nextPutAll: ': '.
 					attributeValue isClosure
 						ifTrue: [ attributeValue printOn: aStream ]
-						ifFalse: [ attributeValue storeOn: aStream ].
-					aStream nextPutAll: ')'.
+						ifFalse: [ aStream nextPutAll: '('.
+							attributeValue storeOn: aStream.
+							aStream nextPutAll: ')' ].
+
 					separator := '; ' ] ]
 ]

@@ -10,7 +10,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryDraggableItemStencil class >> itemCreationSubmenuLabel [
 	"Label to use for the item creation submenu of GtSceneryElement"
 	self subclassResponsibility

@@ -174,8 +174,12 @@ GtSceneryStoreStringExamples >> inspectorOn42Scenery [
 { #category : #example }
 GtSceneryStoreStringExamples >> inspectorOn42SceneryRestored [
 	<gtExample>
-	| scenery |
+	| scenery item1 |
 	scenery := self inspectorOn42Scenery.
+	item1 := scenery items first.
+	self
+		assert: item1 stencil storeString
+		equals: 'GtSceneryInspectorStencil new target: [ 42 ]'.
 	self assert: scenery equals: scenery restored.
 	^ scenery
 ]
@@ -225,10 +229,17 @@ GtSceneryStoreStringExamples >> inspectorWithSpawnedObjects [
 
 { #category : #'as yet unclassified' }
 GtSceneryStoreStringExamples >> inspectorWithSpawnedObjectsRestored [
+	"The spawned items are the third and last ones.
+	The restored ByteString should be ok because it has a proper storeString,
+	but the restored Ludo player is expected to be broken because it lacks a storeString."
+
 	<gtExample>
 	| scenery restored |
 	scenery := self inspectorWithSpawnedObjects.
 	restored := scenery restored.
+
+	self assert: (scenery items third stencil targetValue isKindOf: ByteString).
+	self assert: (restored items third stencil targetValue isKindOf: ByteString).
 
 	self assert: (scenery items last stencil targetValue isKindOf: GtLudoPlayer).
 	self should: [ restored items last stencil targetValue ] raise: Error.
@@ -338,6 +349,27 @@ GtSceneryStoreStringExamples >> sceneryWithTwoInspectors [
 	item2 position: -147.33489944273072 @ 446.9537569676901.
 	item2 extent: 200.0 @ 400.0.
 	^ scenery
+]
+
+{ #category : #example }
+GtSceneryStoreStringExamples >> sceneryWithTwoInspectorsAndSelectedViews [
+	"Check that selected views persist."
+
+	<gtExample>
+	| scenery restored |
+	scenery := self sceneryWithTwoInspectors.
+	scenery items first stencil viewMethodSelector: #gtPrintFor:.
+	scenery items second stencil viewMethodSelector: #gtPositionsFor:.
+	restored := scenery restored.
+
+	self
+		assert: restored items first stencil viewMethodSelector
+		equals: #gtPrintFor:.
+	self
+		assert: restored items second stencil viewMethodSelector
+		equals: #gtPositionsFor:.
+
+	^ restored
 ]
 
 { #category : #example }

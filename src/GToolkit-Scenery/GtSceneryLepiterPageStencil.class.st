@@ -6,7 +6,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryLepiterPageStencil class >> itemCreationMenuSpecification [
 	<sceneryItemCreationSpecification>
 	^ LeContextMenuItemSpecification new
@@ -15,7 +15,7 @@ GtSceneryLepiterPageStencil class >> itemCreationMenuSpecification [
 		title: self itemCreationSubmenuLabel
 ]
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryLepiterPageStencil class >> itemCreationSubmenuLabel [
 	^ 'Lepiter page'
 ]

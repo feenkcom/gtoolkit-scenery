@@ -1,3 +1,6 @@
+"
+I collect menu specifications with the `<sceneryItemCreationSpecification>` pragma for use in the scenery item creation submenu.
+"
 Class {
 	#name : #GtSceneryItemCreationContextMenuCollector,
 	#superclass : #LeContextMenuSnippetItemsCollector,

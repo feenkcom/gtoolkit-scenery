@@ -1,3 +1,8 @@
+"
+Some Lepiter page item stencils -- to be expanded.
+
+To do: prepare examples of Lepiter roadmaps.
+"
 Class {
 	#name : #GtSceneryLePageTitleLabelExamples,
 	#superclass : #Object,

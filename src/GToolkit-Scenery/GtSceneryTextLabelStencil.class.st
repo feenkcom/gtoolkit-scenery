@@ -30,7 +30,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryTextLabelStencil class >> itemCreationMenuSpecification [
 	<sceneryItemCreationSpecification>
 	^ LeContextMenuItemSpecification new
@@ -39,7 +39,7 @@ GtSceneryTextLabelStencil class >> itemCreationMenuSpecification [
 		title: self itemCreationSubmenuLabel
 ]
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryTextLabelStencil class >> itemCreationSubmenuLabel [
 	^ 'Text label'
 ]

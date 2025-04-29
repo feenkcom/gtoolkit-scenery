@@ -1,15 +1,14 @@
 Class {
 	#name : #GtSceneryInspectorStencil,
-	#superclass : #NewStyleSceneryItemStencil,
+	#superclass : #AbstractGtSceneryInspectorStencil,
 	#instVars : [
 		'targetBlock',
-		'isSpawned',
-		'viewMethodSelector'
+		'isSpawned'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryInspectorStencil class >> itemCreationMenuSpecification [
 	<sceneryItemCreationSpecification>
 	^ LeContextMenuItemSpecification new
@@ -18,35 +17,36 @@ GtSceneryInspectorStencil class >> itemCreationMenuSpecification [
 		title: self itemCreationSubmenuLabel
 ]
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryInspectorStencil class >> itemCreationSubmenuLabel [
 	^ 'Inspector'
 ]
 
-{ #category : #accessing }
-GtSceneryInspectorStencil >> create [
-	^ self elementClass new
-		stencil: self;
-		updateAppearanceFor: self;
-		yourself
+{ #category : #comparing }
+GtSceneryInspectorStencil >> = otherStencil [
+	"Need special case to test equality of blocks."
+	self == otherStencil ifTrue: [ ^ true ].
+	self class = otherStencil class ifFalse: [ ^ false ].
+	self viewMethodSelector printString
+		= otherStencil viewMethodSelector printString ifFalse: [ ^ false ].
+	self target printString = otherStencil target printString ifFalse: [ ^ false ].
+	^ true
 ]
 
 { #category : #accessing }
-GtSceneryInspectorStencil >> defaultViewMethodSelector [
-	^ nil
+GtSceneryInspectorStencil >> defaultTarget [
+	^ [nil]
 ]
 
-{ #category : #'api - instantiation' }
-GtSceneryInspectorStencil >> elementClass [
-	^ GtSceneryInspectorElement
-
+{ #category : #comparing }
+GtSceneryInspectorStencil >> hash [
+	^ targetBlock printString hash bitXor: self viewMethodSelector hash
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryInspectorStencil >> initialize [
 	super initialize.
 	targetBlock := [ nil ].
-	extent := 200@400.
 	isSpawned := false.
 ]
 
@@ -56,28 +56,15 @@ GtSceneryInspectorStencil >> isSpawned [
 	^ isSpawned
 ]
 
-{ #category : #menu }
-GtSceneryInspectorStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	| submenu |
-	^ BrMenuItems new
-		addItemLabel: 'Inspect target value'
-			action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self targetValue) ];
-		addItemLabel: 'Select view'
-			submenu: [ | viewMethods |
-				submenu := BrMenuItems new.
-				submenu addItemLabel: 'All' action: [ self viewMethodSelector: nil ].
-				viewMethods := self targetValue class allMethods
-						select: [ :m | m hasPragmaNamed: #gtView ].
-				viewMethods
-					do: [ :m | submenu addItemLabel: m selector action: [ self viewMethodSelector: m selector ] ].
-				submenu ] value;
-		yourself
+{ #category : #accessing }
+GtSceneryInspectorStencil >> objectValue [
+	^ self targetValue
 ]
 
 { #category : #copying }
 GtSceneryInspectorStencil >> postCopy [
 	super postCopy.
-	targetBlock := targetBlock copy
+	targetBlock := targetBlock copy.
 ]
 
 { #category : #accessing }
@@ -87,24 +74,33 @@ GtSceneryInspectorStencil >> setIsSpawnedTrue [
 	isSpawned := true
 ]
 
-{ #category : #accessing }
-GtSceneryInspectorStencil >> storeOn: aStream [
-	"If I am a stencil for a spawned object, then the target block is `[ anObject ]`, which must be rewritten.
-If the object is seralizable, we generate a new target block. Otherwise we generate a placeholder."
+{ #category : #storing }
+GtSceneryInspectorStencil >> storeOnAttributes [
+	^ super storeOnAttributes , {#target}
+]
 
-	<todo: 'FIX THIS to use the new scheme. Add the viewMethod attribute. Update the target attribute before saving.'>
+{ #category : #accessing }
+GtSceneryInspectorStencil >> target [
+	"NB: the actual stored value is #targetBlock, but we may need to compute a #target depending on the actual target value, if it has been spawned."
 
 	| target |
-	super storeOn: aStream.
 	self isSpawned
 		ifTrue: [ self targetValue implementsStoreOn
-				ifTrue: [ target := '[ ' , self targetValue storeString , ' ]' ]
-				ifFalse: [ target := '[ Error signal: ''Could not serialize '
-							, self targetValue printString , ''' ]' ] ]
-		ifFalse: [ target := targetBlock asString ].
-	aStream
-		space;
-		nextPutAll: 'target: ' , target
+				ifTrue: [ target := Smalltalk compiler
+							evaluate: '[ ' , self targetValue storeString , ' ]' ]
+				ifFalse: [
+				
+				 target := 
+				 Smalltalk compiler
+							evaluate:
+				 
+				 '[ Error signal: ''Could not serialize ' , self targetValue printString , ''' ]' 
+							
+							
+							
+							] ]
+		ifFalse: [ target := targetBlock ].
+	^ target
 ]
 
 { #category : #copying }
@@ -116,15 +112,4 @@ GtSceneryInspectorStencil >> target: aBlock [
 { #category : #accessing }
 GtSceneryInspectorStencil >> targetValue [
 	^ targetBlock value
-]
-
-{ #category : #accessing }
-GtSceneryInspectorStencil >> viewMethodSelector [
-	^ viewMethodSelector
-]
-
-{ #category : #accessing }
-GtSceneryInspectorStencil >> viewMethodSelector: aSelector [
-	viewMethodSelector := aSelector.
-	self announceStencilUpdate
 ]

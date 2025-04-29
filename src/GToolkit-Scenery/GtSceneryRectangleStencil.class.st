@@ -7,7 +7,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #menu }
 GtSceneryRectangleStencil class >> itemCreationMenuSpecification [
 	"<sceneryItemCreationSpecification>"
 	^ LeContextMenuItemSpecification new
@@ -16,7 +16,7 @@ GtSceneryRectangleStencil class >> itemCreationMenuSpecification [
 		title: self itemCreationSubmenuLabel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #menu }
 GtSceneryRectangleStencil class >> itemCreationSubmenuLabel [
 	^ 'Rectangle (old)'
 ]

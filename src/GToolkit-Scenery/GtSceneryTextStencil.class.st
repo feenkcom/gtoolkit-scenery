@@ -10,7 +10,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #menu }
 GtSceneryTextStencil class >> itemCreationMenuSpecification [
 	"<sceneryItemCreationSpecification>"
 	^ LeContextMenuItemSpecification new
@@ -19,7 +19,7 @@ GtSceneryTextStencil class >> itemCreationMenuSpecification [
 		title: self itemCreationSubmenuLabel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #menu }
 GtSceneryTextStencil class >> itemCreationSubmenuLabel [
 	^ 'Text (old)'
 ]

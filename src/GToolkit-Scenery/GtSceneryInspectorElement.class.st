@@ -9,7 +9,8 @@ Class {
 	#traits : 'TGtSceneryItemElement',
 	#classTraits : 'TGtSceneryItemElement classTrait',
 	#instVars : [
-		'view'
+		'view',
+		'stencil'
 	],
 	#category : #'GToolkit-Scenery-UI'
 }
@@ -22,51 +23,49 @@ GtSceneryInspectorElement >> initialize [
 	super initialize.
 	self
 		layout: BlFrameLayout new;
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ];
 		background: Color white;
 		margin: (BlInsets all: 10);
 		addAptitude: BrShadowAptitude
 ]
 
 { #category : #accessing }
+GtSceneryInspectorElement >> stencil [
+	^ stencil
+]
+
+{ #category : #accessing }
 GtSceneryInspectorElement >> stencil: aGtSceneryInspectorStencil [
-	self assert: (aGtSceneryInspectorStencil isKindOf: GtSceneryInspectorStencil).
-	self graph model: aGtSceneryInspectorStencil.
-	self graph beNode.
-	self updateAppearanceFor: aGtSceneryInspectorStencil
+	self assert: (aGtSceneryInspectorStencil isKindOf: AbstractGtSceneryInspectorStencil).
+
+	stencil := aGtSceneryInspectorStencil.
+	self size: self stencil extent.
+	self updateAppearance
 ]
 
 { #category : #initialization }
 GtSceneryInspectorElement >> stencilClass [
+	"Default to add subnodes ..."
+	<todo: 'Perhaps stencilClass should depend on the current stencil'>
 	^ GtSceneryInspectorStencil
 ]
 
 { #category : #announcements }
 GtSceneryInspectorElement >> updateAppearance [
-	| myStencil |
-	myStencil := self graph model.
+	| objectValue |
 	self
-		assert: myStencil notNil
-		description: '#updateAppearance sent before #stencil:'.
-	self updateAppearanceFor: myStencil
-]
-
-{ #category : #announcements }
-GtSceneryInspectorElement >> updateAppearanceFor: aStencil [
-	| newView targetValue  |
-	[ targetValue := aStencil targetValue.
-	aStencil viewMethodSelector
-		ifNil: [ newView := targetValue gtViewsFor: GtPhlowView empty ]
-		ifNotNil: [ newView := targetValue
-					perform: aStencil viewMethodSelector
+		assert: self stencil notNil
+		description: '#updateAppearance sent before element is initialized'.
+	self size: self stencil extent.
+	[ objectValue := self stencil objectValue.
+	self stencil viewMethodSelector
+		ifNil: [ view := objectValue gtViewsFor: GtPhlowView empty ]
+		ifNotNil: [ view := objectValue
+					perform: self stencil viewMethodSelector
 					with: GtPhlowView empty ] ]
 		onErrorDo: [ :error | 
-			newView := (GtSceneryInspectorOnError new errorValue: error)
+			view := (GtSceneryInspectorOnError new errorValue: error)
 					gtViewWithExceptionInStencilFor: GtPhlowView empty ].
 	self removeChildren.
-	view := newView.
 	self addChild: view asElement
 ]
 

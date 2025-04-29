@@ -9,7 +9,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryMindMapNodeStencil class >> itemCreationMenuSpecification [
 	<sceneryItemCreationSpecification>
 	^ LeContextMenuItemSpecification new
@@ -18,7 +18,7 @@ GtSceneryMindMapNodeStencil class >> itemCreationMenuSpecification [
 		title: self itemCreationSubmenuLabel
 ]
 
-{ #category : #acccessing }
+{ #category : #menu }
 GtSceneryMindMapNodeStencil class >> itemCreationSubmenuLabel [
 	^ 'Mind map bubble'
 ]

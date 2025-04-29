@@ -18,7 +18,7 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #accessing }
+{ #category : #menu }
 GtSceneryUMLClassStencil class >> itemCreationMenuSpecification [
 	<sceneryItemCreationSpecification>
 	^ LeContextMenuItemSpecification new
@@ -27,7 +27,7 @@ GtSceneryUMLClassStencil class >> itemCreationMenuSpecification [
 		title: self itemCreationSubmenuLabel
 ]
 
-{ #category : #accessing }
+{ #category : #menu }
 GtSceneryUMLClassStencil class >> itemCreationSubmenuLabel [
 	^ 'UML Class'
 ]

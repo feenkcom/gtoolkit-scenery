@@ -80,15 +80,13 @@ GtSceneryElement >> buildItemContextMenuForItemElement: anItemElement [
 	anItem := anItemElement graph model.
 	^ BrMenuItems new
 		id: #'gtScenery-item-menu';
-		addItemLabel: 'Inspect stencil'
+		addItemLabel: 'Inspect'
 			action: [ :elt | self inspectItemForElement: anItemElement ];
-		addItemLabel: 'Inspect item'
-			action: [ :elt | self inspectItemWrapperForElement: anItemElement ];
-		addItemLabel: 'Clone item'
+		addItemLabel: 'Clone'
 			action: [ :elt | self gtScenery spawnNewItemFrom: anItem using: anItem stencil copy ];
 		addItems: (anItem stencil menuForChildElement: anItemElement andSceneryElement: self)
 				items;
-		addItemLabel: 'Delete item'
+		addItemLabel: 'Delete'
 			action: [ :elt | self gtScenery removeItemWithConnections: anItem ];
 		yourself
 ]
@@ -335,14 +333,6 @@ GtSceneryElement >> inspectItemForElement: anItemElement [
 	| anItem |
 	anItem := anItemElement graph model.
 	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem stencil)
-]
-
-{ #category : #menu }
-GtSceneryElement >> inspectItemWrapperForElement: anItemElement [
-	"Inspect the GtSceneryItem instance instead of the stencil it wraps."
-	| anItem |
-	anItem := anItemElement graph model.
-	^ anItemElement fireEvent: (GtSceneryObjectToSpawn new object: anItem)
 ]
 
 { #category : #menu }
