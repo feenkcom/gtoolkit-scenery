@@ -15,6 +15,8 @@ AssociationMinerExamples >> ludoGameEdited [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 item12 |
 	scenery := GtScenery new.
 	item1 := scenery

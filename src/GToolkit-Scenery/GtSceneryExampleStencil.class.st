@@ -66,7 +66,7 @@ GtSceneryExampleStencil >> menuForChildElement: aChildElement andSceneryElement:
 
 { #category : #accessing }
 GtSceneryExampleStencil >> objectValue [
-	^ self exampleMethod methodClass new perform: self exampleMethod selector
+	^ self exampleMethod gtExample result returnValue
 ]
 
 { #category : #storing }

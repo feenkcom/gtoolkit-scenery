@@ -164,9 +164,8 @@ AMExample >> initializeFromFactoryMethod: aFactoryMethod [
 AMExample >> initializeFromGtExample: gtExampleMethod [
 	path := {gtExampleMethod methodClass.
 			#new.
-			gtExampleMethod selector}.	"self halt."
-	self
-		initializeObject: [ gtExampleMethod methodClass new perform: gtExampleMethod selector ]
+			gtExampleMethod selector}.
+	self initializeObject: [ gtExampleMethod gtExample result returnValue ]
 ]
 
 { #category : #initialization }

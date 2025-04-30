@@ -20,6 +20,8 @@ GtSceneryStoreStringExamples >> circleShapeScenery [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -73,6 +75,8 @@ GtSceneryStoreStringExamples >> gtBookLabelScenery [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -105,6 +109,8 @@ GtSceneryStoreStringExamples >> gtLogoFileScenery [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -133,6 +139,8 @@ GtSceneryStoreStringExamples >> gtSceneryClassScenery [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -161,6 +169,8 @@ GtSceneryStoreStringExamples >> inspectorOn42Scenery [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery addItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
@@ -267,6 +277,8 @@ GtSceneryStoreStringExamples >> mindmapBubbleScenery [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -300,6 +312,8 @@ GtSceneryStoreStringExamples >> reflectionPageScenery [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -308,7 +322,8 @@ GtSceneryStoreStringExamples >> reflectionPageScenery [
 					databaseName: 'Glamorous Toolkit Book') asItem.
 	item1 position: 308.2518561989734 @ 186.20015462239587.
 	item1 extent: 642.6399739583333 @ 524.3717447916667.
-	scenery.
+	scenery
+		storeStringMethodName: 'GtSceneryStoreStringExamples>>#reflectionPageScenery'.
 	^ scenery
 ]
 
@@ -392,6 +407,8 @@ GtSceneryStoreStringExamples >> textLabelScenery [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 item2 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -427,13 +444,15 @@ GtSceneryStoreStringExamples >> validStoreStringMethod [
 
 	<gtExample>
 	<noTest>
+	<storedScenery>
+	<return: #gtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
 			addItem: (GtSceneryMindMapNodeStencil new
 					label: 'A scenery with a single item.';
 					width: 102.93202209472656) asItem.
-	item1 position: 234.23315299328942 @ 213.0215301513672.
+	item1 position: 0.0 @ -96.0.
 	item1 extent: 102.93202209472656 @ 46.0.
 	scenery
 		storeStringMethodName: 'GtSceneryStoreStringExamples>>#validStoreStringMethod'.
