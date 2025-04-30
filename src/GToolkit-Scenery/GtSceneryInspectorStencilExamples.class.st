@@ -13,13 +13,13 @@ GtSceneryInspectorStencilExamples >> embeddedSceneryExampleScenery [
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryExampleStencil new
+			addItem: (GtEmbeddedSceneryStencil new
 					viewMethodSelector: #gtLiveFor:;
 					exampleMethodName: 'GtSceneryEditedExamples>>#sceneryMindmap') asItem.
 	item1 position: -277.0 @ -23.0.
 	item1 extent: 357.16796875 @ 354.51822916666674.
 	item2 := scenery
-			addItem: (GtSceneryExampleStencil new
+			addItem: (GtEmbeddedSceneryStencil new
 					viewMethodSelector: #gtLiveFor:;
 					exampleMethodName: 'GtSceneryEditedExamples>>#simpleClassDiagram') asItem.
 	item2 position: 196.71354166666663 @ -54.59914143880212.

@@ -34,7 +34,7 @@ GtSceneryExampleStencil >> defaultExampleMethodName [
 
 { #category : #accessing }
 GtSceneryExampleStencil >> exampleMethod [
-	^ MethodByName for: self exampleMethodName
+	^ (MethodByName for: self exampleMethodName) method
 ]
 
 { #category : #accessing }
@@ -44,12 +44,16 @@ GtSceneryExampleStencil >> exampleMethodName [
 
 { #category : #accessing }
 GtSceneryExampleStencil >> exampleMethodName: aStringOrMethod [
-	aStringOrMethod isString
-		ifTrue: [ exampleMethodName := aStringOrMethod ]
-		ifFalse: [ aStringOrMethod isCompiledMethod
-				ifTrue: [ exampleMethodName := aStringOrMethod printString ]
-				ifFalse: [ ^ self ] ].
+	| methodByName |
+	methodByName := MethodByName for: aStringOrMethod.
+	self assert: (methodByName method hasPragmaNamed: #gtExample).
+	exampleMethodName := methodByName name.
 	self announceStencilUpdate
+]
+
+{ #category : #listeners }
+GtSceneryExampleStencil >> handleDoubleClickForItemElement: anItemElement inSceneryElement: aSceneryElement [
+	anItemElement fireEvent: (GtSceneryObjectToSpawn new object: self objectValue)
 ]
 
 { #category : #initialization }

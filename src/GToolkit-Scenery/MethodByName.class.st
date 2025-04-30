@@ -1,39 +1,63 @@
 "
 I am a simple utility to  convert stored method names into compiled methods.
+
+I can either be  used as a checker:
+
+MethodByName new methodForName: 'Foo>>#bar'
+
+or as a holder of a method and name.
+
+
+(MethodByName for: 'Foo>>#bar') method
+
+(MethodByName for: 'Foo>>#bar') name
+
+I can be initialized by either a string or a method.
+
+(MethodByName for: Foo>>#bar) method
+
 "
 Class {
 	#name : #MethodByName,
 	#superclass : #Object,
+	#instVars : [
+		'method',
+		'name'
+	],
 	#category : #'GToolkit-Scenery-Utilities'
 }
 
 { #category : #utility }
-MethodByName class >> for: aString [
-	^ self new methodForName: aString
+MethodByName class >> for: aStringOrMethod [
+	| exampleMethodName |
+	aStringOrMethod isString
+		ifTrue: [ exampleMethodName := aStringOrMethod ]
+		ifFalse: [ self assert: aStringOrMethod isCompiledMethod.
+			exampleMethodName := aStringOrMethod printString ].
+
+	^ self new
+		name: exampleMethodName;
+		yourself
 ]
 
-{ #category : #example }
-MethodByName >> invalidMethodNames [
-"Examples of method names that should not be used to set GtScenery>>#storeStringMethodName:"
-	<gtExample>
-	^ {'ClassWithoutMethodSelector'.
-		'Class >> #withSpacesBeforeSelector'.
-		'invalidClassName>>#name'.
-		'NonExistentClass666>>#name'.
-		'MethodByName>>#0invalidSelector'.
-		'MethodByName>>#notExistingMethod'}
+{ #category : #'as yet unclassified' }
+MethodByName >> gtMethodFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Method';
+		priority: 10;
+		object: [ self method ];
+		view: #gtSourceFor:
 ]
 
-{ #category : #example }
-MethodByName >> invalidMethodNamesRejected [
-	"Check that invalid names are rejected."
+{ #category : #accessing }
+MethodByName >> method [
+	^ method ifNil: [ method := self methodForName: self name ]
+]
 
-	<gtExample>
-	| checker |
-	checker := MethodByName new.
-	self invalidMethodNames
-		do: [ :methodName | self assert: (checker methodForName: methodName) isNil ].
-	^ checker
+{ #category : #accessing }
+MethodByName >> method: aCompiledMethod [
+	method := aCompiledMethod
 ]
 
 { #category : #utility }
@@ -57,22 +81,12 @@ MethodByName >> methodForName: aMethodName [
 	^ method
 ]
 
-{ #category : #example }
-MethodByName >> validMethodNames [
-"Examples of method names that should not be used to set GtScenery>>#storeStringMethodName:"
-	<gtExample>
-	^ MethodByName methods collect: #printString
+{ #category : #accessing }
+MethodByName >> name [
+	^ name
 ]
 
-{ #category : #example }
-MethodByName >> validMethodNamesAccepted [
-	"Check that invalid names are rejected."
-
-	<gtExample>
-	| checker result |
-	checker := MethodByName new.
-	result := self validMethodNames
-			collect: [ :methodName | checker methodForName: methodName ].
-	result do: [ :each | self assert: each notNil ].
-	^ result
+{ #category : #accessing }
+MethodByName >> name: aString [
+	name := aString
 ]
