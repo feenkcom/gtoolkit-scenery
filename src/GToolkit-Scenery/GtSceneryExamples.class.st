@@ -9,7 +9,7 @@ Class {
 	#category : #'GToolkit-Scenery-Examples'
 }
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryExamples >> sceneryWithOneInspector [
 	<gtExample>
 	| scenery scripter element item |
@@ -54,7 +54,7 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnection [
 	^ scenery
 ]
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnectionStoreOn [
 	<gtExample>
 	| scenery storeOnString restoredScenery |
@@ -67,7 +67,7 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnectionStore
 	^ restoredScenery
 ]
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryExamples >> sceneryWithOneLepiterPage [
 	<gtExample>
 	| scenery scripter element item |
