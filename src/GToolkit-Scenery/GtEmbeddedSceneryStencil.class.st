@@ -41,7 +41,7 @@ GtEmbeddedSceneryStencil >> sceneryWithBubble [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery

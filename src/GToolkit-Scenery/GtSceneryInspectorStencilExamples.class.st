@@ -26,7 +26,7 @@ GtSceneryInspectorStencilExamples >> compositeSceneryEdited [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -117,7 +117,7 @@ GtSceneryInspectorStencilExamples >> demoSlidesScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery addItem: GtScenerySlideStencil new asItem.
@@ -237,7 +237,7 @@ GtSceneryInspectorStencilExamples >> scripterScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery addItem: GtSceneryScripterStencil new asItem.

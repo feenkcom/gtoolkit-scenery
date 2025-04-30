@@ -16,7 +16,7 @@ GtSceneryExplorationDemoExamples >> classScripterDemo [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -48,7 +48,7 @@ GtSceneryExplorationDemoExamples >> createClassScripterScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -80,7 +80,7 @@ GtSceneryExplorationDemoExamples >> threeInspectors [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery addItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.

@@ -21,7 +21,7 @@ GtSceneryStoreStringExamples >> circleShapeScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -76,7 +76,7 @@ GtSceneryStoreStringExamples >> gtBookLabelScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -110,7 +110,7 @@ GtSceneryStoreStringExamples >> gtLogoFileScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -140,7 +140,7 @@ GtSceneryStoreStringExamples >> gtSceneryClassScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -170,7 +170,7 @@ GtSceneryStoreStringExamples >> inspectorOn42Scenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery addItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
@@ -278,7 +278,7 @@ GtSceneryStoreStringExamples >> mindmapBubbleScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -313,7 +313,7 @@ GtSceneryStoreStringExamples >> reflectionPageScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -408,7 +408,7 @@ GtSceneryStoreStringExamples >> textLabelScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 item2 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -445,7 +445,7 @@ GtSceneryStoreStringExamples >> validStoreStringMethod [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery

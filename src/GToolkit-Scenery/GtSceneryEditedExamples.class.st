@@ -14,7 +14,7 @@ GtSceneryEditedExamples >> eyeconScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -34,7 +34,7 @@ GtSceneryEditedExamples >> foobarTextLabelScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -55,7 +55,7 @@ GtSceneryEditedExamples >> reflectionScenery [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 item4 item5 item6 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -121,7 +121,7 @@ GtSceneryEditedExamples >> sceneryMindmap [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -241,7 +241,7 @@ GtSceneryEditedExamples >> simpleClassDiagram [
 	<gtExample>
 	<noTest>
 	<storedScenery>
-	<return: #gtScenery>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 item4 |
 	scenery := GtScenery new.
 	item1 := scenery
