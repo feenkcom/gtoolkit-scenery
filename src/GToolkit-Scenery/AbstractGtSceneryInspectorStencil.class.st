@@ -18,6 +18,11 @@ AbstractGtSceneryInspectorStencil >> create [
 ]
 
 { #category : #accessing }
+AbstractGtSceneryInspectorStencil >> defaultExtent [
+	^ 300 @ 400
+]
+
+{ #category : #accessing }
 AbstractGtSceneryInspectorStencil >> defaultViewMethodSelector [
 	^ nil
 ]
@@ -30,7 +35,7 @@ AbstractGtSceneryInspectorStencil >> elementClass [
 { #category : #initialization }
 AbstractGtSceneryInspectorStencil >> initialize [
 	super initialize.
-	extent := 300@400.
+	viewMethodSelector := self defaultViewMethodSelector
 ]
 
 { #category : #comparing }

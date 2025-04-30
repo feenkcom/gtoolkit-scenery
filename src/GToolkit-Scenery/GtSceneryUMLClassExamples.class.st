@@ -7,7 +7,7 @@ Class {
 	#category : #'GToolkit-Scenery-Examples'
 }
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryUMLClassExamples >> byteStringCharacterAssociation [
 	"Example to be used for checking validity of associations.
 	The byteString should be associated with an example eg 'hello world'.
@@ -39,7 +39,7 @@ GtSceneryUMLClassExamples >> byteStringCharacterAssociation [
 	^ scenery
 ]
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryUMLClassExamples >> collectionObjectInheritanceIsInvalid [
 	<gtExample>
 	| scenery item1 item2 |
@@ -63,7 +63,7 @@ GtSceneryUMLClassExamples >> collectionObjectInheritanceIsInvalid [
 	^ scenery
 ]
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryUMLClassExamples >> multipleInvalidItemsAndConnections [
 	"Demo multiple things that can be wrong."
 
@@ -118,7 +118,7 @@ GtSceneryUMLClassExamples >> multipleInvalidItemsAndConnections [
 	^ scenery
 ]
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryUMLClassExamples >> nonsenseClassNameIsNotValid [
 	"Double-clicking is disabled."
 
@@ -132,7 +132,7 @@ GtSceneryUMLClassExamples >> nonsenseClassNameIsNotValid [
 	^ scenery
 ]
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryUMLClassExamples >> objectBagInheritanceIsInvalid [
 	<gtExample>
 	| scenery item1 item2 |
@@ -154,7 +154,7 @@ GtSceneryUMLClassExamples >> objectBagInheritanceIsInvalid [
 	^ scenery
 ]
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryUMLClassExamples >> objectClassIsValid [
 	"Double-clicking goes to the class"
 
@@ -167,7 +167,7 @@ GtSceneryUMLClassExamples >> objectClassIsValid [
 	^ scenery
 ]
 
-{ #category : #example }
+{ #category : #scenery }
 GtSceneryUMLClassExamples >> objectCollectionInheritanceIsValid [
 	<gtExample>
 	| scenery item1 item2 |

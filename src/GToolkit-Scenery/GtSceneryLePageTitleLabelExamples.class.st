@@ -9,7 +9,7 @@ Class {
 	#category : #'GToolkit-Scenery-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #scenery }
 GtSceneryLePageTitleLabelExamples >> gtBookLabel [
 	<gtExample>
 	| scenery item1 |
@@ -19,7 +19,7 @@ GtSceneryLePageTitleLabelExamples >> gtBookLabel [
 	^ scenery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scenery }
 GtSceneryLePageTitleLabelExamples >> patternsLabel [
 	<gtExample>
 	| scenery item1 |

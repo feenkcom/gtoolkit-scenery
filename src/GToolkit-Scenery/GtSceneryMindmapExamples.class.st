@@ -37,7 +37,7 @@ GtSceneryMindmapExamples >> mindmapWithSubnodeRemoved [
 	^ scenery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scenery }
 GtSceneryMindmapExamples >> mindmapWithTwoSubnodes [
 	<gtExample>
 	| scenery item1 item2 item3 |
