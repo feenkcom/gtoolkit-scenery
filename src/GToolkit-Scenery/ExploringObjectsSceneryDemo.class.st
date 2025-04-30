@@ -413,10 +413,11 @@ ExploringObjectsSceneryDemo >> slideScenery [
 	item1 extent: 102.93202209472656 @ 64.0.
 	item2 := scenery
 			addItem: (GtSceneryInspectorStencil new
+					viewMethodSelector: #gtLiveFor:;
 					target: [ (ExploringObjectsSceneryDemo >> #titleSlide:) asScalableSlide ])
 					asItem.
-	item2 position: 259.6364237467448 @ -83.98886108398438.
-	item2 extent: 358.3567301432292 @ 267.69561130392367.
+	item2 position: 225.63642374674487 @ 4.011138916015625.
+	item2 extent: 293.34581163194434 @ 210.7883029513888.
 	item3 := scenery
 			addItem: (GtSceneryMindMapNodeStencil new
 					label: 'We need a dedicated Slide stencil to make this easier.';
