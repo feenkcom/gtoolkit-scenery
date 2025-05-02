@@ -27,6 +27,15 @@ GtSceneryClassDiagramBuilder class >> withClasses: aClassCollection associations
 		yourself
 ]
 
+{ #category : #accessing }
+GtSceneryClassDiagramBuilder class >> withClassesMiningInheritances: aClassCollection [
+	^ self new
+		classes: aClassCollection;
+		associations: {} asOrderedCollection;
+		miningInheritances;
+		yourself
+]
+
 { #category : #building }
 GtSceneryClassDiagramBuilder >> addAssociationsTo: scenery [
 	self associations
@@ -133,6 +142,36 @@ GtSceneryClassDiagramBuilder >> classes: aClassCollection [
 	classes := aClassCollection copyWithoutDuplicates
 ]
 
+{ #category : #views }
+GtSceneryClassDiagramBuilder >> gtClassesFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Classes';
+		priority: 10;
+		items: [ self classes ];
+		column: 'Index' 
+			text: [ :eachItem :eachIndex | 
+				eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Class' text: [ :each | each gtDisplayString ];
+		actionUpdateButton
+]
+
+{ #category : #views }
+GtSceneryClassDiagramBuilder >> gtInheritancesFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Inheritances';
+		priority: 15;
+		items: [ self inheritances ];
+		column: 'Index' 
+			text: [ :eachItem :eachIndex | 
+				eachIndex asRopedText foreground: Color gray ]
+			width: 45;
+		column: 'Value' text: [ :each | each gtDisplayString ];
+		actionUpdateButton
+]
+
 { #category : #accessing }
 GtSceneryClassDiagramBuilder >> inheritances [
 	^ inheritances ifNil: [ inheritances := OrderedCollection new ]
@@ -148,6 +187,18 @@ GtSceneryClassDiagramBuilder >> inheritances: anInheritanceAssociationCollection
 			self assertInClasses: assoc value.
 			self assertClass: assoc key subclasses: assoc value ].
 	inheritances := anInheritanceAssociationCollection
+]
+
+{ #category : #building }
+GtSceneryClassDiagramBuilder >> minedInheritances [
+	^ self classes
+		collect: [ :c | c -> c superclass ]
+		thenSelect: [ :assoc | self classes includes: assoc value ]
+]
+
+{ #category : #building }
+GtSceneryClassDiagramBuilder >> miningInheritances [
+	^ self inheritances: self minedInheritances
 ]
 
 { #category : #building }

@@ -7,8 +7,8 @@ Subclasses should implement `idClass`.
 Class {
 	#name : #GtSceneryTextLabelElement,
 	#superclass : #BrEditableLabel,
-	#traits : 'TLeWithFontSize + TGtSceneryItemElement',
-	#classTraits : 'TLeWithFontSize classTrait + TGtSceneryItemElement classTrait',
+	#traits : 'TGtSceneryItemElement',
+	#classTraits : 'TGtSceneryItemElement classTrait',
 	#instVars : [
 		'labelAptitude'
 	],
