@@ -542,9 +542,11 @@ GtSceneryDemoExamples >> inspectorSceneries [
 	item3 := scenery
 			addItem: (GtSceneryTextLabelStencil new
 					label: 'Various examples of inspectors on different kinds of objects.';
-					width: 280.43853251139325) asItem.
-	item3 position: 7.922526041665947 @ -124.4437255859375.
-	item3 extent: 280.43853251139325 @ 46.0.
+					weight: #bold;
+					fontSize: 48;
+					width: 677.5419978416443) asItem.
+	item3 position: 40.92252604166603 @ -170.4437255859375.
+	item3 extent: 677.5419978416443 @ 130.0.
 	item4 := scenery addItem: GtScenerySlideStencil new asItem.
 	item4 position: 196.72936991173037 @ 673.7836258148822.
 	item4 extent: 353.8720937736348 @ 230.24510427884763.
@@ -640,9 +642,11 @@ GtSceneryDemoExamples >> overview [
 	item1 := scenery
 			addItem: (GtSceneryTextLabelStencil new
 					label: 'An overview of the various types of sceneries.';
-					width: 102.93202209472656) asItem.
-	item1 position: -485.6482189529056 @ -1013.567423502604.
-	item1 extent: 102.93202209472656 @ 64.0.
+					weight: #bold;
+					fontSize: 48;
+					width: 587.850675703061) asItem.
+	item1 position: -619.6482189529054 @ -1186.567423502604.
+	item1 extent: 587.850675703061 @ 130.0.
 	item2 := scenery
 			addItem: (GtEmbeddedSceneryStencil new
 					exampleMethodName: 'GtSceneryDemoExamples>>#demoMindmap') asItem.
