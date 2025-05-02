@@ -107,7 +107,6 @@ GtSceneryTextLabelStencil >> defaultLabel [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> defaultWeight [
-	"Or #normal?"
 	^ #regular
 ]
 
@@ -220,7 +219,7 @@ GtSceneryTextLabelStencil >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #printing }
+{ #category : #storing }
 GtSceneryTextLabelStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method"
 
@@ -258,17 +257,20 @@ GtSceneryTextLabelStencil >> weight [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> weight: aSymbolOrNumber [
-	"See BlFontWeightAttribute and TBlTextStyleable."
+	"See BlFontWeightAttribute and TBlTextStyleable.
+	We have to handle the special case for Strings to deal with the JSON encoding."
 
-	aSymbolOrNumber isSymbol
-		ifTrue: [ self assert: (self weightSymbols includes: aSymbolOrNumber).
-			weight := aSymbolOrNumber.
-			^ self text perform: weight ].
-	aSymbolOrNumber isNumber
-		ifTrue: [ weight := aSymbolOrNumber.
+	| newWeight |
+	newWeight := aSymbolOrNumber.
+	newWeight isNumber
+		ifTrue: [ weight := newWeight.
 			^ self text weight: weight ].
-	AssertionFailure
-		signal: aSymbolOrNumber printString , ' is not a Symbol or a Number'
+	newWeight isString ifTrue: [ newWeight := newWeight asSymbol ].
+	newWeight isSymbol
+		ifTrue: [ self assert: (self weightSymbols includes: newWeight).
+			weight := newWeight.
+			^ self text perform: weight ].
+	AssertionFailure signal: newWeight printString , ' is not a Symbol or a Number'
 ]
 
 { #category : #accessing }
