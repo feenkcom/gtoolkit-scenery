@@ -130,3 +130,9 @@ GtSceneryShapeStencil >> storeOnAttributes [
 	^ {#geometry.
 		#backgroundColorSelector}
 ]
+
+{ #category : #'as yet unclassified' }
+GtSceneryShapeStencil >> summaryDisplay [
+	"Text to display in the items or stencil view."
+	^ self geometry
+]

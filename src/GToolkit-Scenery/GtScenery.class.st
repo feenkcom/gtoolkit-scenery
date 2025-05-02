@@ -378,12 +378,12 @@ GtScenery >> gtItemsFor: aView [
 		column: 'Index'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 45;
-		column: 'Item'
-			text: [ :each | each gtDisplayString ]
-			width: 200;
 		column: 'Stencil'
-			text: [ :each | each stencil gtDisplayString ]
+			text: [ :each | each stencil class itemCreationSubmenuLabel ]
 			width: 200;
+		column: 'Summary'
+			text: [ :each | each stencil summaryDisplay ]
+			width: 400;
 		column: '# Incoming'
 			text: [ :each | each incomingLinks size ]
 			width: 80;

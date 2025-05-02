@@ -231,6 +231,12 @@ GtSceneryTextLabelStencil >> storeOnAttributes [
 		#width}
 ]
 
+{ #category : #printing }
+GtSceneryTextLabelStencil >> summaryDisplay [
+	"Text to display in the items or stencil view."
+	^ self label
+]
+
 { #category : #accessing }
 GtSceneryTextLabelStencil >> text [
 	"I am an editable version of the label for use in the instantiated element.
