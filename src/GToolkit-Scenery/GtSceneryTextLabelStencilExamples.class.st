@@ -29,3 +29,20 @@ GtSceneryTextLabelStencilExamples >> foobarTextLabelSceneryRelabeled [
 
 	^ scenery
 ]
+
+{ #category : #'as yet unclassified' }
+GtSceneryTextLabelStencilExamples >> privateDatabaseLePageLabelExample [
+	"This example will only work if the private db has a page named 'Tag'."
+	<gtExample>
+	<return: #GtScenery>
+	<noTest>
+	| scenery item1 |
+	scenery := GtScenery new.
+	item1 := scenery
+			addItem: (GtSceneryLePageTitleLabelStencil new
+					label: 'Tag';
+					width: 157.8820343017578;
+					databaseName: 'Documents/lepiter/default') asItem.
+	self assert: scenery equals: scenery restored.
+	^ scenery
+]
