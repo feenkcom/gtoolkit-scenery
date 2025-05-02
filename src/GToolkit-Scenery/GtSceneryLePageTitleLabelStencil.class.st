@@ -132,3 +132,10 @@ GtSceneryLePageTitleLabelStencil >> postCopy [
 	super postCopy.
 	databaseName := self databaseName copy	"pageName:= self pageName copy"
 ]
+
+{ #category : #storing }
+GtSceneryLePageTitleLabelStencil >> storeOnAttributes [
+	"Attributes used in the #storeOn:method"
+
+	^ super storeOnAttributes , {#databaseName}
+]

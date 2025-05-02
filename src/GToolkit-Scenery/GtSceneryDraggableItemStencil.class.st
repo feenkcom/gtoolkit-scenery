@@ -31,7 +31,7 @@ GtSceneryDraggableItemStencil >> asItem [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryDraggableItemStencil >> defaultExtent [
 	^ 50@50
 ]

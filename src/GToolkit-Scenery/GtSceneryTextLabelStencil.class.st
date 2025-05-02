@@ -83,34 +83,34 @@ GtSceneryTextLabelStencil >> create [
 	^ anEditableLabel
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryTextLabelStencil >> defaultEmphasis [
 	^ #normal
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryTextLabelStencil >> defaultExtent [
 	"Let the element choose the extent."
 
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryTextLabelStencil >> defaultFontSize [
 	^ 14
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryTextLabelStencil >> defaultLabel [
 	^ 'Double click me'
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryTextLabelStencil >> defaultWeight [
 	^ #regular
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryTextLabelStencil >> defaultWidth [
 	"Width is only used if not 0."
 	^ 0
@@ -157,6 +157,7 @@ GtSceneryTextLabelStencil >> initialize [
 { #category : #accessing }
 GtSceneryTextLabelStencil >> initializeText [
 	text := self label asRopedText.
+	self updateWeight.
 
 	text
 		when: BlTextStringsInserted
@@ -180,7 +181,8 @@ GtSceneryTextLabelStencil >> label [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> label: aString [
-	label := aString.
+	label := aString..
+	text := nil.
 	self announceStencilUpdate
 ]
 
@@ -244,10 +246,10 @@ GtSceneryTextLabelStencil >> text [
 	^ text ifNil: [ self initializeText ]
 ]
 
-{ #category : #accessing }
-GtSceneryTextLabelStencil >> text: aText [
-	"Deprecated -- use label: instead"
-	self label: aText asString
+{ #category : #updating }
+GtSceneryTextLabelStencil >> updateWeight [
+	self weight isNumber ifTrue: [ ^ self text weight: weight ].
+	self weight isSymbol ifTrue: [ ^ self text perform: weight ]
 ]
 
 { #category : #accessing }
@@ -263,14 +265,15 @@ GtSceneryTextLabelStencil >> weight: aSymbolOrNumber [
 	| newWeight |
 	newWeight := aSymbolOrNumber.
 	newWeight isNumber
-		ifTrue: [ weight := newWeight.
-			^ self text weight: weight ].
-	newWeight isString ifTrue: [ newWeight := newWeight asSymbol ].
-	newWeight isSymbol
-		ifTrue: [ self assert: (self weightSymbols includes: newWeight).
-			weight := newWeight.
-			^ self text perform: weight ].
-	AssertionFailure signal: newWeight printString , ' is not a Symbol or a Number'
+		ifTrue: [ weight := newWeight ]
+		ifFalse: [ newWeight isString ifTrue: [ newWeight := newWeight asSymbol ].
+
+			newWeight isSymbol
+				ifTrue: [ self assert: (self weightSymbols includes: newWeight).
+					weight := newWeight ]
+				ifFalse: [ AssertionFailure
+						signal: newWeight printString , ' is not a Symbol or a Number' ] ].
+	^ self updateWeight
 ]
 
 { #category : #accessing }

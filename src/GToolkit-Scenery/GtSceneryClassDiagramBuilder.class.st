@@ -60,7 +60,7 @@ GtSceneryClassDiagramBuilder >> addClassesTo: scenery [
 		do: [ :aClass | 
 			| item |
 			item := scenery
-					addItem: (GtSceneryUMLClassStencil new text: aClass name asRopedText) asItem.
+					addItem: (GtSceneryUMLClassStencil new label: aClass name) asItem.
 			self classItemMap at: aClass put: item.
 			item position: position.
 			position := position + positionDelta ]

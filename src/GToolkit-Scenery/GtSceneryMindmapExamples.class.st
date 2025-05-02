@@ -43,23 +43,33 @@ GtSceneryMindmapExamples >> mindmapWithTwoSubnodes [
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new text: 'A mindmap' asRopedText) asItem.
+			addItem: (GtSceneryMindMapNodeStencil new
+					label: 'A mindmap';
+					width: 77.32601928710938) asItem.
 	item1 position: 0 @ 0.
+	item1 extent: 77.32601928710938 @ 28.0.
 	item2 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new text: 'A concept A' asRopedText) asItem.
+			addItem: (GtSceneryMindMapNodeStencil new
+					label: 'A concept A';
+					width: 77.46598815917969) asItem.
 	item2 position: 127.0 @ -58.0.
+	item2 extent: 77.46598815917969 @ 28.0.
 	item3 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new text: 'A concept B' asRopedText) asItem.
+			addItem: (GtSceneryMindMapNodeStencil new
+					label: 'A concept B';
+					width: 78.08198547363281) asItem.
 	item3 position: 126.0 @ 82.0.
+	item3 extent: 78.08198547363281 @ 28.0.
 	scenery
-		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new
+				curvatureFraction: 0)
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new
+				curvatureFraction: 0)
 		from: item1
 		to: item3.
-
 	self assert: scenery items size equals: 3.
 	self assert: scenery connections size equals: 2.
 	^ scenery
