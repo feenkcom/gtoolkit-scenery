@@ -84,6 +84,7 @@ GtSceneryTextLabelElement >> stencilClass [
 GtSceneryTextLabelElement >> updateAppearance [
 	| stencil |
 	stencil := self graph model stencil.
+	self text: stencil text.
 	stencil width = stencil defaultWidth
 		ifFalse: [ self
 				hExact: stencil width;
