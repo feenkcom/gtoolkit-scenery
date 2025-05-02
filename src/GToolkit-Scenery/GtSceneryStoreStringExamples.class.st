@@ -329,7 +329,8 @@ GtSceneryStoreStringExamples >> reflectionPageScenery [
 
 { #category : #example }
 GtSceneryStoreStringExamples >> reflectionPageSceneryRestored [
-		<gtExample>
+	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := self reflectionPageScenery.
 	self assert: scenery equals: scenery restored.

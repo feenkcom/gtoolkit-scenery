@@ -80,7 +80,7 @@ GtSceneryElement >> buildItemContextMenuForItemElement: anItemElement [
 	anItem := anItemElement graph model.
 	^ BrMenuItems new
 		id: #'gtScenery-item-menu';
-		addItemLabel: 'Inspect'
+		addItemLabel: 'Inspect stencil'
 			action: [ :elt | self inspectItemForElement: anItemElement ];
 		addItemLabel: 'Clone'
 			action: [ :elt | self gtScenery spawnNewItemFrom: anItem using: anItem stencil copy ];
@@ -364,6 +364,7 @@ GtSceneryElement >> layoutSubmenuForContext: aContext [
 	menu := BrMenuItems new.
 	{#horizontal.
 		#west.
+		#vertical.
 		#force.
 		#circle}
 		do: [ :key | 
@@ -406,7 +407,15 @@ GtSceneryElement >> onceLayouts [
 					-> (GtGraphForceBasedLayout new
 							charge: -5000;
 							length: 100)).
-		#circle -> ('Circle Layout' -> GtGradCircleLayout new)} asDictionary
+		#circle -> ('Circle Layout' -> GtGradCircleLayout new).
+		
+		#vertical
+			-> ('Vertical tree Layout'
+					-> (GtGradVerticalTreeLayout new
+							levelDistance: 20;
+							nodeDistance: 20)).
+		
+		} asDictionary
 ]
 
 { #category : #utility }

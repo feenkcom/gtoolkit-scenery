@@ -77,3 +77,9 @@ GtSceneryExampleStencil >> objectValue [
 GtSceneryExampleStencil >> storeOnAttributes [
 	^ super storeOnAttributes , {#exampleMethodName}
 ]
+
+{ #category : #printing }
+GtSceneryExampleStencil >> summaryDisplay [
+	"Text to display in the items or stencil view."
+	^ self exampleMethodName
+]

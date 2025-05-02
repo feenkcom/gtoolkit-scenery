@@ -30,8 +30,12 @@ GtEmbeddedSceneryStencil >> defaultViewMethodSelector [
 
 { #category : #menu }
 GtEmbeddedSceneryStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+"We relabel 'Inspect value' to 'Inspect scenery'"
 	<todo: 'extend the item menu for the embedded scenery stencil'>
-	^ super menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement
+	| menu |
+	menu := super menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement.
+	menu items first label: 'Inspect scenery'.
+	^ menu
 ]
 
 { #category : #scenery }

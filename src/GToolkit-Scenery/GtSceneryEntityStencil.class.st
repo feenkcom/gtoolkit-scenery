@@ -140,3 +140,9 @@ GtSceneryEntityStencil >> storeWithAttributesOn: aStream [
 
 					separator := '; ' ] ]
 ]
+
+{ #category : #printing }
+GtSceneryEntityStencil >> summaryDisplay [
+	"Text to display in the items or stencil view."
+	^ self printString
+]

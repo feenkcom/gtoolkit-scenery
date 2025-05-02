@@ -25,7 +25,8 @@ Class {
 		'label',
 		'weight',
 		'emphasis',
-		'text'
+		'text',
+		'fontSize'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -95,6 +96,11 @@ GtSceneryTextLabelStencil >> defaultExtent [
 ]
 
 { #category : #accessing }
+GtSceneryTextLabelStencil >> defaultFontSize [
+	^ 14
+]
+
+{ #category : #accessing }
 GtSceneryTextLabelStencil >> defaultLabel [
 	^ 'Double click me'
 ]
@@ -127,12 +133,24 @@ GtSceneryTextLabelStencil >> emphasis: aSymbol [
 	self announceStencilUpdate
 ]
 
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> fontSize [
+	^ fontSize
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> fontSize: aFontSize [
+	fontSize := aFontSize.
+	self text fontSize: fontSize
+]
+
 { #category : #initialization }
 GtSceneryTextLabelStencil >> initialize [
 	super initialize.
 	emphasis := self defaultEmphasis. "Not used?"
 	label := self defaultLabel.
-	weight := self defaultWeight. "Not used?"
+	weight := self defaultWeight.
+	fontSize := self defaultFontSize.
 	width := self defaultWidth
 ]
 
@@ -171,17 +189,17 @@ GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElemen
 	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
 	^ BrMenuItems new
 		addItemLabel: 'Modify font'
-			submenu: (BrMenuItems new
-					addItemLabel: 'Increase font size'
-						action: [ aChildElement increaseFontSize.
-							self text fontSize: aChildElement fontSize ];
-					addItemLabel: 'Decrease font size'
-						action: [ aChildElement decreaseFontSize.
-							self text fontSize: aChildElement fontSize ];
-					addItemLabel: 'Reset font size'
-						action: [ aChildElement resetFontSize.
-							self text fontSize: aChildElement fontSize ];
-					yourself);
+			submenu: [ | submenu |
+				submenu := BrMenuItems new.
+				self weightSymbols
+					do: [ :symbol | 
+						submenu
+							addItemLabel: symbol asString capitalized
+							action: [ self weight: symbol ] ].
+				#(12 14 16 18 24 30 36 48 72)
+					do: [ :size | submenu addItemLabel: size printString , ' pt' action: [ self fontSize: size ] ].
+
+				submenu ] value;
 		yourself
 ]
 
@@ -201,14 +219,21 @@ GtSceneryTextLabelStencil >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #printing }
+{ #category : #storing }
 GtSceneryTextLabelStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method"
 
 	^ {#label.
 		#emphasis.
 		#weight.
+		#fontSize.
 		#width}
+]
+
+{ #category : #printing }
+GtSceneryTextLabelStencil >> summaryDisplay [
+	"Text to display in the items or stencil view."
+	^ self label
 ]
 
 { #category : #accessing }
@@ -231,10 +256,31 @@ GtSceneryTextLabelStencil >> weight [
 ]
 
 { #category : #accessing }
-GtSceneryTextLabelStencil >> weight: aSymbol [
-	"See BlFontWeightAttribute"
-	weight := aSymbol.
-	self announceStencilUpdate
+GtSceneryTextLabelStencil >> weight: aSymbolOrNumber [
+	"See BlFontWeightAttribute and TBlTextStyleable.
+	We have to handle the special case for Strings to deal with the JSON encoding."
+
+	| newWeight |
+	newWeight := aSymbolOrNumber.
+	newWeight isNumber
+		ifTrue: [ weight := newWeight.
+			^ self text weight: weight ].
+	newWeight isString ifTrue: [ newWeight := newWeight asSymbol ].
+	newWeight isSymbol
+		ifTrue: [ self assert: (self weightSymbols includes: newWeight).
+			weight := newWeight.
+			^ self text perform: weight ].
+	AssertionFailure signal: newWeight printString , ' is not a Symbol or a Number'
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> weightSymbols [
+	"Selected weight methods of TBlTextStyleable understood by a BlRunRopedText"
+	^ {#thin.
+		#light.
+		#regular.
+		#medium.
+		#bold}
 ]
 
 { #category : #accessing }
