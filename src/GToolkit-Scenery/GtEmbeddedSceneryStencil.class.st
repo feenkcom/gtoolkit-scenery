@@ -28,6 +28,11 @@ GtEmbeddedSceneryStencil >> defaultViewMethodSelector [
 	^ #gtLiveFor:
 ]
 
+{ #category : #'api - instantiation' }
+GtEmbeddedSceneryStencil >> elementClass [
+	^ GtEmbeddedSceneryElement
+]
+
 { #category : #menu }
 GtEmbeddedSceneryStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 "We relabel 'Inspect value' to 'Inspect scenery'"

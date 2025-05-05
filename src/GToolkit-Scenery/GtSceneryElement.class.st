@@ -185,6 +185,13 @@ GtSceneryElement >> defaultItemStencilClass [
 ]
 
 { #category : #accessing }
+GtSceneryElement >> disableBackgroundDragging [
+	"Needed for embedded sceneries, so we can drag the scenery instead of the background."
+	^ container
+		removeEventHandlersSuchThat: [ :each | each isKindOf: BlCanvassableElementSlideHandler ]
+]
+
+{ #category : #accessing }
 GtSceneryElement >> elementForConnection: aConnection [
 	"Fails with NotFound error if absent."
 	^ self graph allEdgeChildren
