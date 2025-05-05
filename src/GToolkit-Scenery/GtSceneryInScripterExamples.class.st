@@ -9,6 +9,7 @@ Class {
 { #category : #examples }
 GtSceneryInScripterExamples >> dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30 [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self mindmapWithTwoSubnodes.
 
@@ -28,6 +29,7 @@ GtSceneryInScripterExamples >> dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30 [
 { #category : #examples }
 GtSceneryInScripterExamples >> dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30_releaseDragging [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30.
 	self releaseDragging: aScripter.
@@ -38,6 +40,7 @@ GtSceneryInScripterExamples >> dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30_r
 { #category : #examples }
 GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel05Factor200DragX120Y30 [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self mindmapWithTwoSubnodes.
 
@@ -57,6 +60,7 @@ GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel05Factor200DragX120Y30 [
 { #category : #examples }
 GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel05Factor200DragX120Y30_releaseDragging [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self dragNodeEdge_id2ZoomLevel05Factor200DragX120Y30.
 	self releaseDragging: aScripter.
@@ -66,6 +70,7 @@ GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel05Factor200DragX120Y30_r
 { #category : #examples }
 GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel05Factor200DragXM120Y30 [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self mindmapWithTwoSubnodes.
 
@@ -85,6 +90,7 @@ GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel05Factor200DragXM120Y30 
 { #category : #examples }
 GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel15Factor250DragX120Y30 [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self mindmapWithTwoSubnodes.
 
@@ -104,6 +110,7 @@ GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel15Factor250DragX120Y30 [
 { #category : #examples }
 GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel15Factor250DragXM120Y30 [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self mindmapWithTwoSubnodes.
 
@@ -123,7 +130,9 @@ GtSceneryInScripterExamples >> dragNodeEdge_id2ZoomLevel15Factor250DragXM120Y30 
 { #category : #examples }
 GtSceneryInScripterExamples >> mindmapWithTwoSubnodes [
 	<gtExample>
-	^ self scripterWithModel: [ GtSceneryMindmapExamples new mindmapWithTwoSubnodes ]
+	<return: #BlScripter>
+	^ self
+		scripterWithModel: [ GtSceneryMindmapExamples new mindmapWithTwoSubnodes ]
 ]
 
 { #category : #examples }
@@ -147,6 +156,7 @@ GtSceneryInScripterExamples >> releaseDragging: aScripter [
 { #category : #examples }
 GtSceneryInScripterExamples >> resizeNode_id2ZoomLevel15Factor250DragX120Y30 [
 	<gtExample>
+	<return: #BlScripter>
 	| aScripter |
 	aScripter := self
 			dragNodeEdge_id1ZoomLevel15Factor250DragX120Y30_releaseDragging.

@@ -10,6 +10,7 @@ Class {
 { #category : #'as yet unclassified' }
 GtSceneryMindmapExamples >> mindmapWithRootNodeRemoved [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := self mindmapWithTwoSubnodes.
 
@@ -25,6 +26,7 @@ GtSceneryMindmapExamples >> mindmapWithRootNodeRemoved [
 { #category : #'as yet unclassified' }
 GtSceneryMindmapExamples >> mindmapWithSubnodeRemoved [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item2 |
 	scenery := self mindmapWithTwoSubnodes.
 
@@ -40,6 +42,7 @@ GtSceneryMindmapExamples >> mindmapWithSubnodeRemoved [
 { #category : #scenery }
 GtSceneryMindmapExamples >> mindmapWithTwoSubnodes [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery

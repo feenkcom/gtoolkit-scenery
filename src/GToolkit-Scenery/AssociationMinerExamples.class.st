@@ -187,9 +187,10 @@ AssociationMinerExamples >> ludoGameEdited [
 { #category : #examples }
 AssociationMinerExamples >> ludoGameIteration1 [
 	<gtExample>
+	<return: #AssociationMiner>
 	| miner |
 	miner := AssociationMiner forPackage: GtLudoGame package.
-	
+
 	self assert: miner iterations size equals: 1.
 	self assert: miner iterations last observations size equals: 0.
 	self assert: miner exampleClasses size equals: 4.

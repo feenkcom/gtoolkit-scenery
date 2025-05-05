@@ -7,6 +7,7 @@ Class {
 { #category : #example }
 MethodByNameExamples >> instantiationByNameOrMethod [
 	<gtExample>
+	<return: #MethodByName>
 	| m1 m2 |
 	m1 := MethodByName for: 'MethodByNameExamples>>#instantiationByNameOrMethod'.
 	m2 := MethodByName for: MethodByNameExamples >> #instantiationByNameOrMethod.
@@ -18,6 +19,7 @@ MethodByNameExamples >> instantiationByNameOrMethod [
 { #category : #example }
 MethodByNameExamples >> invalidMethodNames [
 	<gtExample>
+	<return: #Array>
 	^ {'ClassWithoutMethodSelector'.
 		'Class >> #withSpacesBeforeSelector'.
 		'invalidClassName>>#name'.
@@ -31,6 +33,7 @@ MethodByNameExamples >> invalidMethodNamesRejected [
 	"Check that invalid names are rejected."
 
 	<gtExample>
+	<return: #MethodByName>
 	| checker |
 	checker := MethodByName new.
 	self invalidMethodNames
@@ -41,6 +44,7 @@ MethodByNameExamples >> invalidMethodNamesRejected [
 { #category : #example }
 MethodByNameExamples >> validMethodNames [
 	<gtExample>
+	<return: #Array>
 	^ MethodByName methods collect: #printString
 ]
 
@@ -49,6 +53,7 @@ MethodByNameExamples >> validMethodNamesAccepted [
 	"Check that invalid names are rejected."
 
 	<gtExample>
+	<return: #Array>
 	| checker result |
 	checker := MethodByName new.
 	result := self validMethodNames
