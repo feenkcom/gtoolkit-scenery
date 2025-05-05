@@ -47,6 +47,7 @@ GtSceneryPictureStencil >> fileReference: aFileReference [
 { #category : #example }
 GtSceneryPictureStencil >> gtPng [
 	<gtExample>
+	<return: #FileLocator>
 	^ FileLocator gtResource / 'feenkcom' / 'gtoolkit' / 'doc' / 'gtoolkit.png'
 ]
 

@@ -24,6 +24,7 @@ GtSceneryExampleStencil class >> itemCreationSubmenuLabel [
 { #category : #example }
 GtSceneryExampleStencil >> defaultExampleMethod [
 	<gtExample>
+	<return: #UndefinedObject>
 	^ nil
 ]
 

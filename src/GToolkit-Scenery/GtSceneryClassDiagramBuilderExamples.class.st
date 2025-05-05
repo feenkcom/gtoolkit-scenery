@@ -17,6 +17,7 @@ Class {
 { #category : #'as yet unclassified' }
 GtSceneryClassDiagramBuilderExamples >> objectCollectionHierarchy [
 	<gtExample>
+	<return: #GtScenery>
 	| builder scenery |
 	builder := GtSceneryClassDiagramBuilder
 			withClasses: {Object.
@@ -44,6 +45,7 @@ GtSceneryClassDiagramBuilderExamples >> objectCollectionHierarchyMissingClasses 
 	"Should fail due to missing classes."
 
 	<gtExample>
+	<return: #GtSceneryClassDiagramBuilderExamples>
 	^ self
 		should: [ GtSceneryClassDiagramBuilder
 				withClasses: {}

@@ -12,6 +12,7 @@ Class {
 { #category : #scenery }
 GtSceneryLePageTitleLabelExamples >> gtBookLabel [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery addItem: GtSceneryLePageTitleLabelStencil new asItem.
@@ -22,6 +23,7 @@ GtSceneryLePageTitleLabelExamples >> gtBookLabel [
 { #category : #scenery }
 GtSceneryLePageTitleLabelExamples >> patternsLabel [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery

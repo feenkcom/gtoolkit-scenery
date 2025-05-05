@@ -10,6 +10,7 @@ Class {
 { #category : #scenery }
 GtSceneryInspectorStencilExamples >> compositeScenery [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery restored |
 	scenery := GtScenery new.
 	#(#ludoGameSceneryBoardView #errorScenery #scripterScenery #memoryExampleScenery #embeddedSceneryExampleScenery #ludoGameScenery #demoSlidesScenery)
@@ -142,6 +143,7 @@ GtSceneryInspectorStencilExamples >> demoSlidesScenery [
 { #category : #scenery }
 GtSceneryInspectorStencilExamples >> embeddedSceneryExampleScenery [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -170,6 +172,7 @@ GtSceneryInspectorStencilExamples >> errorScenery [
 	"A scenery with an inspector on an error."
 
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -183,6 +186,7 @@ GtSceneryInspectorStencilExamples >> ludoGameScenery [
 	"A scenery with a plain inspector of an object."
 
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
@@ -206,6 +210,7 @@ GtSceneryInspectorStencilExamples >> ludoGameScenery [
 { #category : #example }
 GtSceneryInspectorStencilExamples >> ludoGameSceneryBoardView [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery ludoItem |
 	scenery := self ludoGameScenery.
 	ludoItem := scenery items first.
@@ -218,6 +223,7 @@ GtSceneryInspectorStencilExamples >> ludoGameSceneryBoardView [
 { #category : #scenery }
 GtSceneryInspectorStencilExamples >> memoryExampleScenery [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery

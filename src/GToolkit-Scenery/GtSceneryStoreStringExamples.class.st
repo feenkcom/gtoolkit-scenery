@@ -36,6 +36,7 @@ GtSceneryStoreStringExamples >> circleShapeScenery [
 { #category : #example }
 GtSceneryStoreStringExamples >> circleShapeSceneryRestored [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := self circleShapeScenery.
 	self assert: scenery equals: scenery restored.
@@ -45,6 +46,7 @@ GtSceneryStoreStringExamples >> circleShapeSceneryRestored [
 { #category : #accessing }
 GtSceneryStoreStringExamples >> compositeScenery [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := self emptyScenery.
 	{self circleShapeSceneryRestored.
@@ -61,6 +63,7 @@ GtSceneryStoreStringExamples >> compositeScenery [
 { #category : #scenery }
 GtSceneryStoreStringExamples >> emptyScenery [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := GtScenery new.
 	self assert: scenery items isEmpty.
@@ -91,6 +94,7 @@ GtSceneryStoreStringExamples >> gtBookLabelScenery [
 { #category : #example }
 GtSceneryStoreStringExamples >> gtBookLabelSceneryRestored [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := self gtBookLabelScenery.
 	self assert: scenery equals: scenery restored.
@@ -100,6 +104,7 @@ GtSceneryStoreStringExamples >> gtBookLabelSceneryRestored [
 { #category : #example }
 GtSceneryStoreStringExamples >> gtExampleMethodWithoutNoTestPragma [
 	<gtExample>
+	<return: #True>
 	^ true
 ]
 
@@ -127,6 +132,7 @@ GtSceneryStoreStringExamples >> gtLogoFileScenery [
 { #category : #example }
 GtSceneryStoreStringExamples >> gtLogoFileSceneryRestored [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := self gtLogoFileScenery.
 	self assert: scenery equals: scenery restored.
@@ -157,6 +163,7 @@ GtSceneryStoreStringExamples >> gtSceneryClassScenery [
 { #category : #example }
 GtSceneryStoreStringExamples >> gtSceneryClassSceneryRestored [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := self gtSceneryClassScenery.
 	self assert: scenery equals: scenery restored.
@@ -184,6 +191,7 @@ GtSceneryStoreStringExamples >> inspectorOn42Scenery [
 { #category : #example }
 GtSceneryStoreStringExamples >> inspectorOn42SceneryRestored [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 |
 	scenery := self inspectorOn42Scenery.
 	item1 := scenery items first.
@@ -197,6 +205,7 @@ GtSceneryStoreStringExamples >> inspectorOn42SceneryRestored [
 { #category : #example }
 GtSceneryStoreStringExamples >> inspectorOn42SceneryWithSpawnedObject [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item42 itemByteString42 itemBubble connection |
 	scenery := self inspectorOn42Scenery.
 	item42 := scenery items first.
@@ -220,6 +229,7 @@ GtSceneryStoreStringExamples >> inspectorOn42SceneryWithSpawnedObject [
 { #category : #'as yet unclassified' }
 GtSceneryStoreStringExamples >> inspectorWithSpawnedObjects [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item42 itemLudo itemByteString42 itemLudoPlayer |
 	scenery := self sceneryWithTwoInspectors.
 	item42 := scenery items first.
@@ -233,7 +243,7 @@ GtSceneryStoreStringExamples >> inspectorWithSpawnedObjects [
 
 	self assert: itemByteString42 stencil targetValue implementsStoreOn.
 	self assert: itemLudoPlayer stencil targetValue implementsStoreOn not.
-	
+
 	^ scenery
 ]
 
@@ -244,6 +254,7 @@ GtSceneryStoreStringExamples >> inspectorWithSpawnedObjectsRestored [
 	but the restored Ludo player is expected to be broken because it lacks a storeString."
 
 	<gtExample>
+	<return: #GtScenery>
 	| scenery restored |
 	scenery := self inspectorWithSpawnedObjects.
 	restored := scenery restored.
@@ -259,8 +270,10 @@ GtSceneryStoreStringExamples >> inspectorWithSpawnedObjectsRestored [
 
 { #category : #example }
 GtSceneryStoreStringExamples >> invalidStoreStringMethodNames [
-"Examples of method names that should not be used to set GtScenery>>#storeStringMethodName:"
+	"Examples of method names that should not be used to set GtScenery>>#storeStringMethodName:"
+
 	<gtExample>
+	<return: #Array>
 	^ {'ClassWithoutMethodSelector'.
 		'Class >> #withSpacesBeforeSelector'.
 		'invalidClassName>>#name'.
@@ -295,6 +308,7 @@ GtSceneryStoreStringExamples >> mindmapBubbleScenery [
 { #category : #example }
 GtSceneryStoreStringExamples >> mindmapBubbleSceneryRestored [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := self mindmapBubbleScenery.
 	self assert: scenery equals: scenery restored.
@@ -342,6 +356,7 @@ GtSceneryStoreStringExamples >> sceneryWithCheckedInvalidStoreStringMethodNames 
 	"Check that invalid names are rejected."
 
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := GtScenery new.
 	self invalidStoreStringMethodNames
@@ -355,6 +370,7 @@ GtSceneryStoreStringExamples >> sceneryWithCheckedInvalidStoreStringMethodNames 
 { #category : #scenery }
 GtSceneryStoreStringExamples >> sceneryWithTwoInspectors [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery item1 item2 |
 	scenery := GtScenery new.
 	item1 := scenery addItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
@@ -372,6 +388,7 @@ GtSceneryStoreStringExamples >> sceneryWithTwoInspectorsAndSelectedViews [
 	"Check that selected views persist."
 
 	<gtExample>
+	<return: #GtScenery>
 	| scenery restored |
 	scenery := self sceneryWithTwoInspectors.
 	scenery items first stencil viewMethodSelector: #gtPrintFor:.
@@ -393,10 +410,12 @@ GtSceneryStoreStringExamples >> sceneryWithValidStoreStringMethodName [
 	"Check that the scenery of the existing method is loaded."
 
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
 	scenery := GtScenery new.
 	self assert: scenery items size equals: 0.
-	scenery storeStringMethodName: 'GtSceneryStoreStringExamples>>#validStoreStringMethod'.
+	scenery
+		storeStringMethodName: 'GtSceneryStoreStringExamples>>#validStoreStringMethod'.
 	scenery addSceneryFromStoreStringMethod.
 	self assert: scenery items size equals: 1.
 	^ scenery
@@ -432,9 +451,9 @@ GtSceneryStoreStringExamples >> textLabelScenery [
 { #category : #example }
 GtSceneryStoreStringExamples >> textLabelSceneryRestored [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery |
-	scenery := self textLabelScenery.
-	"self assert: scenery items first stencil equals: scenery restored items first stencil."
+	scenery := self textLabelScenery.	"self assert: scenery items first stencil equals: scenery restored items first stencil."
 	self assert: scenery equals: scenery restored.
 	^ scenery
 ]

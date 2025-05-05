@@ -12,10 +12,11 @@ Class {
 { #category : #scenery }
 GtSceneryExamples >> sceneryWithOneInspector [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery scripter element item |
 	scenery := GtScenery new.
-	item := scenery addItem: (GtSceneryItem new stencil: (GtSceneryInspectorStencil new
-					target: [ 42 ])).
+	item := scenery
+			addItem: (GtSceneryItem new stencil: (GtSceneryInspectorStencil new target: [ 42 ])).
 	item position: 500 @ 300.
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children anyOne.
@@ -28,9 +29,11 @@ GtSceneryExamples >> sceneryWithOneInspector [
 { #category : #example }
 GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangle [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery scripter element item2 |
 	scenery := self sceneryWithOneInspector.
-	item2 := scenery addItem: (GtSceneryItem new stencil: GtSceneryRectangleStencil new).
+	item2 := scenery
+			addItem: (GtSceneryItem new stencil: GtSceneryRectangleStencil new).
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children first children anyOne.
 	self assert: element children size = 2.
@@ -40,6 +43,7 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangle [
 { #category : #example }
 GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnection [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery scripter element item2 item1 |
 	scenery := self sceneryWithOneInspectorAndOneRectangle.
 	item1 := scenery items first.
@@ -57,9 +61,10 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnection [
 { #category : #scenery }
 GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnectionStoreOn [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery storeOnString restoredScenery |
 	scenery := self sceneryWithOneInspectorAndOneRectangleAndOneConnection.
-	storeOnString := String streamContents: [:s | scenery storeOn: s].
+	storeOnString := String streamContents: [ :s | scenery storeOn: s ].
 	restoredScenery := Smalltalk compiler evaluate: storeOnString.
 	self assert: (restoredScenery isKindOf: GtScenery).
 	self assert: restoredScenery items size equals: 2.
@@ -70,6 +75,7 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnectionStore
 { #category : #scenery }
 GtSceneryExamples >> sceneryWithOneLepiterPage [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery scripter element item |
 	scenery := GtScenery new.
 	item := scenery
@@ -88,6 +94,7 @@ GtSceneryExamples >> sceneryWithOneLepiterPage [
 { #category : #example }
 GtSceneryExamples >> sceneryWithTwoLepiterPages [
 	<gtExample>
+	<return: #GtScenery>
 	| scenery scripter element item |
 	scenery := self sceneryWithOneLepiterPage.
 	item := scenery
