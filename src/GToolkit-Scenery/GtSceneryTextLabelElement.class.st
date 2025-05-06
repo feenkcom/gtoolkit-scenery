@@ -15,6 +15,12 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
+{ #category : #accessing }
+GtSceneryTextLabelElement >> backgroundColor [
+	self stencil ifNil: [ ^ Color white ].
+	^ self stencil backgroundColor
+]
+
 { #category : #initalization }
 GtSceneryTextLabelElement >> defaultLabelShortcuts [
 	^ {BrEditorShortcut new
@@ -48,12 +54,11 @@ GtSceneryTextLabelElement >> initialize [
 GtSceneryTextLabelElement >> initializeLabelAptitude [
 	"Empty background and border."
 
-	labelAptitude := BrGlamorousEditableLabelAptitude new
-			glamorousRegularFont.
+	labelAptitude := BrGlamorousEditableLabelAptitude new glamorousRegularFont.
 	labelAptitude styleLook
 		default: [ :aStyle | 
 			aStyle geometry: (BlRoundedRectangleGeometry cornerRadius: 0).
-			aStyle background: Color white.
+			aStyle background: self backgroundColor.
 			aStyle border: BlBorder empty ].
 	^ labelAptitude
 ]
@@ -75,6 +80,13 @@ GtSceneryTextLabelElement >> size: aPoint [
 				vFitContent ]
 ]
 
+{ #category : #accessing }
+GtSceneryTextLabelElement >> stencil [
+	self graph ifNil: [ ^ nil ].
+	self graph model ifNil: [ ^ nil ].
+	^ self graph model stencil
+]
+
 { #category : #initalization }
 GtSceneryTextLabelElement >> stencilClass [
 	^ GtSceneryTextLabelStencil
@@ -83,10 +95,11 @@ GtSceneryTextLabelElement >> stencilClass [
 { #category : #announcements }
 GtSceneryTextLabelElement >> updateAppearance [
 	| stencil |
-	stencil := self graph model stencil.
+	stencil := self stencil.
 	self text: stencil text.
 	stencil width = stencil defaultWidth
 		ifFalse: [ self
 				hExact: stencil width;
-				vFitContent ]
+				vFitContent ].
+	self labelAptitude defaultBackground: self backgroundColor
 ]
