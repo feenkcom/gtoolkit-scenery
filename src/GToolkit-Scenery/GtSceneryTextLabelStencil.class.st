@@ -165,6 +165,13 @@ GtSceneryTextLabelStencil >> emphasisSymbols [
 		#oblique}
 ]
 
+{ #category : #converting }
+GtSceneryTextLabelStencil >> emptyCopy [
+	"Return a clone with the same attributes, but with default content."
+	^ self copy
+		resetContent
+]
+
 { #category : #accessing }
 GtSceneryTextLabelStencil >> fontSize [
 	^ fontSize
@@ -260,7 +267,7 @@ GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElemen
 GtSceneryTextLabelStencil >> postCopy [
 	super postCopy.
 	label := label copy.
-	width := width copy.
+	text := text copy
 ]
 
 { #category : #printing }
@@ -270,6 +277,12 @@ GtSceneryTextLabelStencil >> printOn: aStream [
 		nextPut: $(;
 		nextPutAll: self label;
 		nextPut: $)
+]
+
+{ #category : #converting }
+GtSceneryTextLabelStencil >> resetContent [
+	label := self defaultLabel.
+	text := nil
 ]
 
 { #category : #storing }

@@ -23,7 +23,6 @@ GtSceneryTextLabelElement >> backgroundColor [
 
 { #category : #initalization }
 GtSceneryTextLabelElement >> defaultLabelShortcuts [
-	<todo: 'The newly created itrem should have the same properties (color, fontsize etc) as the item it is spawned from.'>
 	^ {BrEditorShortcut new
 			name: 'Add subnode';
 			description: 'Add a subnode.';
@@ -31,7 +30,7 @@ GtSceneryTextLabelElement >> defaultLabelShortcuts [
 			performBlock: [ self
 					fireEvent: (GtSceneryAddNewConnection new
 							fromItem: self graph model;
-							toStencil: self stencilClass new;
+							toStencil: self stencil emptyCopy;
 							yourself) ];
 			yourself} , super defaultLabelShortcuts
 ]
