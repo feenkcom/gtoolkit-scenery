@@ -178,11 +178,25 @@ GtSceneryStoreStringExamples >> inspectorOn42Scenery [
 	<noTest>
 	<storedScenery>
 	<return: #GtScenery>
-	| scenery item1 |
+	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery addItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
 	item1 position: -105.833251953125 @ 192.30275472005212.
 	item1 extent: 355.784912109375 @ 202.16888427734375.
+	item2 := scenery
+			addItem: (GtSceneryInspectorStencil new target: [ '42' ]) asItem.
+	item2 position: 349.95166015625 @ 192.30275472005212.
+	item2 extent: 300 @ 400.
+	item3 := scenery
+			addItem: (GtSceneryMindMapNodeStencil new label: 'Connect me to the spawned object')
+					asItem.
+	item3 position: 0 @ 0.
+	item3 extent: nil.
+	scenery
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new
+				curvatureFraction: 0)
+		from: item3
+		to: item2.
 	scenery
 		storeStringMethodName: 'GtSceneryStoreStringExamples>>#inspectorOn42Scenery'.
 	^ scenery

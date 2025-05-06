@@ -494,6 +494,14 @@ GtSceneryDemoExamples >> collectionHierarchyVerticalLayout [
 ]
 
 { #category : #scenery }
+GtSceneryDemoExamples >> demoMindmap [
+	"For compatibility"
+	<gtExample>
+	<return: #GtScenery>
+	^ self overviewMindmap
+]
+
+{ #category : #scenery }
 GtSceneryDemoExamples >> emptyScenery [
 	<gtExample>
 	<return: #GtScenery>
@@ -725,7 +733,5 @@ GtSceneryDemoExamples >> overviewMindmap [
 GtSceneryDemoExamples >> reflectionScenery [
 	<gtExample>
 	<return: #GtScenery>
-	| scenery |
-	scenery := GtSceneryEditedExamples new reflectionScenery.
-	^ scenery
+	^ GtSceneryEditedExamples new reflectionScenery
 ]

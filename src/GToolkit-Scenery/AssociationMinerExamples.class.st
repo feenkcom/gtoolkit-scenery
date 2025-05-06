@@ -17,92 +17,80 @@ AssociationMinerExamples >> ludoGameEdited [
 	<noTest>
 	<storedScenery>
 	<return: #GtScenery>
-	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 item12 |
+	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 |
 	scenery := GtScenery new.
 	item1 := scenery
 			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoBlankToken';
 					width: 121.4119873046875) asItem.
-	item1 position: 65.83333333333337 @ 490.4854939778646.
+	item1 position: 379.83333333333337 @ 443.4854939778646.
 	item1 extent: 121.4119873046875 @ 28.0.
 	item2 := scenery
 			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoGame';
 					width: 87.25199890136719) asItem.
-	item2 position: 471.83333333333337 @ 247.48549397786462.
+	item2 position: 54.83333333333337 @ 212.48549397786462.
 	item2 extent: 87.25199890136719 @ 28.0.
 	item3 := scenery
 			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoSquare';
 					width: 94.58799743652344) asItem.
-	item3 position: 672.8333333333334 @ 242.48549397786462.
+	item3 position: -150.16666666666663 @ 254.48549397786462.
 	item3 extent: 94.58799743652344 @ 28.0.
 	item4 := scenery
 			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoRecordingGame';
 					width: 146.34600830078125) asItem.
-	item4 position: 490.83333333333337 @ 359.4854939778646.
+	item4 position: -68.16666666666663 @ 330.4854939778646.
 	item4 extent: 146.34600830078125 @ 28.0.
 	item5 := scenery
 			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoTokenMove';
 					width: 118.79397583007813) asItem.
-	item5 position: 627.8333333333334 @ 530.4854939778646.
+	item5 position: 220.83333333333337 @ 444.4854939778646.
 	item5 extent: 118.79397583007813 @ 28.0.
 	item6 := scenery
 			addItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoBoardElement';
-					width: 137.0080108642578) asItem.
-	item6 position: 685.8333333333334 @ 362.4854939778646.
-	item6 extent: 137.0080108642578 @ 28.0.
-	item7 := scenery
-			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoMove';
 					width: 84.14398193359375) asItem.
-	item7 position: 436.83333333333337 @ 532.4854939778646.
-	item7 extent: 84.14398193359375 @ 28.0.
-	item8 := scenery
+	item6 position: 101.83333333333337 @ 445.4854939778646.
+	item6 extent: 84.14398193359375 @ 28.0.
+	item7 := scenery
 			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoNamedEntity';
 					width: 129.9239959716797) asItem.
-	item8 position: 197.83333333333337 @ 280.4854939778646.
-	item8 extent: 129.9239959716797 @ 28.0.
-	item9 := scenery
-			addItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoGameElement';
-					width: 136.08401489257813) asItem.
-	item9 position: 300.83333333333337 @ 142.48549397786462.
-	item9 extent: 136.08401489257813 @ 28.0.
-	item10 := scenery
+	item7 position: 235.83333333333337 @ 211.48549397786462.
+	item7 extent: 129.9239959716797 @ 28.0.
+	item8 := scenery
 			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoPlayer';
 					width: 89.84199523925781) asItem.
-	item10 position: 290.83333333333337 @ 410.4854939778646.
-	item10 extent: 89.84199523925781 @ 28.0.
-	item11 := scenery
+	item8 position: 162.83333333333337 @ 333.4854939778646.
+	item8 extent: 89.84199523925781 @ 28.0.
+	item9 := scenery
 			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoToken';
 					width: 87.65798950195313) asItem.
-	item11 position: 123.83333333333337 @ 410.4854939778646.
-	item11 extent: 87.65798950195313 @ 28.0.
-	item12 := scenery
+	item9 position: 321.83333333333337 @ 333.4854939778646.
+	item9 extent: 87.65798950195313 @ 28.0.
+	item10 := scenery
 			addItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoDie';
 					width: 72.00599670410156) asItem.
-	item12 position: 634.8333333333334 @ 178.48549397786462.
-	item12 extent: 72.00599670410156 @ 28.0.
+	item10 position: -133.16666666666663 @ 179.48549397786462.
+	item10 extent: 72.00599670410156 @ 28.0.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				relationshipType: #inheritance;
 				curvatureFraction: 0)
 		from: item1
-		to: item11.
+		to: item9.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				relationshipType: #inheritance;
 				curvatureFraction: 0)
-		from: item10
-		to: item8.
+		from: item8
+		to: item7.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				relationshipType: #inheritance;
@@ -113,38 +101,28 @@ AssociationMinerExamples >> ludoGameEdited [
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				relationshipType: #inheritance;
 				curvatureFraction: 0)
-		from: item11
-		to: item8.
+		from: item9
+		to: item7.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				curvatureFraction: 0)
-		from: item2
-		to: item9.
-	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
-		from: item7
+		from: item6
 		to: item5.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				curvatureFraction: 0)
 		from: item4
-		to: item10.
+		to: item8.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				curvatureFraction: 0)
-		from: item7
+		from: item6
 		to: item4.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				curvatureFraction: 0)
 		from: item2
-		to: item11.
-	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
-		from: item7
-		to: item6.
+		to: item9.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				curvatureFraction: 0)
@@ -154,32 +132,27 @@ AssociationMinerExamples >> ludoGameEdited [
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				curvatureFraction: 0)
 		from: item4
-		to: item7.
-	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
-		from: item2
-		to: item10.
-	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
-		from: item7
-		to: item11.
-	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
-		from: item2
 		to: item6.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				curvatureFraction: 0)
-		from: item7
-		to: item10.
+		from: item2
+		to: item8.
+	scenery
+		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
+				curvatureFraction: 0)
+		from: item6
+		to: item9.
+	scenery
+		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
+				curvatureFraction: 0)
+		from: item6
+		to: item8.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				curvatureFraction: 0)
 		from: item2
-		to: item12.
+		to: item10.
 	scenery storeStringMethodName: 'AssociationMinerExamples>>#ludoGameEdited'.
 	^ scenery
 ]
@@ -217,5 +190,17 @@ AssociationMinerExamples >> ludoGameIteration2 [
 	self assert: miner scenery items size equals: 12.
 	self assert: miner scenery connections size equals: 17.
 
+	^ miner
+]
+
+{ #category : #examples }
+AssociationMinerExamples >> sceneryPackageMiner [
+	"Slow, so noTest"
+	<gtExample>
+	<noTest>
+	<return: #AssociationMiner>
+	| miner |
+	miner := AssociationMiner forPackage: GtScenery package.
+	miner iterate.
 	^ miner
 ]
