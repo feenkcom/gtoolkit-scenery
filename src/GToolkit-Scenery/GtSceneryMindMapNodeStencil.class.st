@@ -29,6 +29,11 @@ GtSceneryMindMapNodeStencil class >> leJsonV4Name [
 	^ #sceneryMindMapNodeStencil
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryMindMapNodeStencil >> defaultBackgroundColor [
+	^ BrGlamorousColors neutralBackgroundColor
+]
+
 { #category : #'api - instantiation' }
 GtSceneryMindMapNodeStencil >> elementClass [
 	^ GtSceneryMindMapNodeElement

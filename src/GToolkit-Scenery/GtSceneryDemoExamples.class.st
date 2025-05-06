@@ -497,7 +497,7 @@ GtSceneryDemoExamples >> collectionHierarchyVerticalLayout [
 GtSceneryDemoExamples >> demoMindmap [
 	<gtExample>
 	<return: #GtScenery>
-	^ ExploringObjectsSceneryDemo new demoMindmap
+	^ ExploringObjectsScenerySlideshow new demoMindmap
 ]
 
 { #category : #scenery }

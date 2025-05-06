@@ -26,7 +26,8 @@ Class {
 		'weight',
 		'emphasis',
 		'text',
-		'fontSize'
+		'fontSize',
+		'backgroundColor'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -70,6 +71,22 @@ GtSceneryTextLabelStencil >> asItem [
 		yourself
 ]
 
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> backgroundColor [
+	^ backgroundColor
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> backgroundColor: aColor [
+	backgroundColor := aColor.
+	self announceStencilUpdate
+]
+
+{ #category : #menu }
+GtSceneryTextLabelStencil >> backgroundColors [
+	^ Color class selectors select: [:s | s beginsWith: 'pale']
+]
+
 { #category : #'api - instantiation' }
 GtSceneryTextLabelStencil >> create [
 	| anEditableLabel |
@@ -81,6 +98,11 @@ GtSceneryTextLabelStencil >> create [
 				hExact: width;
 				vFitContent ].
 	^ anEditableLabel
+]
+
+{ #category : #initialization }
+GtSceneryTextLabelStencil >> defaultBackgroundColor [
+	^ Color white
 ]
 
 { #category : #initialization }
@@ -144,6 +166,11 @@ GtSceneryTextLabelStencil >> fontSize: aFontSize [
 	self text fontSize: fontSize
 ]
 
+{ #category : #menu }
+GtSceneryTextLabelStencil >> fontSizes [
+	^ #(12 14 16 18 24 30 36 48 72)
+]
+
 { #category : #initialization }
 GtSceneryTextLabelStencil >> initialize [
 	super initialize.
@@ -151,7 +178,8 @@ GtSceneryTextLabelStencil >> initialize [
 	label := self defaultLabel.
 	weight := self defaultWeight.
 	fontSize := self defaultFontSize.
-	width := self defaultWidth
+	width := self defaultWidth.
+	backgroundColor := self defaultBackgroundColor
 ]
 
 { #category : #accessing }
@@ -198,9 +226,18 @@ GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElemen
 						submenu
 							addItemLabel: symbol asString capitalized
 							action: [ self weight: symbol ] ].
-				#(12 14 16 18 24 30 36 48 72)
+				self fontSizes
 					do: [ :size | submenu addItemLabel: size printString , ' pt' action: [ self fontSize: size ] ].
 
+				submenu ] value;
+		addItemLabel: 'Modify background'
+			submenu: [ | submenu |
+				submenu := BrMenuItems new.
+				self backgroundColors
+					do: [ :symbol | 
+						submenu
+							addItemLabel: symbol asString capitalized
+							action: [ self backgroundColor: (Color perform: symbol) ] ].
 				submenu ] value;
 		yourself
 ]
@@ -229,7 +266,8 @@ GtSceneryTextLabelStencil >> storeOnAttributes [
 		#emphasis.
 		#weight.
 		#fontSize.
-		#width}
+		#width.
+		#backgroundColor}
 ]
 
 { #category : #printing }
@@ -276,7 +314,7 @@ GtSceneryTextLabelStencil >> weight: aSymbolOrNumber [
 	^ self updateWeight
 ]
 
-{ #category : #accessing }
+{ #category : #menu }
 GtSceneryTextLabelStencil >> weightSymbols [
 	"Selected weight methods of TBlTextStyleable understood by a BlRunRopedText"
 	^ {#thin.
