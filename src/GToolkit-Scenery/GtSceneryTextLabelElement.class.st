@@ -23,6 +23,7 @@ GtSceneryTextLabelElement >> backgroundColor [
 
 { #category : #initalization }
 GtSceneryTextLabelElement >> defaultLabelShortcuts [
+	<todo: 'The newly created itrem should have the same properties (color, fontsize etc) as the item it is spawned from.'>
 	^ {BrEditorShortcut new
 			name: 'Add subnode';
 			description: 'Add a subnode.';
@@ -96,7 +97,8 @@ GtSceneryTextLabelElement >> stencilClass [
 GtSceneryTextLabelElement >> updateAppearance [
 	| stencil |
 	stencil := self stencil.
-	self text: stencil text.
+	self text: stencil text.	
+	self text fontSize: stencil fontSize.
 	stencil width = stencil defaultWidth
 		ifFalse: [ self
 				hExact: stencil width;

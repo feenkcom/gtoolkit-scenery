@@ -494,13 +494,6 @@ GtSceneryDemoExamples >> collectionHierarchyVerticalLayout [
 ]
 
 { #category : #scenery }
-GtSceneryDemoExamples >> demoMindmap [
-	<gtExample>
-	<return: #GtScenery>
-	^ ExploringObjectsScenerySlideshow new demoMindmap
-]
-
-{ #category : #scenery }
 GtSceneryDemoExamples >> emptyScenery [
 	<gtExample>
 	<return: #GtScenery>
@@ -719,6 +712,13 @@ GtSceneryDemoExamples >> overview [
 		to: item9.
 	scenery storeStringMethodName: 'GtSceneryDemoExamples>>#overview'.
 	^ scenery
+]
+
+{ #category : #scenery }
+GtSceneryDemoExamples >> overviewMindmap [
+	<gtExample>
+	<return: #GtScenery>
+	^ ExploringObjectsScenerySlideshow new overviewMindmap
 ]
 
 { #category : #scenery }

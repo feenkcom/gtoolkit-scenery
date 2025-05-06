@@ -150,9 +150,19 @@ GtSceneryTextLabelStencil >> emphasis [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> emphasis: aSymbol [
-	"See BlFontEmphasisAttribute"
+	self assert: aSymbol isSymbol.
+	self assert: (self emphasisSymbols includes: aSymbol).
 	emphasis := aSymbol.
-	self announceStencilUpdate
+	self text perform: emphasis
+]
+
+{ #category : #menu }
+GtSceneryTextLabelStencil >> emphasisSymbols [
+	"Selected emphasis methods of TBlTextStyleable understood by a BlRunRopedText"
+
+	^ {#italic.
+		#normal.
+		#oblique}
 ]
 
 { #category : #accessing }
@@ -226,9 +236,13 @@ GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElemen
 						submenu
 							addItemLabel: symbol asString capitalized
 							action: [ self weight: symbol ] ].
+				self emphasisSymbols
+					do: [ :symbol | 
+						submenu
+							addItemLabel: symbol asString capitalized
+							action: [ self emphasis: symbol ] ].
 				self fontSizes
 					do: [ :size | submenu addItemLabel: size printString , ' pt' action: [ self fontSize: size ] ].
-
 				submenu ] value;
 		addItemLabel: 'Modify background'
 			submenu: [ | submenu |
