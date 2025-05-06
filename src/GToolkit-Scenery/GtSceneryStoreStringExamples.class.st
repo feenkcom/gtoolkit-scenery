@@ -46,6 +46,7 @@ GtSceneryStoreStringExamples >> circleShapeSceneryRestored [
 { #category : #accessing }
 GtSceneryStoreStringExamples >> compositeScenery [
 	<gtExample>
+	<noTest>
 	<return: #GtScenery>
 	| scenery |
 	scenery := self emptyScenery.
