@@ -26,7 +26,8 @@ Class {
 		'weight',
 		'emphasis',
 		'text',
-		'fontSize'
+		'fontSize',
+		'backgroundColor'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -70,6 +71,16 @@ GtSceneryTextLabelStencil >> asItem [
 		yourself
 ]
 
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> backgroundColor [
+	^ backgroundColor
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> backgroundColor: aColor [
+	backgroundColor := aColor
+]
+
 { #category : #'api - instantiation' }
 GtSceneryTextLabelStencil >> create [
 	| anEditableLabel |
@@ -81,6 +92,11 @@ GtSceneryTextLabelStencil >> create [
 				hExact: width;
 				vFitContent ].
 	^ anEditableLabel
+]
+
+{ #category : #initialization }
+GtSceneryTextLabelStencil >> defaultBackgroundColor [
+	^ Color white
 ]
 
 { #category : #initialization }

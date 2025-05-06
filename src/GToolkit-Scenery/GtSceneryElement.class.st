@@ -76,14 +76,15 @@ GtSceneryElement >> buildConnectionContextMenuForConnectionElement: aConnectionE
 { #category : #menu }
 GtSceneryElement >> buildItemContextMenuForItemElement: anItemElement [
 	<tag: #sceneryContextMenu>
+	<todo: 'Cloning needs to be deep if we really need it.'>
 	| anItem |
 	anItem := anItemElement graph model.
 	^ BrMenuItems new
 		id: #'gtScenery-item-menu';
 		addItemLabel: 'Inspect stencil'
 			action: [ :elt | self inspectItemForElement: anItemElement ];
-		addItemLabel: 'Clone'
-			action: [ :elt | self gtScenery spawnNewItemFrom: anItem using: anItem stencil copy ];
+		"addItemLabel: 'Clone'
+			action: [ :elt | self gtScenery spawnNewItemFrom: anItem using: anItem stencil copy ];"
 		addItems: (anItem stencil menuForChildElement: anItemElement andSceneryElement: self)
 				items;
 		addItemLabel: 'Delete'
