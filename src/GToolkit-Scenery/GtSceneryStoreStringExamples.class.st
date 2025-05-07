@@ -45,6 +45,9 @@ GtSceneryStoreStringExamples >> circleShapeSceneryRestored [
 
 { #category : #accessing }
 GtSceneryStoreStringExamples >> compositeScenery [
+	"This fails if we include inspectorOn42SceneryRestored because the scenery is not fully rendered when we ask for the bounding box."
+
+	<todo: 'Adapt the composite scenery to use Scripter.'>
 	<gtExample>
 	<noTest>
 	<return: #GtScenery>
@@ -54,9 +57,8 @@ GtSceneryStoreStringExamples >> compositeScenery [
 		self gtBookLabelSceneryRestored.
 		self gtLogoFileSceneryRestored.
 		self gtSceneryClassSceneryRestored.
-		self inspectorOn42SceneryRestored.
 		self mindmapBubbleSceneryRestored.
-		self textLabelSceneryRestored} do: [ :each | scenery addScenery: each ].
+		self textLabelSceneryRestored} do: [ :each | scenery addScenery: each ].	"self inspectorOn42SceneryRestored."
 	self assert: scenery equals: scenery restored.
 	^ scenery
 ]
