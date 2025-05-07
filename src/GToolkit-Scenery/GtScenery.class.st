@@ -13,7 +13,8 @@ Class {
 		'items',
 		'announcer',
 		'onceLayout',
-		'storeStringMethodName'
+		'storeStringMethodName',
+		'backgroundDraggable'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -109,6 +110,18 @@ GtScenery >> announce: anAnnouncement [
 { #category : #accessing }
 GtScenery >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #accessing }
+GtScenery >> backgroundDraggable [
+	^ backgroundDraggable ifNil: [ backgroundDraggable := true ]
+]
+
+{ #category : #accessing }
+GtScenery >> backgroundDraggable: aBoolean [
+	"Set to false for embedded sceneries."
+
+	backgroundDraggable := aBoolean
 ]
 
 { #category : #accessing }
