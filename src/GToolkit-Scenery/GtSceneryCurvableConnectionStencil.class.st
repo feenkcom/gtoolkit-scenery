@@ -28,8 +28,16 @@ GtSceneryCurvableConnectionStencil >> arrowHeadType [
 
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> arrowHeadType: aSymbol [
-	"Currently #simple or #triangle. Defaults to #simple."
-	arrowHeadType := aSymbol
+	self assert: (self arrowHeadTypes includes: aSymbol asSymbol).
+	arrowHeadType := aSymbol asSymbol.
+	self announceStencilUpdate
+]
+
+{ #category : #acccessing }
+GtSceneryCurvableConnectionStencil >> arrowHeadTypes [
+	^ {#simple.
+		#triangle.
+		#none}
 ]
 
 { #category : #deprecated }
@@ -139,6 +147,15 @@ GtSceneryCurvableConnectionStencil >> menuForChildElement: aChildElement andScen
 						action: [ self curvatureFraction: self curvatureFraction - self curvatureDelta ];
 					addItemLabel: 'Be straight' action: [ self curvatureFraction: 0 ];
 					yourself);
+		addItemLabel: 'Arrowhead'
+			submenu: [ | submenu |
+				submenu := BrMenuItems new yourself.
+				self arrowHeadTypes
+					do: [ :each | 
+						submenu
+							addItemLabel: each asString capitalized
+							action: [ self arrowHeadType: each ] ].
+				submenu ] value;
 		yourself
 ]
 
