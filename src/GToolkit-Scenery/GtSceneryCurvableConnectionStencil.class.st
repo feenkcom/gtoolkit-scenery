@@ -15,12 +15,6 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #accessing }
-GtSceneryCurvableConnectionStencil >> arrowHead [
-	self arrowHeadType = #triangle ifTrue: [ ^ self triangleArrowHead ].
-	^ self simpleArrowHead
-]
-
 { #category : #printing }
 GtSceneryCurvableConnectionStencil >> arrowHeadType [
 	^ arrowHeadType
@@ -159,24 +153,10 @@ GtSceneryCurvableConnectionStencil >> menuForChildElement: aChildElement andScen
 		yourself
 ]
 
-{ #category : #accessing }
-GtSceneryCurvableConnectionStencil >> simpleArrowHead [
-	^ BlArrowheadSimpleArrow new
-		background: Color black;
-		border: (BlBorder paint: Color black)
-]
-
 { #category : #printing }
 GtSceneryCurvableConnectionStencil >> storeOnAttributes [
 	^ {#labelText.
 		#fontSize.
 		#arrowHeadType.
 		#curvatureFraction}
-]
-
-{ #category : #accessing }
-GtSceneryCurvableConnectionStencil >> triangleArrowHead [
-	^ BlArrowheadTriangle new
-		scale: 4;
-		border: (BlBorder paint: Color black)
 ]
