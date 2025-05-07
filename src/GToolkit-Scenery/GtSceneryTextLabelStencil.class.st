@@ -150,9 +150,11 @@ GtSceneryTextLabelStencil >> emphasis [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> emphasis: aSymbol [
-	self assert: aSymbol isSymbol.
-	self assert: (self emphasisSymbols includes: aSymbol).
-	emphasis := aSymbol.
+	"NB: JSON encoding is a String."
+	| symbol |
+	symbol := aSymbol asSymbol.
+	self assert: (self emphasisSymbols includes: symbol).
+	emphasis := symbol.
 	self text perform: emphasis
 ]
 
