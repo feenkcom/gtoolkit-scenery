@@ -509,6 +509,11 @@ GtScenery >> isValid [
 	^ true
 ]
 
+{ #category : #enumerating }
+GtScenery >> itemForStencil: aStencil [
+	^ self items detect: [ :item | item stencil == aStencil ] ifNone: [ nil ]
+]
+
 { #category : #accessing }
 GtScenery >> items [
 	^ items

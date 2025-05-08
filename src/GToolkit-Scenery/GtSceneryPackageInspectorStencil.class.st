@@ -36,7 +36,9 @@ GtSceneryPackageInspectorStencil >> defaultViewMethodSelector [
 
 { #category : #'as yet unclassified' }
 GtSceneryPackageInspectorStencil >> examplesSubmenuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	| menu |
+	| menu myItem |
+	myItem := aGtSceneryElement gtScenery itemForStencil: self.
+	self assert: myItem notNil.
 	menu := BrMenuItems new.
 	self package gtExamplesWithReturnPragmasClassified associations
 		do: [ :kv | 
@@ -48,7 +50,9 @@ GtSceneryPackageInspectorStencil >> examplesSubmenuForChildElement: aChildElemen
 						do: [ :eg | 
 							submenu
 								addItemLabel: eg name
-								action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: eg) ] ].
+								action: [ aGtSceneryElement gtScenery
+										spawnNewItemFrom: myItem
+										using: (GtSceneryExampleStencil new exampleMethodName: eg) ] ].
 					submenu ] value ].
 	^ menu
 ]
