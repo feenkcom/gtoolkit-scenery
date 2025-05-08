@@ -22,7 +22,7 @@ AbstractGtSceneryInspectorStencil >> defaultExtent [
 	^ 300 @ 400
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 AbstractGtSceneryInspectorStencil >> defaultViewMethodSelector [
 	^ nil
 ]

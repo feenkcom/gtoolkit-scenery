@@ -41,7 +41,7 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: aPosition [
 	| newItem |
 	newItem := anItemStencilClass new asItem.
 	newItem position: aPosition.
-	self gtScenery addItem: newItem.
+	self gtScenery addSceneryItem: newItem.
 	^ newItem
 ]
 

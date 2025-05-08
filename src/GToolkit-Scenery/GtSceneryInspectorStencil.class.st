@@ -1,3 +1,9 @@
+"
+I am an Inspector stencil for an object return by an arbitrary kind of code snippet defined as my `targetBlock`.
+```
+GtSceneryInspectorStencil new target: [ 3 + 4 ]
+```
+"
 Class {
 	#name : #GtSceneryInspectorStencil,
 	#superclass : #AbstractGtSceneryInspectorStencil,

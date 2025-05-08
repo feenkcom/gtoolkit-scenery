@@ -10,7 +10,7 @@ GtSceneryTextLabelStencilExamples >> foobarTextLabelScenery [
 	<return: #GtScenery>
 	| scenery |
 	scenery := GtScenery new
-			addItem: (GtSceneryTextLabelStencil new label: 'Foobar') asItem;
+			addSceneryItem: (GtSceneryTextLabelStencil new label: 'Foobar') asItem;
 			yourself.
 	^ scenery
 ]
@@ -33,13 +33,14 @@ GtSceneryTextLabelStencilExamples >> foobarTextLabelSceneryRelabeled [
 { #category : #'as yet unclassified' }
 GtSceneryTextLabelStencilExamples >> privateDatabaseLePageLabelExample [
 	"This example will only work if the private db has a page named 'Tag'."
+
 	<gtExample>
 	<return: #GtScenery>
 	<noTest>
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryLePageTitleLabelStencil new
+			addSceneryItem: (GtSceneryLePageTitleLabelStencil new
 					label: 'Tag';
 					width: 157.8820343017578;
 					databaseName: 'Documents/lepiter/default') asItem.

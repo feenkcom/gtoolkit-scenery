@@ -31,7 +31,7 @@ GtSceneryInspectorStencilExamples >> compositeSceneryEdited [
 	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryInspectorStencil new
+			addSceneryItem: (GtSceneryInspectorStencil new
 					viewMethodSelector: #gtPositionsFor:;
 					target: [ GtLudoRecordingGame new
 							roll: 6;
@@ -48,36 +48,36 @@ GtSceneryInspectorStencilExamples >> compositeSceneryEdited [
 	item1 position: 773 @ -1824.5247395833335.
 	item1 extent: 395.3839436998662 @ 437.3745360285734.
 	item2 := scenery
-			addItem: (GtSceneryInspectorStencil new target: [ 1 / 0 ]) asItem.
+			addSceneryItem: (GtSceneryInspectorStencil new target: [ 1 / 0 ]) asItem.
 	item2 position: -444 @ -2488.5247395833335.
 	item2 extent: 300.0 @ 400.0.
-	item3 := scenery addItem: GtSceneryScripterStencil new asItem.
+	item3 := scenery addSceneryItem: GtSceneryScripterStencil new asItem.
 	item3 position: -39.0 @ -1809.5247395833335.
 	item3 extent: 250.0 @ 250.0.
 	item4 := scenery
-			addItem: (GtSceneryExampleStencil new
+			addSceneryItem: (GtSceneryExampleStencil new
 					viewMethodSelector: #gtLiveFor:;
 					exampleMethodName: 'GtMemoryGameExamples>>#afterSomeMoves') asItem.
 	item4 position: 314.0 @ -1738.6276041666667.
 	item4 extent: 351.9303385416665 @ 352.1028645833335.
 	item5 := scenery
-			addItem: (GtEmbeddedSceneryStencil new
+			addSceneryItem: (GtEmbeddedSceneryStencil new
 					exampleMethodName: 'GtSceneryEditedExamples>>#sceneryMindmap') asItem.
 	item5 position: 0.0 @ -2261.1458333333335.
 	item5 extent: 357.16796875 @ 354.51822916666674.
 	item6 := scenery
-			addItem: (GtEmbeddedSceneryStencil new
+			addSceneryItem: (GtEmbeddedSceneryStencil new
 					exampleMethodName: 'GtSceneryEditedExamples>>#simpleClassDiagram') asItem.
 	item6 position: 473.71354166666663 @ -2292.7449747721357.
 	item6 extent: 362.12890625 @ 348.57096354166674.
 	item7 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'A Scenery with two embedded sceneries as examples.';
 					width: 183.29335021972656) asItem.
 	item7 position: 250.16536458333246 @ -2351.6421101888022.
 	item7 extent: 183.29335021972656 @ 46.0.
 	item8 := scenery
-			addItem: (GtSceneryInspectorStencil new
+			addSceneryItem: (GtSceneryInspectorStencil new
 					target: [ GtLudoRecordingGame new
 							roll: 6;
 							moveTokenNamed: 'A';
@@ -92,16 +92,16 @@ GtSceneryInspectorStencilExamples >> compositeSceneryEdited [
 							yourself ]) asItem.
 	item8 position: -540.0 @ -1911.6421101888022.
 	item8 extent: 300.0 @ 400.0.
-	item9 := scenery addItem: GtScenerySlideStencil new asItem.
+	item9 := scenery addSceneryItem: GtScenerySlideStencil new asItem.
 	item9 position: 387.0 @ -2710.9176093207466.
 	item9 extent: 300.0 @ 200.0.
 	item10 := scenery
-			addItem: (GtScenerySlideStencil new
+			addSceneryItem: (GtScenerySlideStencil new
 					exampleMethodName: 'DemoSlideshow>>#scriptedExampleInPager:') asItem.
 	item10 position: 803.2737630208335 @ -2623.6421101888022.
 	item10 extent: 300.0 @ 200.0.
 	item11 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'A scenery with a couple of slides';
 					width: 102.9320220947265) asItem.
 	item11 position: 800.6181377980363 @ -2727.238681369358.
@@ -121,16 +121,16 @@ GtSceneryInspectorStencilExamples >> demoSlidesScenery [
 	<return: #GtScenery>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
-	item1 := scenery addItem: GtScenerySlideStencil new asItem.
+	item1 := scenery addSceneryItem: GtScenerySlideStencil new asItem.
 	item1 position: 52.94487847222206 @ 214.92335340711804.
 	item1 extent: 300.0 @ 200.0.
 	item2 := scenery
-			addItem: (GtScenerySlideStencil new
+			addSceneryItem: (GtScenerySlideStencil new
 					exampleMethodName: 'DemoSlideshow>>#scriptedExampleInPager:') asItem.
 	item2 position: 417.21864149305554 @ 313.1988525390625.
 	item2 extent: 300.0 @ 200.0.
 	item3 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'A scenery with a couple of slides';
 					width: 102.9320220947265) asItem.
 	item3 position: 417.5630162702583 @ 169.60228135850696.
@@ -147,19 +147,19 @@ GtSceneryInspectorStencilExamples >> embeddedSceneryExampleScenery [
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtEmbeddedSceneryStencil new
+			addSceneryItem: (GtEmbeddedSceneryStencil new
 					viewMethodSelector: #gtLiveFor:;
 					exampleMethodName: 'GtSceneryEditedExamples>>#sceneryMindmap') asItem.
 	item1 position: -277.0 @ -23.0.
 	item1 extent: 357.16796875 @ 354.51822916666674.
 	item2 := scenery
-			addItem: (GtEmbeddedSceneryStencil new
+			addSceneryItem: (GtEmbeddedSceneryStencil new
 					viewMethodSelector: #gtLiveFor:;
 					exampleMethodName: 'GtSceneryEditedExamples>>#simpleClassDiagram') asItem.
 	item2 position: 196.71354166666663 @ -54.59914143880212.
 	item2 extent: 362.12890625 @ 348.57096354166674.
 	item3 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'A Scenery with two embedded sceneries as examples.';
 					width: 183.29335021972656) asItem.
 	item3 position: 29.16536458333246 @ -161.4962768554688.
@@ -176,7 +176,7 @@ GtSceneryInspectorStencilExamples >> errorScenery [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryInspectorStencil new target: [ 1 / 0 ]) asItem.
+			addSceneryItem: (GtSceneryInspectorStencil new target: [ 1 / 0 ]) asItem.
 	self should: [ item1 stencil targetValue ] raise: ZeroDivide.
 	^ scenery
 ]
@@ -190,7 +190,7 @@ GtSceneryInspectorStencilExamples >> ludoGameScenery [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryInspectorStencil new
+			addSceneryItem: (GtSceneryInspectorStencil new
 					target: [ GtLudoRecordingGame new
 							roll: 6;
 							moveTokenNamed: 'A';
@@ -227,7 +227,7 @@ GtSceneryInspectorStencilExamples >> memoryExampleScenery [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryExampleStencil new
+			addSceneryItem: (GtSceneryExampleStencil new
 					viewMethodSelector: #gtLiveFor:;
 					exampleMethodName: 'GtMemoryGameExamples>>#afterSomeMoves') asItem.
 	item1 position: -29.446614583333258 @ 180.99833170572919.
@@ -246,7 +246,7 @@ GtSceneryInspectorStencilExamples >> scripterScenery [
 	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
-	item1 := scenery addItem: GtSceneryScripterStencil new asItem.
+	item1 := scenery addSceneryItem: GtSceneryScripterStencil new asItem.
 	item1 position: 11.643916376014413 @ 297.7526471233315.
 	item1 extent: 250.00000000000003 @ 250.0.
 	scenery

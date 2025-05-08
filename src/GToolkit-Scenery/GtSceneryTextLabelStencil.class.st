@@ -235,7 +235,6 @@ GtSceneryTextLabelStencil >> label: aString [
 
 { #category : #menu }
 GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
 	^ BrMenuItems new
 		addItemLabel: 'Modify font'
 			submenu: [ | submenu |

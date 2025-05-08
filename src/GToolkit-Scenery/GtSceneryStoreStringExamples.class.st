@@ -25,7 +25,7 @@ GtSceneryStoreStringExamples >> circleShapeScenery [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryShapeStencil new geometry: BlCircleGeometry new) asItem.
+			addSceneryItem: (GtSceneryShapeStencil new geometry: BlCircleGeometry new) asItem.
 	item1 position: 67.74245198567701 @ 69.517333984375.
 	item1 extent: 200.0 @ 200.0.
 	scenery
@@ -86,7 +86,7 @@ GtSceneryStoreStringExamples >> gtBookLabelScenery [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryLePageTitleLabelStencil new width: 157.8820343017578) asItem.
+			addSceneryItem: (GtSceneryLePageTitleLabelStencil new width: 157.8820343017578) asItem.
 	item1 position: 73.34053548177076 @ 70.0040181477865.
 	item1 extent: 157.8820343017578 @ 28.0.
 	scenery
@@ -122,7 +122,7 @@ GtSceneryStoreStringExamples >> gtLogoFileScenery [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryPictureStencil new
+			addSceneryItem: (GtSceneryPictureStencil new
 					fileReference: FileLocator gtResource / 'feenkcom' / 'gtoolkit' / 'doc' / 'gtoolkit.png')
 					asItem.
 	item1 position: 114.6820068359375 @ 242.44258626302087.
@@ -153,7 +153,7 @@ GtSceneryStoreStringExamples >> gtSceneryClassScenery [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'GtScenery';
 					width: 75.74499003092455) asItem.
 	item1 position: 96.35630289713549 @ 191.2457987467448.
@@ -183,15 +183,16 @@ GtSceneryStoreStringExamples >> inspectorOn42Scenery [
 	<return: #GtScenery>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
-	item1 := scenery addItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
+	item1 := scenery
+			addSceneryItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
 	item1 position: -105.833251953125 @ 192.30275472005212.
 	item1 extent: 355.784912109375 @ 202.16888427734375.
 	item2 := scenery
-			addItem: (GtSceneryInspectorStencil new target: [ '42' ]) asItem.
+			addSceneryItem: (GtSceneryInspectorStencil new target: [ '42' ]) asItem.
 	item2 position: 349.95166015625 @ 192.30275472005212.
 	item2 extent: 300 @ 400.
 	item3 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new label: 'Connect me to the spawned object')
+			addSceneryItem: (GtSceneryMindMapNodeStencil new label: 'Connect me to the spawned object')
 					asItem.
 	item3 position: 0 @ 0.
 	item3 extent: nil.
@@ -230,7 +231,7 @@ GtSceneryStoreStringExamples >> inspectorOn42SceneryWithSpawnedObject [
 			spawnNewItemFrom: item42
 			for: item42 stencil targetValue printString.
 	itemBubble := scenery
-			addItem: (GtSceneryMindMapNodeStencil new label: 'Connect me to the spawned object')
+			addSceneryItem: (GtSceneryMindMapNodeStencil new label: 'Connect me to the spawned object')
 					asItem.
 	connection := scenery
 			addConnectionWithStencil: (GtSceneryStraightArcStencil new
@@ -312,7 +313,7 @@ GtSceneryStoreStringExamples >> mindmapBubbleScenery [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'A mind map bubble';
 					width: 126.5262896560282) asItem.
 	item1 position: 5.5452868217392215 @ 973.7566582612488.
@@ -348,7 +349,7 @@ GtSceneryStoreStringExamples >> reflectionPageScenery [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryLepiterPageStencil new
+			addSceneryItem: (GtSceneryLepiterPageStencil new
 					pageName: 'What is Reflection?';
 					databaseName: 'Glamorous Toolkit Book') asItem.
 	item1 position: 308.2518561989734 @ 186.20015462239587.
@@ -390,11 +391,12 @@ GtSceneryStoreStringExamples >> sceneryWithTwoInspectors [
 	<return: #GtScenery>
 	| scenery item1 item2 |
 	scenery := GtScenery new.
-	item1 := scenery addItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
+	item1 := scenery
+			addSceneryItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
 	item1 position: -105.833251953125 @ 192.30275472005212.
 	item1 extent: 355.784912109375 @ 202.16888427734375.
 	item2 := scenery
-			addItem: (GtSceneryInspectorStencil new target: [ GtLudoGame new ]) asItem.
+			addSceneryItem: (GtSceneryInspectorStencil new target: [ GtLudoGame new ]) asItem.
 	item2 position: -147.33489944273072 @ 446.9537569676901.
 	item2 extent: 200.0 @ 400.0.
 	^ scenery
@@ -449,13 +451,13 @@ GtSceneryStoreStringExamples >> textLabelScenery [
 	| scenery item1 item2 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'I am a text label';
 					width: 101.5040283203125) asItem.
 	item1 position: 174.287618001302 @ 188.26188151041669.
 	item1 extent: 101.5040283203125 @ 28.0.
 	item2 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'Me too!';
 					width: 53.67999267578125) asItem.
 	item2 position: 254.0374755859375 @ 291.11924235026044.
@@ -486,7 +488,7 @@ GtSceneryStoreStringExamples >> validStoreStringMethod [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'A scenery with a single item.';
 					width: 102.93202209472656) asItem.
 	item1 position: 0.0 @ -96.0.

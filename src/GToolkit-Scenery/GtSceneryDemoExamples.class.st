@@ -18,115 +18,115 @@ GtSceneryDemoExamples >> collectionHierarchyEdited [
 	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 item12 item13 item14 item15 item16 item17 item18 item19 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'IdentityDictionary';
 					width: 116.02200317382813) asItem.
 	item1 position: 3.8333333333333712 @ 267.4854939778646.
 	item1 extent: 116.02200317382813 @ 28.0.
 	item2 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'ByteString';
 					width: 70.6619873046875) asItem.
 	item2 position: 157.40337117513025 @ 404.4854939778646.
 	item2 extent: 70.6619873046875 @ 28.0.
 	item3 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Collection';
 					width: 69.33201599121094) asItem.
 	item3 position: 517.178326924642 @ -95.51450602213538.
 	item3 extent: 69.33201599121094 @ 28.0.
 	item4 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'LinkedList';
 					width: 69.86399841308594) asItem.
 	item4 position: 383.66636403401696 @ 119.48549397786462.
 	item4 extent: 69.86399841308594 @ 28.0.
 	item5 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Interval';
 					width: 54.912017822265625) asItem.
 	item5 position: 495.05437215169275 @ 113.48549397786462.
 	item5 extent: 54.912017822265625 @ 28.0.
 	item6 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Set';
 					width: 29.011993408203125) asItem.
 	item6 position: 210.01637776692712 @ 157.48549397786462.
 	item6 extent: 29.011993408203125 @ 28.0.
 	item7 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Array';
 					width: 40.589996337890625) asItem.
 	item7 position: 307.817372639974 @ 288.4854939778646.
 	item7 extent: 40.589996337890625 @ 28.0.
 	item8 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'SequenceableCollection';
 					width: 151.89002990722656) asItem.
 	item8 position: 353.7893498738607 @ 12.485493977864621.
 	item8 extent: 151.89002990722656 @ 28.0.
 	item9 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'OrderedCollection';
 					width: 117.49203491210938) asItem.
 	item9 position: 597.1463979085287 @ 117.48549397786462.
 	item9 extent: 117.49203491210938 @ 28.0.
 	item10 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Symbol';
 					width: 54.52000427246094) asItem.
 	item10 position: 288.3723729451498 @ 413.4854939778646.
 	item10 extent: 54.52000427246094 @ 28.0.
 	item11 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Object';
 					width: 48.41600036621094) asItem.
 	item11 position: 525.636334737142 @ -210.51450602213538.
 	item11 extent: 48.41600036621094 @ 28.0.
 	item12 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'HashedCollection';
 					width: 113.71202087402344) asItem.
 	item12 position: 123.98832448323571 @ 9.485493977864621.
 	item12 extent: 113.71202087402344 @ 28.0.
 	item13 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Text';
 					width: 34.06599426269531) asItem.
 	item13 position: 394.6653722127279 @ 289.4854939778646.
 	item13 extent: 34.06599426269531 @ 28.0.
 	item14 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Heap';
 					width: 40.70201110839844) asItem.
 	item14 position: 596.0493748982748 @ 33.48549397786462.
 	item14 extent: 40.70201110839844 @ 28.0.
 	item15 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'ArrayedCollection';
 					width: 114.58001708984375) asItem.
 	item15 position: 255.44435628255212 @ 113.48549397786462.
 	item15 extent: 114.58001708984375 @ 28.0.
 	item16 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'String';
 					width: 44.88800048828125) asItem.
 	item16 position: 231.29036458333337 @ 286.4854939778646.
 	item16 extent: 44.88800048828125 @ 28.0.
 	item17 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Dictionary';
 					width: 70.52200317382813) asItem.
 	item17 position: 34.58333333333337 @ 157.48549397786462.
 	item17 extent: 70.52200317382813 @ 28.0.
 	item18 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'SortedCollection';
 					width: 108.50401306152344) asItem.
 	item18 position: 599.6404088338217 @ 216.48549397786462.
 	item18 extent: 108.50401306152344 @ 28.0.
 	item19 := scenery
-			addItem: (GtSceneryUMLClassStencil new
+			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Bag';
 					width: 32.343994140625) asItem.
 	item19 position: 887.0644124348959 @ 36.48549397786462.
@@ -282,7 +282,7 @@ GtSceneryDemoExamples >> inspectorSceneries [
 	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryInspectorStencil new
+			addSceneryItem: (GtSceneryInspectorStencil new
 					target: [ GtLudoRecordingGame new
 							roll: 6;
 							moveTokenNamed: 'A';
@@ -298,61 +298,61 @@ GtSceneryDemoExamples >> inspectorSceneries [
 	item1 position: -87.0 @ 207.0.
 	item1 extent: 300.0 @ 400.0.
 	item2 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'Here is an example of an inspector on a scripted object. Inspect the stencil and view its storeString to see how it is constructed.';
 					width: 260.05116271972656) asItem.
 	item2 position: 46.08203124999926 @ 78.02372233072919.
 	item2 extent: 260.05116271972656 @ 64.0.
 	item3 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'Various examples of inspectors on different kinds of objects.';
 					weight: #bold;
 					fontSize: 48;
 					width: 677.5419978416443) asItem.
 	item3 position: 40.92252604166603 @ -170.4437255859375.
 	item3 extent: 677.5419978416443 @ 130.0.
-	item4 := scenery addItem: GtScenerySlideStencil new asItem.
+	item4 := scenery addSceneryItem: GtScenerySlideStencil new asItem.
 	item4 position: 196.72936991173037 @ 673.7836258148822.
 	item4 extent: 353.8720937736348 @ 230.24510427884763.
 	item5 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'A slide from a slideshow.';
 					width: 102.93202209472656) asItem.
 	item5 position: 327.88395502049116 @ 563.4385206819829.
 	item5 extent: 102.93202209472656 @ 46.0.
 	item6 := scenery
-			addItem: (GtSceneryExampleStencil new
+			addSceneryItem: (GtSceneryExampleStencil new
 					exampleMethodName: 'GtDPriceExamples>>#displayOfConcretePriceDiscountedByMoneyAndDiscountedByPercentage')
 					asItem.
 	item6 position: 369.4457286377426 @ 197.6411992361841.
 	item6 extent: 439.5082503972002 @ 299.1560743325399.
 	item7 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'An inspector on an example (i.e., produced by an example method.) ';
 					width: 224.8031498875224) asItem.
 	item7 position: 673.2853863501894 @ 81.56246188796293.
 	item7 extent: 224.8031498875224 @ 45.999999999999986.
 	item8 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'NB: The view to display can be configured from the contextual menu.';
 					width: 226.98899894440615) asItem.
 	item8 position: 919.7048916352526 @ 81.23585722545188.
 	item8 extent: 226.98899894440615 @ 46.0.
 	item9 := scenery
-			addItem: (GtSceneryExampleStencil new
+			addSceneryItem: (GtSceneryExampleStencil new
 					viewMethodSelector: #gtOverviewFor:;
 					exampleMethodName: 'GtDPriceExamples>>#displayOfConcretePriceDiscountedByMoneyAndDiscountedByPercentage')
 					asItem.
 	item9 position: 1009.3985035017258 @ 225.3307675596644.
 	item9 extent: 538.6180290714688 @ 252.79579150729492.
 	item10 := scenery
-			addItem: (GtSceneryScripterStencil new
+			addSceneryItem: (GtSceneryScripterStencil new
 					exampleMethodName: 'GtWorldByScripterExamples>>#executePlaygroundSnippet')
 					asItem.
 	item10 position: 793.9022265263347 @ 588.7036922222696.
 	item10 extent: 915.4702016445051 @ 400.4482608475756.
 	item11 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'An inspector on the result of a Scripter.';
 					width: 122.5967356363933) asItem.
 	item11 position: 582.5442708333333 @ 598.0922648111979.
@@ -404,7 +404,7 @@ GtSceneryDemoExamples >> overview [
 	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'An overview of the various types of sceneries.';
 					weight: #bold;
 					fontSize: 48;
@@ -412,51 +412,51 @@ GtSceneryDemoExamples >> overview [
 	item1 position: -619.6482189529054 @ -1186.567423502604.
 	item1 extent: 587.850675703061 @ 130.0.
 	item2 := scenery
-			addItem: (GtEmbeddedSceneryStencil new
+			addSceneryItem: (GtEmbeddedSceneryStencil new
 					exampleMethodName: 'GtSceneryDemoExamples>>#demoMindmap') asItem.
 	item2 position: -158.9270833333327 @ -679.2189331054688.
 	item2 extent: 477.5075051846717 @ 393.92413067888106.
 	item3 := scenery
-			addItem: (GtEmbeddedSceneryStencil new
+			addSceneryItem: (GtEmbeddedSceneryStencil new
 					exampleMethodName: 'GtSceneryDemoExamples>>#keyClassesUMLScenery') asItem.
 	item3 position: 434.08007812500034 @ -820.5112508138023.
 	item3 extent: 542.0036744086091 @ 319.22610819595013.
 	item4 := scenery
-			addItem: (GtEmbeddedSceneryStencil new
+			addSceneryItem: (GtEmbeddedSceneryStencil new
 					exampleMethodName: 'GtSceneryDemoExamples>>#reflectionScenery') asItem.
 	item4 position: -710.6750787256289 @ -518.3087768554688.
 	item4 extent: 478.60969707523657 @ 286.34334058190586.
 	item5 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'This is a simple diagram composed of text labels, shapes, and an image file. The layout is manual, and the result is saved as an example method.';
 					width: 236.16622785019712) asItem.
 	item5 position: -556.6516138650193 @ -847.0506434858828.
 	item5 extent: 236.16622785019712 @ 82.0.
 	item6 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'Here we have an example of a mindmap consisting of text bubbles, with a simple default layout.';
 					width: 214.01735044420434) asItem.
 	item6 position: 22.921562185971652 @ -896.8389831318595.
 	item6 extent: 214.01735044420434 @ 64.0.
 	item7 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'This is a UML class diagram in which the classes, inheritances and associations have been automatically mined using the example classes within the GtScenery  package. The layout has been adjusted by hand.';
 					width: 323.1687957906083) asItem.
 	item7 position: 420.53661645431305 @ -979.2171452845389.
 	item7 extent: 323.1687957906083 @ 82.0.
 	item8 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'NB: Double-click on an embedded scenery or inspect it to dive into it.';
 					width: 210.29083010363036) asItem.
 	item8 position: -243.8668752339995 @ -1004.5201429743447.
 	item8 extent: 210.29083010363036 @ 46.0.
 	item9 := scenery
-			addItem: (GtEmbeddedSceneryStencil new
+			addSceneryItem: (GtEmbeddedSceneryStencil new
 					exampleMethodName: 'GtSceneryDemoExamples>>#inspectorSceneries') asItem.
 	item9 position: 403.24912953348866 @ -462.38146418036365.
 	item9 extent: 767.6824606178943 @ 408.8144144462352.
 	item10 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'Various kinds of Inspectors';
 					width: 102.93202209472656) asItem.
 	item10 position: 67.41392056706002 @ -164.31982173872382.

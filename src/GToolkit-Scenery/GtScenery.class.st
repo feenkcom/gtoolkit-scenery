@@ -57,16 +57,18 @@ GtScenery >> addConnectionWithStencil: aStencil from: anItem1 to: anItem2 [
 GtScenery >> addItem: anItem [
 	"Not a great name. Too  many other methods in the system with the same selector."
 
-	items add: anItem.
-	self announce: (GtSceneryItemAdded new item: anItem).
-	^ anItem
+	self
+		deprecated: 'Use addSceneryItem: instead'
+		transformWith: '`@receiver addItem: `@argument' -> '`@receiver addSceneryItem: `@argument'.
+
+	^ self addSceneryItem: anItem
 ]
 
 { #category : #accessing }
 GtScenery >> addItemForStencil: anItemStencil [
 	"So far not used anywhere?"
 
-	^ self addItem: (GtSceneryItem new stencil: anItemStencil)
+	^ self addSceneryItem: (GtSceneryItem new stencil: anItemStencil)
 ]
 
 { #category : #accessing }
@@ -83,7 +85,7 @@ GtScenery >> addScenery: otherScenery [
 	otherScenery items
 		do: [ :item | 
 			item position: item position + delta.
-			self addItem: item ].
+			self addSceneryItem: item ].
 	otherScenery connections
 		do: [ :connection | self addConnectionFrom: connection from to: connection to ].
 	^ self
@@ -100,6 +102,13 @@ GtScenery >> addSceneryFromStoreStringMethod [
 		ifNotNil: [ | storedScenery |
 			storedScenery := method methodClass new perform: method selector.
 			self addScenery: storedScenery ]
+]
+
+{ #category : #accessing }
+GtScenery >> addSceneryItem: anItem [
+	items add: anItem.
+	self announce: (GtSceneryItemAdded new item: anItem).
+	^ anItem
 ]
 
 { #category : #announcements }
@@ -600,7 +609,7 @@ GtScenery >> spawnNewItemFrom: aSourceItem using: aStencil [
 	newItem position: newPosition.
 
 	aSourceItem addLinkTo: newItem.
-	self addItem: newItem.
+	self addSceneryItem: newItem.
 	^ newItem
 ]
 
@@ -637,7 +646,7 @@ GtScenery >> storeOn: aStream [
 	items
 		doWithIndex: [ :eachItem :i | 
 			aStream
-				nextPutAll: 'item' , i asString , ' := scenery addItem: (('.
+				nextPutAll: 'item' , i asString , ' := scenery addSceneryItem: (('.
 			eachItem stencil storeOn: aStream.
 			aStream nextPutAll: ') asItem).';
 				cr.
