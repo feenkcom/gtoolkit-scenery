@@ -108,6 +108,14 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 					ifAbsentDo: [ 0 @ 0 ] ];
 		addItemLabel: 'Add item'
 			submenu: (self itemCreationSubmenuForContext: aContext);
+		addItemLabel: 'Zoom'
+			submenu: (BrMenuItems new
+					addItemLabel: 'Zoom in' action: [ :elt | self container zoomIn ];
+					addItemLabel: 'Zoom out' action: [ :elt | self container zoomOut ];
+					addItemLabel: 'Zoom to fit' action: [ :elt | self container zoomToFit ];
+					addItemLabel: 'Zoom to actual size'
+						action: [ :elt | self container zoomToActualSize ];
+					yourself);
 		addItemLabel: 'Update layout'
 			submenu: (self layoutSubmenuForContext: aContext);
 		addItemLabel: 'Redisplay' action: [ self redisplay ];
