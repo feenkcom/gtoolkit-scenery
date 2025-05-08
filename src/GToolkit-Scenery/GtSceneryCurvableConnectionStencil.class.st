@@ -15,12 +15,6 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
-{ #category : #accessing }
-GtSceneryCurvableConnectionStencil >> arrowHead [
-	self arrowHeadType = #triangle ifTrue: [ ^ self triangleArrowHead ].
-	^ self simpleArrowHead
-]
-
 { #category : #printing }
 GtSceneryCurvableConnectionStencil >> arrowHeadType [
 	^ arrowHeadType
@@ -28,8 +22,16 @@ GtSceneryCurvableConnectionStencil >> arrowHeadType [
 
 { #category : #accessing }
 GtSceneryCurvableConnectionStencil >> arrowHeadType: aSymbol [
-	"Currently #simple or #triangle. Defaults to #simple."
-	arrowHeadType := aSymbol
+	self assert: (self arrowHeadTypes includes: aSymbol asSymbol).
+	arrowHeadType := aSymbol asSymbol.
+	self announceStencilUpdate
+]
+
+{ #category : #acccessing }
+GtSceneryCurvableConnectionStencil >> arrowHeadTypes [
+	^ {#simple.
+		#triangle.
+		#none}
 ]
 
 { #category : #deprecated }
@@ -139,14 +141,16 @@ GtSceneryCurvableConnectionStencil >> menuForChildElement: aChildElement andScen
 						action: [ self curvatureFraction: self curvatureFraction - self curvatureDelta ];
 					addItemLabel: 'Be straight' action: [ self curvatureFraction: 0 ];
 					yourself);
+		addItemLabel: 'Arrowhead'
+			submenu: [ | submenu |
+				submenu := BrMenuItems new yourself.
+				self arrowHeadTypes
+					do: [ :each | 
+						submenu
+							addItemLabel: each asString capitalized
+							action: [ self arrowHeadType: each ] ].
+				submenu ] value;
 		yourself
-]
-
-{ #category : #accessing }
-GtSceneryCurvableConnectionStencil >> simpleArrowHead [
-	^ BlArrowheadSimpleArrow new
-		background: Color black;
-		border: (BlBorder paint: Color black)
 ]
 
 { #category : #printing }
@@ -155,11 +159,4 @@ GtSceneryCurvableConnectionStencil >> storeOnAttributes [
 		#fontSize.
 		#arrowHeadType.
 		#curvatureFraction}
-]
-
-{ #category : #accessing }
-GtSceneryCurvableConnectionStencil >> triangleArrowHead [
-	^ BlArrowheadTriangle new
-		scale: 4;
-		border: (BlBorder paint: Color black)
 ]

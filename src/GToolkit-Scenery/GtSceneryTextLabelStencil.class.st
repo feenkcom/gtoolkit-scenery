@@ -150,9 +150,28 @@ GtSceneryTextLabelStencil >> emphasis [
 
 { #category : #accessing }
 GtSceneryTextLabelStencil >> emphasis: aSymbol [
-	"See BlFontEmphasisAttribute"
-	emphasis := aSymbol.
-	self announceStencilUpdate
+	"NB: JSON encoding is a String."
+	| symbol |
+	symbol := aSymbol asSymbol.
+	self assert: (self emphasisSymbols includes: symbol).
+	emphasis := symbol.
+	self text perform: emphasis
+]
+
+{ #category : #menu }
+GtSceneryTextLabelStencil >> emphasisSymbols [
+	"Selected emphasis methods of TBlTextStyleable understood by a BlRunRopedText"
+
+	^ {#italic.
+		#normal.
+		#oblique}
+]
+
+{ #category : #converting }
+GtSceneryTextLabelStencil >> emptyCopy [
+	"Return a clone with the same attributes, but with default content."
+	^ self copy
+		resetContent
 ]
 
 { #category : #accessing }
@@ -226,9 +245,13 @@ GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElemen
 						submenu
 							addItemLabel: symbol asString capitalized
 							action: [ self weight: symbol ] ].
+				self emphasisSymbols
+					do: [ :symbol | 
+						submenu
+							addItemLabel: symbol asString capitalized
+							action: [ self emphasis: symbol ] ].
 				self fontSizes
 					do: [ :size | submenu addItemLabel: size printString , ' pt' action: [ self fontSize: size ] ].
-
 				submenu ] value;
 		addItemLabel: 'Modify background'
 			submenu: [ | submenu |
@@ -246,7 +269,7 @@ GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElemen
 GtSceneryTextLabelStencil >> postCopy [
 	super postCopy.
 	label := label copy.
-	width := width copy.
+	text := text copy
 ]
 
 { #category : #printing }
@@ -256,6 +279,12 @@ GtSceneryTextLabelStencil >> printOn: aStream [
 		nextPut: $(;
 		nextPutAll: self label;
 		nextPut: $)
+]
+
+{ #category : #converting }
+GtSceneryTextLabelStencil >> resetContent [
+	label := self defaultLabel.
+	text := nil
 ]
 
 { #category : #storing }

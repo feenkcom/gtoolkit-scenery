@@ -74,7 +74,21 @@ GtSceneryCurvableConnectionElement >> setHoverConnectionColor [
 	self border: (BlBorder paint: self hoverColor width: self borderWidth)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #appearance }
+GtSceneryCurvableConnectionElement >> simpleArrowHead [
+	^ BlArrowheadSimpleArrow new
+		background: Color black;
+		border: (BlBorder paint: Color black)
+]
+
+{ #category : #appearance }
+GtSceneryCurvableConnectionElement >> triangleArrowHead [
+	^ BlArrowheadTriangle new
+		scale: 4;
+		border: (BlBorder paint: Color black)
+]
+
+{ #category : #notifications }
 GtSceneryCurvableConnectionElement >> updateAppearance [
 	| stencil |
 	stencil := self graph model stencil.
@@ -86,6 +100,14 @@ GtSceneryCurvableConnectionElement >> updateAppearance [
 				aptitude: (BrGlamorousLabelAptitude new fontSize: stencil fontSize).
 			self label visibility: BlVisibility visible ]
 		ifFalse: [ self label visibility: BlVisibility gone ].
-	self toHead: stencil arrowHead.
+	"self toHead: stencil arrowHead."
+	self updateArrowhead: stencil arrowHeadType.
 	self resetConnectionColor
+]
+
+{ #category : #notifications }
+GtSceneryCurvableConnectionElement >> updateArrowhead: aSymbol [
+	aSymbol == #none ifTrue: [ ^ self removeToHead ].
+	aSymbol == #simple ifTrue: [ ^ self toHead: self simpleArrowHead ].
+	aSymbol == #triangle ifTrue: [ ^ self toHead: self triangleArrowHead ]
 ]

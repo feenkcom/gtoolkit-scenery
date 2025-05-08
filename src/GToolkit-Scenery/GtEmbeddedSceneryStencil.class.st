@@ -28,11 +28,6 @@ GtEmbeddedSceneryStencil >> defaultViewMethodSelector [
 	^ #gtLiveFor:
 ]
 
-{ #category : #'api - instantiation' }
-GtEmbeddedSceneryStencil >> elementClass [
-	^ GtEmbeddedSceneryElement
-]
-
 { #category : #menu }
 GtEmbeddedSceneryStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 "We relabel 'Inspect value' to 'Inspect scenery'"
@@ -41,6 +36,17 @@ GtEmbeddedSceneryStencil >> menuForChildElement: aChildElement andSceneryElement
 	menu := super menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement.
 	menu items first label: 'Inspect scenery'.
 	^ menu
+]
+
+{ #category : #accessing }
+GtEmbeddedSceneryStencil >> objectValue [
+	"Set the embedded scenery (model) to not be draggable."
+
+	| scenery |
+	scenery := super objectValue.
+	self assert: (scenery isKindOf: GtScenery).
+	scenery backgroundDraggable: false.
+	^ scenery
 ]
 
 { #category : #scenery }

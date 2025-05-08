@@ -30,7 +30,7 @@ GtSceneryTextLabelElement >> defaultLabelShortcuts [
 			performBlock: [ self
 					fireEvent: (GtSceneryAddNewConnection new
 							fromItem: self graph model;
-							toStencil: self stencilClass new;
+							toStencil: self stencil emptyCopy;
 							yourself) ];
 			yourself} , super defaultLabelShortcuts
 ]
@@ -96,7 +96,8 @@ GtSceneryTextLabelElement >> stencilClass [
 GtSceneryTextLabelElement >> updateAppearance [
 	| stencil |
 	stencil := self stencil.
-	self text: stencil text.
+	self text: stencil text.	
+	self text fontSize: stencil fontSize.
 	stencil width = stencil defaultWidth
 		ifFalse: [ self
 				hExact: stencil width;

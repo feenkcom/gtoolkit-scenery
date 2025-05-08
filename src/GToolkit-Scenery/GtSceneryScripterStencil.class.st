@@ -35,8 +35,12 @@ GtSceneryScripterStencil >> defaultViewMethodSelector [
 
 { #category : #accessing }
 GtSceneryScripterStencil >> objectValue [
-	"It's an example, but we will have to process it.
-	Check if it's a Scripter and extract the root element?"
+	"NB: Since the scenery element has already been created, we need to explicitly disable the background dragging."
 
-	^ super objectValue elementWithoutParent
+	| result |
+	result := super objectValue.
+	self assert: (result isKindOf: BlScripter).
+	(result element isKindOf: GtSceneryElement)
+		ifTrue: [ result element disableBackgroundDragging ].
+	^ result elementWithoutParent
 ]

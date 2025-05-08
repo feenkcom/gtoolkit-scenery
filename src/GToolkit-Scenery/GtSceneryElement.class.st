@@ -188,7 +188,8 @@ GtSceneryElement >> defaultItemStencilClass [
 { #category : #accessing }
 GtSceneryElement >> disableBackgroundDragging [
 	"Needed for embedded sceneries, so we can drag the scenery instead of the background."
-	^ container
+
+	container
 		removeEventHandlersSuchThat: [ :each | each isKindOf: BlCanvassableElementSlideHandler ]
 ]
 
@@ -273,10 +274,9 @@ GtSceneryElement >> gtScenery: aScenery [
 	gtScenery items isEmpty
 		ifTrue: [ self container disableAutoScale ]
 		ifFalse: [ self container enableAutoScale ].
-		
 	gtScenery onceLayout
 		ifNotNil: [ self container layout: (BlOnceLayout new layout: gtScenery onceLayout) ].
-
+	gtScenery backgroundDraggable ifFalse: [ self disableBackgroundDragging ].
 	self subscribe
 ]
 
