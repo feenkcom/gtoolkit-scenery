@@ -8,3 +8,8 @@ Class {
 	#superclass : #GtSceneryDraggableItemStencil,
 	#category : #'GToolkit-Scenery-Model'
 }
+
+{ #category : #'as yet unclassified' }
+OldStyleSceneryItemStencil >> setIsSpawnedTrue [
+	"For compatibility"
+]

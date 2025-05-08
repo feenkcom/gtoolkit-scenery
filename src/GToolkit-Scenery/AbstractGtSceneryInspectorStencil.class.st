@@ -43,6 +43,11 @@ AbstractGtSceneryInspectorStencil >> isAbstract [
 	^ self = AbstractGtSceneryInspectorStencil
 ]
 
+{ #category : #accessing }
+AbstractGtSceneryInspectorStencil >> isSpawned [
+	"NB: Only used by GtSceneryInspectorStencil"
+]
+
 { #category : #menu }
 AbstractGtSceneryInspectorStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	| submenu |
@@ -64,6 +69,11 @@ AbstractGtSceneryInspectorStencil >> menuForChildElement: aChildElement andScene
 { #category : #accessing }
 AbstractGtSceneryInspectorStencil >> objectValue [
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+AbstractGtSceneryInspectorStencil >> setIsSpawnedTrue [
+	"NB: Only used by GtSceneryInspectorStencil"
 ]
 
 { #category : #storing }
