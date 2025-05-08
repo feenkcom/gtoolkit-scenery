@@ -91,7 +91,7 @@ GtSceneryTextLabelStencil >> backgroundColors [
 GtSceneryTextLabelStencil >> create [
 	| anEditableLabel |
 	anEditableLabel := self elementClass new
-			text: self text;
+			text: self text copy;
 			yourself.
 	self width = self defaultWidth
 		ifFalse: [ anEditableLabel
