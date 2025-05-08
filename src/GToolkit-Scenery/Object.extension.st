@@ -12,3 +12,12 @@ Object >> implementsStoreOn [
 		do: [ :c :m | m ]
 		ifAbsent: [ ^ false ]) ~= (Object >> #storeOn:)
 ]
+
+{ #category : #'*GToolkit-Scenery' }
+Object >> sceneryInspectorStencil [
+	"The default stencil for arbitrary objects."
+
+	^ GtSceneryInspectorStencil new
+		target: [ self ];
+		yourself
+]

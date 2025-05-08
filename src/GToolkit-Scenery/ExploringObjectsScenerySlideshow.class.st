@@ -542,6 +542,15 @@ ExploringObjectsScenerySlideshow >> packageExploration [
 	^ scenery
 ]
 
+{ #category : #slides }
+ExploringObjectsScenerySlideshow >> packageExplorationSlide: aSlide [
+	<gtSlide>
+	<text: 'Package exploration'>
+	^ aSlide scenery
+		setPriority;
+		scenery: ExploringObjectsScenerySlideshow >> #packageExploration
+]
+
 { #category : #scenery }
 ExploringObjectsScenerySlideshow >> reflectionScenery [
 	<gtExample>
@@ -573,6 +582,7 @@ ExploringObjectsScenerySlideshow >> slidePriorities [
 		#reflectionScenerySlide:
 		#inspectorSceneriesSlide:
 		#keyClassesUMLScenerySlide:
+		#packageExplorationSlide:
 	)
 ]
 

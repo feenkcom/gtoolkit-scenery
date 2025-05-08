@@ -41,7 +41,7 @@ GtSceneryLepiterPageStencil >> create [
 
 { #category : #'as yet unclassified' }
 GtSceneryLepiterPageStencil >> defaultExtent [
-	^ 400 @ 300
+	^ 500 @ 400
 ]
 
 { #category : #listeners }

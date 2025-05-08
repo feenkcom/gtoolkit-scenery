@@ -94,17 +94,8 @@ GtSceneryInspectorStencil >> target [
 		ifTrue: [ self targetValue implementsStoreOn
 				ifTrue: [ target := Smalltalk compiler
 							evaluate: '[ ' , self targetValue storeString , ' ]' ]
-				ifFalse: [
-				
-				 target := 
-				 Smalltalk compiler
-							evaluate:
-				 
-				 '[ Error signal: ''Could not serialize ' , self targetValue printString , ''' ]' 
-							
-							
-							
-							] ]
+				ifFalse: [ target := Smalltalk compiler
+							evaluate: '[ Error signal: ''Could not serialize ' , self targetValue printString , ''' ]' ] ]
 		ifFalse: [ target := targetBlock ].
 	^ target
 ]

@@ -590,18 +590,11 @@ GtScenery >> spawnNewItemFrom: aSourceItem for: anObject [
 
 	<todo: 'Handle more special cases of stencils to create?'>
 	<todo: 'Instead of type-checking an object ask it what stencil to use to spawn it.'>
-	| stencil |
-	stencil := GtSceneryInspectorStencil new
-			target: [ anObject ];
-			setIsSpawnedTrue;
-			yourself.
-	(anObject isKindOf: GtPhlowCompositeTool)
-		ifTrue: [ | theObject |
-			theObject := anObject tools first object.
-			(theObject isKindOf: LePage)
-				ifTrue: [ stencil := GtSceneryLepiterPageStencil new
-							pageName: theObject title;
-							databaseName: theObject database databaseName ] ].
+	| stencil theObject |
+	theObject := (anObject isKindOf: GtPhlowCompositeTool)
+			ifTrue: [ anObject tools first object ]
+			ifFalse: [ anObject ].
+	stencil := theObject sceneryInspectorStencil setIsSpawnedTrue.
 	^ self spawnNewItemFrom: aSourceItem using: stencil
 ]
 
