@@ -313,11 +313,6 @@ GtSceneryElement >> initializeEventListers [
 		do: [ :e | 
 			e consumed: true.
 			self phlow spawnObject: e object ].
-	self
-		when: GtSceneryAddNewConnection
-		do: [ :e | 
-			e consumed: true.
-			self gtScenery spawnConnectionFrom: e fromItem to: e toStencil ].
 	self container
 		when: BlDoubleClickEvent
 		do: [ :evt | self addNewItemFor: self currentItemStencil at: evt childrenPosition ].

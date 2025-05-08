@@ -37,7 +37,7 @@ GtSceneryPackageInspectorStencil >> defaultViewMethodSelector [
 { #category : #'as yet unclassified' }
 GtSceneryPackageInspectorStencil >> examplesSubmenuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	| menu myItem |
-	myItem := aGtSceneryElement gtScenery itemForStencil: self.
+	myItem := self gtScenery itemForStencil: self.
 	self assert: myItem notNil.
 	menu := BrMenuItems new.
 	self package gtExamplesWithReturnPragmasClassified associations

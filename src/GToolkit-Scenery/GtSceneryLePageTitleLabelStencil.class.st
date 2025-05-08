@@ -88,7 +88,7 @@ GtSceneryLePageTitleLabelStencil >> menuForChildElement: aChildElement andScener
 				do: [ :aPage | 
 					submenu
 						addItemLabel: aPage title
-						action: [ aGtSceneryElement gtScenery
+						action: [ self gtScenery
 								spawnConnectionFrom: sourceItem
 								to: (self class new
 										pageName: aPage title;
@@ -104,7 +104,7 @@ GtSceneryLePageTitleLabelStencil >> menuForChildElement: aChildElement andScener
 				do: [ :aPage | 
 					submenu
 						addItemLabel: aPage title
-						action: [ aGtSceneryElement gtScenery
+						action: [ self gtScenery
 								spawnConnectionTo: sourceItem
 								from: (self class new
 										pageName: aPage title;

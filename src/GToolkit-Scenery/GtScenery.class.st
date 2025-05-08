@@ -48,6 +48,7 @@ GtScenery >> addConnectionWithStencil: aStencil from: anItem1 to: anItem2 [
 			stencil: aStencil;
 			from: anItem1;
 			to: anItem2.
+	aStencil isSceneryStencil ifTrue: [ aStencil gtScenery: self ].
 	connections add: connection.
 	self announce: (GtSceneryConnectionAdded new connection: connection).
 	^ connection
@@ -107,6 +108,7 @@ GtScenery >> addSceneryFromStoreStringMethod [
 { #category : #accessing }
 GtScenery >> addSceneryItem: anItem [
 	items add: anItem.
+	anItem stencil isSceneryStencil ifTrue: [ anItem stencil gtScenery: self ].
 	self announce: (GtSceneryItemAdded new item: anItem).
 	^ anItem
 ]

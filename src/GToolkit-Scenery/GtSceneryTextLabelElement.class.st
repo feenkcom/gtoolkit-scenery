@@ -27,11 +27,9 @@ GtSceneryTextLabelElement >> defaultLabelShortcuts [
 			name: 'Add subnode';
 			description: 'Add a subnode.';
 			combination: BlKeyCombination tab;
-			performBlock: [ self
-					fireEvent: (GtSceneryAddNewConnection new
-							fromItem: self graph model;
-							toStencil: self stencil emptyCopy;
-							yourself) ];
+			performBlock: [ self stencil gtScenery
+					spawnConnectionFrom: self graph model
+					to: self stencil emptyCopy ];
 			yourself} , super defaultLabelShortcuts
 ]
 

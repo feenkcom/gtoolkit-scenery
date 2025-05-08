@@ -10,7 +10,8 @@ Class {
 	#traits : 'TGtSceneryShared',
 	#classTraits : 'TGtSceneryShared classTrait',
 	#instVars : [
-		'announcer'
+		'announcer',
+		'gtScenery'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -52,6 +53,18 @@ GtSceneryEntityStencil >> announcer [
 GtSceneryEntityStencil >> elementClass [
 	"NB: Not used by all subclasses, but perhaps should be."
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+GtSceneryEntityStencil >> gtScenery [
+	self assert: gtScenery notNil description: 'gtScenery has not been updated'.
+	^ gtScenery
+]
+
+{ #category : #accessing }
+GtSceneryEntityStencil >> gtScenery: aScenery [
+	"To be set by the scenery when the item (or connection) is added."
+	gtScenery := aScenery
 ]
 
 { #category : #listeners }
