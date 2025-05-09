@@ -45,20 +45,24 @@ GtSceneryStoreStringExamples >> circleShapeSceneryRestored [
 
 { #category : #accessing }
 GtSceneryStoreStringExamples >> compositeScenery [
-	"This fails if we include inspectorOn42SceneryRestored because the scenery is not fully rendered when we ask for the bounding box."
+	"NB: Without the use of the scripter, this example fails when adding inspectorOn42SceneryRestored."
 
-	<todo: 'Adapt the composite scenery to use Scripter.'>
 	<gtExample>
-	<noTest>
 	<return: #GtScenery>
 	| scenery |
 	scenery := self emptyScenery.
+
 	{self circleShapeSceneryRestored.
 		self gtBookLabelSceneryRestored.
 		self gtLogoFileSceneryRestored.
 		self gtSceneryClassSceneryRestored.
+		self inspectorOn42SceneryRestored.
 		self mindmapBubbleSceneryRestored.
-		self textLabelSceneryRestored} do: [ :each | scenery addScenery: each ].	"self inspectorOn42SceneryRestored."
+		self textLabelSceneryRestored}
+		do: [ :each | 
+			each playInScripter.
+			scenery addScenery: each ].
+
 	self assert: scenery equals: scenery restored.
 	^ scenery
 ]
@@ -437,6 +441,24 @@ GtSceneryStoreStringExamples >> sceneryWithValidStoreStringMethodName [
 		storeStringMethodName: 'GtSceneryStoreStringExamples>>#validStoreStringMethod'.
 	scenery addSceneryFromStoreStringMethod.
 	self assert: scenery items size equals: 1.
+	^ scenery
+]
+
+{ #category : #accessing }
+GtSceneryStoreStringExamples >> scriptingCompositeScenery [
+	"Without the scripter, this example fails, because the bounding box of the scenery to add cannot be computed.
+Interestingly, it isn't even necessary to play the scripter, it seems."
+
+	<gtExample>
+	<return: #GtScenery>
+	| scenery sceneryToAdd |
+	scenery := self emptyScenery.
+
+	sceneryToAdd := self inspectorOn42SceneryRestored.
+	sceneryToAdd playInScripter.
+	scenery addScenery: sceneryToAdd.
+
+	self assert: scenery equals: scenery restored.
 	^ scenery
 ]
 

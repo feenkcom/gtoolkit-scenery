@@ -538,6 +538,13 @@ GtScenery >> onceLayout: aLayout [
 	onceLayout := aLayout
 ]
 
+{ #category : #accessing }
+GtScenery >> playInScripter [
+	"This is sometimes needed to exercise a scenery so that its bounding box can be computed."
+
+	^ (BlScripter new element: self asElement) play
+]
+
 { #category : #updating }
 GtScenery >> removeConnection: aConnection [
 	self connections remove: aConnection.

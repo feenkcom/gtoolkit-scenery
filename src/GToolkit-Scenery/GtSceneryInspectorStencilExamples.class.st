@@ -341,10 +341,9 @@ GtSceneryInspectorStencilExamples >> sceneryWithSpawnedObjects [
 	scenery addConnectionFrom: slideshowClassItem to: slideItem.
 	self assert: (slideItem stencil isKindOf: GtScenerySlideStencil).
 
-	scripter play.
 	scripter element applyOnceLayoutNamed: #horizontal.
 	scripter play.
-	^ scripter element gtScenery
+	^ scenery
 ]
 
 { #category : #scenery }
