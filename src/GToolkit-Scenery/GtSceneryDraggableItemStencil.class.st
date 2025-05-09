@@ -55,6 +55,11 @@ GtSceneryDraggableItemStencil >> initialize [
 	extent := self defaultExtent
 ]
 
+{ #category : #accessing }
+GtSceneryDraggableItemStencil >> neededHeight [
+	^ self extent y
+]
+
 { #category : #connecting }
 GtSceneryDraggableItemStencil >> stencilForConnectionWithItemStencil: anItem [
 	"Hook to let the stencil decide the connection stencil to use."

@@ -264,6 +264,11 @@ GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElemen
 		yourself
 ]
 
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> neededHeight [
+	^ self fontSize * 2
+]
+
 { #category : #printing }
 GtSceneryTextLabelStencil >> postCopy [
 	super postCopy.

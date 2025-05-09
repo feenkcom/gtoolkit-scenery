@@ -44,18 +44,17 @@ GtSceneryMindmapExamples >> arrowHeads [
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
 				arrowHeadType: #none;
-				curvatureFraction: 0)
+				new)
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item3.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
 				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				new)
 		from: item1
 		to: item4.
 	scenery storeStringMethodName: 'GtSceneryMindmapExamples>>#arrowHeads'.
@@ -119,13 +118,11 @@ GtSceneryMindmapExamples >> mindmapWithTwoSubnodes [
 	item3 position: 126.0 @ 82.0.
 	item3 extent: 78.08198547363281 @ 28.0.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new)
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new)
 		from: item1
 		to: item3.
 	self assert: scenery items size equals: 3.

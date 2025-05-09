@@ -85,7 +85,7 @@ GtSceneryEntityStencil >> hash [
 
 { #category : #testing }
 GtSceneryEntityStencil >> isSceneryStencil [
-	"Only scenery stencils have announcers."
+	"Only scenery stencils have announcers and a #gtScenery setter and getter ."
 
 	^ true
 ]

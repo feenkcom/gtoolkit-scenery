@@ -81,76 +81,62 @@ AssociationMinerExamples >> ludoGameEdited [
 	item10 extent: 72.00599670410156 @ 28.0.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item1
 		to: item9.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item8
 		to: item7.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item4
 		to: item2.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item9
 		to: item7.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item6
 		to: item5.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item4
 		to: item8.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item6
 		to: item4.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item2
 		to: item9.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item2
 		to: item3.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item4
 		to: item6.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item2
 		to: item8.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item6
 		to: item9.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item6
 		to: item8.
 	scenery
-		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryUMLConnectionStencil new
 		from: item2
 		to: item10.
 	scenery storeStringMethodName: 'AssociationMinerExamples>>#ludoGameEdited'.

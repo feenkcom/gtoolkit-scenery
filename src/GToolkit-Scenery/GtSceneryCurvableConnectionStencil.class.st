@@ -79,7 +79,7 @@ GtSceneryCurvableConnectionStencil >> defaultArrowHeadType [
 
 { #category : #initialization }
 GtSceneryCurvableConnectionStencil >> defaultCurvatureFraction [
-	^ 0.2
+	^ 0
 ]
 
 { #category : #initialization }

@@ -194,15 +194,15 @@ GtSceneryStoreStringExamples >> inspectorOn42Scenery [
 	item2 := scenery
 			addSceneryItem: (GtSceneryInspectorStencil new target: [ '42' ]) asItem.
 	item2 position: 349.95166015625 @ 192.30275472005212.
-	item2 extent: 300 @ 400.
+	item2 extent: 300.0 @ 400.0.
 	item3 := scenery
-			addSceneryItem: (GtSceneryMindMapNodeStencil new label: 'Connect me to the spawned object')
-					asItem.
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Connect me to the spawned object';
+					width: 200.0) asItem.
 	item3 position: 0 @ 0.
-	item3 extent: nil.
+	item3 extent: 200.0 @ 46.0.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item3
 		to: item2.
 	scenery
@@ -238,8 +238,7 @@ GtSceneryStoreStringExamples >> inspectorOn42SceneryWithSpawnedObject [
 			addSceneryItem: (GtSceneryMindMapNodeStencil new label: 'Connect me to the spawned object')
 					asItem.
 	connection := scenery
-			addConnectionWithStencil: (GtSceneryStraightArcStencil new
-					curvatureFraction: 0)
+			addConnectionWithStencil: (GtSceneryStraightArcStencil new)
 			from: itemBubble
 			to: itemByteString42.
 

@@ -49,7 +49,7 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnection [
 	item1 := scenery items first.
 	item2 := scenery items last.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item2.
 	scripter := BlScripter new element: scenery asElement.

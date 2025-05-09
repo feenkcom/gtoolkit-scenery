@@ -179,113 +179,91 @@ ExploringObjectsScenerySlideshow >> brainstormingNewInspectorStencilDesignMindma
 	item24 position: 763.1089731852215 @ 648.4854939778646.
 	item24 extent: 102.93202209472656 @ 28.0.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item4.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item4
 		to: item5.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item4
 		to: item6.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item7.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item8.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item9.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item8
 		to: item10.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item8
 		to: item11.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item7
 		to: item12.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item12
 		to: item13.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item7
 		to: item14.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item14
 		to: item15.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item4
 		to: item17.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item17
 		to: item18.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item11
 		to: item19.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item9
 		to: item20.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item9
 		to: item21.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item22.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item22
 		to: item23.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item21
 		to: item24.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item14
 		to: item16.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item3.
 	scenery
@@ -449,48 +427,39 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 	item10 position: 619.2766825358073 @ 389.818827311198.
 	item10 extent: 112.12717183430982 @ 46.0.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item2
 		to: item3.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item4.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item4
 		to: item5.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item4
 		to: item6.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item4
 		to: item7.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item4
 		to: item8.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item2
 		to: item9.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item2
 		to: item10.
 	scenery
@@ -583,6 +552,7 @@ ExploringObjectsScenerySlideshow >> slidePriorities [
 		#inspectorSceneriesSlide:
 		#keyClassesUMLScenerySlide:
 		#packageExplorationSlide:
+		#summaryScenarioSlide:
 	)
 ]
 
@@ -616,6 +586,47 @@ ExploringObjectsScenerySlideshow >> slideScenery [
 	scenery
 		storeStringMethodName: 'ExploringObjectsScenerySlideshow>>#slideScenery'.
 	^ scenery
+]
+
+{ #category : #scenery }
+ExploringObjectsScenerySlideshow >> summaryScenario [
+	"NB: Generated by GtScenery>>#storeAsExampleMethod -- do not edit."
+
+	<gtExample>
+	<noTest>
+	<storedScenery>
+	<return: #GtScenery>
+	| scenery item1 item2 |
+	scenery := GtScenery new.
+	item1 := scenery
+			addSceneryItem: (GtSceneryTextLabelStencil new
+					label: 'Where to go from here?';
+					emphasis: #italic;
+					fontSize: 24;
+					width: 136.66920332460677;
+					backgroundColor: (Color
+							r: 1.0
+							g: 0.9012707722385142
+							b: 1.0
+							alpha: 1.0)) asItem.
+	item1 position: -45.308640966692224 @ -130.2170846681739.
+	item1 extent: 136.66920332460677 @ 70.0.
+	item2 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new width: 102.93202209472653) asItem.
+	item2 position: 92.26382338003387 @ 72.9934230712002.
+	item2 extent: 102.93202209472653 @ 28.0.
+	scenery
+		storeStringMethodName: 'ExploringObjectsScenerySlideshow>>#summaryScenario'.
+	^ scenery
+]
+
+{ #category : #slides }
+ExploringObjectsScenerySlideshow >> summaryScenarioSlide: aSlide [
+	<gtSlide>
+	<text: 'Summary mindmap'>
+	^ aSlide scenery
+		setPriority;
+		scenery: ExploringObjectsScenerySlideshow >> #summaryScenario
 ]
 
 { #category : #slides }

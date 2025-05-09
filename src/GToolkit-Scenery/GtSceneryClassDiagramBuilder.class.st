@@ -53,6 +53,7 @@ GtSceneryClassDiagramBuilder >> addAssociationsTo: scenery [
 
 { #category : #building }
 GtSceneryClassDiagramBuilder >> addClassesTo: scenery [
+<todo: 'Need better way to initially position new class items'>
 	| position positionDelta |
 	position := 0 @ 0.
 	positionDelta := 50 @ 50.

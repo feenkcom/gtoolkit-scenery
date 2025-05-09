@@ -191,43 +191,43 @@ GtSceneryEditedExamples >> sceneryMindmap [
 	item11 position: 392.8634287516277 @ 428.8690083821615.
 	item11 extent: 113.166015625 @ 28.0.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item3.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item2
 		to: item4.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item3
 		to: item5.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item3
 		to: item6.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item2
 		to: item7.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item8.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item8
 		to: item9.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item8
 		to: item10.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item8
 		to: item11.
 	scenery storeStringMethodName: 'GtSceneryEditedExamples>>#sceneryMindmap'.
@@ -269,19 +269,17 @@ GtSceneryEditedExamples >> simpleClassDiagram [
 	item4 position: 352.83453369140625 @ 185.65036010742188.
 	item4 extent: 175.41000366210938 @ 28.0.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item2
 		to: item3.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
 				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				new)
 		from: item4
 		to: item3.
 	scenery storeStringMethodName: 'GtSceneryEditedExamples>>#simpleClassDiagram'.

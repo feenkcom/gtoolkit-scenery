@@ -527,6 +527,12 @@ GtScenery >> items: anObject [
 ]
 
 { #category : #accessing }
+GtScenery >> itemsRightAndBelow: anItem [
+	^ self items
+		select: [ :item | item position + item extent > (anItem position + (anItem extent x @ 0)) ]
+]
+
+{ #category : #accessing }
 GtScenery >> onceLayout [
 	^ onceLayout
 ]
@@ -543,6 +549,15 @@ GtScenery >> playInScripter [
 	"This is sometimes needed to exercise a scenery so that its bounding box can be computed."
 
 	^ (BlScripter new element: self asElement) play
+]
+
+{ #category : #updating }
+GtScenery >> pushItemsRightAndBelow: anItem downBy: aNumber [
+	"Find all items to the right and below the source item, and push them down a distance
+	to make room for a new item. The distance should be the height of the new item plus a margin."
+
+	(self itemsRightAndBelow: anItem)
+		do: [ :item | item position: item position + (0 @ aNumber) ]
 ]
 
 { #category : #updating }
@@ -607,10 +622,12 @@ GtScenery >> spawnNewItemFrom: aSourceItem for: anObject [
 
 { #category : #updating }
 GtScenery >> spawnNewItemFrom: aSourceItem using: aStencil [
-	<todo: 'Need a better way to compute a sensible new position'>
 	<todo: 'Check if the item already exists.'>
-	| newItem newPosition |
+	| newItem newPosition delta |
 	newItem := aStencil asItem.
+
+	delta := 20 + newItem neededHeight.
+	self pushItemsRightAndBelow: aSourceItem downBy: delta.
 
 	newPosition := aSourceItem position + ((100 + aSourceItem extent x) @ 0).
 	newItem position: newPosition.

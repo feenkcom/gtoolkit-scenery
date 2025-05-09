@@ -102,105 +102,84 @@ GtSceneryExplanationExamples >> keyClassesUMLScenery [
 	item14 position: -123.41241366901613 @ 188.00758840800995.
 	item14 extent: 185.86801147460938 @ 28.0.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				labelText: 'holds';
-				curvatureFraction: 0)
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new labelText: 'holds')
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				labelText: 'holds';
-				curvatureFraction: 0)
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new labelText: 'holds')
 		from: item1
 		to: item5.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item6
 		to: item3.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item4
 		to: item6.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item7
 		to: item4.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				labelText: 'holds';
-				curvatureFraction: 0)
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new labelText: 'holds')
 		from: item2
 		to: item7.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item1
 		to: item8.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item3
 		to: item8.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item9
 		to: item10.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				labelText: 'creates';
-				curvatureFraction: 0)
+				labelText: 'creates')
 		from: item7
 		to: item12.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				labelText: 'creates';
-				curvatureFraction: 0)
+				labelText: 'creates')
 		from: item4
 		to: item11.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item11
 		to: item10.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item12
 		to: item11.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				labelText: 'creates';
-				curvatureFraction: 0)
+				labelText: 'creates')
 		from: item1
 		to: item9.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item13
 		to: item3.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item14
 		to: item13.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				labelText: 'holds';
-				curvatureFraction: 0)
+		addConnectionWithStencil: (GtSceneryStraightArcStencil new labelText: 'holds')
 		from: item5
 		to: item14.
 	scenery
