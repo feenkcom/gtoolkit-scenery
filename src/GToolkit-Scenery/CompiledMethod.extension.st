@@ -1,6 +1,13 @@
 Extension { #name : #CompiledMethod }
 
 { #category : #'*GToolkit-Scenery' }
+CompiledMethod >> returnPragmaValues [
+	^ self pragmas
+		select: [ :p | p selector = #return: ]
+		thenCollect: [ :p | p arguments first ]
+]
+
+{ #category : #'*GToolkit-Scenery' }
 CompiledMethod >> sceneryInspectorStencil [
 	"Specialize the stencil based on the kind of value returned."
 

@@ -50,9 +50,9 @@ GtSceneryPackageInspectorStencil >> examplesSubmenuForChildElement: aChildElemen
 						do: [ :eg | 
 							submenu
 								addItemLabel: eg name
-								action: [ aGtSceneryElement gtScenery
+								action: [ self gtScenery
 										spawnNewItemFrom: myItem
-										using: (GtSceneryExampleStencil new exampleMethodName: eg) ] ].
+										using: eg sceneryInspectorStencil ] ].
 					submenu ] value ].
 	^ menu
 ]

@@ -181,10 +181,11 @@ GtSceneryInspectorStencilExamples >> errorScenery [
 	^ scenery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
 GtSceneryInspectorStencilExamples >> foobarStringExample [
 	"To be spawned"
 	<gtExample>
+	<return: 'ByteString'>
 	^ 'Foobar from the example method: GtSceneryInspectorStencilExamples>>#foobarStringExample'
 ]
 
@@ -240,6 +241,34 @@ GtSceneryInspectorStencilExamples >> memoryExampleScenery [
 	item1 position: -29.446614583333258 @ 180.99833170572919.
 	item1 extent: 351.9303385416665 @ 352.1028645833334.
 	self assert: item1 stencil viewMethodSelector equals: #gtLiveFor:.
+	^ scenery
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryInspectorStencilExamples >> packageScenery [
+	<gtExample>
+	<return: #GtScenery>
+	| scenery packageItem stringItem sceneryItem scripter |
+	scenery := GtScenery new.
+	scripter := BlScripter new element: scenery asElement.
+
+	packageItem := scenery
+			addSceneryItem: (GtSceneryPackageInspectorStencil new packageName: #'GToolkit-Scenery') asItem.
+
+	stringItem := scenery
+			spawnNewItemFrom: packageItem
+			using: (GtSceneryExampleStencil new
+					exampleMethodName: GtSceneryInspectorStencilExamples >> #foobarStringExample).
+	scenery addConnectionFrom: packageItem to: stringItem.
+
+	sceneryItem := scenery
+			spawnNewItemFrom: packageItem
+			using: (GtSceneryDemoExamples >> #reflectionScenery) sceneryInspectorStencil.
+	scenery addConnectionFrom: packageItem to: sceneryItem.
+
+	scripter element applyOnceLayoutNamed: #horizontal.
+	scripter play.
+
 	^ scenery
 ]
 
