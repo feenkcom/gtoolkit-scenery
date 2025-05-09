@@ -278,8 +278,7 @@ GtSceneryEditedExamples >> simpleClassDiagram [
 		to: item3.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				new)
+				arrowHeadType: #triangle)
 		from: item4
 		to: item3.
 	scenery storeStringMethodName: 'GtSceneryEditedExamples>>#simpleClassDiagram'.

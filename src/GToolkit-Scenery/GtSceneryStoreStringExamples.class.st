@@ -238,7 +238,7 @@ GtSceneryStoreStringExamples >> inspectorOn42SceneryWithSpawnedObject [
 			addSceneryItem: (GtSceneryMindMapNodeStencil new label: 'Connect me to the spawned object')
 					asItem.
 	connection := scenery
-			addConnectionWithStencil: (GtSceneryStraightArcStencil new)
+			addConnectionWithStencil: GtSceneryStraightArcStencil new
 			from: itemBubble
 			to: itemByteString42.
 
