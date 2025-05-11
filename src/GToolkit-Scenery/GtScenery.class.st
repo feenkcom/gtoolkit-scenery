@@ -48,6 +48,7 @@ GtScenery >> addConnectionWithStencil: aStencil from: anItem1 to: anItem2 [
 			stencil: aStencil;
 			from: anItem1;
 			to: anItem2.
+	aStencil isSceneryStencil ifTrue: [ aStencil gtScenery: self ].
 	connections add: connection.
 	self announce: (GtSceneryConnectionAdded new connection: connection).
 	^ connection
@@ -57,16 +58,18 @@ GtScenery >> addConnectionWithStencil: aStencil from: anItem1 to: anItem2 [
 GtScenery >> addItem: anItem [
 	"Not a great name. Too  many other methods in the system with the same selector."
 
-	items add: anItem.
-	self announce: (GtSceneryItemAdded new item: anItem).
-	^ anItem
+	self
+		deprecated: 'Use addSceneryItem: instead'
+		transformWith: '`@receiver addItem: `@argument' -> '`@receiver addSceneryItem: `@argument'.
+
+	^ self addSceneryItem: anItem
 ]
 
 { #category : #accessing }
 GtScenery >> addItemForStencil: anItemStencil [
 	"So far not used anywhere?"
 
-	^ self addItem: (GtSceneryItem new stencil: anItemStencil)
+	^ self addSceneryItem: (GtSceneryItem new stencil: anItemStencil)
 ]
 
 { #category : #accessing }
@@ -83,7 +86,7 @@ GtScenery >> addScenery: otherScenery [
 	otherScenery items
 		do: [ :item | 
 			item position: item position + delta.
-			self addItem: item ].
+			self addSceneryItem: item ].
 	otherScenery connections
 		do: [ :connection | self addConnectionFrom: connection from to: connection to ].
 	^ self
@@ -100,6 +103,14 @@ GtScenery >> addSceneryFromStoreStringMethod [
 		ifNotNil: [ | storedScenery |
 			storedScenery := method methodClass new perform: method selector.
 			self addScenery: storedScenery ]
+]
+
+{ #category : #accessing }
+GtScenery >> addSceneryItem: anItem [
+	items add: anItem.
+	anItem stencil isSceneryStencil ifTrue: [ anItem stencil gtScenery: self ].
+	self announce: (GtSceneryItemAdded new item: anItem).
+	^ anItem
 ]
 
 { #category : #announcements }
@@ -500,6 +511,11 @@ GtScenery >> isValid [
 	^ true
 ]
 
+{ #category : #enumerating }
+GtScenery >> itemForStencil: aStencil [
+	^ self items detect: [ :item | item stencil == aStencil ] ifNone: [ nil ]
+]
+
 { #category : #accessing }
 GtScenery >> items [
 	^ items
@@ -508,6 +524,12 @@ GtScenery >> items [
 { #category : #accessing }
 GtScenery >> items: anObject [
 	items := anObject
+]
+
+{ #category : #accessing }
+GtScenery >> itemsRightAndBelow: anItem [
+	^ self items
+		select: [ :item | item position + item extent > (anItem position + (anItem extent x @ 0)) ]
 ]
 
 { #category : #accessing }
@@ -520,6 +542,22 @@ GtScenery >> onceLayout: aLayout [
 	"NB: A layout instance, not the class."
 
 	onceLayout := aLayout
+]
+
+{ #category : #accessing }
+GtScenery >> playInScripter [
+	"This is sometimes needed to exercise a scenery so that its bounding box can be computed."
+
+	^ (BlScripter new element: self asElement) play
+]
+
+{ #category : #updating }
+GtScenery >> pushItemsRightAndBelow: anItem downBy: aNumber [
+	"Find all items to the right and below the source item, and push them down a distance
+	to make room for a new item. The distance should be the height of the new item plus a margin."
+
+	(self itemsRightAndBelow: anItem)
+		do: [ :item | item position: item position + (0 @ aNumber) ]
 ]
 
 { #category : #updating }
@@ -574,33 +612,28 @@ GtScenery >> spawnNewItemFrom: aSourceItem for: anObject [
 
 	<todo: 'Handle more special cases of stencils to create?'>
 	<todo: 'Instead of type-checking an object ask it what stencil to use to spawn it.'>
-	| stencil |
-	stencil := GtSceneryInspectorStencil new
-			target: [ anObject ];
-			setIsSpawnedTrue;
-			yourself.
-	(anObject isKindOf: GtPhlowCompositeTool)
-		ifTrue: [ | theObject |
-			theObject := anObject tools first object.
-			(theObject isKindOf: LePage)
-				ifTrue: [ stencil := GtSceneryLepiterPageStencil new
-							pageName: theObject title;
-							databaseName: theObject database databaseName ] ].
+	| stencil theObject |
+	theObject := (anObject isKindOf: GtPhlowCompositeTool)
+			ifTrue: [ anObject tools first object ]
+			ifFalse: [ anObject ].
+	stencil := theObject sceneryInspectorStencil setIsSpawnedTrue.
 	^ self spawnNewItemFrom: aSourceItem using: stencil
 ]
 
 { #category : #updating }
 GtScenery >> spawnNewItemFrom: aSourceItem using: aStencil [
-	<todo: 'Need a better way to compute a sensible new position'>
 	<todo: 'Check if the item already exists.'>
-	| newItem newPosition |
+	| newItem newPosition delta |
 	newItem := aStencil asItem.
+
+	delta := 20 + newItem neededHeight.
+	self pushItemsRightAndBelow: aSourceItem downBy: delta.
 
 	newPosition := aSourceItem position + ((100 + aSourceItem extent x) @ 0).
 	newItem position: newPosition.
 
 	aSourceItem addLinkTo: newItem.
-	self addItem: newItem.
+	self addSceneryItem: newItem.
 	^ newItem
 ]
 
@@ -637,7 +670,7 @@ GtScenery >> storeOn: aStream [
 	items
 		doWithIndex: [ :eachItem :i | 
 			aStream
-				nextPutAll: 'item' , i asString , ' := scenery addItem: (('.
+				nextPutAll: 'item' , i asString , ' := scenery addSceneryItem: (('.
 			eachItem stencil storeOn: aStream.
 			aStream nextPutAll: ') asItem).';
 				cr.

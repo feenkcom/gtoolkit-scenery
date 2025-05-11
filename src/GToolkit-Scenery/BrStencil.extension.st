@@ -18,3 +18,9 @@ BrStencil >> isValidIn: aSceneryContext [
 
 	^ true
 ]
+
+{ #category : #'*GToolkit-Scenery' }
+BrStencil >> neededHeight [
+	"For use when inserting items into a scenery. Override in subclasses."
+	^ 0
+]

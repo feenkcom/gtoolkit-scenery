@@ -20,19 +20,19 @@ GtSceneryExplorationDemoExamples >> classScripterDemo [
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'I should contain an example of GtCoderSlideshow>>#createClassScripter with dynamically activated explanations. How to do this?';
 					width: 254.3040835764649) asItem.
 	item1 position: -1143.397105576446 @ 103.06676000965331.
 	item1 extent: 254.3040835764649 @ 82.0.
 	item2 := scenery
-			addItem: (GtSceneryTextLabelStencil new
+			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'We need to extend the Inspector stencil to support selected views.';
 					width: 194.18100484212232) asItem.
 	item2 position: -496.4930776946836 @ -95.8667602539063.
 	item2 extent: 194.18100484212232 @ 46.0.
 	item3 := scenery
-			addItem: (GtSceneryInspectorStencil new
+			addSceneryItem: (GtSceneryInspectorStencil new
 					target: [ GtCoderSlideshow new createClassScripter ]) asItem.
 	item3 position: -689.756208332525 @ 164.38118640135554.
 	item3 extent: 860.8783648558588 @ 740.3032975748649.
@@ -52,18 +52,18 @@ GtSceneryExplorationDemoExamples >> createClassScripterScenery [
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryScripterStencil new
+			addSceneryItem: (GtSceneryScripterStencil new
 					exampleMethodName: 'GtCoderSlideshow>>#createClassScripter') asItem.
 	item1 position: -258.50672743055554 @ 219.61497667100696.
 	item1 extent: 1141.6471615235755 @ 707.86846563855.
 	item2 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'A scenery with the scripter example from the book page';
 					width: 102.93202209472658) asItem.
 	item2 position: -74.97219490745961 @ 57.63266694595791.
 	item2 extent: 102.93202209472658 @ 82.0.
 	item3 := scenery
-			addItem: (GtSceneryLePageTitleLabelStencil new
+			addSceneryItem: (GtSceneryLePageTitleLabelStencil new
 					label: 'How to create a new class?';
 					width: 112.57040490402568) asItem.
 	item3 position: 148.61944012460862 @ 100.50338543505723.
@@ -83,15 +83,16 @@ GtSceneryExplorationDemoExamples >> threeInspectors [
 	<return: #GtScenery>
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
-	item1 := scenery addItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
+	item1 := scenery
+			addSceneryItem: (GtSceneryInspectorStencil new target: [ 42 ]) asItem.
 	item1 position: -331.833251953125 @ -17.69724527994788.
 	item1 extent: 355.784912109375 @ 202.16888427734375.
 	item2 := scenery
-			addItem: (GtSceneryInspectorStencil new target: [ nil ]) asItem.
+			addSceneryItem: (GtSceneryInspectorStencil new target: [ nil ]) asItem.
 	item2 position: 62.10972086588538 @ 78.68539428710938.
 	item2 extent: 200.0 @ 400.0.
 	item3 := scenery
-			addItem: (GtSceneryInspectorStencil new
+			addSceneryItem: (GtSceneryInspectorStencil new
 					target: [ GtLudoGameExamples new bEntersPlayWithAonStartSquare ]) asItem.
 	item3 position: -392.68766276041686 @ 292.26679484049475.
 	item3 extent: 309.01387532552076 @ 369.92594401041663.

@@ -1,3 +1,9 @@
+"
+I am an Inspector stencil for an object return by an arbitrary kind of code snippet defined as my `targetBlock`.
+```
+GtSceneryInspectorStencil new target: [ 3 + 4 ]
+```
+"
 Class {
 	#name : #GtSceneryInspectorStencil,
 	#superclass : #AbstractGtSceneryInspectorStencil,
@@ -88,17 +94,8 @@ GtSceneryInspectorStencil >> target [
 		ifTrue: [ self targetValue implementsStoreOn
 				ifTrue: [ target := Smalltalk compiler
 							evaluate: '[ ' , self targetValue storeString , ' ]' ]
-				ifFalse: [
-				
-				 target := 
-				 Smalltalk compiler
-							evaluate:
-				 
-				 '[ Error signal: ''Could not serialize ' , self targetValue printString , ''' ]' 
-							
-							
-							
-							] ]
+				ifFalse: [ target := Smalltalk compiler
+							evaluate: '[ Error signal: ''Could not serialize ' , self targetValue printString , ''' ]' ] ]
 		ifFalse: [ target := targetBlock ].
 	^ target
 ]

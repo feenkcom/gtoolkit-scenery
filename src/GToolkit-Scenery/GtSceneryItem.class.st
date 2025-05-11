@@ -95,7 +95,7 @@ GtSceneryItem >> extent [
 
 { #category : #accessing }
 GtSceneryItem >> extent: aPoint [
-	extent := aPoint
+	aPoint notNil ifTrue: [ extent := aPoint ]
 ]
 
 { #category : #views }
@@ -142,6 +142,15 @@ GtSceneryItem >> isValid [
 	^ self stencil isValidIn: self
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryItem >> neededHeight [
+	"Estimated height needed for inserting this item in a scenery."
+
+	^ self stencil neededHeight > 0
+		ifTrue: [ self stencil neededHeight ]
+		ifFalse: [ self extent y ]
+]
+
 { #category : #accessing }
 GtSceneryItem >> outgoingLinks [
 	^ outgoingLinks
@@ -161,6 +170,15 @@ GtSceneryItem >> position [
 GtSceneryItem >> position: aPoint [
 	position := aPoint.
 	self announce: (GtSceneryItemMoved new item: self)
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryItem >> printOn: aStream [
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		print: self stencil;
+		nextPut: $)
 ]
 
 { #category : #updating }

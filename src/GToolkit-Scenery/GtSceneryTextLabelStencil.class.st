@@ -91,7 +91,7 @@ GtSceneryTextLabelStencil >> backgroundColors [
 GtSceneryTextLabelStencil >> create [
 	| anEditableLabel |
 	anEditableLabel := self elementClass new
-			text: self text;
+			text: self text copy;
 			yourself.
 	self width = self defaultWidth
 		ifFalse: [ anEditableLabel
@@ -235,7 +235,6 @@ GtSceneryTextLabelStencil >> label: aString [
 
 { #category : #menu }
 GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	<todo: 'Not working correctly -- after resizing the element does not adapt its height to the new size of the text.'>
 	^ BrMenuItems new
 		addItemLabel: 'Modify font'
 			submenu: [ | submenu |
@@ -263,6 +262,11 @@ GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElemen
 							action: [ self backgroundColor: (Color perform: symbol) ] ].
 				submenu ] value;
 		yourself
+]
+
+{ #category : #accessing }
+GtSceneryTextLabelStencil >> neededHeight [
+	^ self fontSize * 2
 ]
 
 { #category : #printing }

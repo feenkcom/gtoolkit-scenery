@@ -16,7 +16,7 @@ GtSceneryExamples >> sceneryWithOneInspector [
 	| scenery scripter element item |
 	scenery := GtScenery new.
 	item := scenery
-			addItem: (GtSceneryItem new stencil: (GtSceneryInspectorStencil new target: [ 42 ])).
+			addSceneryItem: (GtSceneryItem new stencil: (GtSceneryInspectorStencil new target: [ 42 ])).
 	item position: 500 @ 300.
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children anyOne.
@@ -33,7 +33,7 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangle [
 	| scenery scripter element item2 |
 	scenery := self sceneryWithOneInspector.
 	item2 := scenery
-			addItem: (GtSceneryItem new stencil: GtSceneryRectangleStencil new).
+			addSceneryItem: (GtSceneryItem new stencil: GtSceneryRectangleStencil new).
 	scripter := BlScripter new element: scenery asElement.
 	element := scripter rootWithoutParent children first children anyOne.
 	self assert: element children size = 2.
@@ -49,7 +49,7 @@ GtSceneryExamples >> sceneryWithOneInspectorAndOneRectangleAndOneConnection [
 	item1 := scenery items first.
 	item2 := scenery items last.
 	scenery
-		addConnectionWithStencil: GtSceneryLineStencil new
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item2.
 	scripter := BlScripter new element: scenery asElement.
@@ -79,7 +79,7 @@ GtSceneryExamples >> sceneryWithOneLepiterPage [
 	| scenery scripter element item |
 	scenery := GtScenery new.
 	item := scenery
-			addItem: (GtSceneryItem new
+			addSceneryItem: (GtSceneryItem new
 					stencil: (GtSceneryLepiterPageStencil new
 							databaseName: LeDatabase gtBookName;
 							pageName: 'Glamorous Toolkit')).
@@ -98,7 +98,7 @@ GtSceneryExamples >> sceneryWithTwoLepiterPages [
 	| scenery scripter element item |
 	scenery := self sceneryWithOneLepiterPage.
 	item := scenery
-			addItem: (GtSceneryItem new
+			addSceneryItem: (GtSceneryItem new
 					stencil: (GtSceneryLepiterPageStencil new
 							databaseName: LeDatabase gtBookName;
 							pageName: 'About this book')).

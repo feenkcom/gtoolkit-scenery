@@ -41,7 +41,7 @@ GtSceneryElement >> addNewItemFor: anItemStencilClass at: aPosition [
 	| newItem |
 	newItem := anItemStencilClass new asItem.
 	newItem position: aPosition.
-	self gtScenery addItem: newItem.
+	self gtScenery addSceneryItem: newItem.
 	^ newItem
 ]
 
@@ -98,24 +98,40 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 	aContext is a BrMenuInitialContext instance."
 
 	<tag: #sceneryContextMenu>
-	^ BrMenuItems new
-		id: #'gtScenery-context-menu';
+	| menu |
+	menu := BrMenuItems new id: #'gtScenery-context-menu'.
+	menu
 		addItemLabel: 'Inspect Scenery'
-			action: [ :elt | elt phlow spawnObject: self gtScenery ];
+			action: [ :e | e phlow spawnObject: self gtScenery ];
 		addItemLabel: 'Add item here'
 			action: [ aContext
 					childrenPositionDo: [ :aPoint | self addNewItemFor: self currentItemStencil at: aPoint ]
 					ifAbsentDo: [ 0 @ 0 ] ];
 		addItemLabel: 'Add item'
 			submenu: (self itemCreationSubmenuForContext: aContext);
+		addItemLabel: 'Zoom'
+			submenu: (BrMenuItems new
+					addItemLabel: 'Zoom in' action: [ :elt | self container zoomIn ];
+					addItemLabel: 'Zoom out' action: [ :elt | self container zoomOut ];
+					addItemLabel: 'Zoom to fit' action: [ :elt | self container zoomToFit ];
+					addItemLabel: 'Zoom to actual size'
+						action: [ :elt | self container zoomToActualSize ];
+					yourself);
 		addItemLabel: 'Update layout'
 			submenu: (self layoutSubmenuForContext: aContext);
-		addItemLabel: 'Redisplay' action: [ self redisplay ];
+		addItemLabel: 'Redisplay' action: [ self redisplay ].
+	self gtScenery storeStringMethodName
+		ifNotNil: [ menu
+				addItemLabel: 'Save to ' , self gtScenery storeStringMethodName
+				action: [ :e | 
+					e phlow
+						spawnTool: (GtMethodCoderTool compiledMethod: self gtScenery storeAsExampleMethod) ] ].
+	menu
 		addItemLabel: 'FAQ'
-			action: [ :e | 
-				e phlow
-					spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPagePhlowTool ];
-		yourself
+		action: [ :e | 
+			e phlow
+				spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPagePhlowTool ].
+	^ menu
 ]
 
 { #category : #accessing }
@@ -305,11 +321,6 @@ GtSceneryElement >> initializeEventListers [
 		do: [ :e | 
 			e consumed: true.
 			self phlow spawnObject: e object ].
-	self
-		when: GtSceneryAddNewConnection
-		do: [ :e | 
-			e consumed: true.
-			self gtScenery spawnConnectionFrom: e fromItem to: e toStencil ].
 	self container
 		when: BlDoubleClickEvent
 		do: [ :evt | self addNewItemFor: self currentItemStencil at: evt childrenPosition ].

@@ -88,8 +88,8 @@ GtSceneryConnection >> isValid [
 GtSceneryConnection >> sceneryForConnection [
 	| scenery |
 	scenery := GtScenery new.
-	from := scenery addItem: self from.
-	to := scenery addItem: self to.
+	from := scenery addSceneryItem: self from.
+	to := scenery addSceneryItem: self to.
 	scenery
 		addConnectionWithStencil: self stencil
 		from: from

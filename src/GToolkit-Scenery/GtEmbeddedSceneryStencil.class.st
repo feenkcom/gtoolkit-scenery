@@ -60,7 +60,7 @@ GtEmbeddedSceneryStencil >> sceneryWithBubble [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new width: 102.93202209472656) asItem.
+			addSceneryItem: (GtSceneryMindMapNodeStencil new width: 102.93202209472656) asItem.
 	item1 position: 100.62554253472217 @ 95.08513726128473.
 	item1 extent: 102.93202209472656 @ 28.0.
 	scenery storeStringMethodName: 'GtEmbeddedSceneryStencil>>#sceneryWithBubble'.

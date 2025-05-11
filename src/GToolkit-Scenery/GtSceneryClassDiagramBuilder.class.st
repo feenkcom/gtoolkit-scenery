@@ -53,6 +53,7 @@ GtSceneryClassDiagramBuilder >> addAssociationsTo: scenery [
 
 { #category : #building }
 GtSceneryClassDiagramBuilder >> addClassesTo: scenery [
+<todo: 'Need better way to initially position new class items'>
 	| position positionDelta |
 	position := 0 @ 0.
 	positionDelta := 50 @ 50.
@@ -60,7 +61,7 @@ GtSceneryClassDiagramBuilder >> addClassesTo: scenery [
 		do: [ :aClass | 
 			| item |
 			item := scenery
-					addItem: (GtSceneryUMLClassStencil new label: aClass name) asItem.
+					addSceneryItem: (GtSceneryUMLClassStencil new label: aClass name) asItem.
 			self classItemMap at: aClass put: item.
 			item position: position.
 			position := position + positionDelta ]

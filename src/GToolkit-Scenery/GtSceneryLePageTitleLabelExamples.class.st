@@ -15,7 +15,7 @@ GtSceneryLePageTitleLabelExamples >> gtBookLabel [
 	<return: #GtScenery>
 	| scenery item1 |
 	scenery := GtScenery new.
-	item1 := scenery addItem: GtSceneryLePageTitleLabelStencil new asItem.
+	item1 := scenery addSceneryItem: GtSceneryLePageTitleLabelStencil new asItem.
 	self assert: item1 isValid.
 	^ scenery
 ]
@@ -27,7 +27,7 @@ GtSceneryLePageTitleLabelExamples >> patternsLabel [
 	| scenery item1 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryLePageTitleLabelStencil new label: 'Moldable Development patterns')
+			addSceneryItem: (GtSceneryLePageTitleLabelStencil new label: 'Moldable Development patterns')
 					asItem.
 	self assert: item1 isValid.
 	^ scenery

@@ -10,7 +10,8 @@ Class {
 	#traits : 'TGtSceneryShared',
 	#classTraits : 'TGtSceneryShared classTrait',
 	#instVars : [
-		'announcer'
+		'announcer',
+		'gtScenery'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -54,6 +55,18 @@ GtSceneryEntityStencil >> elementClass [
 	^ self subclassResponsibility
 ]
 
+{ #category : #accessing }
+GtSceneryEntityStencil >> gtScenery [
+	self assert: gtScenery notNil description: 'gtScenery has not been updated'.
+	^ gtScenery
+]
+
+{ #category : #accessing }
+GtSceneryEntityStencil >> gtScenery: aScenery [
+	"To be set by the scenery when the item (or connection) is added."
+	gtScenery := aScenery
+]
+
 { #category : #listeners }
 GtSceneryEntityStencil >> handleDoubleClickForItemElement: anItemElement inSceneryElement: aSceneryElement [
 	"Hook method for subclasses."
@@ -72,7 +85,7 @@ GtSceneryEntityStencil >> hash [
 
 { #category : #testing }
 GtSceneryEntityStencil >> isSceneryStencil [
-	"Only scenery stencils have announcers."
+	"Only scenery stencils have announcers and a #gtScenery setter and getter ."
 
 	^ true
 ]

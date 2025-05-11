@@ -8,6 +8,11 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #accessing }
+NewStyleSceneryItemStencil >> item [
+	^ self gtScenery itemForStencil: self
+]
+
 { #category : #printing }
 NewStyleSceneryItemStencil >> storeOn: aStream [
 	self storeWithAttributesOn: aStream

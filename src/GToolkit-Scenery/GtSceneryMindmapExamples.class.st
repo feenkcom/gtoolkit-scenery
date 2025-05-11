@@ -18,44 +18,41 @@ GtSceneryMindmapExamples >> arrowHeads [
 	| scenery item1 item2 item3 item4 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'Arrowheads';
 					width: 102.93202209472656) asItem.
 	item1 position: 147.41471354166674 @ 274.1428629557292.
 	item1 extent: 102.93202209472656 @ 28.0.
 	item2 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'None';
 					width: 102.93202209472656) asItem.
 	item2 position: 296.16015625 @ 334.45992024739587.
 	item2 extent: 102.93202209472656 @ 28.0.
 	item3 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'Simple';
 					width: 102.93202209472656) asItem.
 	item3 position: 323.3467356363933 @ 223.14286295572919.
 	item3 extent: 102.93202209472656 @ 28.0.
 	item4 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'Triangle';
 					width: 102.93202209472656) asItem.
 	item4 position: 350.3467356363933 @ 274.1428629557292.
 	item4 extent: 102.93202209472656 @ 28.0.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #none;
-				curvatureFraction: 0)
+				arrowHeadType: #none)
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item3.
 	scenery
 		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				arrowHeadType: #triangle;
-				curvatureFraction: 0)
+				arrowHeadType: #triangle)
 		from: item1
 		to: item4.
 	scenery storeStringMethodName: 'GtSceneryMindmapExamples>>#arrowHeads'.
@@ -101,31 +98,29 @@ GtSceneryMindmapExamples >> mindmapWithTwoSubnodes [
 	| scenery item1 item2 item3 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'A mindmap';
 					width: 77.32601928710938) asItem.
 	item1 position: 0 @ 0.
 	item1 extent: 77.32601928710938 @ 28.0.
 	item2 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'A concept A';
 					width: 77.46598815917969) asItem.
 	item2 position: 127.0 @ -58.0.
 	item2 extent: 77.46598815917969 @ 28.0.
 	item3 := scenery
-			addItem: (GtSceneryMindMapNodeStencil new
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'A concept B';
 					width: 78.08198547363281) asItem.
 	item3 position: 126.0 @ 82.0.
 	item3 extent: 78.08198547363281 @ 28.0.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item2.
 	scenery
-		addConnectionWithStencil: (GtSceneryStraightArcStencil new
-				curvatureFraction: 0)
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
 		to: item3.
 	self assert: scenery items size equals: 3.
