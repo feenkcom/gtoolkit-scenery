@@ -39,8 +39,16 @@ GtSceneryItem >> asElementIn: aSceneryElement [
 	element := stencil asElement.
 	element states
 		addState: BrLayoutVerticalResizerState exact;
-		addState: BrLayoutVerticalResizerState exact.	"this is needed to support complicated widgets"
-	extent ifNotNil: [ element size: extent ].	"Don't change the size if extent is nil."
+		addState: BrLayoutVerticalResizerState exact.
+
+	extent = (0 @ 0)
+		ifFalse: [ extent y = 0
+				ifTrue: [ element width: extent y ]
+				ifFalse: [ extent x = 0
+						ifTrue: [ element height: extent y ]
+						ifFalse: [ element size: extent ] ] ].	"Either x or y or bolth could be freely decided by the element."
+
+
 	element graph model: self.
 	element graph beNode.
 	element beFocusable.
@@ -95,6 +103,10 @@ GtSceneryItem >> extent [
 
 { #category : #accessing }
 GtSceneryItem >> extent: aPoint [
+	"NB: If the extent is 0@0, let the element choose the size.
+	If x or y = 0, then let the element choose that value.
+	Important for text elements, which may be free in x and y, or just in y."
+
 	aPoint notNil ifTrue: [ extent := aPoint ]
 ]
 

@@ -60,7 +60,7 @@ GtSceneryShapeStencil >> backgroundColorSelector: aSelector [
 { #category : #'instance creation' }
 GtSceneryShapeStencil >> create [
 	^ GtSceneryShapeElement new
-		size: extent;
+		size: self defaultExtent;
 		background: self backgroundColor;
 		geometry: self geometry;
 		border: Color black;

@@ -66,7 +66,7 @@ GtSceneryTextLabelStencil class >> leJsonV4Name [
 GtSceneryTextLabelStencil >> asItem [
 	^ GtSceneryItem new
 		stencil: self;
-		extent: self extent;
+		extent: self defaultExtent;
 		resizeOnlyMiddleRight;
 		yourself
 ]
@@ -114,7 +114,7 @@ GtSceneryTextLabelStencil >> defaultEmphasis [
 GtSceneryTextLabelStencil >> defaultExtent [
 	"Let the element choose the extent."
 
-	^ nil
+	^ 0@0
 ]
 
 { #category : #initialization }
