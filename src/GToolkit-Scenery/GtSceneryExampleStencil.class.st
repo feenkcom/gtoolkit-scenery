@@ -52,6 +52,16 @@ GtSceneryExampleStencil >> exampleMethodName: aStringOrMethod [
 	self announceStencilUpdate
 ]
 
+{ #category : #view }
+GtSceneryExampleStencil >> gtExampleMethodFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Example method';
+		priority: 20;
+		object: [ self exampleMethod ];
+		view: #gtSourceCodeFor:
+]
+
 { #category : #listeners }
 GtSceneryExampleStencil >> handleDoubleClickForItemElement: anItemElement inSceneryElement: aSceneryElement [
 	anItemElement fireEvent: (GtSceneryObjectToSpawn new object: self objectValue)
