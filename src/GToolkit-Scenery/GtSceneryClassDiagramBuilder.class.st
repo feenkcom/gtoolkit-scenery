@@ -106,7 +106,7 @@ GtSceneryClassDiagramBuilder >> associations [
 
 { #category : #accessing }
 GtSceneryClassDiagramBuilder >> associations: anClassAssociationCollection [
-	<todo: 'Relationships need two classes, a label, and a 1-argument navigation block to verify that the result type matches the target class.'>
+	<todo: 'Associations need two classes, a label, and a 1-argument navigation block to verify that the result type matches the target class. Currently we only represent the source and target.'>
 	<todo: 'need a way to check the relationship'>
 	anClassAssociationCollection
 		do: [ :assoc | 

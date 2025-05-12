@@ -75,8 +75,19 @@ GtSceneryExampleStencil >> initialize [
 
 { #category : #menu }
 GtSceneryExampleStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+"NB: Spawn UML does not work nicely as it is not a method-based scenery."
 	<todo: 'extend the item menu for the example stencil'>
-	^ super menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement
+	| menu |
+	menu := super
+			menuForChildElement: aChildElement
+			andSceneryElement: aGtSceneryElement.
+	menu
+		addItemLabel: 'Inspect UML'
+		action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self umlScenery) ].
+	"menu
+		addItemLabel: 'Spawn UML'
+		action: [ self gtScenery spawnNewItemFrom: self item using: self umlScenery ]."
+	^ menu
 ]
 
 { #category : #accessing }
@@ -93,4 +104,51 @@ GtSceneryExampleStencil >> storeOnAttributes [
 GtSceneryExampleStencil >> summaryDisplay [
 	"Text to display in the items or stencil view."
 	^ self exampleMethodName
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryExampleStencil >> umlScenery [
+	"For demo purposes only. We are still missing the ability to further expand the diagram, to associate labels to the associations, and examples to all the classes."
+
+	<todo: 'Turn the UML scenery generation from a prototype into something usable for exploration.'>
+	| eg egClass allClasses unaryMethods successorDict associations inheritances builder scenery layout |
+	eg := self objectValue.
+
+	egClass := eg class.
+
+	allClasses := OrderedCollection with: egClass with: egClass superclass.
+	allClasses addAll: egClass subclasses.
+
+	successorDict := Dictionary new.
+	unaryMethods := egClass methods
+			select: [ :m | m selector isUnary and: [ m isDeprecated not ] ].
+	unaryMethods
+		do: [ :m | 
+			| successor |
+			successor := [ (eg perform: m selector) class ] onErrorDo: [ nil ].
+			successor
+				ifNotNil: [ successor = egClass
+						ifFalse: [ (successorDict at: successor ifAbsentPut: [ OrderedCollection new ])
+								add: m selector ] ] ].
+
+	associations := successorDict keys
+			collect: [ :successorClass | egClass -> successorClass ].
+
+	allClasses addAll: successorDict keys.
+	allClasses removeDuplicates.
+	inheritances := allClasses
+			collect: [ :c | c -> c superclass ]
+			thenSelect: [ :assoc | allClasses includes: assoc value ].
+
+	builder := GtSceneryClassDiagramBuilder
+			withClasses: allClasses
+			associations: associations
+			andInheritances: inheritances.
+	layout := GtGraphForceBasedLayout new
+			charge: -5000;
+			length: 100.
+	scenery := builder build
+			onceLayout: layout;
+			yourself.
+	^ scenery
 ]

@@ -189,6 +189,15 @@ GtSceneryInspectorStencilExamples >> foobarStringExample [
 	^ 'Foobar from the example method: GtSceneryInspectorStencilExamples>>#foobarStringExample'
 ]
 
+{ #category : #example }
+GtSceneryInspectorStencilExamples >> ludoGameExample [
+	"Available here for demo purposes."
+
+	<gtExample>
+	<return: 'GtLudoGame'>
+	^ GtLudoGameExamples new playerAsecondTokenCloseToGoal
+]
+
 { #category : #scenery }
 GtSceneryInspectorStencilExamples >> ludoGameScenery [
 	"A scenery with a plain inspector of an object."
@@ -228,7 +237,24 @@ GtSceneryInspectorStencilExamples >> ludoGameSceneryBoardView [
 	^ scenery
 ]
 
-{ #category : #scenery }
+{ #category : #example }
+GtSceneryInspectorStencilExamples >> ludoRecordingGameExample [
+	"Available here for demo purposes."
+
+	<gtExample>
+	<return: 'GtLudoRecordingGame'>
+	^ GtLudoRecordingGameExamples new gameShowingAllMoves6
+]
+
+{ #category : #example }
+GtSceneryInspectorStencilExamples >> memoryExample [
+	"Available here for demo purposes."
+	<gtExample>
+	<return: 'GtMemoryGame'>
+	^ GtMemoryGameExamples new afterSomeMoves
+]
+
+{ #category : #example }
 GtSceneryInspectorStencilExamples >> memoryExampleScenery [
 	<gtExample>
 	<return: #GtScenery>

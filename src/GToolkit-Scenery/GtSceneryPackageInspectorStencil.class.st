@@ -40,7 +40,7 @@ GtSceneryPackageInspectorStencil >> examplesSubmenuForChildElement: aChildElemen
 	myItem := self gtScenery itemForStencil: self.
 	self assert: myItem notNil.
 	menu := BrMenuItems new.
-	self package gtExamplesWithReturnPragmasClassified associations
+	self package gtExamplesWithReturnPragmasClassified associations sorted
 		do: [ :kv | 
 			menu
 				addItemLabel: kv key
