@@ -94,9 +94,12 @@ GtSceneryTextLabelElement >> stencilClass [
 GtSceneryTextLabelElement >> updateAppearance [
 	| stencil |
 	stencil := self stencil.
-	self text: stencil text.	
+	self text: stencil text.
 	self text fontSize: stencil fontSize.
-	stencil width = stencil defaultWidth
+	stencil width = 0
+		ifTrue: [ self
+				hFitContent;
+				vFitContent ]
 		ifFalse: [ self
 				hExact: stencil width;
 				vFitContent ].

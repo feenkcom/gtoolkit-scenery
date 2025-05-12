@@ -325,7 +325,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 0.9755620723362659
 							b: 0.9951124144672532
 							alpha: 1.0)) asItem.
-	item1 position: 229.83333333333337 @ 445.318827311198.
+	item1 position: 229.83333333333337 @ -94.68117268880201.
 	item1 extent: 161.2462252360661 @ 33.0.
 	item2 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -336,7 +336,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item2 position: 427.84337870279944 @ 312.818827311198.
+	item2 position: 427.84337870279944 @ -227.181172688802.
 	item2 extent: 121.43330383300781 @ 28.0.
 	item3 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -347,7 +347,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item3 position: 619.2766825358073 @ 217.818827311198.
+	item3 position: 619.2766825358073 @ -322.181172688802.
 	item3 extent: 102.93202209472656 @ 46.0.
 	item4 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -358,7 +358,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item4 position: 427.84337870279944 @ 577.818827311198.
+	item4 position: 427.84337870279944 @ 37.81882731119799.
 	item4 extent: 71.42984517415357 @ 28.0.
 	item5 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -369,7 +369,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item5 position: 619.2766825358073 @ 475.818827311198.
+	item5 position: 619.2766825358073 @ -64.18117268880201.
 	item5 extent: 76.18031311035156 @ 28.0.
 	item6 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -380,7 +380,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item6 position: 619.2766825358073 @ 543.818827311198.
+	item6 position: 619.2766825358073 @ 3.8188273111979925.
 	item6 extent: 102.93202209472656 @ 28.0.
 	item7 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -391,7 +391,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item7 position: 619.2766825358073 @ 611.818827311198.
+	item7 position: 619.2766825358073 @ 71.81882731119799.
 	item7 extent: 133.55702209472656 @ 28.0.
 	item8 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -402,7 +402,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item8 position: 619.2766825358073 @ 679.818827311198.
+	item8 position: 619.2766825358073 @ 139.818827311198.
 	item8 extent: 124.00522359212232 @ 28.0.
 	item9 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -413,7 +413,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item9 position: 619.2766825358073 @ 303.818827311198.
+	item9 position: 619.2766825358073 @ -236.181172688802.
 	item9 extent: 102.93202209472656 @ 46.0.
 	item10 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -424,7 +424,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item10 position: 619.2766825358073 @ 389.818827311198.
+	item10 position: 619.2766825358073 @ -150.181172688802.
 	item10 extent: 112.12717183430982 @ 46.0.
 	scenery
 		addConnectionWithStencil: GtSceneryStraightArcStencil new
