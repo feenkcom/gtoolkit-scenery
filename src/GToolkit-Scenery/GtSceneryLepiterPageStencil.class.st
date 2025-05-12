@@ -52,12 +52,6 @@ GtSceneryLepiterPageStencil >> handleDoubleClickForItemElement: anItemElement in
 		fireEvent: (GtSceneryObjectToSpawn new object: self startPage asPagePhlowTool)
 ]
 
-{ #category : #initialization }
-GtSceneryLepiterPageStencil >> initialize [ 
-	super initialize.
-	extent := self defaultExtent
-]
-
 { #category : #accessing }
 GtSceneryLepiterPageStencil >> storeOn: aStream [
 	super storeOn: aStream.

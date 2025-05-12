@@ -35,10 +35,11 @@ GtSceneryInspectorElement >> stencil [
 
 { #category : #accessing }
 GtSceneryInspectorElement >> stencil: aGtSceneryInspectorStencil [
-	self assert: (aGtSceneryInspectorStencil isKindOf: AbstractGtSceneryInspectorStencil).
+	self
+		assert: (aGtSceneryInspectorStencil isKindOf: AbstractGtSceneryInspectorStencil).
 
 	stencil := aGtSceneryInspectorStencil.
-	self size: self stencil extent.
+	self size: self stencil defaultExtent.
 	self updateAppearance
 ]
 
@@ -55,7 +56,7 @@ GtSceneryInspectorElement >> updateAppearance [
 	self
 		assert: self stencil notNil
 		description: '#updateAppearance sent before element is initialized'.
-	self size: self stencil extent.
+	self size: self stencil defaultExtent.
 	[ objectValue := self stencil objectValue.
 	self stencil viewMethodSelector
 		ifNil: [ view := objectValue gtViewsFor: GtPhlowView empty ]

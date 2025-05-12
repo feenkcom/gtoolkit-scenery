@@ -4,9 +4,6 @@ I am an abstract superclass for stencil of draggable items (not connections). Ea
 Class {
 	#name : #GtSceneryDraggableItemStencil,
 	#superclass : #GtSceneryEntityStencil,
-	#instVars : [
-		'extent'
-	],
 	#category : #'GToolkit-Scenery-Model'
 }
 
@@ -19,7 +16,6 @@ GtSceneryDraggableItemStencil class >> itemCreationSubmenuLabel [
 { #category : #jsonV4 }
 GtSceneryDraggableItemStencil class >> leJsonV4AttributeMapping [
 	^ super leJsonV4AttributeMapping
-		add: #extent -> #extent;
 		yourself
 ]
 
@@ -27,7 +23,7 @@ GtSceneryDraggableItemStencil class >> leJsonV4AttributeMapping [
 GtSceneryDraggableItemStencil >> asItem [
 	^ GtSceneryItem new
 		stencil: self;
-		extent: self extent;
+		extent: self defaultExtent;
 		yourself
 ]
 
@@ -38,26 +34,17 @@ GtSceneryDraggableItemStencil >> defaultExtent [
 
 { #category : #accessing }
 GtSceneryDraggableItemStencil >> extent [
-	^ extent
-]
+	"A stencil does not need a mutable extent, but only a default extent."
 
-{ #category : #accessing }
-GtSceneryDraggableItemStencil >> extent: aPoint [
-	"NB: If the extent is set to nil, then the size will not be changed when the stencil is created.
-	See: GtSceneryItem>>#asElementIn:forScenery: "
-
-	extent := aPoint
-]
-
-{ #category : #accessing }
-GtSceneryDraggableItemStencil >> initialize [ 
-	super initialize.
-	extent := self defaultExtent
+	self
+		deprecated: 'Use defaultExtent instead'
+		transformWith: '`@receiver extent' -> '`@receiver defaultExtent'.
+	^ self defaultExtent
 ]
 
 { #category : #accessing }
 GtSceneryDraggableItemStencil >> neededHeight [
-	^ self extent y
+	^ self defaultExtent y
 ]
 
 { #category : #connecting }
