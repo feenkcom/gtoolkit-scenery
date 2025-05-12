@@ -596,7 +596,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 	<noTest>
 	<storedScenery>
 	<return: #GtScenery>
-	| scenery item1 item2 |
+	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 |
 	scenery := GtScenery new.
 	item1 := scenery
 			addSceneryItem: (GtSceneryTextLabelStencil new
@@ -609,12 +609,121 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9012707722385142
 							b: 1.0
 							alpha: 1.0)) asItem.
-	item1 position: -45.308640966692224 @ -130.2170846681739.
+	item1 position: 735.6666666666667 @ 279.9854939778646.
 	item1 extent: 136.66920332460677 @ 70.0.
 	item2 := scenery
-			addSceneryItem: (GtSceneryMindMapNodeStencil new width: 102.93202209472653) asItem.
-	item2 position: 92.26382338003387 @ 72.9934230712002.
-	item2 extent: 102.93202209472653 @ 28.0.
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Directions';
+					weight: #bold;
+					fontSize: 18;
+					width: 97.71196504286775) asItem.
+	item2 position: 735.6666666666667 @ 489.9854939778646.
+	item2 extent: 97.71196504286775 @ 33.0.
+	item3 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Explanations';
+					width: 91.81758974805302;
+					backgroundColor: (Color
+							r: 0.9912023460410557
+							g: 0.9286412512218963
+							b: 0.8426197458455523
+							alpha: 1.0)) asItem.
+	item3 position: 903.3786317095345 @ 376.9854939778646.
+	item3 extent: 91.81758974805302 @ 28.0.
+	item4 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Lepiter roadmaps';
+					width: 119.50773898466105;
+					backgroundColor: (Color
+							r: 0.8699902248289345
+							g: 0.9755620723362659
+							b: 0.9951124144672532
+							alpha: 1.0)) asItem.
+	item4 position: 903.3786317095345 @ 453.9854939778646.
+	item4 extent: 119.50773898466105 @ 28.0.
+	item5 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Guided tours through topics';
+					width: 179.24775253107555;
+					backgroundColor: (Color
+							r: 0.8699902248289345
+							g: 0.9755620723362659
+							b: 0.9951124144672532
+							alpha: 1.0)) asItem.
+	item5 position: 1128.3345333381935 @ 453.9854939778646.
+	item5 extent: 179.24775253107555 @ 28.0.
+	item6 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Linking explanation text items to GUI items within sceneries';
+					width: 189.93131849500878;
+					backgroundColor: (Color
+							r: 0.9912023460410557
+							g: 0.9286412512218963
+							b: 0.8426197458455523
+							alpha: 1.0)) asItem.
+	item6 position: 1128.3345333381935 @ 367.9854939778646.
+	item6 extent: 189.93131849500878 @ 46.0.
+	item7 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Sceneries as alternatives to notebook pages';
+					width: 154.95590162865915;
+					backgroundColor: (Color
+							r: 0.873900293255132
+							g: 1.0
+							b: 0.8347996089931574
+							alpha: 1.0)) asItem.
+	item7 position: 903.3786317095345 @ 521.9854939778646.
+	item7 extent: 154.95590162865915 @ 46.0.
+	item8 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Nested, 2D layouts';
+					width: 127.63266151334074;
+					backgroundColor: (Color
+							r: 0.873900293255132
+							g: 1.0
+							b: 0.8347996089931574
+							alpha: 1.0)) asItem.
+	item8 position: 1128.3345333381935 @ 530.9854939778646.
+	item8 extent: 127.63266151334074 @ 28.0.
+	item9 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Your ideas?';
+					width: 83.45019611311545;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 0.8504398826979472
+							alpha: 1.0)) asItem.
+	item9 position: 903.3786317095345 @ 607.9854939778646.
+	item9 extent: 83.45019611311545 @ 28.0.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item2
+		to: item3.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item2
+		to: item4.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item4
+		to: item5.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item3
+		to: item6.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item2
+		to: item7.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item7
+		to: item8.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item2
+		to: item9.
 	scenery
 		storeStringMethodName: 'ExploringObjectsScenerySlideshow>>#summaryScenario'.
 	^ scenery
