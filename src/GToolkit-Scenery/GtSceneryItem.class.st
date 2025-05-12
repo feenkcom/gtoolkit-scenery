@@ -98,6 +98,17 @@ GtSceneryItem >> extent: aPoint [
 	aPoint notNil ifTrue: [ extent := aPoint ]
 ]
 
+{ #category : #view }
+GtSceneryItem >> gtExampleMethodFor: aView [
+	<gtView>
+	(self stencil isKindOf: GtSceneryExampleStencil) ifFalse: [ ^ aView empty ].
+	^ aView forward
+		title: 'Example method';
+		priority: 45;
+		object: [ self stencil exampleMethod ];
+		view: #gtSourceCodeFor:
+]
+
 { #category : #views }
 GtSceneryItem >> gtStencilStoreOnFor: aView [
 	<gtView>
