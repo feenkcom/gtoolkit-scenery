@@ -33,6 +33,9 @@ GtSceneryUMLClassElement >> updateAppearance [
 	"Hook for GtSceneryItemUpdated announcements."
 
 	super updateAppearance.
+	self
+		hFitContent;
+		vFitContent.
 	self updateForegroundColor
 ]
 
