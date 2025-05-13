@@ -13,7 +13,8 @@ Class {
 	#superclass : #GtSceneryTextLabelStencil,
 	#instVars : [
 		'example',
-		'exampleBlockString'
+		'exampleBlockString',
+		'successorDict'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -161,14 +162,36 @@ GtSceneryUMLClassStencil >> label: aString [
 { #category : #menu }
 GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	<todo: 'spawn superclass or subclass nodes'>
-	| menu |
-	menu := super menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement.
-	(self isValidClass and: [ self asClass isAbstract not ])
-		ifFalse: [ ^ menu ].
-	^ menu
+	| menu subclasses |
+	menu := super
+			menuForChildElement: aChildElement
+			andSceneryElement: aGtSceneryElement.
+	(self isValidClass and: [ self asClass isAbstract not ]) ifFalse: [ ^ menu ].
+	menu
 		addItemLabel: 'Inspect example'
-			action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ];
-		yourself
+		action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
+
+	self asClass = ProtoObject
+		ifFalse: [ menu
+				addItemLabel: 'Spawn superclass ' , self asClass superclass className
+				action: [ self spawnSuperclass ] ].
+	
+	subclasses := self asClass subclasses asOrderedCollection sortedAs: #name.
+	subclasses size = 1
+		ifTrue: [ menu
+				addItemLabel: 'Spawn subclass ' , subclasses first name
+				action: [ self spawnSubclass: subclasses first ] ].
+	subclasses size > 1
+		ifTrue: [ menu
+				addItemLabel: 'Spawn subclass'
+				submenu: [ | submenu |
+					submenu := BrMenuItems new.
+					subclasses
+						do: [ :class | submenu addItemLabel: class name action: [ self spawnSubclass: class ] ].
+					submenu ] value ].
+
+	menu addItemLabel: 'Spawn package' action: [ self spawnPackage ].
+	^ menu
 ]
 
 { #category : #validity }
@@ -181,16 +204,48 @@ GtSceneryUMLClassStencil >> reportOn: aStream in: anItem [
 				cr ]
 ]
 
+{ #category : #menu }
+GtSceneryUMLClassStencil >> spawnPackage [
+	^ self gtScenery
+		spawnConnectionFrom: self item
+		to: (GtSceneryPackageInspectorStencil new package: self asClass package)
+		labeled: 'package'
+]
+
+{ #category : #menu }
+GtSceneryUMLClassStencil >> spawnSubclass: aClass [
+	^ self gtScenery
+		spawnConnectionTo: self item
+		from: (GtSceneryUMLClassStencil new
+				class: aClass;
+				exampleBlockString: self exampleBlockString;
+				yourself)
+]
+
+{ #category : #menu }
+GtSceneryUMLClassStencil >> spawnSuperclass [
+	^ self gtScenery
+		spawnConnectionFrom: self item
+			to: (GtSceneryUMLClassStencil new
+					class: self asClass superclass;
+					exampleBlockString: self exampleBlockString;
+					yourself)
+]
+
 { #category : #connecting }
-GtSceneryUMLClassStencil >> stencilForConnectionWithItemStencil: anItemStencil labeled: aText [
+GtSceneryUMLClassStencil >> stencilForConnectionWith: aTargetItem labeled: aText [
 	"Hook to let the stencil decide the connection stencil to use."
 
-	self class = anItemStencil class
-		ifTrue: [ ^ GtSceneryUMLConnectionStencil new
-				labelText: aText;
-				yourself ].
+	self class = aTargetItem stencil class
+		ifTrue: [ | connectionStencil |
+			connectionStencil := GtSceneryUMLConnectionStencil new
+					labelText: aText;
+					yourself.
+			aTargetItem stencil asClass = self asClass superclass
+				ifTrue: [ connectionStencil beInheritance ].
+			^ connectionStencil ].
 
-	^ super stencilForConnectionWithItemStencil: anItemStencil labeled: aText
+	^ super stencilForConnectionWith: aTargetItem labeled: aText
 ]
 
 { #category : #printing }
@@ -198,6 +253,31 @@ GtSceneryUMLClassStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method"
 
 	^ super storeOnAttributes , {#exampleBlockString}
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> successorDict [
+	"Adapted from GtSceneryExampleStencil>>#umlScenery"
+
+	^ successorDict
+		ifNil: [ | eg egClass unaryMethods |
+			eg := self example.
+			egClass := eg class.
+
+			unaryMethods := self asClass methods
+					select: [ :m | m selector isUnary and: [ m isDeprecated not ] ].
+
+			successorDict := Dictionary new.
+			unaryMethods
+				do: [ :m | 
+					| successor successorClass |
+					successor := [ eg perform: m selector ] onErrorDo: [ nil ].
+					successor
+						ifNotNil: [ successorClass := successor class.
+							successorClass = egClass
+								ifFalse: [ (successorDict at: successorClass ifAbsentPut: [ OrderedCollection new ])
+										add: m selector -> successor ] ] ].
+			successorDict ]
 ]
 
 { #category : #accessing }

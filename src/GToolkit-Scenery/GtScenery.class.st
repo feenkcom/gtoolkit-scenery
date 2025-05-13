@@ -610,7 +610,7 @@ GtScenery >> restored [
 
 { #category : #updating }
 GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil [
-	self spawnConnectionFrom: aSourceItem to: aStencil labeled: nil
+	^ self spawnConnectionFrom: aSourceItem to: aStencil labeled: nil
 ]
 
 { #category : #updating }
@@ -618,21 +618,25 @@ GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil labeled: aText [
 	<todo: 'Check if the connection already exists'>
 	| newItem |
 	newItem := self spawnNewItemFrom: aSourceItem using: aStencil.
-	self addConnectionFrom: aSourceItem to: newItem  labeled: aText.
+	self
+		addConnectionFrom: aSourceItem
+		to: newItem
+		labeled: aText.
 	^ newItem
 ]
 
 { #category : #updating }
 GtScenery >> spawnConnectionTo: aTargetItem from: aStencil [
-	self spawnConnectionTo: aTargetItem from: aStencil labeled: nil
+	^ self spawnConnectionTo: aTargetItem from: aStencil labeled: nil
 ]
 
 { #category : #updating }
 GtScenery >> spawnConnectionTo: aTargetItem from: aStencil labeled: aText [
 	<todo: 'Check if the connection already exists'>
 	| newItem  |
-	newItem := self spawnNewItemFrom: aTargetItem using: aStencil.
-	self addConnectionFrom: newItem  to:  aTargetItem labeled: aText
+	newItem := self spawnNewItemTo: aTargetItem using: aStencil.
+	self addConnectionFrom: newItem  to:  aTargetItem labeled: aText.
+	^ newItem
 ]
 
 { #category : #updating }
@@ -651,17 +655,32 @@ GtScenery >> spawnNewItemFrom: aSourceItem for: anObject [
 
 { #category : #updating }
 GtScenery >> spawnNewItemFrom: aSourceItem using: aStencil [
+	| newItem |
+	newItem := self spawnNewItemNextTo: aSourceItem using: aStencil.
+	aSourceItem addLinkTo: newItem.
+	self addSceneryItem: newItem.
+	^ newItem
+]
+
+{ #category : #updating }
+GtScenery >> spawnNewItemNextTo: aTargetItem using: aStencil [
 	<todo: 'Check if the item already exists.'>
 	| newItem newPosition delta |
 	newItem := aStencil asItem.
 
 	delta := 20 + newItem neededHeight.
-	self pushItemsRightAndBelow: aSourceItem downBy: delta.
+	self pushItemsRightAndBelow: aTargetItem downBy: delta.
 
-	newPosition := aSourceItem position + ((100 + aSourceItem extent x) @ 0).
+	newPosition := aTargetItem position + ((100 + aTargetItem extent x) @ 0).
 	newItem position: newPosition.
+	^ newItem
+]
 
-	aSourceItem addLinkTo: newItem.
+{ #category : #updating }
+GtScenery >> spawnNewItemTo: aTargetItem using: aStencil [
+	| newItem |
+	newItem := self spawnNewItemNextTo: aTargetItem using: aStencil.
+	newItem addLinkTo: aTargetItem.
 	self addSceneryItem: newItem.
 	^ newItem
 ]

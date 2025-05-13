@@ -236,7 +236,7 @@ GtSceneryItem >> stencilForConnectionWith: anItem labeled: aText [
 	"Let the stencil decide the connection stencil to use."
 
 	^ self stencil
-		stencilForConnectionWithItemStencil: anItem stencil
+		stencilForConnectionWith: anItem
 		labeled: aText
 ]
 

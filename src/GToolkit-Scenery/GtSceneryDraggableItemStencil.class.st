@@ -48,7 +48,7 @@ GtSceneryDraggableItemStencil >> neededHeight [
 ]
 
 { #category : #connecting }
-GtSceneryDraggableItemStencil >> stencilForConnectionWithItemStencil: anItemStencil labeled: aText [
+GtSceneryDraggableItemStencil >> stencilForConnectionWith: anItem labeled: aText [
 	"Hook to let the stencil decide the connection stencil to use."
 
 	^ GtSceneryStraightArcStencil new
