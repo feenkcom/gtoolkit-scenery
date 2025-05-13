@@ -453,7 +453,7 @@ GtScenery >> gtReportFor: aView [
 		column: 'Item' text: [ :eachItem | eachItem reportString ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 GtScenery >> gtStoreExampleMethodAction: anAction [
 	<gtAction>
 	<todo: 'Instead of hiding the action, if the method name is nil, offer the possibility to set it?'>

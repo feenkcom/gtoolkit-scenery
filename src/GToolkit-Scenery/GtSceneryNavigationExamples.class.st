@@ -59,7 +59,7 @@ GtSceneryNavigationExamples >> ludoGameSpawnSubclassScenario [
 	self assert: (classItem stencil hasSubclassConnectionTo: GtLudoRecordingGame).
 
 	scripter := scenery playInScripter.
-	subclassItem stencil width: 0.
+	subclassItem stencil fitHorizontally.
 	scripter play.
 
 	self
@@ -89,7 +89,7 @@ GtSceneryNavigationExamples >> ludoGameSpawnSuperclassScenario [
 	self assert: (superItem stencil hasSubclassConnectionTo: GtLudoGame).
 
 	scripter := scenery playInScripter.
-	superItem stencil width: 0.
+	superItem stencil fitHorizontally.
 	scripter play.
 
 	self

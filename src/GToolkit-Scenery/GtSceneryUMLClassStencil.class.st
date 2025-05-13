@@ -80,6 +80,23 @@ GtSceneryUMLClassStencil >> elementClass [
 ]
 
 { #category : #accessing }
+GtSceneryUMLClassStencil >> ensureItemForClass: aClass [
+	"Ensure an item exists for this class and return it."
+
+	<todo: 'Generalize #ensureItemForClass: for other usages (eg page stencils).'>
+	^ self gtScenery items
+		detect: [ :item | 
+			(item stencil isKindOf: GtSceneryUMLClassStencil)
+				and: [ item stencil asClass = aClass ] ]
+		ifNone: [ self gtScenery
+				spawnNewItemFrom: self item
+				using: (GtSceneryUMLClassStencil new
+						class: aClass;
+						exampleBlockString: self exampleBlockString;
+						yourself) ]
+]
+
+{ #category : #accessing }
 GtSceneryUMLClassStencil >> example [
 	^ example ifNil: [ example := self computeExample ]
 ]
@@ -193,11 +210,12 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 		addItemLabel: 'Inspect example'
 		action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
 
-	self asClass = ProtoObject
-		ifFalse: [ menu
-				addItemLabel: 'Spawn superclass ' , self asClass superclass className
-				action: [ self spawnSuperclass ] ].
-	
+	self hasSuperclassConnection
+		ifFalse: [ self asClass = ProtoObject
+				ifFalse: [ menu
+						addItemLabel: 'Spawn superclass ' , self asClass superclass name
+						action: [ self spawnSuperclass ] ] ].
+
 	subclasses := self asClass subclasses asOrderedCollection sortedAs: #name.
 	subclasses size = 1
 		ifTrue: [ menu
@@ -246,12 +264,10 @@ GtSceneryUMLClassStencil >> spawnSubclass: aClass [
 
 { #category : #menu }
 GtSceneryUMLClassStencil >> spawnSuperclass [
-	^ self gtScenery
-		spawnConnectionFrom: self item
-			to: (GtSceneryUMLClassStencil new
-					class: self asClass superclass;
-					exampleBlockString: self exampleBlockString;
-					yourself)
+	| superclassItem |
+	superclassItem := self ensureItemForClass: self asClass superclass.
+	self gtScenery addConnectionFrom: self item to: superclassItem.
+	^ superclassItem
 ]
 
 { #category : #connecting }

@@ -174,6 +174,12 @@ GtSceneryTextLabelStencil >> emptyCopy [
 		resetContent
 ]
 
+{ #category : #menu }
+GtSceneryTextLabelStencil >> fitHorizontally [
+	"If width = 0 then fit content horizontally"
+	^ self width: 0
+]
+
 { #category : #accessing }
 GtSceneryTextLabelStencil >> fontSize [
 	^ fontSize
@@ -236,7 +242,7 @@ GtSceneryTextLabelStencil >> label: aString [
 { #category : #menu }
 GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	^ BrMenuItems new
-		addItemLabel: 'Adjust width to text' action: [ self width: 0 ];
+		addItemLabel: 'Adjust width to text' action: [ self fitHorizontally ];
 		addItemLabel: 'Modify font'
 			submenu: [ | submenu |
 				submenu := BrMenuItems new.
