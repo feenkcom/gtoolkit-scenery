@@ -75,16 +75,21 @@ GtSceneryExampleStencil >> initialize [
 
 { #category : #menu }
 GtSceneryExampleStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-"NB: Spawn UML does not work nicely as it is not a method-based scenery."
+	"NB: Spawn UML does not work nicely as it is not a method-based scenery."
+
 	<todo: 'extend the item menu for the example stencil'>
 	| menu |
 	menu := super
 			menuForChildElement: aChildElement
 			andSceneryElement: aGtSceneryElement.
 	menu
+		addItemLabel: 'Inspect package'
+		action: [ self gtScenery
+				spawnNewItemFrom: self item
+				using: (GtSceneryPackageInspectorStencil new package: self objectValue class package) ].
+	menu
 		addItemLabel: 'Inspect UML'
-		action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self umlScenery) ].
-	"menu
+		action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self umlScenery) ].	"menu
 		addItemLabel: 'Spawn UML'
 		action: [ self gtScenery spawnNewItemFrom: self item using: self umlScenery ]."
 	^ menu

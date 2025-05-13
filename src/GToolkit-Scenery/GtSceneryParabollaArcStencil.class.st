@@ -122,7 +122,7 @@ GtSceneryParabollaArcStencil >> labelText [
 
 { #category : #accessing }
 GtSceneryParabollaArcStencil >> labelText: aText [
-	labelText := aText
+	labelText := aText asRopedText
 ]
 
 { #category : #menu }

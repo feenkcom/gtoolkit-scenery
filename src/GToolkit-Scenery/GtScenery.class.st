@@ -34,13 +34,31 @@ GtScenery >> = otherScenery [
 
 { #category : #connecting }
 GtScenery >> addConnectionFrom: anItem1 to: anItem2 [
+	^ self
+		addConnectionFrom: anItem1
+		to: anItem2
+		labeled: nil
+]
+
+{ #category : #connecting }
+GtScenery >> addConnectionFrom: anItem1 to: anItem2 labeled: aText [
 	"Let the item decide the connection stencil to use."
 
-	^ self addConnectionWithStencil: (anItem1 stencilForConnectionWith: anItem2) from: anItem1 to: anItem2
+	^ self
+		addConnectionWithStencil: (anItem1
+				stencilForConnectionWith: anItem2
+				labeled: aText)
+		from: anItem1
+		to: anItem2
 ]
 
 { #category : #accessing }
 GtScenery >> addConnectionWithStencil: aStencil from: anItem1 to: anItem2 [
+	^ self addConnectionWithStencil: aStencil from: anItem1 to: anItem2   labeled: nil
+]
+
+{ #category : #accessing }
+GtScenery >> addConnectionWithStencil: aStencil from: anItem1 to: anItem2   labeled: aText [
 	"Explicitly set the stencil. Used by GtScenery>>#storeOn:"
 
 	| connection |
@@ -592,18 +610,28 @@ GtScenery >> restored [
 
 { #category : #updating }
 GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil [
-	<todo: 'Check if the connection already exists'>
-	| newItem |
-	newItem := self spawnNewItemFrom: aSourceItem using: aStencil.
-	self addConnectionFrom: aSourceItem to: newItem
+	self spawnConnectionFrom: aSourceItem to: aStencil labeled: nil
 ]
 
 { #category : #updating }
-GtScenery >> spawnConnectionTo: aSourceItem from: aStencil [
+GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil labeled: aText [
+	<todo: 'Check if the connection already exists'>
+	| newItem |
+	newItem := self spawnNewItemFrom: aSourceItem using: aStencil.
+	self addConnectionFrom: aSourceItem to: newItem  labeled: aText
+]
+
+{ #category : #updating }
+GtScenery >> spawnConnectionTo: aTargetItem from: aStencil [
+	self spawnConnectionTo: aTargetItem from: aStencil labeled: nil
+]
+
+{ #category : #updating }
+GtScenery >> spawnConnectionTo: aTargetItem from: aStencil labeled: aText [
 	<todo: 'Check if the connection already exists'>
 	| newItem  |
-	newItem := self spawnNewItemFrom: aSourceItem using: aStencil.
-	self addConnectionFrom: newItem  to:  aSourceItem
+	newItem := self spawnNewItemFrom: aTargetItem using: aStencil.
+	self addConnectionFrom: newItem  to:  aTargetItem labeled: aText
 ]
 
 { #category : #updating }
