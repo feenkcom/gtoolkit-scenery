@@ -33,6 +33,12 @@ GtScenerySlideStencil >> defaultViewMethodSelector [
 	^ #gtLiveFor:
 ]
 
+{ #category : #storing }
+GtScenerySlideStencil >> exampleBlockString [
+	<todo: 'Override exampleBlockString for slides'>
+	^ super exampleBlockString
+]
+
 { #category : #accessing }
 GtScenerySlideStencil >> exampleMethodName: aStringOrMethod [
 	| methodByName |
