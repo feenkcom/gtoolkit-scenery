@@ -45,6 +45,11 @@ GtSceneryUMLClassStencil >> asClass [
 ]
 
 { #category : #accessing }
+GtSceneryUMLClassStencil >> class: aClass [
+	self label: aClass name
+]
+
+{ #category : #accessing }
 GtSceneryUMLClassStencil >> computeExample [
 	^ self isValidClass
 		ifTrue: [ self exampleBlockString
@@ -56,6 +61,11 @@ GtSceneryUMLClassStencil >> computeExample [
 { #category : #accessing }
 GtSceneryUMLClassStencil >> defaultExampleBlockString [
 	^ ''
+]
+
+{ #category : #initialization }
+GtSceneryUMLClassStencil >> defaultFontSize [
+	^ 24
 ]
 
 { #category : #initialization }
@@ -151,9 +161,11 @@ GtSceneryUMLClassStencil >> label: aString [
 { #category : #menu }
 GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	<todo: 'spawn superclass or subclass nodes'>
+	| menu |
+	menu := super menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement.
 	(self isValidClass and: [ self asClass isAbstract not ])
-		ifFalse: [ ^ BrMenuItems new ].
-	^ BrMenuItems new
+		ifFalse: [ ^ menu ].
+	^ menu
 		addItemLabel: 'Inspect example'
 			action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ];
 		yourself

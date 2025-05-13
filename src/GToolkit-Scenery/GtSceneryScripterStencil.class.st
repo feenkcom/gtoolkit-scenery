@@ -33,6 +33,12 @@ GtSceneryScripterStencil >> defaultViewMethodSelector [
 	^ #gtLiveFor:
 ]
 
+{ #category : #storing }
+GtSceneryScripterStencil >> exampleBlockString [
+	<todo: 'Override exampleBlockString for scripters'>
+	^ super exampleBlockString
+]
+
 { #category : #accessing }
 GtSceneryScripterStencil >> objectValue [
 	"NB: Since the scenery element has already been created, we need to explicitly disable the background dragging."
