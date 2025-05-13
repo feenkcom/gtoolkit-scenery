@@ -216,7 +216,7 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 						addItemLabel: 'Spawn superclass ' , self asClass superclass name
 						action: [ self spawnSuperclass ] ] ].
 
-	subclasses := self asClass subclasses asOrderedCollection sortedAs: #name.
+	subclasses := self missingSubclasses.
 	subclasses size = 1
 		ifTrue: [ menu
 				addItemLabel: 'Spawn subclass ' , subclasses first name
@@ -232,6 +232,15 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 
 	menu addItemLabel: 'Spawn package' action: [ self spawnPackage ].
 	^ menu
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> missingSubclasses [
+	"Return the list of subclasses for which a subclass connection does not already exist."
+
+	^ (self asClass subclasses
+		select: [ :c | (self hasSubclassConnectionTo: c) not ]) asOrderedCollection
+		sortedAs: #name
 ]
 
 { #category : #validity }
@@ -254,12 +263,15 @@ GtSceneryUMLClassStencil >> spawnPackage [
 
 { #category : #menu }
 GtSceneryUMLClassStencil >> spawnSubclass: aClass [
-	^ self gtScenery
+	| subclassItem |
+	subclassItem := self ensureItemForClass: aClass.
+	self gtScenery addConnectionFrom: subclassItem to: self item.
+	^ subclassItem	"	^ self gtScenery
 		spawnConnectionTo: self item
 		from: (GtSceneryUMLClassStencil new
 				class: aClass;
 				exampleBlockString: self exampleBlockString;
-				yourself)
+				yourself)"
 ]
 
 { #category : #menu }
