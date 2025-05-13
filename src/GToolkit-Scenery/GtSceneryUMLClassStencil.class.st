@@ -170,13 +170,15 @@ GtSceneryUMLClassStencil >> reportOn: aStream in: anItem [
 ]
 
 { #category : #connecting }
-GtSceneryUMLClassStencil >> stencilForConnectionWithItemStencil: anItemStencil [
+GtSceneryUMLClassStencil >> stencilForConnectionWithItemStencil: anItemStencil labeled: aText [
 	"Hook to let the stencil decide the connection stencil to use."
 
 	self class = anItemStencil class
-		ifTrue: [ ^ GtSceneryUMLConnectionStencil new ].
+		ifTrue: [ ^ GtSceneryUMLConnectionStencil new
+				labelText: aText;
+				yourself ].
 
-	^ GtSceneryStraightArcStencil new
+	^ super stencilForConnectionWithItemStencil: anItemStencil labeled: aText
 ]
 
 { #category : #printing }

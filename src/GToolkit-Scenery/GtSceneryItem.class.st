@@ -232,10 +232,12 @@ GtSceneryItem >> stencil: anItemStencil [
 ]
 
 { #category : #connecting }
-GtSceneryItem >> stencilForConnectionWith: anItem [
+GtSceneryItem >> stencilForConnectionWith: anItem labeled: aText [
 	"Let the stencil decide the connection stencil to use."
 
-	^ self stencil stencilForConnectionWithItemStencil: anItem stencil
+	^ self stencil
+		stencilForConnectionWithItemStencil: anItem stencil
+		labeled: aText
 ]
 
 { #category : #announcements }
