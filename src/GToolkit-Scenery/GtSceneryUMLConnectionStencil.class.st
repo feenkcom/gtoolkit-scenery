@@ -50,6 +50,18 @@ GtSceneryUMLConnectionStencil >> initialize [
 	navigationBlockString := self defaultNavigationBlockString
 ]
 
+{ #category : #testing }
+GtSceneryUMLConnectionStencil >> isAssociationRelation [
+	"NB: avoid collision with #isAssociation"
+
+	^ self relationshipType = #association
+]
+
+{ #category : #testing }
+GtSceneryUMLConnectionStencil >> isInheritanceRelation [
+	^ self relationshipType = #inheritance
+]
+
 { #category : #validity }
 GtSceneryUMLConnectionStencil >> isValidAssociationFrom: fromItem to: toItem [
 	"We check that the navigating from the example using the navigation block

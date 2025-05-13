@@ -68,6 +68,7 @@ GtScenery >> addConnectionWithStencil: aStencil from: anItem1 to: anItem2   labe
 			to: anItem2.
 	aStencil isSceneryStencil ifTrue: [ aStencil gtScenery: self ].
 	connections add: connection.
+	anItem1 addLinkTo: anItem2.
 	self announce: (GtSceneryConnectionAdded new connection: connection).
 	^ connection
 ]
@@ -453,7 +454,7 @@ GtScenery >> gtReportFor: aView [
 		column: 'Item' text: [ :eachItem | eachItem reportString ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 GtScenery >> gtStoreExampleMethodAction: anAction [
 	<gtAction>
 	<todo: 'Instead of hiding the action, if the method name is nil, offer the possibility to set it?'>
@@ -655,9 +656,10 @@ GtScenery >> spawnNewItemFrom: aSourceItem for: anObject [
 
 { #category : #updating }
 GtScenery >> spawnNewItemFrom: aSourceItem using: aStencil [
+	"Just create the item, but not any link."
 	| newItem |
 	newItem := self spawnNewItemNextTo: aSourceItem using: aStencil.
-	aSourceItem addLinkTo: newItem.
+	"aSourceItem addLinkTo: newItem."
 	self addSceneryItem: newItem.
 	^ newItem
 ]

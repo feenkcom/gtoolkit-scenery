@@ -52,10 +52,17 @@ GtSceneryNavigationExamples >> ludoGameSpawnSubclassScenario [
 	self assert: (gameItem stencil isKindOf: GtSceneryExampleStencil).
 	self assert: (classItem stencil isKindOf: GtSceneryUMLClassStencil).
 
+	self
+		assert: (classItem stencil hasSubclassConnectionTo: GtLudoRecordingGame) not.
+	self assert: classItem stencil missingSubclasses notEmpty.
+
 	subclassItem := classItem stencil spawnSubclass: GtLudoRecordingGame.
+	self assert: subclassItem stencil hasSuperclassConnection.
+	self assert: (classItem stencil hasSubclassConnectionTo: GtLudoRecordingGame).
+	self assert: classItem stencil missingSubclasses isEmpty.
 
 	scripter := scenery playInScripter.
-	subclassItem stencil width: 0.
+	subclassItem stencil fitHorizontally.
 	scripter play.
 
 	self
@@ -75,14 +82,17 @@ GtSceneryNavigationExamples >> ludoGameSpawnSuperclassScenario [
 	scenery := self ludoGameNavigateToClassScenario.
 	gameItem := scenery items first.
 	classItem := scenery items second.
+
 	self assert: (gameItem stencil isKindOf: GtSceneryExampleStencil).
 	self assert: (classItem stencil isKindOf: GtSceneryUMLClassStencil).
-
+	
+	self assert: classItem stencil hasSuperclassConnection not.
 	superItem := classItem stencil spawnSuperclass.
-
+	self assert: classItem stencil hasSuperclassConnection.
+	self assert: (superItem stencil hasSubclassConnectionTo: GtLudoGame).
 
 	scripter := scenery playInScripter.
-	superItem stencil width: 0.
+	superItem stencil fitHorizontally.
 	scripter play.
 
 	self
