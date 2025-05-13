@@ -618,7 +618,8 @@ GtScenery >> spawnConnectionFrom: aSourceItem to: aStencil labeled: aText [
 	<todo: 'Check if the connection already exists'>
 	| newItem |
 	newItem := self spawnNewItemFrom: aSourceItem using: aStencil.
-	self addConnectionFrom: aSourceItem to: newItem  labeled: aText
+	self addConnectionFrom: aSourceItem to: newItem  labeled: aText.
+	^ newItem
 ]
 
 { #category : #updating }
