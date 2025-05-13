@@ -13,7 +13,8 @@ Class {
 	#superclass : #GtSceneryTextLabelStencil,
 	#instVars : [
 		'example',
-		'exampleBlockString'
+		'exampleBlockString',
+		'successorDict'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -252,6 +253,31 @@ GtSceneryUMLClassStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn:method"
 
 	^ super storeOnAttributes , {#exampleBlockString}
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> successorDict [
+	"Adapted from GtSceneryExampleStencil>>#umlScenery"
+
+	^ successorDict
+		ifNil: [ | eg egClass unaryMethods |
+			eg := self example.
+			egClass := eg class.
+
+			unaryMethods := self asClass methods
+					select: [ :m | m selector isUnary and: [ m isDeprecated not ] ].
+
+			successorDict := Dictionary new.
+			unaryMethods
+				do: [ :m | 
+					| successor successorClass |
+					successor := [ eg perform: m selector ] onErrorDo: [ nil ].
+					successor
+						ifNotNil: [ successorClass := successor class.
+							successorClass = egClass
+								ifFalse: [ (successorDict at: successorClass ifAbsentPut: [ OrderedCollection new ])
+										add: m selector -> successor ] ] ].
+			successorDict ]
 ]
 
 { #category : #accessing }
