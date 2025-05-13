@@ -123,6 +123,28 @@ GtSceneryUMLClassStencil >> handleDoubleClickForItemElement: anItemElement inSce
 				fireEvent: (GtSceneryObjectToSpawn new object: (GtClassCoderTool forClass: self asClass)) ]
 ]
 
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> hasSubclassConnectionTo: aClass [
+	^ self gtScenery connections
+		detect: [ :c | 
+			c to == self item
+				and: [ (c stencil isKindOf: GtSceneryUMLConnectionStencil)
+						and: [ c stencil isInheritanceRelation and: [ c from stencil asClass = aClass ] ] ] ]
+		ifFound: [ true ]
+		ifNone: [ false ]
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> hasSuperclassConnection [
+	^ self gtScenery connections
+		detect: [ :c | 
+			c from == self item
+				and: [ (c stencil isKindOf: GtSceneryUMLConnectionStencil)
+						and: [ c stencil isInheritanceRelation ] ] ]
+		ifFound: [ true ]
+		ifNone: [ false ]
+]
+
 { #category : #initialization }
 GtSceneryUMLClassStencil >> initialize [
 	super initialize.
