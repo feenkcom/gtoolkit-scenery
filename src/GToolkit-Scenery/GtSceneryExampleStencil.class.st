@@ -92,22 +92,8 @@ GtSceneryExampleStencil >> menuForChildElement: aChildElement andSceneryElement:
 	menu := super
 			menuForChildElement: aChildElement
 			andSceneryElement: aGtSceneryElement.
-	menu
-		addItemLabel: 'Spawn class'
-		action: [ self gtScenery
-				spawnConnectionFrom: self item
-				to: (GtSceneryUMLClassStencil new
-						class: self objectValue class;
-						exampleBlockString: self exampleBlockString;
-						yourself)
-				labeled: 'class' ].
-	menu
-		addItemLabel: 'Spawn package'
-		action: [ self gtScenery
-				spawnConnectionFrom: self item
-				to: (GtSceneryPackageInspectorStencil new
-						package: self objectValue class package)
-				labeled: 'package' ].
+	menu addItemLabel: 'Spawn class' action: [ self spawnClass ].
+	menu addItemLabel: 'Spawn package' action: [ self spawnPackage ].
 	menu
 		addItemLabel: 'Inspect UML'
 		action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self umlScenery) ].
@@ -117,6 +103,26 @@ GtSceneryExampleStencil >> menuForChildElement: aChildElement andSceneryElement:
 { #category : #accessing }
 GtSceneryExampleStencil >> objectValue [
 	^ self exampleMethod gtExample result returnValue
+]
+
+{ #category : #menu }
+GtSceneryExampleStencil >> spawnClass [
+	^ self gtScenery
+		spawnConnectionFrom: self item
+		to: (GtSceneryUMLClassStencil new
+				class: self objectValue class;
+				exampleBlockString: self exampleBlockString;
+				yourself)
+		labeled: 'class'
+]
+
+{ #category : #menu }
+GtSceneryExampleStencil >> spawnPackage [
+	^ self gtScenery
+		spawnConnectionFrom: self item
+		to: (GtSceneryPackageInspectorStencil new
+				package: self objectValue class package)
+		labeled: 'package'
 ]
 
 { #category : #storing }

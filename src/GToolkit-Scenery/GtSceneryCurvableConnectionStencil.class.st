@@ -125,9 +125,9 @@ GtSceneryCurvableConnectionStencil >> labelText [
 ]
 
 { #category : #accessing }
-GtSceneryCurvableConnectionStencil >> labelText: aText [
-	aText
-		ifNotNil: [ labelText := aText asRopedText.
+GtSceneryCurvableConnectionStencil >> labelText: aString [
+	aString
+		ifNotNil: [ labelText := aString.
 			self announceStencilUpdate ]
 ]
 
