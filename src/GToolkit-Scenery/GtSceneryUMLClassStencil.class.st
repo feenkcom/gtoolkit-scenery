@@ -229,6 +229,23 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 					subclasses
 						do: [ :class | submenu addItemLabel: class name action: [ self spawnSubclass: class ] ].
 					submenu ] value ].
+	self successorDict notEmpty
+		ifTrue: [ menu
+				addItemLabel: 'Spawn associations'
+				submenu: [ | submenu |
+					submenu := BrMenuItems new.
+					self successorDict
+						keysAndValuesDo: [ :k :v | 
+							submenu
+								addItemLabel: 'Spawn association to ' , k name
+								action: [ | classItem |
+									classItem := self ensureItemForClass: k.
+									self gtScenery
+										addConnectionFrom: self item
+										to: classItem
+										labeled: v first key ] ].
+					submenu ] value ].
+
 
 	menu addItemLabel: 'Spawn package' action: [ self spawnPackage ].
 	^ menu
@@ -309,25 +326,24 @@ GtSceneryUMLClassStencil >> storeOnAttributes [
 GtSceneryUMLClassStencil >> successorDict [
 	"Adapted from GtSceneryExampleStencil>>#umlScenery"
 
+	<todo: 'Filter classes to merge True & False to Bollean, and to flatten Collections to the item type.'>
+	| eg egClass unaryMethods successors |
+	eg := self example.
+	egClass := eg class.
+	unaryMethods := self asClass methods
+			select: [ :m | m selector isUnary and: [ m isDeprecated not ] ].
+	successors := unaryMethods
+			collect: [ :m | 
+				[ | successor |
+				successor := eg perform: m selector.
+				m selector -> successor ] onErrorDo: [ nil ] ]
+			thenSelect: #notNil.
+	successorDict := Dictionary new.
+	successors
+		do: [ :kv | 
+			(successorDict at: kv value class ifAbsentPut: [ OrderedCollection new ])
+				add: kv ].
 	^ successorDict
-		ifNil: [ | eg egClass unaryMethods |
-			eg := self example.
-			egClass := eg class.
-
-			unaryMethods := self asClass methods
-					select: [ :m | m selector isUnary and: [ m isDeprecated not ] ].
-
-			successorDict := Dictionary new.
-			unaryMethods
-				do: [ :m | 
-					| successor successorClass |
-					successor := [ eg perform: m selector ] onErrorDo: [ nil ].
-					successor
-						ifNotNil: [ successorClass := successor class.
-							successorClass = egClass
-								ifFalse: [ (successorDict at: successorClass ifAbsentPut: [ OrderedCollection new ])
-										add: m selector -> successor ] ] ].
-			successorDict ]
 ]
 
 { #category : #accessing }
