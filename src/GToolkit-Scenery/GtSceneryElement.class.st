@@ -178,7 +178,7 @@ GtSceneryElement >> createItemElementFor: anItem [
 		do: [ :e | anItem position: e currentTarget position ].
 	itemElement
 		when: BlElementExtentChangedEvent
-		do: [ :e | 
+		do: [ :e |
 			anItem extent: e currentTarget extent.
 			itemElement size: e currentTarget extent ].
 	^ itemElement

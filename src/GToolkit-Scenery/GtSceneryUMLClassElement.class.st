@@ -4,6 +4,12 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
+{ #category : #'as yet unclassified' }
+GtSceneryUMLClassElement >> initialize [
+	super initialize.
+	self when: BlMouseEnterEvent do: [ :e | self stencil fitHorizontally ]
+]
+
 { #category : #initialization }
 GtSceneryUMLClassElement >> initializeLabelAptitude [
 	"Black, rectangular border."
