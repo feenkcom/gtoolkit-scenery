@@ -108,25 +108,26 @@ GtSceneryNavigationExamples >> ludoGameSpawnSuperclassScenario [
 GtSceneryNavigationExamples >> ludoGameSpawnUnaryAssociationsScenario [
 	<gtExample>
 	<return: #GtScenery>
-	| scenery gameItem classItem superItem scripter |
+	| scenery gameItem classItem scripter playerItem |
 	scenery := self ludoGameNavigateToClassScenario.
 	gameItem := scenery items first.
 	classItem := scenery items second.
 	self assert: (gameItem stencil isKindOf: GtSceneryExampleStencil).
 	self assert: (classItem stencil isKindOf: GtSceneryUMLClassStencil).
 
-	"superItem := classItem stencil spawnSuperclass.
 
+	playerItem := classItem stencil
+			spawnAssociatedClass: GtLudoPlayer
+			using: #nextPlayer.
 
 	scripter := scenery playInScripter.
-	superItem stencil width: 0.
-	scripter play."
+	playerItem stencil width: 0.
+	scripter play.
 
-	"self
-		assert: superItem stencil asClass
-		equals: classItem stencil asClass superclass.
-	self assert: classItem outgoingLinks first equals: superItem.
-	self assert: scenery equals: scenery restored."
+
+	self assert: playerItem stencil example class equals: GtLudoPlayer.
+
+	self assert: scenery equals: scenery restored.
 
 	^ scenery
 ]

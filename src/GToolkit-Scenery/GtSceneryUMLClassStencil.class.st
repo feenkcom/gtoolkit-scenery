@@ -140,7 +140,7 @@ GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
 GtSceneryUMLClassStencil >> exampleExpression [
 	"Extract the expression within the block so we can compose it."
 
-	^ (self exampleBlockString removePrefix: '[') removeSuffix: ']'
+	^ ((self exampleBlockString removePrefix: '[') removeSuffix: ']') trim
 ]
 
 { #category : #action }
@@ -262,14 +262,17 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 						keysAndValuesDo: [ :k :v | 
 							submenu
 								addItemLabel: 'Spawn association to ' , k name
-								action: [ | classItem |
+								action: [ "| classItem |
 									classItem := self
 											ensureItemForClass: k
 											withExampleBlock: '[ ' , self exampleExpression , ' ' , v first key , ' ]'.
 									self gtScenery
 										addConnectionFrom: self item
 										to: classItem
-										labeled: v first key ] ].
+										labeled: v first key"
+										self spawnAssociatedClass: k using: v first key
+										
+										 ] ].
 					submenu ] value ].
 
 
@@ -294,6 +297,19 @@ GtSceneryUMLClassStencil >> reportOn: aStream in: anItem [
 				nextPutAll: self label;
 				nextPutAll: '” does not exist as a class';
 				cr ]
+]
+
+{ #category : #'as yet unclassified' }
+GtSceneryUMLClassStencil >> spawnAssociatedClass: aClass using: selector [
+	| classItem |
+	classItem := self
+			ensureItemForClass: aClass
+			withExampleBlock: '[ ' , self exampleExpression , ' ' , selector , ' ]'.
+	self gtScenery
+		addConnectionFrom: self item
+		to: classItem
+		labeled: selector.
+	^ classItem
 ]
 
 { #category : #menu }
