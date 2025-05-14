@@ -331,10 +331,12 @@ GtSceneryUMLClassStencil >> successorDict [
 	<todo: 'Filter classes to merge True & False to Boolean, and to flatten Collections to the item type.'>
 	| eg egClass unaryMethods successors |
 	successorDict := Dictionary new.
+	(self asClass = Object or: [ self asClass = UndefinedObject ])
+		ifTrue: [ ^ successorDict ].
 	eg := self example.
 	egClass := eg class.
 	unaryMethods := self unaryMethods.
-	unaryMethods size > 50 ifTrue: [^ successorDict]. "Avoid blocking for classes like Object!"
+	unaryMethods size > 50 ifTrue: [ ^ successorDict ].	"Avoid blocking for classes like Object!"
 	successors := unaryMethods
 			collect: [ :m | 
 				[ | successor |

@@ -7,7 +7,9 @@ Class {
 { #category : #'as yet unclassified' }
 GtSceneryUMLClassElement >> initialize [
 	super initialize.
-	self when: BlMouseEnterEvent do: [ :e | self stencil fitHorizontally ]
+	self
+		when: BlMouseEnterEvent
+		do: [ :e | self stencil ifNotNil: [ self stencil fitHorizontally ] ]
 ]
 
 { #category : #initialization }
