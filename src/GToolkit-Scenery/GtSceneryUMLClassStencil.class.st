@@ -52,6 +52,8 @@ GtSceneryUMLClassStencil >> class: aClass [
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> computeExample [
+	self asClass superclass = Boolean
+		ifTrue: [ ^ self asClass materializeFrom: nil ].
 	^ self isValidClass
 		ifTrue: [ self exampleBlockString
 				ifEmpty: [ self asClass new ]
@@ -326,24 +328,30 @@ GtSceneryUMLClassStencil >> storeOnAttributes [
 GtSceneryUMLClassStencil >> successorDict [
 	"Adapted from GtSceneryExampleStencil>>#umlScenery"
 
-	<todo: 'Filter classes to merge True & False to Bollean, and to flatten Collections to the item type.'>
+	<todo: 'Filter classes to merge True & False to Boolean, and to flatten Collections to the item type.'>
 	| eg egClass unaryMethods successors |
+	successorDict := Dictionary new.
 	eg := self example.
 	egClass := eg class.
-	unaryMethods := self asClass methods
-			select: [ :m | m selector isUnary and: [ m isDeprecated not ] ].
+	unaryMethods := self unaryMethods.
+	unaryMethods size > 50 ifTrue: [^ successorDict]. "Avoid blocking for classes like Object!"
 	successors := unaryMethods
 			collect: [ :m | 
 				[ | successor |
 				successor := eg perform: m selector.
 				m selector -> successor ] onErrorDo: [ nil ] ]
 			thenSelect: #notNil.
-	successorDict := Dictionary new.
 	successors
 		do: [ :kv | 
 			(successorDict at: kv value class ifAbsentPut: [ OrderedCollection new ])
 				add: kv ].
 	^ successorDict
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> unaryMethods [
+	^ self asClass methods
+		select: [ :m | m selector isUnary and: [ m isDeprecated not ] ]
 ]
 
 { #category : #accessing }

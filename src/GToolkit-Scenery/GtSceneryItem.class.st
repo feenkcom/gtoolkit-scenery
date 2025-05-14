@@ -106,7 +106,6 @@ GtSceneryItem >> extent: aPoint [
 	"NB: If the extent is 0@0, let the element choose the size.
 	If x or y = 0, then let the element choose that value.
 	Important for text elements, which may be free in x and y, or just in y."
-
 	aPoint notNil ifTrue: [ extent := aPoint ]
 ]
 
