@@ -83,6 +83,21 @@ GtSceneryUMLClassStencil >> elementClass [
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> ensureItemForClass: aClass [
+	self deprecated: 'Use GtSceneryUMLClassStencil>>#ensureItemForClass:withExampleBlock:'.
+	^ self gtScenery items
+		detect: [ :item | 
+			(item stencil isKindOf: GtSceneryUMLClassStencil)
+				and: [ item stencil asClass = aClass ] ]
+		ifNone: [ self gtScenery
+				spawnNewItemFrom: self item
+				using: (GtSceneryUMLClassStencil new
+						class: aClass;
+						exampleBlockString: self exampleBlockString;
+						yourself) ]
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> ensureItemForClass: aClass withExampleBlock: anExampleBlockString [
 	"Ensure an item exists for this class and return it."
 
 	<todo: 'Generalize #ensureItemForClass: for other usages (eg page stencils).'>
@@ -94,7 +109,7 @@ GtSceneryUMLClassStencil >> ensureItemForClass: aClass [
 				spawnNewItemFrom: self item
 				using: (GtSceneryUMLClassStencil new
 						class: aClass;
-						exampleBlockString: self exampleBlockString;
+						exampleBlockString: anExampleBlockString;
 						yourself) ]
 ]
 
@@ -119,6 +134,13 @@ GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
 
 	example := nil.
 	self announceStencilUpdate
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> exampleExpression [
+	"Extract the expression within the block so we can compose it."
+
+	^ (self exampleBlockString removePrefix: '[') removeSuffix: ']'
 ]
 
 { #category : #action }
@@ -241,7 +263,9 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 							submenu
 								addItemLabel: 'Spawn association to ' , k name
 								action: [ | classItem |
-									classItem := self ensureItemForClass: k.
+									classItem := self
+											ensureItemForClass: k
+											withExampleBlock: '[ ' , self exampleExpression , ' ' , v first key , ' ]'.
 									self gtScenery
 										addConnectionFrom: self item
 										to: classItem
@@ -283,20 +307,19 @@ GtSceneryUMLClassStencil >> spawnPackage [
 { #category : #menu }
 GtSceneryUMLClassStencil >> spawnSubclass: aClass [
 	| subclassItem |
-	subclassItem := self ensureItemForClass: aClass.
+	subclassItem := self
+			ensureItemForClass: aClass
+			withExampleBlock: '[ ' , aClass name , ' new ]'.
 	self gtScenery addConnectionFrom: subclassItem to: self item.
-	^ subclassItem	"	^ self gtScenery
-		spawnConnectionTo: self item
-		from: (GtSceneryUMLClassStencil new
-				class: aClass;
-				exampleBlockString: self exampleBlockString;
-				yourself)"
+	^ subclassItem
 ]
 
 { #category : #menu }
 GtSceneryUMLClassStencil >> spawnSuperclass [
 	| superclassItem |
-	superclassItem := self ensureItemForClass: self asClass superclass.
+	superclassItem := self
+			ensureItemForClass: self asClass superclass
+			withExampleBlock: '[ ' , self asClass superclass name , ' new ]'.
 	self gtScenery addConnectionFrom: self item to: superclassItem.
 	^ superclassItem
 ]
