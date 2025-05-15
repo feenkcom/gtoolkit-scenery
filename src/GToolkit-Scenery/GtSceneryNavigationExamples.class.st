@@ -8,21 +8,35 @@ Class {
 }
 
 { #category : #scenery }
+GtSceneryNavigationExamples >> embeddedScenerySpawnClassScenerio [
+	<gtExample>
+	<return: #GtScenery>
+	| scenery  embeddedItem classItem |
+	scenery := GtSceneryInspectorStencilExamples new embeddedSceneryExampleScenery.
+	
+	embeddedItem := scenery items first.
+	self assert: (embeddedItem stencil isKindOf:GtEmbeddedSceneryStencil).
+
+	classItem := embeddedItem stencil spawnClass.
+	
+	self assert: classItem stencil example class equals: GtScenery.
+	self assert: scenery equals: scenery restored.
+	
+	^ scenery
+]
+
+{ #category : #scenery }
 GtSceneryNavigationExamples >> ludoGameNavigateToClassScenario [
 	"The object of the example method is the same as the example behind the spawned class stencil."
 
 	<gtExample>
 	<return: #GtScenery>
-	| scenery gameItem classItem scripter |
+	| scenery gameItem classItem |
 	scenery := self ludoGameScenario.
 	gameItem := scenery items first.
 	self assert: (gameItem stencil isKindOf: GtSceneryExampleStencil).
 
 	classItem := gameItem stencil spawnClass.
-
-	scripter := scenery playInScripter.
-	classItem stencil width: 0.
-	scripter play.
 
 	self assert: gameItem stencil objectValue equals: classItem stencil example.
 	self assert: scenery equals: scenery restored.
@@ -129,5 +143,39 @@ GtSceneryNavigationExamples >> ludoGameSpawnUnaryAssociationsScenario [
 
 	self assert: scenery equals: scenery restored.
 
+	^ scenery
+]
+
+{ #category : #scenery }
+GtSceneryNavigationExamples >> scripterSpawnClassScenerio [
+	<gtExample>
+	<return: #GtScenery>
+	| scenery  scripterItem classItem |
+	scenery := GtSceneryInspectorStencilExamples new scripterScenery.
+	
+	scripterItem := scenery items first.
+	self assert: (scripterItem stencil isKindOf:GtSceneryScripterStencil).
+
+	classItem := scripterItem stencil spawnClass.
+	
+	self assert: classItem stencil example class equals: GtSceneryElement.
+	self assert: scenery equals: scenery restored.
+	
+	^ scenery
+]
+
+{ #category : #scenery }
+GtSceneryNavigationExamples >> slideSpawnClassScenerio [
+	<gtExample>
+	<return: #GtScenery>
+	| scenery slideItem classItem |
+	scenery := GtScenery new.
+	slideItem := scenery addSceneryItem: GtScenerySlideStencil new asItem.
+	
+	classItem := slideItem stencil spawnClass.
+	
+	self assert: classItem stencil example class equals: GtElementLiveSlide.
+	self assert: scenery equals: scenery restored.
+	
 	^ scenery
 ]

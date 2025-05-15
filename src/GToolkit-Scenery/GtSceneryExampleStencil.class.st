@@ -34,7 +34,7 @@ GtSceneryExampleStencil >> defaultExampleMethodName [
 ]
 
 { #category : #storing }
-GtSceneryExampleStencil >> exampleBlockString [
+GtSceneryExampleStencil >> exampleBlockStringForUMLClassStencil [
 	"For instantiating a GtSceneryUMLClassStencil.
 	NB: to be refined by subclasses."
 
@@ -111,7 +111,7 @@ GtSceneryExampleStencil >> spawnClass [
 		spawnConnectionFrom: self item
 		to: (GtSceneryUMLClassStencil new
 				class: self objectValue class;
-				exampleBlockString: self exampleBlockString;
+				exampleBlockString: self exampleBlockStringForUMLClassStencil;
 				yourself)
 		labeled: 'class'
 ]

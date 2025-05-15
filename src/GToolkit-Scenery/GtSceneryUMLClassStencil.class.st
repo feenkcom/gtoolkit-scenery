@@ -52,12 +52,17 @@ GtSceneryUMLClassStencil >> class: aClass [
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> computeExample [
+	^ self computeExampleFrom: self exampleBlockString
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> computeExampleFrom: aString [
 	self asClass superclass = Boolean
 		ifTrue: [ ^ self asClass materializeFrom: nil ].
 	^ self isValidClass
-		ifTrue: [ self exampleBlockString
+		ifTrue: [ aString
 				ifEmpty: [ self asClass new ]
-				ifNotEmpty: [ (Smalltalk compiler evaluate: self exampleBlockString) value ] ]
+				ifNotEmpty: [ (Smalltalk compiler evaluate: aString) value ] ]
 		ifFalse: [ nil ]
 ]
 
@@ -79,21 +84,6 @@ GtSceneryUMLClassStencil >> defaultLabel [
 { #category : #'api - instantiation' }
 GtSceneryUMLClassStencil >> elementClass [
 	^ GtSceneryUMLClassElement
-]
-
-{ #category : #accessing }
-GtSceneryUMLClassStencil >> ensureItemForClass: aClass [
-	self deprecated: 'Use GtSceneryUMLClassStencil>>#ensureItemForClass:withExampleBlock:'.
-	^ self gtScenery items
-		detect: [ :item | 
-			(item stencil isKindOf: GtSceneryUMLClassStencil)
-				and: [ item stencil asClass = aClass ] ]
-		ifNone: [ self gtScenery
-				spawnNewItemFrom: self item
-				using: (GtSceneryUMLClassStencil new
-						class: aClass;
-						exampleBlockString: self exampleBlockString;
-						yourself) ]
 ]
 
 { #category : #accessing }
@@ -128,11 +118,20 @@ GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
 	"We store a string instead of a block to avoid capturing any free variables.
 	On updates we invalidate the #example cache."
 
-	exampleBlockString := aClosureOrString isClosure
+	| theString theExample |
+	theString := aClosureOrString isClosure
 			ifTrue: [ aClosureOrString printString ]
 			ifFalse: [ aClosureOrString ].
 
-	example := nil.
+	theExample := self computeExampleFrom: theString.
+	self
+		assert: (theExample isKindOf: self asClass)
+		description: 'The example string "' , theString , '" returns a ' , theExample class name
+				, ' instead of a ' , self label.
+
+	exampleBlockString := theString.
+	example := theExample.
+
 	self announceStencilUpdate
 ]
 
