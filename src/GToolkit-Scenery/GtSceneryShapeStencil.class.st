@@ -30,6 +30,18 @@ GtSceneryShapeStencil class >> itemCreationSubmenuLabel [
 	^ 'Shape'
 ]
 
+{ #category : #comparison }
+GtSceneryShapeStencil >> = otherStencil [
+	"Strangely it wasn't necessary before to compare the geometry class rather than the value."
+
+	self == otherStencil ifTrue: [ ^ true ].
+	self class = otherStencil class ifFalse: [ ^ false ].
+	self backgroundColorSelector = otherStencil backgroundColorSelector
+		ifFalse: [ ^ false ].
+	self geometry class = otherStencil geometry class ifFalse: [ ^ false ].
+	^ true
+]
+
 { #category : #accessing }
 GtSceneryShapeStencil >> backgroundColor [
 	^ Color perform: self backgroundColorSelector
@@ -103,6 +115,11 @@ GtSceneryShapeStencil >> handleDoubleClickForItemElement: anItemElement inScener
 	"Inspect the stencil."
 
 	aSceneryElement inspectItemForElement: anItemElement
+]
+
+{ #category : #comparison }
+GtSceneryShapeStencil >> hash [
+	^ super hash
 ]
 
 { #category : #initialization }

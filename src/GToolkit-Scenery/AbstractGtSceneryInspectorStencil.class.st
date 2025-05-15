@@ -62,7 +62,7 @@ AbstractGtSceneryInspectorStencil >> menuForChildElement: aChildElement andScene
 				viewMethods := [ self objectValue class allMethods
 						select: [ :m | m hasPragmaNamed: #gtView ] ]
 						onErrorDo: [ OrderedCollection new ].
-				viewMethods
+				(viewMethods sortedAs: #selector)
 					do: [ :m | submenu addItemLabel: m selector action: [ self viewMethodSelector: m selector ] ].
 				submenu ] value;
 		yourself

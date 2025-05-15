@@ -14,7 +14,8 @@ Class {
 		'announcer',
 		'onceLayout',
 		'storeStringMethodName',
-		'backgroundDraggable'
+		'backgroundDraggable',
+		'dataFolders'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -176,6 +177,19 @@ GtScenery >> connections: anObject [
 GtScenery >> create [
 	^ GtSceneryElement new
 		gtScenery: self
+]
+
+{ #category : #accessing }
+GtScenery >> dataFolders [
+	"This is where we can search for image files. Cache it in the scenery, as it can be expensive to compute."
+
+	^ dataFolders
+		ifNil: [ dataFolders := FileLocator gtResource allDirectoriesMatching: 'data' ]
+]
+
+{ #category : #accessing }
+GtScenery >> dataFolders: anObject [
+	dataFolders := anObject
 ]
 
 { #category : #initialization }

@@ -181,6 +181,17 @@ GtSceneryInspectorStencilExamples >> errorScenery [
 	^ scenery
 ]
 
+{ #category : #scenery }
+GtSceneryInspectorStencilExamples >> eyeconSceneryRestored [
+	<gtExample>
+	<return: #GtScenery>
+	| scenery restored |
+	scenery := GtSceneryEditedExamples new eyeconScenery.
+	restored := scenery restored.
+	self assert: scenery equals: restored.
+	^ restored
+]
+
 { #category : #example }
 GtSceneryInspectorStencilExamples >> foobarStringExample [
 	"To be spawned"
@@ -296,6 +307,17 @@ GtSceneryInspectorStencilExamples >> packageScenery [
 	scripter play.
 
 	^ scenery
+]
+
+{ #category : #scenery }
+GtSceneryInspectorStencilExamples >> reflectionSceneryRestored [
+	<gtExample>
+	<return: #GtScenery>
+	| scenery restored |
+	scenery := GtSceneryDemoExamples new reflectionScenery.
+	restored := scenery restored.
+	self assert: scenery equals: restored.
+	^ restored
 ]
 
 { #category : #scenery }
