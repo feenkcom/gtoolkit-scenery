@@ -228,7 +228,7 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 	menu := super
 			menuForChildElement: aChildElement
 			andSceneryElement: aGtSceneryElement.
-	(self isValidClass and: [ self asClass isAbstract not ]) ifFalse: [ ^ menu ].
+	(self isValidClass "and: [ self asClass isAbstract not ]") ifFalse: [ ^ menu ].
 	menu
 		addItemLabel: 'Inspect example'
 		action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
@@ -331,10 +331,14 @@ GtSceneryUMLClassStencil >> spawnSubclass: aClass [
 
 { #category : #menu }
 GtSceneryUMLClassStencil >> spawnSuperclass [
+	"NB: If the superclass is abstract, use my own example instead."
+
 	| superclassItem |
 	superclassItem := self
 			ensureItemForClass: self asClass superclass
-			withExampleBlock: '[ ' , self asClass superclass name , ' new ]'.
+			withExampleBlock: (self asClass superclass isAbstract
+					ifTrue: [ self exampleBlockString ]
+					ifFalse: [ '[ ' , self asClass superclass name , ' new ]' ]).
 	self gtScenery addConnectionFrom: self item to: superclassItem.
 	^ superclassItem
 ]

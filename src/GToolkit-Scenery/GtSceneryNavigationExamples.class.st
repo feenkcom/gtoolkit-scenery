@@ -26,18 +26,39 @@ GtSceneryNavigationExamples >> embeddedScenerySpawnClassScenerio [
 ]
 
 { #category : #scenery }
+GtSceneryNavigationExamples >> inspectorSpawnClassScenerio [
+	<gtExample>
+	<return: #GtScenery>
+	| scenery   inspectorItem classItem |
+	scenery := (GtSceneryExamples new sceneryWithOneInspector).
+	inspectorItem := scenery items first.
+	self assert: (inspectorItem stencil  isKindOf: GtSceneryInspectorStencil).
+	
+	classItem := inspectorItem stencil spawnClass.
+	
+	self assert: classItem stencil example class equals: SmallInteger.
+	self assert: scenery equals: scenery restored.
+	
+	^ scenery
+]
+
+{ #category : #scenery }
 GtSceneryNavigationExamples >> ludoGameNavigateToClassScenario [
 	"The object of the example method is the same as the example behind the spawned class stencil."
 
 	<gtExample>
 	<return: #GtScenery>
-	| scenery gameItem classItem |
+	| scenery gameItem classItem scripter |
 	scenery := self ludoGameScenario.
 	gameItem := scenery items first.
 	self assert: (gameItem stencil isKindOf: GtSceneryExampleStencil).
 
 	classItem := gameItem stencil spawnClass.
 
+	scripter := scenery playInScripter.
+	classItem stencil fitHorizontally.
+	scripter play.
+	
 	self assert: gameItem stencil objectValue equals: classItem stencil example.
 	self assert: scenery equals: scenery restored.
 
