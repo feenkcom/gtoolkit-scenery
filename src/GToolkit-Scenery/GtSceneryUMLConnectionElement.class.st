@@ -9,7 +9,7 @@ GtSceneryUMLConnectionElement >> invalidForegroundColor [
 	^ Color red
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #announcements }
 GtSceneryUMLConnectionElement >> updateAppearance [
 	self updateValidityColor.
 	super updateAppearance

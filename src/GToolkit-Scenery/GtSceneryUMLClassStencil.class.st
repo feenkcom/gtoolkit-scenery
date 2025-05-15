@@ -52,12 +52,17 @@ GtSceneryUMLClassStencil >> class: aClass [
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> computeExample [
+	^ self computeExampleFrom: self exampleBlockString
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> computeExampleFrom: aString [
 	self asClass superclass = Boolean
 		ifTrue: [ ^ self asClass materializeFrom: nil ].
 	^ self isValidClass
-		ifTrue: [ self exampleBlockString
+		ifTrue: [ aString
 				ifEmpty: [ self asClass new ]
-				ifNotEmpty: [ (Smalltalk compiler evaluate: self exampleBlockString) value ] ]
+				ifNotEmpty: [ (Smalltalk compiler evaluate: aString) value ] ]
 		ifFalse: [ nil ]
 ]
 
@@ -82,7 +87,7 @@ GtSceneryUMLClassStencil >> elementClass [
 ]
 
 { #category : #accessing }
-GtSceneryUMLClassStencil >> ensureItemForClass: aClass [
+GtSceneryUMLClassStencil >> ensureItemForClass: aClass withExampleBlock: anExampleBlockString [
 	"Ensure an item exists for this class and return it."
 
 	<todo: 'Generalize #ensureItemForClass: for other usages (eg page stencils).'>
@@ -94,7 +99,7 @@ GtSceneryUMLClassStencil >> ensureItemForClass: aClass [
 				spawnNewItemFrom: self item
 				using: (GtSceneryUMLClassStencil new
 						class: aClass;
-						exampleBlockString: self exampleBlockString;
+						exampleBlockString: anExampleBlockString;
 						yourself) ]
 ]
 
@@ -113,12 +118,28 @@ GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
 	"We store a string instead of a block to avoid capturing any free variables.
 	On updates we invalidate the #example cache."
 
-	exampleBlockString := aClosureOrString isClosure
+	| theString theExample |
+	theString := aClosureOrString isClosure
 			ifTrue: [ aClosureOrString printString ]
 			ifFalse: [ aClosureOrString ].
 
-	example := nil.
+	theExample := self computeExampleFrom: theString.
+	self
+		assert: (theExample isKindOf: self asClass)
+		description: 'The example string "' , theString , '" returns a ' , theExample class name
+				, ' instead of a ' , self label.
+
+	exampleBlockString := theString.
+	example := theExample.
+
 	self announceStencilUpdate
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> exampleExpression [
+	"Extract the expression within the block so we can compose it."
+
+	^ ((self exampleBlockString removePrefix: '[') removeSuffix: ']') trim
 ]
 
 { #category : #action }
@@ -207,7 +228,7 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 	menu := super
 			menuForChildElement: aChildElement
 			andSceneryElement: aGtSceneryElement.
-	(self isValidClass and: [ self asClass isAbstract not ]) ifFalse: [ ^ menu ].
+	(self isValidClass "and: [ self asClass isAbstract not ]") ifFalse: [ ^ menu ].
 	menu
 		addItemLabel: 'Inspect example'
 		action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
@@ -240,12 +261,17 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 						keysAndValuesDo: [ :k :v | 
 							submenu
 								addItemLabel: 'Spawn association to ' , k name
-								action: [ | classItem |
-									classItem := self ensureItemForClass: k.
+								action: [ "| classItem |
+									classItem := self
+											ensureItemForClass: k
+											withExampleBlock: '[ ' , self exampleExpression , ' ' , v first key , ' ]'.
 									self gtScenery
 										addConnectionFrom: self item
 										to: classItem
-										labeled: v first key ] ].
+										labeled: v first key"
+										self spawnAssociatedClass: k using: v first key
+										
+										 ] ].
 					submenu ] value ].
 
 
@@ -272,6 +298,19 @@ GtSceneryUMLClassStencil >> reportOn: aStream in: anItem [
 				cr ]
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryUMLClassStencil >> spawnAssociatedClass: aClass using: selector [
+	| classItem |
+	classItem := self
+			ensureItemForClass: aClass
+			withExampleBlock: '[ ' , self exampleExpression , ' ' , selector , ' ]'.
+	self gtScenery
+		addConnectionFrom: self item
+		to: classItem
+		labeled: selector.
+	^ classItem
+]
+
 { #category : #menu }
 GtSceneryUMLClassStencil >> spawnPackage [
 	^ self gtScenery
@@ -283,20 +322,23 @@ GtSceneryUMLClassStencil >> spawnPackage [
 { #category : #menu }
 GtSceneryUMLClassStencil >> spawnSubclass: aClass [
 	| subclassItem |
-	subclassItem := self ensureItemForClass: aClass.
+	subclassItem := self
+			ensureItemForClass: aClass
+			withExampleBlock: '[ ' , aClass name , ' new ]'.
 	self gtScenery addConnectionFrom: subclassItem to: self item.
-	^ subclassItem	"	^ self gtScenery
-		spawnConnectionTo: self item
-		from: (GtSceneryUMLClassStencil new
-				class: aClass;
-				exampleBlockString: self exampleBlockString;
-				yourself)"
+	^ subclassItem
 ]
 
 { #category : #menu }
 GtSceneryUMLClassStencil >> spawnSuperclass [
+	"NB: If the superclass is abstract, use my own example instead."
+
 	| superclassItem |
-	superclassItem := self ensureItemForClass: self asClass superclass.
+	superclassItem := self
+			ensureItemForClass: self asClass superclass
+			withExampleBlock: (self asClass superclass isAbstract
+					ifTrue: [ self exampleBlockString ]
+					ifFalse: [ '[ ' , self asClass superclass name , ' new ]' ]).
 	self gtScenery addConnectionFrom: self item to: superclassItem.
 	^ superclassItem
 ]
@@ -331,10 +373,12 @@ GtSceneryUMLClassStencil >> successorDict [
 	<todo: 'Filter classes to merge True & False to Boolean, and to flatten Collections to the item type.'>
 	| eg egClass unaryMethods successors |
 	successorDict := Dictionary new.
+	(self asClass = Object or: [ self asClass = UndefinedObject ])
+		ifTrue: [ ^ successorDict ].
 	eg := self example.
 	egClass := eg class.
 	unaryMethods := self unaryMethods.
-	unaryMethods size > 50 ifTrue: [^ successorDict]. "Avoid blocking for classes like Object!"
+	unaryMethods size > 50 ifTrue: [ ^ successorDict ].	"Avoid blocking for classes like Object!"
 	successors := unaryMethods
 			collect: [ :m | 
 				[ | successor |

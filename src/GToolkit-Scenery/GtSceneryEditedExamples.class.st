@@ -122,7 +122,7 @@ GtSceneryEditedExamples >> sceneryMindmap [
 	<noTest>
 	<storedScenery>
 	<return: #GtScenery>
-	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 |
+	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 item12 item13 item14 item15 item16 item17 item18 item19 item20 item21 item22 item23 item24 item25 item26 item27 item28 item29 item30 item31 item32 item33 item34 item35 item36 item37 item38 item39 item40 item41 item42 item43 item44 |
 	scenery := GtScenery new.
 	item1 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -190,6 +190,204 @@ GtSceneryEditedExamples >> sceneryMindmap [
 					width: 113.166015625) asItem.
 	item11 position: 392.8634287516277 @ 428.8690083821615.
 	item11 extent: 113.166015625 @ 28.0.
+	item12 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Scenery';
+					width: 56.858001708984375) asItem.
+	item12 position: 126.64542643229174 @ -210.1309916178385.
+	item12 extent: 56.858001708984375 @ 28.0.
+	item13 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Items';
+					width: 42.634002685546875) asItem.
+	item13 position: 271.5034281412761 @ -326.1309916178385.
+	item13 extent: 42.634002685546875 @ 28.0.
+	item14 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Connections';
+					width: 83.37400817871094) asItem.
+	item14 position: 253.50342814127612 @ -207.1309916178385.
+	item14 extent: 83.37400817871094 @ 28.0.
+	item15 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Created with stencils';
+					width: 131.00201416015625) asItem.
+	item15 position: 396.137430826823 @ -367.1309916178385.
+	item15 extent: 131.00201416015625 @ 28.0.
+	item16 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Connect two items';
+					width: 119.1300048828125) asItem.
+	item16 position: 392.87743631998705 @ -229.1309916178385.
+	item16 extent: 119.1300048828125 @ 28.0.
+	item17 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Rendered with stencils';
+					width: 142.0060272216797) asItem.
+	item17 position: 393.87743631998705 @ -165.1309916178385.
+	item17 extent: 142.0060272216797 @ 28.0.
+	item18 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Encapsulate any kind of graph node';
+					width: 218.20803833007813) asItem.
+	item18 position: 395.137430826823 @ -292.1309916178385.
+	item18 extent: 218.20803833007813 @ 28.0.
+	item19 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Use  cases';
+					width: 69.36000061035156) asItem.
+	item19 position: 255.50342814127612 @ -65.1309916178385.
+	item19 extent: 69.36000061035156 @ 28.0.
+	item20 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Mind maps';
+					width: 74.14801025390625) asItem.
+	item20 position: 394.8634287516277 @ -119.1309916178385.
+	item20 extent: 74.14801025390625 @ 28.0.
+	item21 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'UML diagrams';
+					width: 93.18800354003906) asItem.
+	item21 position: 393.8634287516277 @ -65.1309916178385.
+	item21 extent: 93.18800354003906 @ 28.0.
+	item22 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Lepiter roadmaps';
+					width: 113.166015625) asItem.
+	item22 position: 392.8634287516277 @ -8.130991617838504.
+	item22 extent: 113.166015625 @ 28.0.
+	item23 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Scenery';
+					width: 56.858001708984375) asItem.
+	item23 position: 126.64542643229174 @ -647.1309916178385.
+	item23 extent: 56.858001708984375 @ 28.0.
+	item24 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Items';
+					width: 42.634002685546875) asItem.
+	item24 position: 271.5034281412761 @ -763.1309916178385.
+	item24 extent: 42.634002685546875 @ 28.0.
+	item25 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Connections';
+					width: 83.37400817871094) asItem.
+	item25 position: 253.50342814127612 @ -644.1309916178385.
+	item25 extent: 83.37400817871094 @ 28.0.
+	item26 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Created with stencils';
+					width: 131.00201416015625) asItem.
+	item26 position: 396.137430826823 @ -804.1309916178385.
+	item26 extent: 131.00201416015625 @ 28.0.
+	item27 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Connect two items';
+					width: 119.1300048828125) asItem.
+	item27 position: 392.87743631998705 @ -666.1309916178385.
+	item27 extent: 119.1300048828125 @ 28.0.
+	item28 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Rendered with stencils';
+					width: 142.0060272216797) asItem.
+	item28 position: 393.87743631998705 @ -602.1309916178385.
+	item28 extent: 142.0060272216797 @ 28.0.
+	item29 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Encapsulate any kind of graph node';
+					width: 218.20803833007813) asItem.
+	item29 position: 395.137430826823 @ -729.1309916178385.
+	item29 extent: 218.20803833007813 @ 28.0.
+	item30 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Use  cases';
+					width: 69.36000061035156) asItem.
+	item30 position: 255.50342814127612 @ -502.1309916178385.
+	item30 extent: 69.36000061035156 @ 28.0.
+	item31 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Mind maps';
+					width: 74.14801025390625) asItem.
+	item31 position: 394.8634287516277 @ -556.1309916178385.
+	item31 extent: 74.14801025390625 @ 28.0.
+	item32 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'UML diagrams';
+					width: 93.18800354003906) asItem.
+	item32 position: 393.8634287516277 @ -502.1309916178385.
+	item32 extent: 93.18800354003906 @ 28.0.
+	item33 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Lepiter roadmaps';
+					width: 113.166015625) asItem.
+	item33 position: 392.8634287516277 @ -445.1309916178385.
+	item33 extent: 113.166015625 @ 28.0.
+	item34 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Scenery';
+					width: 56.858001708984375) asItem.
+	item34 position: 126.64542643229174 @ -1084.1309916178384.
+	item34 extent: 56.858001708984375 @ 28.0.
+	item35 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Items';
+					width: 42.634002685546875) asItem.
+	item35 position: 271.5034281412761 @ -1200.1309916178384.
+	item35 extent: 42.634002685546875 @ 28.0.
+	item36 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Connections';
+					width: 83.37400817871094) asItem.
+	item36 position: 253.50342814127612 @ -1081.1309916178384.
+	item36 extent: 83.37400817871094 @ 28.0.
+	item37 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Created with stencils';
+					width: 131.00201416015625) asItem.
+	item37 position: 396.137430826823 @ -1241.1309916178384.
+	item37 extent: 131.00201416015625 @ 28.0.
+	item38 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Connect two items';
+					width: 119.1300048828125) asItem.
+	item38 position: 392.87743631998705 @ -1103.1309916178384.
+	item38 extent: 119.1300048828125 @ 28.0.
+	item39 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Rendered with stencils';
+					width: 142.0060272216797) asItem.
+	item39 position: 393.87743631998705 @ -1039.1309916178384.
+	item39 extent: 142.0060272216797 @ 28.0.
+	item40 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Encapsulate any kind of graph node';
+					width: 218.20803833007813) asItem.
+	item40 position: 395.137430826823 @ -1166.1309916178384.
+	item40 extent: 218.20803833007813 @ 28.0.
+	item41 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Use  cases';
+					width: 69.36000061035156) asItem.
+	item41 position: 255.50342814127612 @ -939.1309916178385.
+	item41 extent: 69.36000061035156 @ 28.0.
+	item42 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Mind maps';
+					width: 74.14801025390625) asItem.
+	item42 position: 394.8634287516277 @ -993.1309916178385.
+	item42 extent: 74.14801025390625 @ 28.0.
+	item43 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'UML diagrams';
+					width: 93.18800354003906) asItem.
+	item43 position: 393.8634287516277 @ -939.1309916178385.
+	item43 extent: 93.18800354003906 @ 28.0.
+	item44 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Lepiter roadmaps';
+					width: 113.166015625) asItem.
+	item44 position: 392.8634287516277 @ -882.1309916178385.
+	item44 extent: 113.166015625 @ 28.0.
 	scenery
 		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
@@ -230,6 +428,126 @@ GtSceneryEditedExamples >> sceneryMindmap [
 		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item8
 		to: item11.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item12
+		to: item13.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item12
+		to: item14.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item13
+		to: item15.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item14
+		to: item16.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item14
+		to: item17.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item13
+		to: item18.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item12
+		to: item19.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item19
+		to: item20.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item19
+		to: item21.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item19
+		to: item22.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item23
+		to: item24.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item23
+		to: item25.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item24
+		to: item26.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item25
+		to: item27.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item25
+		to: item28.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item24
+		to: item29.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item23
+		to: item30.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item30
+		to: item31.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item30
+		to: item32.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item30
+		to: item33.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item34
+		to: item35.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item34
+		to: item36.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item35
+		to: item37.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item36
+		to: item38.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item36
+		to: item39.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item35
+		to: item40.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item34
+		to: item41.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item41
+		to: item42.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item41
+		to: item43.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item41
+		to: item44.
 	scenery storeStringMethodName: 'GtSceneryEditedExamples>>#sceneryMindmap'.
 	^ scenery
 ]

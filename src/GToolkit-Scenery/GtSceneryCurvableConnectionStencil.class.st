@@ -133,7 +133,9 @@ GtSceneryCurvableConnectionStencil >> labelText: aString [
 
 { #category : #menu }
 GtSceneryCurvableConnectionStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	^ BrMenuItems new
+	^ (super
+		menuForChildElement: aChildElement
+		andSceneryElement: aGtSceneryElement)
 		addItemLabel: 'Modify curvature'
 			submenu: (BrMenuItems new
 					addItemLabel: 'Curve positively'

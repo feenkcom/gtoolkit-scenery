@@ -127,7 +127,9 @@ GtSceneryParabollaArcStencil >> labelText: aText [
 
 { #category : #menu }
 GtSceneryParabollaArcStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	^ BrMenuItems new
+	^ (super
+		menuForChildElement: aChildElement
+		andSceneryElement: aGtSceneryElement)
 		addItemLabel: 'Modify curvature'
 			submenu: (BrMenuItems new
 					addItemLabel: 'Curve positively'

@@ -295,14 +295,14 @@ GtSceneryDemoExamples >> inspectorSceneries [
 							roll: 4;
 							moveTokenNamed: 'B';
 							yourself ]) asItem.
-	item1 position: -87.0 @ 207.0.
+	item1 position: -96.0 @ 182.0.
 	item1 extent: 300.0 @ 400.0.
 	item2 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'Here is an example of an inspector on a scripted object. Inspect the stencil and view its storeString to see how it is constructed.';
-					width: 260.05116271972656) asItem.
-	item2 position: 46.08203124999926 @ 78.02372233072919.
-	item2 extent: 260.05116271972656 @ 64.0.
+					width: 384.50797999791024) asItem.
+	item2 position: -130.91796875000074 @ 56.023722330729186.
+	item2 extent: 384.50797999791024 @ 46.0.
 	item3 := scenery
 			addSceneryItem: (GtSceneryTextLabelStencil new
 					label: 'Various examples of inspectors on different kinds of objects.';
@@ -311,52 +311,54 @@ GtSceneryDemoExamples >> inspectorSceneries [
 					width: 677.5419978416443) asItem.
 	item3 position: 40.92252604166603 @ -170.4437255859375.
 	item3 extent: 677.5419978416443 @ 130.0.
-	item4 := scenery addSceneryItem: GtScenerySlideStencil new asItem.
-	item4 position: 196.72936991173037 @ 673.7836258148822.
-	item4 extent: 353.8720937736348 @ 230.24510427884763.
+	item4 := scenery
+			addSceneryItem: (GtScenerySlideStencil new
+					exampleMethodName: 'ExploringObjectsScenerySlideshow>>#titleSlide:') asItem.
+	item4 position: 322.7293699117304 @ 573.7836258148822.
+	item4 extent: 460.6108065209212 @ 317.5852871253386.
 	item5 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'A slide from a slideshow.';
-					width: 102.93202209472656) asItem.
-	item5 position: 327.88395502049116 @ 563.4385206819829.
-	item5 extent: 102.93202209472656 @ 46.0.
+					width: 153.03802490234375) asItem.
+	item5 position: 306.88395502049116 @ 474.43852068198294.
+	item5 extent: 153.03802490234375 @ 28.0.
 	item6 := scenery
 			addSceneryItem: (GtSceneryExampleStencil new
 					exampleMethodName: 'GtDPriceExamples>>#displayOfConcretePriceDiscountedByMoneyAndDiscountedByPercentage')
 					asItem.
-	item6 position: 369.4457286377426 @ 197.6411992361841.
+	item6 position: 378.4457286377426 @ 129.6411992361841.
 	item6 extent: 439.5082503972002 @ 299.1560743325399.
 	item7 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'An inspector on an example (i.e., produced by an example method.) ';
-					width: 224.8031498875224) asItem.
-	item7 position: 673.2853863501894 @ 81.56246188796293.
-	item7 extent: 224.8031498875224 @ 45.999999999999986.
+					width: 401.9161376953125) asItem.
+	item7 position: 461.28538635018936 @ 45.562461887962925.
+	item7 extent: 401.9161376953125 @ 28.0.
 	item8 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'NB: The view to display can be configured from the contextual menu.';
-					width: 226.98899894440615) asItem.
-	item8 position: 919.7048916352526 @ 81.23585722545188.
-	item8 extent: 226.98899894440615 @ 46.0.
+					width: 409.64404296875) asItem.
+	item8 position: 930.7048916352526 @ 42.23585722545188.
+	item8 extent: 409.64404296875 @ 28.0.
 	item9 := scenery
 			addSceneryItem: (GtSceneryExampleStencil new
 					viewMethodSelector: #gtOverviewFor:;
 					exampleMethodName: 'GtDPriceExamples>>#displayOfConcretePriceDiscountedByMoneyAndDiscountedByPercentage')
 					asItem.
-	item9 position: 1009.3985035017258 @ 225.3307675596644.
-	item9 extent: 538.6180290714688 @ 252.79579150729492.
+	item9 position: 1030.3985035017258 @ 132.3307675596644.
+	item9 extent: 632.6950537938683 @ 311.15031809314496.
 	item10 := scenery
 			addSceneryItem: (GtSceneryScripterStencil new
 					exampleMethodName: 'GtWorldByScripterExamples>>#executePlaygroundSnippet')
 					asItem.
-	item10 position: 793.9022265263347 @ 588.7036922222696.
+	item10 position: 922.9022265263347 @ 528.7036922222696.
 	item10 extent: 915.4702016445051 @ 400.4482608475756.
 	item11 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'An inspector on the result of a Scripter.';
-					width: 122.5967356363933) asItem.
-	item11 position: 582.5442708333333 @ 598.0922648111979.
-	item11 extent: 122.5967356363933 @ 46.0.
+					width: 235.218017578125) asItem.
+	item11 position: 754.5442708333333 @ 474.0922648111979.
+	item11 extent: 235.218017578125 @ 28.0.
 	scenery
 		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item2

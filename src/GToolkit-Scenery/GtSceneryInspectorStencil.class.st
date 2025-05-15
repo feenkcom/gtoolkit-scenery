@@ -44,6 +44,11 @@ GtSceneryInspectorStencil >> defaultTarget [
 	^ [nil]
 ]
 
+{ #category : #menu }
+GtSceneryInspectorStencil >> exampleBlockStringForUMLClassStencil [
+	^ self target printString
+]
+
 { #category : #comparing }
 GtSceneryInspectorStencil >> hash [
 	^ targetBlock printString hash bitXor: self viewMethodSelector hash
@@ -62,6 +67,18 @@ GtSceneryInspectorStencil >> isSpawned [
 	^ isSpawned
 ]
 
+{ #category : #menu }
+GtSceneryInspectorStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	^ (super
+		menuForChildElement: aChildElement
+		andSceneryElement: aGtSceneryElement)
+		addItemLabel: 'Spawn class' action: [ self spawnClass ];
+		addItemLabel: 'Spawn package' action: [ self spawnPackage ];
+		"addItemLabel: 'Inspect UML'
+			action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self umlScenery) ];"
+		yourself
+]
+
 { #category : #accessing }
 GtSceneryInspectorStencil >> objectValue [
 	^ self targetValue
@@ -78,6 +95,26 @@ GtSceneryInspectorStencil >> setIsSpawnedTrue [
 	"To be set in GtScenery>>#spawnNewItemFrom:for:
 	In this case we may have non-serializable target block."
 	isSpawned := true
+]
+
+{ #category : #menu }
+GtSceneryInspectorStencil >> spawnClass [
+	^ self gtScenery
+		spawnConnectionFrom: self item
+		to: (GtSceneryUMLClassStencil new
+				class: self objectValue class;
+				exampleBlockString: self exampleBlockStringForUMLClassStencil;
+				yourself)
+		labeled: 'class'
+]
+
+{ #category : #menu }
+GtSceneryInspectorStencil >> spawnPackage [
+	^ self gtScenery
+		spawnConnectionFrom: self item
+		to: (GtSceneryPackageInspectorStencil new
+				package: self objectValue class package)
+		labeled: 'package'
 ]
 
 { #category : #storing }

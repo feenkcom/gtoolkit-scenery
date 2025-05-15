@@ -28,12 +28,6 @@ GtEmbeddedSceneryStencil >> defaultViewMethodSelector [
 	^ #gtLiveFor:
 ]
 
-{ #category : #storing }
-GtEmbeddedSceneryStencil >> exampleBlockString [
-	<todo: 'Override exampleBlockString for embedded sceneries'>
-	^ super exampleBlockString
-]
-
 { #category : #menu }
 GtEmbeddedSceneryStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 "We relabel 'Inspect value' to 'Inspect scenery'"

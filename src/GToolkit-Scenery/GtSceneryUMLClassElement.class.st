@@ -4,10 +4,12 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initalization }
 GtSceneryUMLClassElement >> initialize [
 	super initialize.
-	self when: BlMouseEnterEvent do: [ :e | self stencil fitHorizontally ]
+	self
+		when: BlMouseEnterEvent
+		do: [ :e | self stencil ifNotNil: [ self stencil fitHorizontally ] ]
 ]
 
 { #category : #initialization }
@@ -34,7 +36,7 @@ GtSceneryUMLClassElement >> umlStencil [
 	^ self graph model stencil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #announcements }
 GtSceneryUMLClassElement >> updateAppearance [
 	"Hook for GtSceneryItemUpdated announcements."
 

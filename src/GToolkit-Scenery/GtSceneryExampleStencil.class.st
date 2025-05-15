@@ -34,7 +34,7 @@ GtSceneryExampleStencil >> defaultExampleMethodName [
 ]
 
 { #category : #storing }
-GtSceneryExampleStencil >> exampleBlockString [
+GtSceneryExampleStencil >> exampleBlockStringForUMLClassStencil [
 	"For instantiating a GtSceneryUMLClassStencil.
 	NB: to be refined by subclasses."
 
@@ -88,16 +88,14 @@ GtSceneryExampleStencil >> initialize [
 
 { #category : #menu }
 GtSceneryExampleStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	| menu |
-	menu := super
-			menuForChildElement: aChildElement
-			andSceneryElement: aGtSceneryElement.
-	menu addItemLabel: 'Spawn class' action: [ self spawnClass ].
-	menu addItemLabel: 'Spawn package' action: [ self spawnPackage ].
-	menu
+	^ (super
+		menuForChildElement: aChildElement
+		andSceneryElement: aGtSceneryElement)
+		addItemLabel: 'Spawn class' action: [ self spawnClass ];
+		addItemLabel: 'Spawn package' action: [ self spawnPackage ];
 		addItemLabel: 'Inspect UML'
-		action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self umlScenery) ].
-	^ menu
+			action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self umlScenery) ];
+		yourself
 ]
 
 { #category : #accessing }
@@ -111,7 +109,7 @@ GtSceneryExampleStencil >> spawnClass [
 		spawnConnectionFrom: self item
 		to: (GtSceneryUMLClassStencil new
 				class: self objectValue class;
-				exampleBlockString: self exampleBlockString;
+				exampleBlockString: self exampleBlockStringForUMLClassStencil;
 				yourself)
 		labeled: 'class'
 ]

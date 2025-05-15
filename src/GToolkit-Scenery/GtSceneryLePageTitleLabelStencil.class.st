@@ -77,14 +77,16 @@ GtSceneryLePageTitleLabelStencil >> menuForChildElement: aChildElement andScener
 
 	<todo: 'Remove duplicates!'>
 	| menu sourceItem submenu |
-	menu := BrMenuItems new.
+	menu := super
+			menuForChildElement: aChildElement
+			andSceneryElement: aGtSceneryElement.
 	self isValid ifFalse: [ ^ menu ].
 	sourceItem := aChildElement graph model.
 
 	menu
 		addItemLabel: 'Spawn outgoing link'
 		submenu: [ submenu := BrMenuItems new.
-			self startPage allOutgoingTargets
+			(self startPage allOutgoingTargets sortedAs: #title)
 				do: [ :aPage | 
 					submenu
 						addItemLabel: aPage title
@@ -98,9 +100,10 @@ GtSceneryLePageTitleLabelStencil >> menuForChildElement: aChildElement andScener
 	menu
 		addItemLabel: 'Spawn incoming link'
 		submenu: [ submenu := BrMenuItems new.
-			(self startPage incomingLinks
+			((self startPage incomingLinks
 				collect: [ :aLink | aLink origin page ]
 				thenSelect: [ :aPage | aPage database databaseName = self databaseName ])
+				sortedAs: #title)
 				do: [ :aPage | 
 					submenu
 						addItemLabel: aPage title

@@ -34,9 +34,8 @@ GtSceneryScripterStencil >> defaultViewMethodSelector [
 ]
 
 { #category : #storing }
-GtSceneryScripterStencil >> exampleBlockString [
-	<todo: 'Override exampleBlockString for scripters'>
-	^ super exampleBlockString
+GtSceneryScripterStencil >> exampleBlockStringForUMLClassStencil [
+	^ '[ (' , self exampleMethodName , ') gtExample result returnValue elementWithoutParent ]'
 ]
 
 { #category : #accessing }

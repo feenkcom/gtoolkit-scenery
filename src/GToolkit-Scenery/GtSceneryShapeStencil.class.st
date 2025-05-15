@@ -114,7 +114,9 @@ GtSceneryShapeStencil >> initialize [
 
 { #category : #menu }
 GtSceneryShapeStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	^ BrMenuItems new
+	^ (super
+		menuForChildElement: aChildElement
+		andSceneryElement: aGtSceneryElement)
 		addItemLabel: 'Modify geometry'
 			submenu: (BrMenuItems new
 					addItemLabel: 'Be circular'

@@ -34,9 +34,8 @@ GtScenerySlideStencil >> defaultViewMethodSelector [
 ]
 
 { #category : #storing }
-GtScenerySlideStencil >> exampleBlockString [
-	<todo: 'Override exampleBlockString for slides'>
-	^ super exampleBlockString
+GtScenerySlideStencil >> exampleBlockStringForUMLClassStencil [
+	^ '[ (',self exampleMethodName, ') asScalableSlide ]'
 ]
 
 { #category : #accessing }
