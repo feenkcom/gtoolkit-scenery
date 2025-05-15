@@ -281,7 +281,15 @@ ExploringObjectsScenerySlideshow >> inspectorSceneries [
 { #category : #slides }
 ExploringObjectsScenerySlideshow >> inspectorSceneriesSlide: aSlide [
 	<gtSlide>
-	<text: 'Various inspector items'>
+	<text: '# Various inspector items
+
+This scenery contains various kinds of objects, such as a Ludo game, a demo of modeling discounted prices using examples, a specific view of that example, a slideshow slide, and even the result of a scripted user interaction.
+
+From such an inspector we can produce a new scenery containing a UML diagram generated from the object. For example from the Prices example we can produce a UML diagram of the class of the object and its associated classes.
+
+The scenery is live, so we can navigate to the class definitions. We can also spawn other related classes, or the representation of the package it contains.
+
+The generated source code can eventually be associated with a method, so it can be stored.'>
 	^ aSlide scenery
 		setPriority;
 		scenery: ExploringObjectsScenerySlideshow >> #inspectorSceneries
@@ -297,7 +305,9 @@ ExploringObjectsScenerySlideshow >> keyClassesUMLScenery [
 { #category : #slides }
 ExploringObjectsScenerySlideshow >> keyClassesUMLScenerySlide: aSlide [
 	<gtSlide>
-	<text: 'A generated UML diagram'>
+	<text: '# A generated UML diagram
+
+Here we see a more complex UML diagram showing the key classes of the Scenery package itself.'>
 	^ aSlide scenery
 		setPriority;
 		scenery: ExploringObjectsScenerySlideshow >> #keyClassesUMLScenery
@@ -315,18 +325,18 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 	scenery := GtScenery new.
 	item1 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
-					label: 'Demoing Sceneries';
+					label: 'Sceneries';
 					emphasis: #italic;
 					weight: #bold;
 					fontSize: 18;
-					width: 161.2462252360661;
+					width: 86.28402709960938;
 					backgroundColor: (Color
 							r: 0.8699902248289345
 							g: 0.9755620723362659
 							b: 0.9951124144672532
 							alpha: 1.0)) asItem.
-	item1 position: 229.83333333333337 @ -94.68117268880201.
-	item1 extent: 161.2462252360661 @ 33.0.
+	item1 position: 336.0 @ 405.5.
+	item1 extent: 86.28402709960938 @ 33.0.
 	item2 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'What is a Scenery?';
@@ -336,7 +346,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item2 position: 427.84337870279944 @ -227.181172688802.
+	item2 position: 492.2840270996094 @ 280.0.
 	item2 extent: 121.43330383300781 @ 28.0.
 	item3 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -347,7 +357,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item3 position: 619.2766825358073 @ -322.181172688802.
+	item3 position: 683.7173309326172 @ 194.0.
 	item3 extent: 102.93202209472656 @ 46.0.
 	item4 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -358,7 +368,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item4 position: 427.84337870279944 @ 37.81882731119799.
+	item4 position: 492.2840270996094 @ 536.0.
 	item4 extent: 71.42984517415357 @ 28.0.
 	item5 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -369,7 +379,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item5 position: 619.2766825358073 @ -64.18117268880201.
+	item5 position: 683.7173309326172 @ 434.0.
 	item5 extent: 76.18031311035156 @ 28.0.
 	item6 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -380,7 +390,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item6 position: 619.2766825358073 @ 3.8188273111979925.
+	item6 position: 683.7173309326172 @ 502.0.
 	item6 extent: 102.93202209472656 @ 28.0.
 	item7 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -391,7 +401,7 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item7 position: 619.2766825358073 @ 71.81882731119799.
+	item7 position: 683.7173309326172 @ 570.0.
 	item7 extent: 133.55702209472656 @ 28.0.
 	item8 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -402,30 +412,30 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item8 position: 619.2766825358073 @ 139.818827311198.
+	item8 position: 683.7173309326172 @ 638.0.
 	item8 extent: 124.00522359212232 @ 28.0.
 	item9 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'An unbounded canvas';
-					width: 102.93202209472656;
+					width: 139.3740234375;
 					backgroundColor: (Color
 							r: 1.0
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item9 position: 619.2766825358073 @ -236.181172688802.
-	item9 extent: 102.93202209472656 @ 46.0.
+	item9 position: 683.7173309326172 @ 280.0.
+	item9 extent: 139.3740234375 @ 28.0.
 	item10 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
-					label: 'A medium for exploring objects';
-					width: 112.12717183430982;
+					label: 'A interactive medium for exploring objects';
+					width: 137.21887182969397;
 					backgroundColor: (Color
 							r: 1.0
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item10 position: 619.2766825358073 @ -150.181172688802.
-	item10 extent: 112.12717183430982 @ 46.0.
+	item10 position: 683.7173309326172 @ 348.0.
+	item10 extent: 137.21887182969397 @ 46.0.
 	scenery
 		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item1
@@ -470,7 +480,14 @@ ExploringObjectsScenerySlideshow >> overviewMindmap [
 { #category : #slides }
 ExploringObjectsScenerySlideshow >> overviewMindmapSlide: aSlide [
 	<gtSlide>
-	<text: 'Mind map'>
+	<text: '# Scenery Mind map
+
+A scenery consists of a canvas containing a graph of items and their connections.
+Items can hold any kind of object, which means that sceneries can be used to explore a graph of objects.
+
+The need for sceneries to be interactive was born from the frustration of having to explicitly program any kind of diagram in GT.
+
+Some use cases are: drawing mind maps, like this one, creating ad hoc diagrams, creating class diagrams, and roadmaps.'>
 	^ aSlide scenery
 		setPriority;
 		scenery: ExploringObjectsScenerySlideshow >> #overviewMindmap
@@ -486,7 +503,13 @@ ExploringObjectsScenerySlideshow >> overviewScenery [
 { #category : #slides }
 ExploringObjectsScenerySlideshow >> overviewScenerySlide: aSlide [
 	<gtSlide>
-	<text: 'Overview of Scenery types'>
+	<text: '# Overview of Scenery types
+
+Here we see some examples.
+
+We have an ad hoc diagram, a mind map, a generated and manually tweaked UML diagram, and inspectors on various kinds of objects.
+
+Note that this slide itself is a scenery, containing some text items, and other items that are themselves embedded sceneries.'>
 	^ aSlide scenery
 		setPriority;
 		scenery: ExploringObjectsScenerySlideshow >> #overviewScenery
@@ -514,7 +537,9 @@ ExploringObjectsScenerySlideshow >> packageExploration [
 { #category : #slides }
 ExploringObjectsScenerySlideshow >> packageExplorationSlide: aSlide [
 	<gtSlide>
-	<text: 'Package exploration'>
+	<text: '# Package exploration
+
+Finally, from a package we can explore the examples in that package, and navigate between examples and classes, generating an object and class diagram along the way.'>
 	^ aSlide scenery
 		setPriority;
 		scenery: ExploringObjectsScenerySlideshow >> #packageExploration
@@ -530,7 +555,13 @@ ExploringObjectsScenerySlideshow >> reflectionScenery [
 { #category : #slides }
 ExploringObjectsScenerySlideshow >> reflectionScenerySlide: aSlide [
 	<gtSlide>
-	<text: 'A simple diagram'>
+	<text: '# A simple diagram
+
+This is probably the simplest case, a simple diagram of text and shapes, illustrating the key concepts of reflection and reification.
+
+We can edit the diagram, freely move items, zoom in or out, and inspect the stencils of items, which are responsible for generating the view.
+
+We can also inspect the scenery itself, and explore views of its items, connections, and the generated code that will recreate the scenery.'>
 	^ aSlide scenery
 		setPriority;
 		scenery: ExploringObjectsScenerySlideshow >> #reflectionScenery
@@ -596,7 +627,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 	<noTest>
 	<storedScenery>
 	<return: #GtScenery>
-	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 |
+	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 |
 	scenery := GtScenery new.
 	item1 := scenery
 			addSceneryItem: (GtSceneryTextLabelStencil new
@@ -609,7 +640,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9012707722385142
 							b: 1.0
 							alpha: 1.0)) asItem.
-	item1 position: 735.6666666666667 @ 279.9854939778646.
+	item1 position: 289.0 @ 252.0.
 	item1 extent: 136.66920332460677 @ 70.0.
 	item2 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -617,7 +648,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 					weight: #bold;
 					fontSize: 18;
 					width: 97.71196504286775) asItem.
-	item2 position: 735.6666666666667 @ 489.9854939778646.
+	item2 position: 289.0 @ 462.0.
 	item2 extent: 97.71196504286775 @ 33.0.
 	item3 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -628,7 +659,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9286412512218963
 							b: 0.8426197458455523
 							alpha: 1.0)) asItem.
-	item3 position: 903.3786317095345 @ 376.9854939778646.
+	item3 position: 456.71196504286775 @ 349.0.
 	item3 extent: 91.81758974805302 @ 28.0.
 	item4 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -639,7 +670,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9755620723362659
 							b: 0.9951124144672532
 							alpha: 1.0)) asItem.
-	item4 position: 903.3786317095345 @ 453.9854939778646.
+	item4 position: 456.71196504286775 @ 426.0.
 	item4 extent: 119.50773898466105 @ 28.0.
 	item5 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -650,7 +681,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9755620723362659
 							b: 0.9951124144672532
 							alpha: 1.0)) asItem.
-	item5 position: 1128.3345333381935 @ 453.9854939778646.
+	item5 position: 681.6678666715268 @ 426.0.
 	item5 extent: 179.24775253107555 @ 28.0.
 	item6 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -661,19 +692,19 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9286412512218963
 							b: 0.8426197458455523
 							alpha: 1.0)) asItem.
-	item6 position: 1128.3345333381935 @ 367.9854939778646.
+	item6 position: 681.6678666715268 @ 340.0.
 	item6 extent: 189.93131849500878 @ 46.0.
 	item7 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'Sceneries as alternatives to notebook pages';
-					width: 154.95590162865915;
+					width: 154.95590162865903;
 					backgroundColor: (Color
 							r: 0.873900293255132
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item7 position: 903.3786317095345 @ 521.9854939778646.
-	item7 extent: 154.95590162865915 @ 46.0.
+	item7 position: 456.71196504286775 @ 494.0.
+	item7 extent: 154.95590162865903 @ 46.0.
 	item8 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
 					label: 'Nested, 2D layouts';
@@ -683,7 +714,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item8 position: 1128.3345333381935 @ 530.9854939778646.
+	item8 position: 681.6678666715268 @ 503.0.
 	item8 extent: 127.63266151334074 @ 28.0.
 	item9 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -694,8 +725,18 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item9 position: 903.3786317095345 @ 607.9854939778646.
+	item9 position: 456.71196504286775 @ 580.0.
 	item9 extent: 83.45019611311545 @ 28.0.
+	item10 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					width: 102.93202209472656;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 0.8504398826979472
+							alpha: 1.0)) asItem.
+	item10 position: 636.6678666715268 @ 591.0.
+	item10 extent: 102.93202209472656 @ 28.0.
 	scenery
 		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item2
@@ -725,6 +766,10 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 		from: item2
 		to: item9.
 	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item9
+		to: item10.
+	scenery
 		storeStringMethodName: 'ExploringObjectsScenerySlideshow>>#summaryScenario'.
 	^ scenery
 ]
@@ -732,7 +777,11 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 { #category : #slides }
 ExploringObjectsScenerySlideshow >> summaryScenarioSlide: aSlide [
 	<gtSlide>
-	<text: 'Summary mindmap'>
+	<text: '# Summary mindmap
+
+Sceneries are still a work in progress. Some of the things we''d like to see are generated explanations for tools, roadmaps through notebook topics, and sceneries as special kinds of notebook pages.
+
+I''d also be interested if you have ideas for other applications of sceneries or features you''d like to see.'>
 	^ aSlide scenery
 		setPriority;
 		scenery: ExploringObjectsScenerySlideshow >> #summaryScenario
@@ -741,7 +790,11 @@ ExploringObjectsScenerySlideshow >> summaryScenarioSlide: aSlide [
 { #category : #slides }
 ExploringObjectsScenerySlideshow >> titleSlide: aSlide [
 	<gtSlide>
-	<text: 'Sceneries — an interactive canvas for exploring objects'>
+	<text: '# Sceneries — an interactive canvas for exploring objects
+
+Hi. I''m Oscar Nierstrasz.
+
+Today I''d like to show you a prototype that started as a interactive diagram editor, but is turning into a tool for exploring graphs of objects.'>
 	^ aSlide titleWithFooters
 		setPriority;
 		titleWithFormat: (self asTitle: 'Sceneries');
