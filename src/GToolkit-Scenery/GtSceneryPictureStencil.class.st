@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryPictureStencil,
-	#superclass : #OldStyleSceneryItemStencil,
+	#superclass : #AbstractGtSceneryInspectorStencil,
 	#instVars : [
 		'fileReference'
 	],
@@ -23,14 +23,19 @@ GtSceneryPictureStencil class >> itemCreationSubmenuLabel [
 
 { #category : #accessing }
 GtSceneryPictureStencil >> create [
-	^ BrAsyncFileWidget new
-		matchParent;
-		file: self fileReference
+	^ super create
+		hideShadow;
+		yourself
 ]
 
 { #category : #initialization }
 GtSceneryPictureStencil >> defaultFileReference [
 	^ self gtPng
+]
+
+{ #category : #accessing }
+GtSceneryPictureStencil >> defaultViewMethodSelector [
+	^ #gtFigureFor:
 ]
 
 { #category : #accessing }
@@ -57,19 +62,18 @@ GtSceneryPictureStencil >> initialize [
 	extent := 450 @ 150
 ]
 
+{ #category : #accessing }
+GtSceneryPictureStencil >> objectValue [
+	^ self fileReference
+]
+
 { #category : #copying }
 GtSceneryPictureStencil >> postCopy [
 	super postCopy.
 	fileReference := fileReference copy
 ]
 
-{ #category : #accessing }
-GtSceneryPictureStencil >> storeOn: aStream [
-	super storeOn: aStream.
-	aStream
-		space;
-		nextPutAll: 'fileReference: ('.
-	fileReference storeOn: aStream.
-	aStream
-		nextPut: $).
+{ #category : #storing }
+GtSceneryPictureStencil >> storeOnAttributes [
+	^ super storeOnAttributes , {#fileReference}
 ]

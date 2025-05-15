@@ -80,8 +80,8 @@ GtSceneryEditedExamples >> reflectionScenery [
 			addSceneryItem: (GtSceneryPictureStencil new
 					fileReference: FileLocator gtResource / 'feenkcom' / 'gtoolkit-demos' / 'doc' / 'reflection'
 							/ 'eyecon.png') asItem.
-	item4 position: 329.0800063175572 @ 232.03615315755206.
-	item4 extent: 67.20118595638962 @ 45.76359066473759.
+	item4 position: 350.6026477801087 @ 217.08680800149557.
+	item4 extent: 81.67854449383788 @ 72.69222147592671.
 	item5 := scenery
 			addSceneryItem: (GtSceneryShapeStencil new geometry: BlRectangleGeometry new) asItem.
 	item5 position: 569.3061116536459 @ 231.68322796988605.
