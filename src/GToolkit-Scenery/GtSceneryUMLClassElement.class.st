@@ -4,7 +4,7 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initalization }
 GtSceneryUMLClassElement >> initialize [
 	super initialize.
 	self
@@ -36,7 +36,7 @@ GtSceneryUMLClassElement >> umlStencil [
 	^ self graph model stencil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #announcements }
 GtSceneryUMLClassElement >> updateAppearance [
 	"Hook for GtSceneryItemUpdated announcements."
 

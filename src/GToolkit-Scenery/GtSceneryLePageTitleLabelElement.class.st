@@ -4,13 +4,21 @@ Class {
 	#category : #'GToolkit-Scenery-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GtSceneryLePageTitleLabelElement >> hoverColor [
-	"Currently not used as it is not clear how not tocompute the hover color eagerly."
+	"Currently not used as it is not clear how not to compute the hover color eagerly."
 
 	| item |
 	item := self graph model.
 	^ item ifNil: [ Color paleGreen ] ifNotNil: [ item stencil hoverColor ]
+]
+
+{ #category : #initalization }
+GtSceneryLePageTitleLabelElement >> initialize [
+	super initialize.
+	self
+		when: BlMouseEnterEvent
+		do: [ :e | self stencil ifNotNil: [ self stencil fitHorizontally ] ]
 ]
 
 { #category : #initalization }

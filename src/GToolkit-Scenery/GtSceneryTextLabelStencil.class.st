@@ -241,7 +241,9 @@ GtSceneryTextLabelStencil >> label: aString [
 
 { #category : #menu }
 GtSceneryTextLabelStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	^ BrMenuItems new
+	^ (super
+		menuForChildElement: aChildElement
+		andSceneryElement: aGtSceneryElement)
 		addItemLabel: 'Adjust width to text' action: [ self fitHorizontally ];
 		addItemLabel: 'Modify font'
 			submenu: [ | submenu |

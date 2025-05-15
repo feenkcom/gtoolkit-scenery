@@ -50,12 +50,13 @@ AbstractGtSceneryInspectorStencil >> isSpawned [
 
 { #category : #menu }
 AbstractGtSceneryInspectorStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
-	| submenu |
-	^ BrMenuItems new
+	^ (super
+		menuForChildElement: aChildElement
+		andSceneryElement: aGtSceneryElement)
 		addItemLabel: 'Inspect value'
 			action: [ aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self objectValue) ];
 		addItemLabel: 'Select view'
-			submenu: [ | viewMethods |
+			submenu: [ | viewMethods submenu |
 				submenu := BrMenuItems new.
 				submenu addItemLabel: 'All' action: [ self viewMethodSelector: nil ].
 				viewMethods := [ self objectValue class allMethods
