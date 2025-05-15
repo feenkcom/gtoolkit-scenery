@@ -1,6 +1,6 @@
 Class {
 	#name : #GtSceneryLepiterPageStencil,
-	#superclass : #OldStyleSceneryItemStencil,
+	#superclass : #AbstractGtSceneryInspectorStencil,
 	#traits : 'TGtSceneryLePageWrapper',
 	#classTraits : 'TGtSceneryLePageWrapper classTrait',
 	#category : #'GToolkit-Scenery-Model'
@@ -27,21 +27,19 @@ GtSceneryLepiterPageStencil >> announceStencilUpdate [
 	self announce: (GtStencilUpdated new stencil: self)
 ]
 
-{ #category : #accessing }
-GtSceneryLepiterPageStencil >> create [
-	^ self startPage asPhlowTool
-		asElementDo: [ :e | 
-			BrVerticalPane new
-				addChild: (e
-						margin: (BlInsets all: 10);
-						background: Color white;
-						addAptitude: BrShadowAptitude new);
-				size: self defaultExtent ]
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GtSceneryLepiterPageStencil >> defaultExtent [
 	^ 500 @ 400
+]
+
+{ #category : #accessing }
+GtSceneryLepiterPageStencil >> defaultPageName [
+	^ 'Glamorous Toolkit'
+]
+
+{ #category : #initialization }
+GtSceneryLepiterPageStencil >> defaultViewMethodSelector [
+	^ #gtLiveFor:
 ]
 
 { #category : #listeners }
@@ -53,10 +51,13 @@ GtSceneryLepiterPageStencil >> handleDoubleClickForItemElement: anItemElement in
 ]
 
 { #category : #accessing }
-GtSceneryLepiterPageStencil >> storeOn: aStream [
-	super storeOn: aStream.
-	aStream
-		space;
-		nextPutAll: 'pageName: ' , self pageName storeString , ';';
-		nextPutAll: 'databaseName:' , self databaseName storeString
+GtSceneryLepiterPageStencil >> objectValue [
+	^ self startPage
+]
+
+{ #category : #printing }
+GtSceneryLepiterPageStencil >> storeOnAttributes [
+	^ super storeOnAttributes
+		, {#pageName.
+				#databaseName}
 ]
