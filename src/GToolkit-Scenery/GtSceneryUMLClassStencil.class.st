@@ -57,12 +57,13 @@ GtSceneryUMLClassStencil >> computeExample [
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> computeExampleFrom: aString [
+	<todo: 'Instead of returning nil for abstract classes, try to instantiate a concrete subclass!'>
 	self asClass superclass = Boolean
 		ifTrue: [ ^ self asClass materializeFrom: nil ].
 	^ self isValidClass
-		ifTrue: [ aString
-				ifEmpty: [ self asClass new ]
-				ifNotEmpty: [ (Smalltalk compiler evaluate: aString) value ] ]
+		ifTrue: [ (aString isNil or: [ aString isEmpty ])
+				ifTrue: [ self asClass isAbstract ifTrue: [ nil ] ifFalse: [ self asClass new ] ]
+				ifFalse: [ (Smalltalk compiler evaluate: aString) value ] ]
 		ifFalse: [ nil ]
 ]
 
@@ -228,7 +229,7 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 	menu := super
 			menuForChildElement: aChildElement
 			andSceneryElement: aGtSceneryElement.
-	(self isValidClass "and: [ self asClass isAbstract not ]") ifFalse: [ ^ menu ].
+	self isValidClass ifFalse: [ ^ menu ].	"and: [ self asClass isAbstract not ]"
 	menu
 		addItemLabel: 'Inspect example'
 		action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
@@ -261,17 +262,16 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 						keysAndValuesDo: [ :k :v | 
 							submenu
 								addItemLabel: 'Spawn association to ' , k name
-								action: [ "| classItem |
+								action: [  "| classItem |
 									classItem := self
 											ensureItemForClass: k
 											withExampleBlock: '[ ' , self exampleExpression , ' ' , v first key , ' ]'.
 									self gtScenery
 										addConnectionFrom: self item
 										to: classItem
-										labeled: v first key"
-										self spawnAssociatedClass: k using: v first key
-										
-										 ] ].
+										labeled: v first key"self
+										spawnAssociatedClass: k
+										using: v first key ] ].
 					submenu ] value ].
 
 

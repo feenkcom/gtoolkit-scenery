@@ -10,10 +10,16 @@ Class {
 	#classTraits : 'TGtSceneryItemElement classTrait',
 	#instVars : [
 		'view',
-		'stencil'
+		'stencil',
+		'shadowAptitude'
 	],
 	#category : #'GToolkit-Scenery-UI'
 }
+
+{ #category : #accessing }
+GtSceneryInspectorElement >> hideShadow [
+	self shadowAptitude color: Color transparent
+]
 
 { #category : #initialization }
 GtSceneryInspectorElement >> initialize [
@@ -25,7 +31,22 @@ GtSceneryInspectorElement >> initialize [
 		layout: BlFrameLayout new;
 		background: Color white;
 		margin: (BlInsets all: 10);
-		addAptitude: BrShadowAptitude
+		addAptitude: self shadowAptitude
+]
+
+{ #category : #accessing }
+GtSceneryInspectorElement >> shadowAptitude [
+	^ shadowAptitude ifNil: [ shadowAptitude := BrShadowAptitude new ]
+]
+
+{ #category : #accessing }
+GtSceneryInspectorElement >> shadowAptitude: anObject [
+	shadowAptitude := anObject
+]
+
+{ #category : #accessing }
+GtSceneryInspectorElement >> showShadow [
+	self shadowAptitude color: self shadowAptitude theme default defaultShadowColor
 ]
 
 { #category : #accessing }
