@@ -627,7 +627,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 	<noTest>
 	<storedScenery>
 	<return: #GtScenery>
-	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 |
+	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 item11 item12 item13 item14 item15 item16 item17 |
 	scenery := GtScenery new.
 	item1 := scenery
 			addSceneryItem: (GtSceneryTextLabelStencil new
@@ -640,7 +640,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9012707722385142
 							b: 1.0
 							alpha: 1.0)) asItem.
-	item1 position: 289.0 @ 252.0.
+	item1 position: 274.0 @ 87.0.
 	item1 extent: 136.66920332460677 @ 70.0.
 	item2 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -648,7 +648,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 					weight: #bold;
 					fontSize: 18;
 					width: 97.71196504286775) asItem.
-	item2 position: 289.0 @ 462.0.
+	item2 position: 274.0 @ 352.0.
 	item2 extent: 97.71196504286775 @ 33.0.
 	item3 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -659,7 +659,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9286412512218963
 							b: 0.8426197458455523
 							alpha: 1.0)) asItem.
-	item3 position: 456.71196504286775 @ 349.0.
+	item3 position: 441.71196504286775 @ 184.0.
 	item3 extent: 91.81758974805302 @ 28.0.
 	item4 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -670,7 +670,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9755620723362659
 							b: 0.9951124144672532
 							alpha: 1.0)) asItem.
-	item4 position: 456.71196504286775 @ 426.0.
+	item4 position: 441.71196504286775 @ 261.0.
 	item4 extent: 119.50773898466105 @ 28.0.
 	item5 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -681,7 +681,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9755620723362659
 							b: 0.9951124144672532
 							alpha: 1.0)) asItem.
-	item5 position: 681.6678666715268 @ 426.0.
+	item5 position: 666.6678666715268 @ 261.0.
 	item5 extent: 179.24775253107555 @ 28.0.
 	item6 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -692,7 +692,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 0.9286412512218963
 							b: 0.8426197458455523
 							alpha: 1.0)) asItem.
-	item6 position: 681.6678666715268 @ 340.0.
+	item6 position: 666.6678666715268 @ 175.0.
 	item6 extent: 189.93131849500878 @ 46.0.
 	item7 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -703,7 +703,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item7 position: 456.71196504286775 @ 494.0.
+	item7 position: 441.71196504286775 @ 329.0.
 	item7 extent: 154.95590162865903 @ 46.0.
 	item8 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -714,7 +714,7 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 1.0
 							b: 0.8347996089931574
 							alpha: 1.0)) asItem.
-	item8 position: 681.6678666715268 @ 503.0.
+	item8 position: 666.6678666715268 @ 338.0.
 	item8 extent: 127.63266151334074 @ 28.0.
 	item9 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
@@ -725,18 +725,96 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item9 position: 456.71196504286775 @ 580.0.
+	item9 position: 441.71196504286775 @ 525.0.
 	item9 extent: 83.45019611311545 @ 28.0.
 	item10 := scenery
 			addSceneryItem: (GtSceneryMindMapNodeStencil new
-					width: 102.93202209472656;
+					label: 'Structured diffs for versions of sceneries?';
+					width: 248.60198974609375;
 					backgroundColor: (Color
 							r: 1.0
 							g: 1.0
 							b: 0.8504398826979472
 							alpha: 1.0)) asItem.
-	item10 position: 636.6678666715268 @ 591.0.
-	item10 extent: 102.93202209472656 @ 28.0.
+	item10 position: 666.6678666715268 @ 406.0.
+	item10 extent: 248.60198974609375 @ 28.0.
+	item11 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'External resources';
+					width: 116.62400817871094;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 0.8504398826979472
+							alpha: 1.0)) asItem.
+	item11 position: 666.6678666715268 @ 474.0.
+	item11 extent: 116.62400817871094 @ 28.0.
+	item12 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Could be any object';
+					width: 125.58401489257801;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 0.8504398826979472
+							alpha: 1.0)) asItem.
+	item12 position: 985.2698564176205 @ 474.0.
+	item12 extent: 125.58401489257801 @ 28.0.
+	item13 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Low code / no code development';
+					width: 203.22802734375;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 0.8504398826979472
+							alpha: 1.0)) asItem.
+	item13 position: 666.6678666715268 @ 644.0.
+	item13 extent: 203.22802734375 @ 28.0.
+	item14 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'An arrow could be an action!';
+					width: 176.2920379638672;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 0.8504398826979472
+							alpha: 1.0)) asItem.
+	item14 position: 985.2698564176205 @ 542.0.
+	item14 extent: 176.2920379638672 @ 28.0.
+	item15 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Click on an arrow and change its behavior';
+					width: 252.7880401611328;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 0.8504398826979472
+							alpha: 1.0)) asItem.
+	item15 position: 985.2698564176205 @ 610.0.
+	item15 extent: 252.7880401611328 @ 28.0.
+	item16 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Think of VA Smalltalk';
+					width: 133.1300048828125;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 0.8504398826979472
+							alpha: 1.0)) asItem.
+	item16 position: 985.2698564176205 @ 678.0.
+	item16 extent: 133.1300048828125 @ 28.0.
+	item17 := scenery
+			addSceneryItem: (GtSceneryMindMapNodeStencil new
+					label: 'Could design test scenarios visually';
+					width: 215.84201049804688;
+					backgroundColor: (Color
+							r: 1.0
+							g: 1.0
+							b: 0.8504398826979472
+							alpha: 1.0)) asItem.
+	item17 position: 985.2698564176205 @ 746.0.
+	item17 extent: 215.84201049804688 @ 28.0.
 	scenery
 		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item2
@@ -769,6 +847,34 @@ ExploringObjectsScenerySlideshow >> summaryScenario [
 		addConnectionWithStencil: GtSceneryStraightArcStencil new
 		from: item9
 		to: item10.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item9
+		to: item11.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item11
+		to: item12.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item9
+		to: item13.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item13
+		to: item14.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item13
+		to: item15.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item13
+		to: item16.
+	scenery
+		addConnectionWithStencil: GtSceneryStraightArcStencil new
+		from: item13
+		to: item17.
 	scenery
 		storeStringMethodName: 'ExploringObjectsScenerySlideshow>>#summaryScenario'.
 	^ scenery
