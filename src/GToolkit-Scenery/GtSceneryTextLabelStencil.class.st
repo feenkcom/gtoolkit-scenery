@@ -215,11 +215,13 @@ GtSceneryTextLabelStencil >> initializeText [
 	text
 		when: BlTextStringsInserted
 		do: [ self label: text asString.
-			self announceStencilUpdate ].
+			self announceStencilUpdate ]
+		for: self.
 	text
 		when: BlTextsDeleted
 		do: [ self label: text asString.
-			self announceStencilUpdate ].
+			self announceStencilUpdate ]
+		for: self.
 			
 	"text when: BlTextAttributesAdded do: [self label: text asString ].
 	text when: BlTextAttributesRemoved do: [self label: text asString ]."
