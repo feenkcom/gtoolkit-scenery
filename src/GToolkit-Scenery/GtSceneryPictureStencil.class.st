@@ -97,12 +97,6 @@ GtSceneryPictureStencil >> imageFiles [
 		sortedAs: #basename
 ]
 
-{ #category : #accessing }
-GtSceneryPictureStencil >> initialize [
-	super initialize.
-	extent := 450 @ 150
-]
-
 { #category : #menu }
 GtSceneryPictureStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	^ (super
