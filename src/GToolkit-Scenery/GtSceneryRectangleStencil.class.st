@@ -24,7 +24,14 @@ GtSceneryRectangleStencil class >> itemCreationSubmenuLabel [
 { #category : #accessing }
 GtSceneryRectangleStencil >> create [
 	^ BlElement new
+		size: extent;
 		background: Color white;
 		border: Color black;
 		margin: (BlInsets all: 10)
+]
+
+{ #category : #initialization }
+GtSceneryRectangleStencil >> initialize [
+	super initialize.
+	extent := 200 @ 300
 ]

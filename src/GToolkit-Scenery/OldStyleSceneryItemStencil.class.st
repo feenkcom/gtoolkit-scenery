@@ -6,6 +6,9 @@ These classes should be migrated to become subclasses of NewStyleSceneryItemSten
 Class {
 	#name : #OldStyleSceneryItemStencil,
 	#superclass : #GtSceneryDraggableItemStencil,
+	#instVars : [
+		'extent'
+	],
 	#category : #'GToolkit-Scenery-Model'
 }
 
