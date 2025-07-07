@@ -30,7 +30,7 @@ GtSceneryRectangleStencil >> create [
 		margin: (BlInsets all: 10)
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GtSceneryRectangleStencil >> initialize [
 	super initialize.
 	extent := 200 @ 300
