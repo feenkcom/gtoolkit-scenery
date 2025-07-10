@@ -26,7 +26,7 @@ GtSceneryPackageInspectorStencil class >> itemCreationSubmenuLabel [
 
 { #category : #initialization }
 GtSceneryPackageInspectorStencil >> defaultPackageName [
-	^ RPackage defaultPackageName
+	^ Package defaultPackageName
 ]
 
 { #category : #initialization }
