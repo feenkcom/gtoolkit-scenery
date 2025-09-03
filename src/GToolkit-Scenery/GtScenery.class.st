@@ -210,67 +210,67 @@ GtScenery >> faqImplementationPage [
 	<gtExample>
 	<noTest>
 	^ (LePage named: 'Scenery Implementation FAQ')
-		addSnippet: (LeTextSnippet new
-				string: '';
-				yourself);
-		addSnippet: (LeTextSnippet new
-				string: '***Q What are the key classes?***';
-				addSnippet: (LeTextSnippet new
-						string: 'The key model class is {{gtClass:name=GtScenery}}. A scenery instance holds *items* and *connections*, which are instances of {{gtClass:name=GtSceneryItem}} and {{gtClass:name=GtSceneryConnection}}. Each of these in turn holds a *stencil*, an instance of a subclass of {{gtClass:name=GtSceneryEntityStencil}}, to create the actual view elements.';
-						yourself);
-				addSnippet: (LeTextSnippet new
-						string: 'Item stencils are all subclasses of {{gtClass:name=GtSceneryDraggableItemStencil}}. ';
-						yourself);
-				addSnippet: (LeTextSnippet new
-						string: 'The key connection stencils are {{gtClass:name=GtSceneryLineStencil}} and {{gtClass:name=GtSceneryParabollaArcStencil}}, for straight and curvable arrows.';
-						yourself);
-				addSnippet: (LeExampleSnippet new
-						exampleBehaviorName: 'GtSceneryExplanationExamples';
-						exampleSelector: #keyClassesUMLScenery;
-						noCode: true;
-						previewShowSelector: #gtLiveFor:;
-						previewHeight: 500);
-				yourself);
-		addSnippet: (LeTextSnippet new
-				string: '***Q How to add a new item type?***';
-				addSnippet: (LeTextSnippet new
-						string: 'Define a stencil as subclass of {{gtClass:name=GtSceneryDraggableItemStencil}}. Implement its `#create` method to create its view element. ';
-						yourself);
-				addSnippet: (LeTextSnippet new
-						string: 'Optionally define a dedicated class for the view.';
-						yourself);
-				addSnippet: (LeTextSnippet new
-						string: 'Implement `#storeOn:` to generate an executable storeString that, when evaluated, will produce a clone (used by {{gtMethod:name=GtScenery>>#storeOn:}}.';
-						yourself);
-				addSnippet: (LeTextSnippet new
-						string: 'Implement `#itemCreationSubmenuLabel` so it will appear in the scenery''s item creation submenu.';
-						yourself);
-				addSnippet: (LeTextSnippet new
-						string: 'Optionally override {{gtMethod:name=GtSceneryEntityStencil>>#handleDoubleClickForItem:andElement:inSceneryElement:}} to define the behavior when it is double-clicked.';
-						yourself);
-				addSnippet: (LeTextSnippet new
-						string: 'Optionally override {{gtMethod:name=GtSceneryEntityStencil>>#updateContextMenuItems:forSceneryElement:andChildElement:}} to provide additional submenu items to the item''s context menu.';
-						yourself);
-				yourself);
-		addSnippet: (LeTextSnippet new
-				string: '***Q Where are context menu items defined for sceneries, items and connections?***';
-				addSnippet: (LeTextSnippet new
-						string: 'They are mostly initialized in {{gtClass:name=GtSceneryElement}}. See the `build*` methods, such as {{gtMethod:name=GtSceneryElement>>#buildSceneryContextMenuForContext:}} and {{gtMethod:name=GtSceneryElement>>#buildItemContextMenuForItem:andElement:}}.';
-						yourself);
-				addSnippet: (LeTextSnippet new
-						string: 'Item and connection stencils can add their own item-specific submenus by overriding {{gtMethod:name=GtSceneryEntityStencil>>#updateContextMenuItems:forSceneryElement:andChildElement:}}';
-						yourself);
-				yourself);
-		addSnippet: (LeTextSnippet new
-				string: '***Q Where are keyboard shortcuts defined?***';
-				addSnippet: (LeTextSnippet new
-						string: 'They are defined by default in {{gtMethod:name=BrEditableLabel>>#defaultLabelShortcuts}}, and extended in {{gtMethod:name=GtSceneryTextLabelElement>>#defaultLabelShortcuts}}. ';
-						yourself);
-				yourself);
-		addSnippet: (LeTextSnippet new
-				string: '';
-				yourself);
-		yourself
+	addSnippet: (LeTextSnippet new
+			string: '';
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '***Q What are the key classes?***';
+			addSnippet: (LeTextSnippet new
+					string: 'The key model class is {{gtClass:name=GtScenery}}. A scenery instance holds *items* and *connections*, which are instances of {{gtClass:name=GtSceneryItem}} and {{gtClass:name=GtSceneryConnection}}. Each of these in turn holds a *stencil*, an instance of a subclass of {{gtClass:name=GtSceneryEntityStencil}}, to create the actual view elements.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Item stencils are all subclasses of {{gtClass:name=GtSceneryDraggableItemStencil}}. ';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'The key connection stencils are {{gtClass:name=GtSceneryLineStencil}} and {{gtClass:name=GtSceneryParabollaArcStencil}}, for straight and curvable arrows.';
+					yourself);
+			addSnippet: (LeExampleSnippet new
+					exampleBehaviorName: 'GtSceneryExplanationExamples';
+					exampleSelector: #keyClassesUMLScenery;
+					noCode: true;
+					previewShowSelector: #gtLiveFor:;
+					previewHeight: 500);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '***Q How to add a new item type?***';
+			addSnippet: (LeTextSnippet new
+					string: 'Define a stencil as subclass of {{gtClass:name=GtSceneryDraggableItemStencil}}. Implement its `#create` method to create its view element. ';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Optionally define a dedicated class for the view.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Implement `#storeOn:` to generate an executable storeString that, when evaluated, will produce a clone (used by {{gtMethod:name=GtScenery>>#storeOn:}}.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Implement `#itemCreationSubmenuLabel` so it will appear in the scenery''s item creation submenu.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Optionally override {{gtMethod:name=GtSceneryEntityStencil>>#handleDoubleClickForItemElement:inSceneryElement:}} to define the behavior when it is double-clicked.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Optionally override {{gtMethod:name=GtSceneryEntityStencil>>#menuForChildElement:andSceneryElement:}} to provide additional submenu items to the item''s context menu.';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '***Q Where are context menu items defined for sceneries, items and connections?***';
+			addSnippet: (LeTextSnippet new
+					string: 'They are mostly initialized in {{gtClass:name=GtSceneryElement}}. See the `build*` methods, such as {{gtMethod:name=GtSceneryElement>>#buildSceneryContextMenuForContext:}} and {{gtMethod:name=GtSceneryElement>>#buildItemContextMenuForItemElement:}}.';
+					yourself);
+			addSnippet: (LeTextSnippet new
+					string: 'Item and connection stencils can add their own item-specific submenus by overriding {{gtMethod:name=GtSceneryEntityStencil>>#menuForChildElement:andSceneryElement:}}';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '***Q Where are keyboard shortcuts defined?***';
+			addSnippet: (LeTextSnippet new
+					string: 'They are defined by default in {{gtMethod:name=BrEditableLabel>>#defaultLabelShortcuts}}, and extended in {{gtMethod:name=GtSceneryTextLabelElement>>#defaultLabelShortcuts}}. ';
+					yourself);
+			yourself);
+	addSnippet: (LeTextSnippet new
+			string: '';
+			yourself);
+	yourself
 ]
 
 { #category : #page }
