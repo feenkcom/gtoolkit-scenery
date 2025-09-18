@@ -714,9 +714,7 @@ GtScenery >> storeAsExampleMethod [
 	oldMethod methodClass compile: methodBody.
 	(oldMethod methodClass >> oldMethod selector) reformat.
 	newMethod := oldMethod methodClass >> oldMethod selector.
-	newMethod methodClass organization
-		classify: newMethod selector
-		under: 'scenery'.
+	newMethod protocol: 'scenery'.
 	^ newMethod
 ]
 
