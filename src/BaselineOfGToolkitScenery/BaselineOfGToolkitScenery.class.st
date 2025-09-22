@@ -4,6 +4,22 @@ Class {
 	#category : #BaselineOfGToolkitScenery
 }
 
+{ #category : #loading }
+BaselineOfGToolkitScenery class >> loadLepiterSceneryHelp [
+	"Load this only if we need to edit the help pages."
+
+	IceRepository registry
+		detect: [ :aRepository | aRepository name = 'gtoolkit-scenery' ]
+		ifFound: [ :aRepository | 
+			| defaultDatabase currentProperties |
+			defaultDatabase := LeDatabasesRegistry defaultLogicalDatabase.
+			currentProperties := defaultDatabase properties.
+			currentProperties
+				addRegisteredDirectory: aRepository repositoryDirectory / 'scenery-help'.
+			defaultDatabase reload ]
+		ifNone: [ self inform: 'Repository not found.' ]
+]
+
 { #category : #baseline }
 BaselineOfGToolkitScenery >> baseline: spec [
 	<baseline>
