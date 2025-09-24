@@ -6,8 +6,8 @@ My items may be explicitly positioned or resized.
 Class {
 	#name : #GtScenery,
 	#superclass : #BrStencil,
-	#traits : 'TGtSceneryShared + TLeInMemoryDatabaseHolder',
-	#classTraits : 'TGtSceneryShared classTrait + TLeInMemoryDatabaseHolder classTrait',
+	#traits : 'TGtSceneryShared',
+	#classTraits : 'TGtSceneryShared classTrait',
 	#instVars : [
 		'connections',
 		'items',
@@ -204,7 +204,7 @@ GtScenery >> defaultStoreStringMethodName [
 	^ nil
 ]
 
-{ #category : #action }
+{ #category : #actions }
 GtScenery >> gtActionMenuFor: anAction [
 	"Eventually add a nested menu of help pages."
 
@@ -216,11 +216,13 @@ GtScenery >> gtActionMenuFor: anAction [
 		content: [ :aButton | 
 			BrGlamorousSimpleContextMenuContent new
 				items: {'Scenery FAQ'
-							-> [ :e | e phlow spawnObject: (self database pageNamed: 'Scenery FAQ') asPagePhlowTool ].
+							-> [ :e | 
+								e phlow
+									spawnObject: (self helpDatabase pageNamed: 'Scenery FAQ') asPagePhlowTool ].
 						'Implementation FAQ'
 							-> [ :e | 
 								e phlow
-									spawnObject: (self database pageNamed: 'Scenery Implementation FAQ') asPagePhlowTool ]};
+									spawnObject: (self helpDatabase pageNamed: 'Scenery Implementation FAQ') asPagePhlowTool ]};
 				yourself ]
 ]
 
@@ -320,7 +322,7 @@ GtScenery >> gtReportFor: aView [
 		column: 'Item' text: [ :eachItem | eachItem reportString ]
 ]
 
-{ #category : #action }
+{ #category : #actions }
 GtScenery >> gtStoreExampleMethodAction: anAction [
 	<gtAction>
 	<todo: 'Instead of hiding the action, if the method name is nil, offer the possibility to set it?'>
@@ -354,13 +356,17 @@ GtScenery >> hash [
 ]
 
 { #category : #accessing }
+GtScenery >> helpDatabase [
+	^ GtSceneryHelpDatabase database
+]
+
+{ #category : #accessing }
 GtScenery >> initialize [
 	super initialize.	"self initializeDatabase."
 	items := OrderedCollection new.
 	connections := OrderedCollection new.
 	onceLayout := self defaultOnceLayout.
-	storeStringMethodName := self defaultStoreStringMethodName.
-	self databaseName: 'feenkcom/gtoolkit-scenery/scenery-help'
+	storeStringMethodName := self defaultStoreStringMethodName
 ]
 
 { #category : #accessing }

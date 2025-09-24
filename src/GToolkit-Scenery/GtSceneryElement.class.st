@@ -130,7 +130,7 @@ GtSceneryElement >> buildSceneryContextMenuForContext: aContext [
 		addItemLabel: 'FAQ'
 		action: [ :e | 
 			e phlow
-				spawnObject: (self gtScenery database pageNamed: 'Scenery FAQ') asPagePhlowTool ].
+				spawnObject: (self gtScenery helpDatabase pageNamed: 'Scenery FAQ') asPagePhlowTool ].
 	^ menu
 ]
 
