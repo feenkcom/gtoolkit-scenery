@@ -243,27 +243,27 @@ GtSceneryElement >> gtLiveFor: aView [
 	^ (super gtLiveFor: aView)
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons zoomin asElement;
+				icon: BrGlamorousVectorIcons zoomin asElement;
 				label: 'Zoom in' asRopedText;
 				action: [ self container zoomIn ] ];
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons zoomout asElement;
+				icon: BrGlamorousVectorIcons zoomout asElement;
 				label: 'Zoom out' asRopedText;
 				action: [ self container zoomOut ] ];
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons zoomtofit asElement;
+				icon: BrGlamorousVectorIcons zoomtofit asElement;
 				label: 'Zoom to fit' asRopedText;
 				action: [ self container zoomToFit ] ];
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons actualsize asElement;
+				icon: BrGlamorousVectorIcons actualsize asElement;
 				label: 'Zoom to actual size' asRopedText;
 				action: [ self container zoomToActualSize ] ];
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
-				icon: BrGlamorousIcons refresh asElement;
+				icon: BrGlamorousVectorIcons refresh asElement;
 				label: 'Redisplay' asRopedText;
 				action: [ self redisplay ] ]
 ]
