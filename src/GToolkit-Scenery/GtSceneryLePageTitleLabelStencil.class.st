@@ -54,7 +54,7 @@ GtSceneryLePageTitleLabelStencil >> handleDoubleClickForItemElement: anItemEleme
 	self database
 		pageNamed: self pageName
 		ifPresent: [ anItemElement
-				fireEvent: (GtSceneryObjectToSpawn new object: self startPage asPagePhlowTool) ]
+				fireEvent: (GtSceneryObjectToSpawn new object: self startPage asLepiterPagePhlowTool) ]
 		ifAbsent: [  ]
 ]
 
