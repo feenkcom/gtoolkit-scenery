@@ -47,7 +47,7 @@ GtSceneryLepiterPageStencil >> handleDoubleClickForItemElement: anItemElement in
 	"Spawn the page"
 
 	anItemElement
-		fireEvent: (GtSceneryObjectToSpawn new object: self startPage asPagePhlowTool)
+		fireEvent: (GtSceneryObjectToSpawn new object: self startPage asLepiterPagePhlowTool)
 ]
 
 { #category : #accessing }

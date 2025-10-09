@@ -218,11 +218,11 @@ GtScenery >> gtActionMenuFor: anAction [
 				items: {'Scenery FAQ'
 							-> [ :e | 
 								e phlow
-									spawnObject: (self helpDatabase pageNamed: 'Scenery FAQ') asPagePhlowTool ].
+									spawnObject: (self helpDatabase pageNamed: 'Scenery FAQ') asLepiterPagePhlowTool ].
 						'Implementation FAQ'
 							-> [ :e | 
 								e phlow
-									spawnObject: (self helpDatabase pageNamed: 'Scenery Implementation FAQ') asPagePhlowTool ]};
+									spawnObject: (self helpDatabase pageNamed: 'Scenery Implementation FAQ') asLepiterPagePhlowTool ]};
 				yourself ]
 ]
 
