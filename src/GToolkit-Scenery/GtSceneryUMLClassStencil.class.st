@@ -268,16 +268,16 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 	self isValidClass ifFalse: [ ^ menu ].
 
 	menu
+		addItemLabel: 'Inspect example'
+		action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
+
+	menu
 		addItemLabel: 'Set example method'
 		submenu: [ | submenu |
 			submenu := BrMenuItems new.
 			self examplesAvailable
 				do: [ :m | submenu addItemLabel: m name action: [ self exampleMethodName: m ] ].
 			submenu ] value.
-
-	menu
-		addItemLabel: 'Inspect example'
-		action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
 
 	menu addItemLabel: 'Spawn example' action: [ self spawnExample ].
 

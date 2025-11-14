@@ -307,7 +307,22 @@ GtScenery >> gtItemsFor: aView [
 		actionUpdateButtonTooltip: 'Update item list'
 ]
 
-{ #category : #views }
+{ #category : #view }
+GtScenery >> gtLiveFor: aView [
+	"Forward to pick up zoom buttons."
+
+	<gtView>
+	self class isAbstract ifTrue: [ ^ aView empty ].
+	^ aView forward
+		title: 'Live';
+		priority: 0;
+		object: [ self create ];
+		view: #gtLiveFor:;
+		actionButtonIcon: BrGlamorousVectorIcons inspect
+			action: [ :aBrButton | aBrButton phlow spawnObject: self asElement ]
+]
+
+{ #category : #view }
 GtScenery >> gtReportFor: aView [
 	<gtView>
 	self isValid ifTrue: [ ^ aView empty ].
