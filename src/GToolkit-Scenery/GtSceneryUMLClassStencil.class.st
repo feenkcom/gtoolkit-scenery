@@ -75,7 +75,12 @@ GtSceneryUMLClassStencil >> computeExampleFrom: aString [
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> defaultExampleBlockString [
-	^ ''
+	^ nil
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> defaultExampleMethodName [
+	^ nil
 ]
 
 { #category : #initialization }
@@ -416,7 +421,9 @@ GtSceneryUMLClassStencil >> stencilForConnectionWith: aTargetItem labeled: aText
 GtSceneryUMLClassStencil >> storeOnAttributes [
 	"Attributes used in the #storeOn: method (via #storeWithAttributesOn:)"
 
-	^ super storeOnAttributes , {#exampleBlockString}
+	^ super storeOnAttributes
+		, {#exampleBlockString.
+				#exampleMethodName}
 ]
 
 { #category : #accessing }
