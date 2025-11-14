@@ -20,65 +20,47 @@ AssociationMinerExamples >> ludoGameEdited [
 	| scenery item1 item2 item3 item4 item5 item6 item7 item8 item9 item10 |
 	scenery := GtScenery new.
 	item1 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoBlankToken';
-					width: 121.4119873046875) asItem.
-	item1 position: 379.83333333333337 @ 443.4854939778646.
-	item1 extent: 121.4119873046875 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'GtLudoBlankToken') asItem.
+	item1 position: 317.83333333333337 @ 455.4854939778646.
+	item1 extent: 200.99200439453125 @ 40.0.
 	item2 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoGame';
-					width: 87.25199890136719) asItem.
-	item2 position: 54.83333333333337 @ 212.48549397786462.
-	item2 extent: 87.25199890136719 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'GtLudoGame') asItem.
+	item2 position: 43.83333333333337 @ 160.48549397786462.
+	item2 extent: 142.43199157714844 @ 40.0.
 	item3 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'GtLudoSquare';
-					width: 94.58799743652344) asItem.
-	item3 position: -150.16666666666663 @ 254.48549397786462.
-	item3 extent: 94.58799743652344 @ 28.0.
+					width: 155.00799560546875) asItem.
+	item3 position: -213.16666666666663 @ 260.4854939778646.
+	item3 extent: 155.00799560546875 @ 40.0.
 	item4 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoRecordingGame';
-					width: 146.34600830078125) asItem.
-	item4 position: -68.16666666666663 @ 330.4854939778646.
-	item4 extent: 146.34600830078125 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'GtLudoRecordingGame') asItem.
+	item4 position: -203.16666666666663 @ 336.4854939778646.
+	item4 extent: 243.7360076904297 @ 40.0.
 	item5 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoTokenMove';
-					width: 118.79397583007813) asItem.
-	item5 position: 220.83333333333337 @ 444.4854939778646.
-	item5 extent: 118.79397583007813 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'GtLudoTokenMove') asItem.
+	item5 position: 259.83333333333337 @ 528.4854939778646.
+	item5 extent: 196.5040283203125 @ 40.0.
 	item6 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoMove';
-					width: 84.14398193359375) asItem.
-	item6 position: 101.83333333333337 @ 445.4854939778646.
-	item6 extent: 84.14398193359375 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'GtLudoMove') asItem.
+	item6 position: 47.83333333333337 @ 492.4854939778646.
+	item6 extent: 137.10401916503906 @ 40.0.
 	item7 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoNamedEntity';
-					width: 129.9239959716797) asItem.
-	item7 position: 235.83333333333337 @ 211.48549397786462.
-	item7 extent: 129.9239959716797 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'GtLudoNamedEntity') asItem.
+	item7 position: 240.83333333333337 @ 120.48549397786462.
+	item7 extent: 215.58401489257813 @ 40.0.
 	item8 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoPlayer';
-					width: 89.84199523925781) asItem.
-	item8 position: 162.83333333333337 @ 333.4854939778646.
-	item8 extent: 89.84199523925781 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'GtLudoPlayer') asItem.
+	item8 position: 119.83333333333337 @ 338.4854939778646.
+	item8 extent: 146.87200927734375 @ 40.0.
 	item9 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoToken';
-					width: 87.65798950195313) asItem.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'GtLudoToken') asItem.
 	item9 position: 321.83333333333337 @ 333.4854939778646.
-	item9 extent: 87.65798950195313 @ 28.0.
+	item9 extent: 143.1280059814453 @ 40.0.
 	item10 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'GtLudoDie';
-					width: 72.00599670410156) asItem.
-	item10 position: -133.16666666666663 @ 179.48549397786462.
-	item10 extent: 72.00599670410156 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'GtLudoDie') asItem.
+	item10 position: -200.16666666666663 @ 159.48549397786462.
+	item10 extent: 116.29600524902344 @ 40.0.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				relationshipType: #inheritance)

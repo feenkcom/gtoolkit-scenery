@@ -22,15 +22,16 @@ GtSceneryUMLClassExamples >> byteStringCharacterAssociation [
 	item1 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'ByteString';
+					width: 113.99201965332031;
 					exampleBlockString: '[ ''hello world'' ]') asItem.
 	item1 position: 277.1608072916665 @ 274.9241129557292.
-	item1 extent: 70.6619873046875 @ 28.0.
+	item1 extent: 113.99201965332031 @ 40.0.
 	item2 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Character';
 					exampleBlockString: '[ $a  ]') asItem.
 	item2 position: 484.3033854166665 @ 272.5660400390625.
-	item2 extent: 66.82600402832031 @ 28.0.
+	item2 extent: 107.41598510742188 @ 40.0.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
 				labelText: 'holds';

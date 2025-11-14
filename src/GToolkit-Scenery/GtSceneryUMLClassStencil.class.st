@@ -14,7 +14,8 @@ Class {
 	#instVars : [
 		'example',
 		'exampleBlockString',
-		'successorDict'
+		'successorDict',
+		'exampleMethodName'
 	],
 	#category : #'GToolkit-Scenery-Model'
 }
@@ -52,7 +53,12 @@ GtSceneryUMLClassStencil >> class: aClass [
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> computeExample [
-	^ self computeExampleFrom: self exampleBlockString
+	"NB: We want to deprecate the exampleBlockString ..."
+
+	self exampleMethodName ifNotNil: [ ^ self objectValue ].
+	self exampleBlockString
+		ifNotNil: [ ^ self computeExampleFrom: self exampleBlockString ].
+	^ self asClass isAbstract ifTrue: [ nil ] ifFalse: [ self asClass new ]
 ]
 
 { #category : #accessing }
@@ -111,6 +117,9 @@ GtSceneryUMLClassStencil >> example [
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> exampleBlockString [
+	"In the original design, an example is computed from a block consisting of a class followed by 
+	a sequence of unary message sends. We should deprecate this in favor of simply an example method name."
+
 	^ exampleBlockString
 ]
 
@@ -141,6 +150,33 @@ GtSceneryUMLClassStencil >> exampleExpression [
 	"Extract the expression within the block so we can compose it."
 
 	^ ((self exampleBlockString removePrefix: '[') removeSuffix: ']') trim
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> exampleMethod [
+	^ (MethodByName for: self exampleMethodName) method
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> exampleMethodName [
+	"Instead of arbitrary blocks, we want to exclusively allow gtExample methods."
+
+	^ exampleMethodName
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> exampleMethodName: aStringOrMethod [
+	"The argument should identify a <gtExample> method."
+
+	| methodByName |
+	methodByName := MethodByName for: aStringOrMethod.
+	self assert: (methodByName method hasPragmaNamed: #gtExample).
+	exampleMethodName := methodByName name	"self announceStencilUpdate"
+]
+
+{ #category : #querying }
+GtSceneryUMLClassStencil >> examplesAvailable [
+	^ self asClass package gtExamplesWithReturnPragmasClassified at: self label
 ]
 
 { #category : #action }
@@ -189,7 +225,7 @@ GtSceneryUMLClassStencil >> hasSuperclassConnection [
 { #category : #initialization }
 GtSceneryUMLClassStencil >> initialize [
 	super initialize.
-	exampleBlockString := self defaultExampleBlockString
+	"exampleBlockString := self defaultExampleBlockString"
 ]
 
 { #category : #accessing }
@@ -229,10 +265,21 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 	menu := super
 			menuForChildElement: aChildElement
 			andSceneryElement: aGtSceneryElement.
-	self isValidClass ifFalse: [ ^ menu ].	"and: [ self asClass isAbstract not ]"
+	self isValidClass ifFalse: [ ^ menu ].
+
+	menu
+		addItemLabel: 'Set example method'
+		submenu: [ | submenu |
+			submenu := BrMenuItems new.
+			self examplesAvailable
+				do: [ :m | submenu addItemLabel: m name action: [ self exampleMethodName: m ] ].
+			submenu ] value.
+
 	menu
 		addItemLabel: 'Inspect example'
 		action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
+
+	menu addItemLabel: 'Spawn example' action: [ self spawnExample ].
 
 	self hasSuperclassConnection
 		ifFalse: [ self asClass = ProtoObject
@@ -245,6 +292,7 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 		ifTrue: [ menu
 				addItemLabel: 'Spawn subclass ' , subclasses first name
 				action: [ self spawnSubclass: subclasses first ] ].
+
 	subclasses size > 1
 		ifTrue: [ menu
 				addItemLabel: 'Spawn subclass'
@@ -253,6 +301,7 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 					subclasses
 						do: [ :class | submenu addItemLabel: class name action: [ self spawnSubclass: class ] ].
 					submenu ] value ].
+
 	self successorDict notEmpty
 		ifTrue: [ menu
 				addItemLabel: 'Spawn associations'
@@ -262,20 +311,11 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 						keysAndValuesDo: [ :k :v | 
 							submenu
 								addItemLabel: 'Spawn association to ' , k name
-								action: [  "| classItem |
-									classItem := self
-											ensureItemForClass: k
-											withExampleBlock: '[ ' , self exampleExpression , ' ' , v first key , ' ]'.
-									self gtScenery
-										addConnectionFrom: self item
-										to: classItem
-										labeled: v first key"self
-										spawnAssociatedClass: k
-										using: v first key ] ].
+								action: [ self spawnAssociatedClass: k using: v first key ] ].
 					submenu ] value ].
 
-
 	menu addItemLabel: 'Spawn package' action: [ self spawnPackage ].
+
 	^ menu
 ]
 
@@ -286,6 +326,11 @@ GtSceneryUMLClassStencil >> missingSubclasses [
 	^ (self asClass subclasses
 		select: [ :c | (self hasSubclassConnectionTo: c) not ]) asOrderedCollection
 		sortedAs: #name
+]
+
+{ #category : #accessing }
+GtSceneryUMLClassStencil >> objectValue [
+	^ self exampleMethod gtExample result returnValue
 ]
 
 { #category : #validity }
@@ -309,6 +354,14 @@ GtSceneryUMLClassStencil >> spawnAssociatedClass: aClass using: selector [
 		to: classItem
 		labeled: selector.
 	^ classItem
+]
+
+{ #category : #menu }
+GtSceneryUMLClassStencil >> spawnExample [
+	^ self gtScenery
+		spawnConnectionFrom: self item
+		to: (GtSceneryExampleStencil new exampleMethodName: self exampleMethodName)
+		labeled: 'example'
 ]
 
 { #category : #menu }
@@ -361,14 +414,15 @@ GtSceneryUMLClassStencil >> stencilForConnectionWith: aTargetItem labeled: aText
 
 { #category : #printing }
 GtSceneryUMLClassStencil >> storeOnAttributes [
-	"Attributes used in the #storeOn:method"
+	"Attributes used in the #storeOn: method (via #storeWithAttributesOn:)"
 
 	^ super storeOnAttributes , {#exampleBlockString}
 ]
 
 { #category : #accessing }
 GtSceneryUMLClassStencil >> successorDict [
-	"Adapted from GtSceneryExampleStencil>>#umlScenery"
+	"For spwaning associations.
+	Adapted from GtSceneryExampleStencil>>#umlScenery"
 
 	<todo: 'Filter classes to merge True & False to Boolean, and to flatten Collections to the item type.'>
 	| eg egClass unaryMethods successors |

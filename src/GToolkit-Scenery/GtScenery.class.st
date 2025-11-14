@@ -659,3 +659,9 @@ GtScenery >> storeStringMethodName: aMethodName [
 
 	storeStringMethodName := aMethodName
 ]
+
+{ #category : #initialization }
+GtScenery >> withPackageNamed: aPackageName [
+	^ self
+		addSceneryItem: (GtSceneryPackageInspectorStencil new packageName: aPackageName) asItem
+]
