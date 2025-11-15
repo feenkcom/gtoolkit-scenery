@@ -240,7 +240,13 @@ GtSceneryElement >> elementForItem: anItem ifNone: exceptionBlock [
 { #category : #accessing }
 GtSceneryElement >> gtLiveFor: aView [
 	<gtView>
-	^ (super gtLiveFor: aView)
+	^ aView explicit
+		title: 'Live';
+		priority: 0;
+		stencil: [ 
+			GtInspectorElementLiveViewContainer new 
+				element: self;
+				clipChildren: false  ];
 		actionStencil: [ BrButton new
 				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons zoomin asElement;

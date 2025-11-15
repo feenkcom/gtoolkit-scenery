@@ -24,6 +24,24 @@ GtSceneryPackageInspectorStencil class >> itemCreationSubmenuLabel [
 	^ 'Package'
 ]
 
+{ #category : #'as yet unclassified' }
+GtSceneryPackageInspectorStencil >> classesSubmenuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	| menu myItem |
+	myItem := self gtScenery itemForStencil: self.
+	self assert: myItem notNil.
+	menu := BrMenuItems new.
+	self package classes
+		do: [ :c | 
+			menu
+				addItemLabel: c name
+				action: [ self gtScenery
+						spawnNewItemFrom: myItem
+						using: (GtSceneryUMLClassStencil new
+								class: c;
+								yourself) ] ].
+	^ menu
+]
+
 { #category : #initialization }
 GtSceneryPackageInspectorStencil >> defaultPackageName [
 	^ Package defaultPackageName
@@ -71,6 +89,10 @@ GtSceneryPackageInspectorStencil >> menuForChildElement: aChildElement andScener
 		addItemLabel: 'Examples'
 			submenu: (self
 					examplesSubmenuForChildElement: aChildElement
+					andSceneryElement: aGtSceneryElement);
+		addItemLabel: 'Classes'
+			submenu: (self
+					classesSubmenuForChildElement: aChildElement
 					andSceneryElement: aGtSceneryElement);
 		yourself
 ]
