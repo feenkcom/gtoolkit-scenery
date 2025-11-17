@@ -84,6 +84,11 @@ GtSceneryEntityStencil >> hash [
 ]
 
 { #category : #testing }
+GtSceneryEntityStencil >> isPackageStencil [
+	^ false
+]
+
+{ #category : #testing }
 GtSceneryEntityStencil >> isSceneryStencil [
 	"Only scenery stencils have announcers and a #gtScenery setter and getter ."
 

@@ -187,7 +187,7 @@ GtSceneryUMLClassStencil >> exampleMethodName: aStringOrMethod [
 
 { #category : #querying }
 GtSceneryUMLClassStencil >> examplesAvailable [
-	^ self asClass package gtExamplesWithReturnPragmasClassified at: self label
+	^ self asClass package gtExamplesWithReturnPragmasClassified at: self label ifAbsent: [OrderedCollection new]
 ]
 
 { #category : #action }
@@ -290,7 +290,8 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 				do: [ :m | submenu addItemLabel: m name action: [ self exampleMethodName: m ] ].
 			submenu ] value.
 
-	menu addItemLabel: 'Spawn example' action: [ self spawnExample ].
+	self exampleMethodName
+		ifNotNil: [ menu addItemLabel: 'Spawn example' action: [ self spawnExample ] ].
 
 	self hasSuperclassConnection
 		ifFalse: [ self asClass = ProtoObject

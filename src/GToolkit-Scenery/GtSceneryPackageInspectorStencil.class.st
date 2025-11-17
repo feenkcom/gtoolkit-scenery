@@ -24,7 +24,7 @@ GtSceneryPackageInspectorStencil class >> itemCreationSubmenuLabel [
 	^ 'Package'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #menu }
 GtSceneryPackageInspectorStencil >> classesSubmenuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	| menu myItem |
 	myItem := self gtScenery itemForStencil: self.
@@ -52,7 +52,7 @@ GtSceneryPackageInspectorStencil >> defaultViewMethodSelector [
 	^ #gtPackageOverviewFor:
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #menu }
 GtSceneryPackageInspectorStencil >> examplesSubmenuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	| menu myItem |
 	myItem := self gtScenery itemForStencil: self.
@@ -81,7 +81,12 @@ GtSceneryPackageInspectorStencil >> initialize [
 	packageName := self defaultPackageName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
+GtSceneryPackageInspectorStencil >> isPackageStencil [
+	^ true
+]
+
+{ #category : #menu }
 GtSceneryPackageInspectorStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	^ (super
 		menuForChildElement: aChildElement
@@ -136,13 +141,5 @@ GtSceneryPackageInspectorStencil >> storeOnAttributes [
 
 { #category : #querying }
 GtSceneryPackageInspectorStencil >> umlClassesFromExamples [
-	"From examples with return: pragmas returning instance of classes in this package,
-	generate a UML item from the first such example."
-
-	^ self package gtExamplesWithReturnPragmasClassified associations
-		select: [ :kv | kv key asClass package = self package ]
-		thenCollect: [ :kv | 
-			GtSceneryUMLClassStencil new
-				class: kv key asClass;
-				exampleMethod: kv value first ]
+	^ self gtScenery umlClassesFromExamplesIn: self package
 ]
