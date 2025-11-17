@@ -163,6 +163,11 @@ GtSceneryUMLClassStencil >> exampleMethod [
 ]
 
 { #category : #accessing }
+GtSceneryUMLClassStencil >> exampleMethod: aMethod [
+	^ self  exampleMethodName: aMethod
+]
+
+{ #category : #accessing }
 GtSceneryUMLClassStencil >> exampleMethodName [
 	"Instead of arbitrary blocks, we want to exclusively allow gtExample methods."
 
@@ -176,7 +181,8 @@ GtSceneryUMLClassStencil >> exampleMethodName: aStringOrMethod [
 	| methodByName |
 	methodByName := MethodByName for: aStringOrMethod.
 	self assert: (methodByName method hasPragmaNamed: #gtExample).
-	exampleMethodName := methodByName name	"self announceStencilUpdate"
+	exampleMethodName := methodByName name	
+	"self announceStencilUpdate"
 ]
 
 { #category : #querying }

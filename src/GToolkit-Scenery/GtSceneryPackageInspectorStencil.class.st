@@ -94,6 +94,12 @@ GtSceneryPackageInspectorStencil >> menuForChildElement: aChildElement andScener
 			submenu: (self
 					classesSubmenuForChildElement: aChildElement
 					andSceneryElement: aGtSceneryElement);
+		addItemLabel: 'Spawn package classes from examples'
+			action: [ | myItem |
+				myItem := self gtScenery itemForStencil: self.
+				self assert: myItem notNil.
+				self umlClassesFromExamples
+					do: [ :each | self gtScenery spawnNewItemFrom: myItem using: each ] ];
 		yourself
 ]
 
@@ -126,4 +132,17 @@ GtSceneryPackageInspectorStencil >> packageName: aPackageName [
 { #category : #storing }
 GtSceneryPackageInspectorStencil >> storeOnAttributes [
 	^ super storeOnAttributes , {#packageName}
+]
+
+{ #category : #querying }
+GtSceneryPackageInspectorStencil >> umlClassesFromExamples [
+	"From examples with return: pragmas returning instance of classes in this package,
+	generate a UML item from the first such example."
+
+	^ self package gtExamplesWithReturnPragmasClassified associations
+		select: [ :kv | kv key asClass package = self package ]
+		thenCollect: [ :kv | 
+			GtSceneryUMLClassStencil new
+				class: kv key asClass;
+				exampleMethod: kv value first ]
 ]

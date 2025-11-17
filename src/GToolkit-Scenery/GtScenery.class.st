@@ -20,6 +20,13 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #'instance creation' }
+GtScenery class >> withPackageNamed: aPackageName [
+	^ self new
+		addSceneryItem: (GtSceneryPackageInspectorStencil new packageName: aPackageName) asItem;
+		yourself
+]
+
 { #category : #comparison }
 GtScenery >> = otherScenery [
 	self == otherScenery ifTrue: [ ^ true ].
@@ -673,10 +680,4 @@ GtScenery >> storeStringMethodName: aMethodName [
 	"
 
 	storeStringMethodName := aMethodName
-]
-
-{ #category : #initialization }
-GtScenery >> withPackageNamed: aPackageName [
-	^ self
-		addSceneryItem: (GtSceneryPackageInspectorStencil new packageName: aPackageName) asItem
 ]
