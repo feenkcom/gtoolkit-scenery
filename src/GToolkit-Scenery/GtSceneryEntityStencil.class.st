@@ -107,6 +107,13 @@ GtSceneryEntityStencil >> menuForChildElement: aChildElement andSceneryElement: 
 	^ BrMenuItems new
 ]
 
+{ #category : #querying }
+GtSceneryEntityStencil >> packages [
+	"All  packages of entities in this stencil."
+
+	^ {}
+]
+
 { #category : #reporting }
 GtSceneryEntityStencil >> reportOn: aStream in: anItem [
 	"To be implemented by all subclasses that implement #isValidIn:."

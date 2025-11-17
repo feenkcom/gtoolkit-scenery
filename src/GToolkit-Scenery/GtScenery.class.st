@@ -153,7 +153,12 @@ GtScenery >> allPackageClassInheritances [
 { #category : #querying }
 GtScenery >> allPackageClasses [
 	"All classes of all package items."
-	^ self packageItems flatCollect: [ :item | item stencil package classes ]
+	^ self allPackages flatCollect: #classes
+]
+
+{ #category : #querying }
+GtScenery >> allPackages [
+	^ (self items flatCollect: [ :item | item stencil packages ]) copyWithoutDuplicates
 ]
 
 { #category : #announcements }
