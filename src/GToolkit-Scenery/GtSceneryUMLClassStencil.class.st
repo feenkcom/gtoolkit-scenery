@@ -345,6 +345,11 @@ GtSceneryUMLClassStencil >> objectValue [
 	^ self exampleMethod gtExample result returnValue
 ]
 
+{ #category : #querying }
+GtSceneryUMLClassStencil >> packages [
+	^ {self asClass package}
+]
+
 { #category : #validity }
 GtSceneryUMLClassStencil >> reportOn: aStream in: anItem [
 	self isValidClass

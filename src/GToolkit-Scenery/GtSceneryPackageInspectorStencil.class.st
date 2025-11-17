@@ -134,6 +134,11 @@ GtSceneryPackageInspectorStencil >> packageName: aPackageName [
 	self announceStencilUpdate
 ]
 
+{ #category : #querying }
+GtSceneryPackageInspectorStencil >> packages [
+	^ {self package}
+]
+
 { #category : #storing }
 GtSceneryPackageInspectorStencil >> storeOnAttributes [
 	^ super storeOnAttributes , {#packageName}

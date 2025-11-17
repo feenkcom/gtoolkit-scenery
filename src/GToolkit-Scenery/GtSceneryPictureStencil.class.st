@@ -119,6 +119,13 @@ GtSceneryPictureStencil >> objectValue [
 	^ self fileReference
 ]
 
+{ #category : #querying }
+GtSceneryPictureStencil >> packages [
+	"All  packages of entities in this stencil."
+
+	^ {}
+]
+
 { #category : #copying }
 GtSceneryPictureStencil >> postCopy [
 	super postCopy.
