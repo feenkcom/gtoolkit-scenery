@@ -20,223 +20,197 @@ GtSceneryDemoExamples >> collectionHierarchyEdited [
 	item1 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'IdentityDictionary';
-					width: 116.02200317382813) asItem.
-	item1 position: 3.8333333333333712 @ 267.4854939778646.
-	item1 extent: 116.02200317382813 @ 28.0.
+					width: 191.75204467773438) asItem.
+	item1 position: -6.166666666666629 @ 269.4854939778646.
+	item1 extent: 191.75204467773438 @ 40.0.
 	item2 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'ByteString';
-					width: 70.6619873046875) asItem.
+					width: 113.99201965332031) asItem.
 	item2 position: 157.40337117513025 @ 404.4854939778646.
-	item2 extent: 70.6619873046875 @ 28.0.
+	item2 extent: 113.99201965332031 @ 40.0.
 	item3 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Collection';
-					width: 69.33201599121094) asItem.
+					width: 111.71199035644531) asItem.
 	item3 position: 517.178326924642 @ -95.51450602213538.
-	item3 extent: 69.33201599121094 @ 28.0.
+	item3 extent: 111.71199035644531 @ 40.0.
 	item4 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'LinkedList';
-					width: 69.86399841308594) asItem.
-	item4 position: 383.66636403401696 @ 119.48549397786462.
-	item4 extent: 69.86399841308594 @ 28.0.
+					width: 112.62403869628906) asItem.
+	item4 position: 400.66636403401696 @ 173.48549397786462.
+	item4 extent: 112.62403869628906 @ 40.0.
 	item5 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'Interval';
-					width: 54.912017822265625) asItem.
-	item5 position: 495.05437215169275 @ 113.48549397786462.
-	item5 extent: 54.912017822265625 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'Interval') asItem.
+	item5 position: 517.0543721516927 @ 124.48549397786462.
+	item5 extent: 86.99201965332031 @ 40.0.
 	item6 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Set';
-					width: 29.011993408203125) asItem.
+					width: 42.59199523925781) asItem.
 	item6 position: 210.01637776692712 @ 157.48549397786462.
-	item6 extent: 29.011993408203125 @ 28.0.
+	item6 extent: 42.59199523925781 @ 40.0.
 	item7 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Array';
-					width: 40.589996337890625) asItem.
+					width: 62.44000244140625) asItem.
 	item7 position: 307.817372639974 @ 288.4854939778646.
-	item7 extent: 40.589996337890625 @ 28.0.
+	item7 extent: 62.44000244140625 @ 40.0.
 	item8 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'SequenceableCollection';
-					width: 151.89002990722656) asItem.
-	item8 position: 353.7893498738607 @ 12.485493977864621.
-	item8 extent: 151.89002990722656 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'SequenceableCollection') asItem.
+	item8 position: 356.7893498738607 @ 10.485493977864621.
+	item8 extent: 253.24002075195313 @ 40.0.
 	item9 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'OrderedCollection';
-					width: 117.49203491210938) asItem.
-	item9 position: 597.1463979085287 @ 117.48549397786462.
-	item9 extent: 117.49203491210938 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'OrderedCollection') asItem.
+	item9 position: 634.1463979085287 @ 120.48549397786462.
+	item9 extent: 194.2720184326172 @ 40.0.
 	item10 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Symbol';
-					width: 54.52000427246094) asItem.
+					width: 86.31999206542969) asItem.
 	item10 position: 288.3723729451498 @ 413.4854939778646.
-	item10 extent: 54.52000427246094 @ 28.0.
+	item10 extent: 86.31999206542969 @ 40.0.
 	item11 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Object';
-					width: 48.41600036621094) asItem.
-	item11 position: 525.636334737142 @ -210.51450602213538.
-	item11 extent: 48.41600036621094 @ 28.0.
+					width: 75.85600280761719) asItem.
+	item11 position: 533.636334737142 @ -214.51450602213538.
+	item11 extent: 75.85600280761719 @ 40.0.
 	item12 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'HashedCollection';
-					width: 113.71202087402344) asItem.
+					width: 187.7919921875) asItem.
 	item12 position: 123.98832448323571 @ 9.485493977864621.
-	item12 extent: 113.71202087402344 @ 28.0.
+	item12 extent: 187.7919921875 @ 40.0.
 	item13 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Text';
-					width: 34.06599426269531) asItem.
+					width: 51.25599670410156) asItem.
 	item13 position: 394.6653722127279 @ 289.4854939778646.
-	item13 extent: 34.06599426269531 @ 28.0.
+	item13 extent: 51.25599670410156 @ 40.0.
 	item14 := scenery
-			addSceneryItem: (GtSceneryUMLClassStencil new
-					label: 'Heap';
-					width: 40.70201110839844) asItem.
-	item14 position: 596.0493748982748 @ 33.48549397786462.
-	item14 extent: 40.70201110839844 @ 28.0.
+			addSceneryItem: (GtSceneryUMLClassStencil new label: 'Heap') asItem.
+	item14 position: 669.0493748982748 @ 9.485493977864621.
+	item14 extent: 62.63200378417969 @ 40.0.
 	item15 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'ArrayedCollection';
-					width: 114.58001708984375) asItem.
+					width: 189.28001403808594) asItem.
 	item15 position: 255.44435628255212 @ 113.48549397786462.
-	item15 extent: 114.58001708984375 @ 28.0.
+	item15 extent: 189.28001403808594 @ 40.0.
 	item16 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'String';
-					width: 44.88800048828125) asItem.
+					width: 69.80799865722656) asItem.
 	item16 position: 231.29036458333337 @ 286.4854939778646.
-	item16 extent: 44.88800048828125 @ 28.0.
+	item16 extent: 69.80799865722656 @ 40.0.
 	item17 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Dictionary';
-					width: 70.52200317382813) asItem.
+					width: 113.75201416015625) asItem.
 	item17 position: 34.58333333333337 @ 157.48549397786462.
-	item17 extent: 70.52200317382813 @ 28.0.
+	item17 extent: 113.75201416015625 @ 40.0.
 	item18 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'SortedCollection';
-					width: 108.50401306152344) asItem.
-	item18 position: 599.6404088338217 @ 216.48549397786462.
-	item18 extent: 108.50401306152344 @ 28.0.
+					width: 178.86399841308594) asItem.
+	item18 position: 657.6404088338217 @ 218.48549397786462.
+	item18 extent: 178.86399841308594 @ 40.0.
 	item19 := scenery
 			addSceneryItem: (GtSceneryUMLClassStencil new
 					label: 'Bag';
-					width: 32.343994140625) asItem.
+					width: 48.303985595703125) asItem.
 	item19 position: 887.0644124348959 @ 36.48549397786462.
-	item19 extent: 32.343994140625 @ 28.0.
+	item19 extent: 48.303985595703125 @ 40.0.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item1
 		to: item17.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item2
 		to: item16.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item3
 		to: item11.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item4
 		to: item8.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item5
 		to: item8.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item6
 		to: item12.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item7
 		to: item15.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item8
 		to: item3.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item9
 		to: item8.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item10
 		to: item16.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item12
 		to: item3.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item13
 		to: item15.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item14
 		to: item3.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item15
 		to: item8.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item16
 		to: item15.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item17
 		to: item12.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item18
 		to: item9.
 	scenery
 		addConnectionWithStencil: (GtSceneryUMLConnectionStencil new
-				relationshipType: #inheritance;
-				curvatureFraction: 0)
+				relationshipType: #inheritance)
 		from: item19
 		to: item3.
 	scenery
