@@ -20,6 +20,13 @@ Class {
 	#category : #'GToolkit-Scenery-Model'
 }
 
+{ #category : #'instance creation' }
+GtScenery class >> withPackageNamed: aPackageName [
+	^ self new
+		addSceneryItem: (GtSceneryPackageInspectorStencil new packageName: aPackageName) asItem;
+		yourself
+]
+
 { #category : #comparison }
 GtScenery >> = otherScenery [
 	self == otherScenery ifTrue: [ ^ true ].
@@ -131,6 +138,27 @@ GtScenery >> addSceneryItem: anItem [
 	anItem stencil isSceneryStencil ifTrue: [ anItem stencil gtScenery: self ].
 	self announce: (GtSceneryItemAdded new item: anItem).
 	^ anItem
+]
+
+{ #category : #querying }
+GtScenery >> allPackageClassInheritances [
+	"Extract the inheritance relations amongst the classes of the scenery."
+	| classes |
+	classes := self allPackageClasses.
+	^ classes
+		collect: [ :c | c -> c superclass ]
+		thenSelect: [ :assoc | classes includes: assoc value ]
+]
+
+{ #category : #querying }
+GtScenery >> allPackageClasses [
+	"All classes of all package items."
+	^ self allPackages flatCollect: #classes
+]
+
+{ #category : #querying }
+GtScenery >> allPackages [
+	^ (self items flatCollect: [ :item | item stencil packages ]) copyWithoutDuplicates
 ]
 
 { #category : #announcements }
@@ -401,6 +429,13 @@ GtScenery >> isValid [
 	^ true
 ]
 
+{ #category : #querying }
+GtScenery >> itemForClass: aClass [
+	^ self umlItems
+		detect: [ :each | each stencil asClass = aClass ]
+		ifNone: [ nil ]
+]
+
 { #category : #enumerating }
 GtScenery >> itemForStencil: aStencil [
 	^ self items detect: [ :item | item stencil == aStencil ] ifNone: [ nil ]
@@ -432,6 +467,11 @@ GtScenery >> onceLayout: aLayout [
 	"NB: A layout instance, not the class."
 
 	onceLayout := aLayout
+]
+
+{ #category : #querying }
+GtScenery >> packageItems [
+	^ self items select: [ :item | item stencil isPackageStencil ]
 ]
 
 { #category : #accessing }
@@ -675,8 +715,20 @@ GtScenery >> storeStringMethodName: aMethodName [
 	storeStringMethodName := aMethodName
 ]
 
-{ #category : #initialization }
-GtScenery >> withPackageNamed: aPackageName [
-	^ self
-		addSceneryItem: (GtSceneryPackageInspectorStencil new packageName: aPackageName) asItem
+{ #category : #querying }
+GtScenery >> umlClassesFromExamplesIn: aPackage [
+	"From examples with return: pragmas returning instance of classes in this package,
+	generate a UML item from the first such example."
+
+	^ aPackage gtExamplesWithReturnPragmasClassified associations
+		select: [ :kv | kv key asClass package = aPackage ]
+		thenCollect: [ :kv | 
+			GtSceneryUMLClassStencil new
+				class: kv key asClass;
+				exampleMethod: kv value first ]
+]
+
+{ #category : #querying }
+GtScenery >> umlItems [
+	^ self items select: [ :item | item stencil isUMLClassStencil ]
 ]

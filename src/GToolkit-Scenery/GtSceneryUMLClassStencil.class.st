@@ -163,6 +163,11 @@ GtSceneryUMLClassStencil >> exampleMethod [
 ]
 
 { #category : #accessing }
+GtSceneryUMLClassStencil >> exampleMethod: aMethod [
+	^ self  exampleMethodName: aMethod
+]
+
+{ #category : #accessing }
 GtSceneryUMLClassStencil >> exampleMethodName [
 	"Instead of arbitrary blocks, we want to exclusively allow gtExample methods."
 
@@ -174,14 +179,16 @@ GtSceneryUMLClassStencil >> exampleMethodName: aStringOrMethod [
 	"The argument should identify a <gtExample> method."
 
 	| methodByName |
+	example := nil.
 	methodByName := MethodByName for: aStringOrMethod.
 	self assert: (methodByName method hasPragmaNamed: #gtExample).
-	exampleMethodName := methodByName name	"self announceStencilUpdate"
+	exampleMethodName := methodByName name	
+	"self announceStencilUpdate"
 ]
 
 { #category : #querying }
 GtSceneryUMLClassStencil >> examplesAvailable [
-	^ self asClass package gtExamplesWithReturnPragmasClassified at: self label
+	^ self asClass package gtExamplesWithReturnPragmasClassified at: self label ifAbsent: [OrderedCollection new]
 ]
 
 { #category : #action }
@@ -284,10 +291,11 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 				do: [ :m | submenu addItemLabel: m name action: [ self exampleMethodName: m ] ].
 			submenu ] value.
 
-	menu addItemLabel: 'Spawn example' action: [ self spawnExample ].
+	self exampleMethodName
+		ifNotNil: [ menu addItemLabel: 'Spawn example' action: [ self spawnExample ] ].
 
 	self hasSuperclassConnection
-		ifFalse: [ self asClass = ProtoObject
+		ifFalse: [ (self asClass = ProtoObject or: [ self asClass isTrait ])
 				ifFalse: [ menu
 						addItemLabel: 'Spawn superclass ' , self asClass superclass name
 						action: [ self spawnSuperclass ] ] ].
@@ -336,6 +344,11 @@ GtSceneryUMLClassStencil >> missingSubclasses [
 { #category : #accessing }
 GtSceneryUMLClassStencil >> objectValue [
 	^ self exampleMethod gtExample result returnValue
+]
+
+{ #category : #querying }
+GtSceneryUMLClassStencil >> packages [
+	^ {self asClass package}
 ]
 
 { #category : #validity }
@@ -434,7 +447,8 @@ GtSceneryUMLClassStencil >> successorDict [
 	<todo: 'Filter classes to merge True & False to Boolean, and to flatten Collections to the item type.'>
 	| eg egClass unaryMethods successors |
 	successorDict := Dictionary new.
-	(self asClass = Object or: [ self asClass = UndefinedObject ])
+	(self asClass = Object
+		or: [ self asClass = UndefinedObject or: [ self asClass isTrait ] ])
 		ifTrue: [ ^ successorDict ].
 	eg := self example.
 	egClass := eg class.

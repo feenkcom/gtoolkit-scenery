@@ -84,6 +84,11 @@ GtSceneryEntityStencil >> hash [
 ]
 
 { #category : #testing }
+GtSceneryEntityStencil >> isPackageStencil [
+	^ false
+]
+
+{ #category : #testing }
 GtSceneryEntityStencil >> isSceneryStencil [
 	"Only scenery stencils have announcers and a #gtScenery setter and getter ."
 
@@ -100,6 +105,13 @@ GtSceneryEntityStencil >> menuForChildElement: aChildElement andSceneryElement: 
 	"Hook method for subclasses to provide more specific context menu items to be composed into the parent menu."
 
 	^ BrMenuItems new
+]
+
+{ #category : #querying }
+GtSceneryEntityStencil >> packages [
+	"All  packages of entities in this stencil."
+
+	^ {}
 ]
 
 { #category : #reporting }

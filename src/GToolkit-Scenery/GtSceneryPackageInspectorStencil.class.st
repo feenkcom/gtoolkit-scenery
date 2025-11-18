@@ -24,7 +24,7 @@ GtSceneryPackageInspectorStencil class >> itemCreationSubmenuLabel [
 	^ 'Package'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #menu }
 GtSceneryPackageInspectorStencil >> classesSubmenuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	| menu myItem |
 	myItem := self gtScenery itemForStencil: self.
@@ -52,7 +52,7 @@ GtSceneryPackageInspectorStencil >> defaultViewMethodSelector [
 	^ #gtPackageOverviewFor:
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #menu }
 GtSceneryPackageInspectorStencil >> examplesSubmenuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	| menu myItem |
 	myItem := self gtScenery itemForStencil: self.
@@ -81,7 +81,12 @@ GtSceneryPackageInspectorStencil >> initialize [
 	packageName := self defaultPackageName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
+GtSceneryPackageInspectorStencil >> isPackageStencil [
+	^ true
+]
+
+{ #category : #menu }
 GtSceneryPackageInspectorStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
 	^ (super
 		menuForChildElement: aChildElement
@@ -94,6 +99,12 @@ GtSceneryPackageInspectorStencil >> menuForChildElement: aChildElement andScener
 			submenu: (self
 					classesSubmenuForChildElement: aChildElement
 					andSceneryElement: aGtSceneryElement);
+		addItemLabel: 'Spawn package classes from examples'
+			action: [ | myItem |
+				myItem := self gtScenery itemForStencil: self.
+				self assert: myItem notNil.
+				self umlClassesFromExamples
+					do: [ :each | self gtScenery spawnNewItemFrom: myItem using: each ] ];
 		yourself
 ]
 
@@ -123,7 +134,17 @@ GtSceneryPackageInspectorStencil >> packageName: aPackageName [
 	self announceStencilUpdate
 ]
 
+{ #category : #querying }
+GtSceneryPackageInspectorStencil >> packages [
+	^ {self package}
+]
+
 { #category : #storing }
 GtSceneryPackageInspectorStencil >> storeOnAttributes [
 	^ super storeOnAttributes , {#packageName}
+]
+
+{ #category : #querying }
+GtSceneryPackageInspectorStencil >> umlClassesFromExamples [
+	^ self gtScenery umlClassesFromExamplesIn: self package
 ]

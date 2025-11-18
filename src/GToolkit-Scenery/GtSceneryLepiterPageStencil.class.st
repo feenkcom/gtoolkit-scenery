@@ -55,6 +55,13 @@ GtSceneryLepiterPageStencil >> objectValue [
 	^ self startPage
 ]
 
+{ #category : #querying }
+GtSceneryLepiterPageStencil >> packages [
+	"All  packages of entities in this stencil."
+
+	^ {}
+]
+
 { #category : #printing }
 GtSceneryLepiterPageStencil >> storeOnAttributes [
 	^ super storeOnAttributes

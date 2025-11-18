@@ -84,6 +84,13 @@ GtSceneryInspectorStencil >> objectValue [
 	^ self targetValue
 ]
 
+{ #category : #querying }
+GtSceneryInspectorStencil >> packages [
+	"All  packages of entities in this stencil."
+
+	^ {}
+]
+
 { #category : #copying }
 GtSceneryInspectorStencil >> postCopy [
 	super postCopy.

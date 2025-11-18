@@ -73,6 +73,11 @@ AbstractGtSceneryInspectorStencil >> objectValue [
 	^ self subclassResponsibility
 ]
 
+{ #category : #querying }
+AbstractGtSceneryInspectorStencil >> packages [
+	^ {self objectValue class package}
+]
+
 { #category : #accessing }
 AbstractGtSceneryInspectorStencil >> setIsSpawnedTrue [
 	"NB: Only used by GtSceneryInspectorStencil"
