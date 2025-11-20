@@ -26,7 +26,7 @@ BaselineOfGToolkitScenery >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'GToolkitPhlow' with: [
-				spec repository: 'github://feenkcom/gtoolkit-phlow:v0.9.2/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-phlow:v0.9.3/src' ].
 
 		spec package: 'GToolkit-Scenery' with: [
 			spec requires: #(#GToolkitPhlow) ].
