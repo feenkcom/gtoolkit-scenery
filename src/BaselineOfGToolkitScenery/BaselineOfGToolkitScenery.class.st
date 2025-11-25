@@ -25,9 +25,9 @@ BaselineOfGToolkitScenery >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
-		do: [ spec
+		do: [ "spec
 				baseline: 'GToolkitPhlow'
-				with: [ spec repository: 'github://feenkcom/gtoolkit-phlow:main/src' ].
+				with: [ spec repository: 'github://feenkcom/gtoolkit-phlow:main/src' ]."
 			spec
 				baseline: 'GToolkitLudoDemo'
 					with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ];
@@ -39,7 +39,7 @@ BaselineOfGToolkitScenery >> baseline: spec [
 					with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ];
 				baseline: 'GToolkitDemoSlideshows'
 					with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ].
-			spec
+			"spec
 				baseline: 'GToolkitInspector'
 				with: [ spec repository: 'github://feenkcom/gtoolkit-inspector:main/src' ].
 			spec
@@ -47,9 +47,9 @@ BaselineOfGToolkitScenery >> baseline: spec [
 				with: [ spec repository: 'github://feenkcom/gtoolkit-visualizer:main/src' ].
 			spec
 				baseline: 'LepiterEngine'
-				with: [ spec repository: 'github://feenkcom/lepiter:main/src' ].
+				with: [ spec repository: 'github://feenkcom/lepiter:main/src' ]."
 			spec
 				package: 'GToolkit-Scenery'
 				with: [ spec
-						requires: #(GToolkitPhlow GToolkitLudoDemo GToolkitMemoryDemo GToolkitMoldableDevelopmentDemo GToolkitDemoReflection GToolkitDemoSlideshows GToolkitInspector GToolkitVisualizer LepiterEngine) ] ]
+						requires: #("GToolkitPhlow" GToolkitLudoDemo GToolkitMemoryDemo GToolkitMoldableDevelopmentDemo GToolkitDemoReflection GToolkitDemoSlideshows "GToolkitInspector GToolkitVisualizer LepiterEngine") ] ]
 ]
