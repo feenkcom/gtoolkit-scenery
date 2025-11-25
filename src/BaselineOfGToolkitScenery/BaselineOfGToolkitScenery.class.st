@@ -46,10 +46,10 @@ BaselineOfGToolkitScenery >> baseline: spec [
 				baseline: 'GToolkitVisualizer'
 				with: [ spec repository: 'github://feenkcom/gtoolkit-visualizer:main/src' ].
 			spec
-				baseline: 'LepiterEngineCore'
+				baseline: 'LepiterEngine'
 				with: [ spec repository: 'github://feenkcom/gtoolkit-lepiter:main/src' ].
 			spec
 				package: 'GToolkit-Scenery'
 				with: [ spec
-						requires: #(GToolkitPhlow GToolkitLudoDemo GToolkitMemoryDemo GToolkitMoldableDevelopmentDemo GToolkitDemoReflection GToolkitDemoSlideshows GToolkitInspector GToolkitVisualizer LepiterEngineCore) ] ]
+						requires: #(GToolkitPhlow GToolkitLudoDemo GToolkitMemoryDemo GToolkitMoldableDevelopmentDemo GToolkitDemoReflection GToolkitDemoSlideshows GToolkitInspector GToolkitVisualizer LepiterEngine) ] ]
 ]
