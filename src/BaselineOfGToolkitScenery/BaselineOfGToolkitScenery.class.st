@@ -30,19 +30,15 @@ BaselineOfGToolkitScenery >> baseline: spec [
 				with: [ spec repository: 'github://feenkcom/gtoolkit-phlow:main/src' ].
 			spec
 				baseline: 'GToolkitLudoDemo'
-				with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ].
-			spec
+					with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ];
 				baseline: 'GToolkitMemoryDemo'
-				with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ].
-			spec
+					with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ];
 				baseline: 'GToolkitMoldableDevelopmentDemo'
-				with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ].
-			spec
+					with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ];
 				baseline: 'GToolkitDemoReflection'
-				with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ].
-			spec
+					with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ];
 				baseline: 'GToolkitDemoSlideshows'
-				with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ].
+					with: [ spec repository: 'github://feenkcom/gtoolkit-demos:main/src' ].
 			spec
 				baseline: 'GToolkitInspector'
 				with: [ spec repository: 'github://feenkcom/gtoolkit-inspector:main/src' ].
