@@ -47,7 +47,7 @@ BaselineOfGToolkitScenery >> baseline: spec [
 				with: [ spec repository: 'github://feenkcom/gtoolkit-visualizer:main/src' ].
 			spec
 				baseline: 'LepiterEngine'
-				with: [ spec repository: 'github://feenkcom/gtoolkit-lepiter:main/src' ].
+				with: [ spec repository: 'github://feenkcom/lepiter:main/src' ].
 			spec
 				package: 'GToolkit-Scenery'
 				with: [ spec
