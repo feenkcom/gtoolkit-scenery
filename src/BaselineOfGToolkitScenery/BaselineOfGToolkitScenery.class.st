@@ -25,10 +25,22 @@ BaselineOfGToolkitScenery >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
 		spec
-			baseline: 'GToolkitPhlow' with: [
-				spec repository: 'github://feenkcom/gtoolkit-phlow:v0.9.12/src' ].
+			baseline: 'GToolkitLudoDemo' with: [
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.18/src' ].
+		spec
+			baseline: 'GToolkitMemoryDemo' with: [
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.18/src' ].
+		spec
+			baseline: 'GToolkitMoldableDevelopmentDemo' with: [
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.18/src' ].
+		spec
+			baseline: 'GToolkitDemoReflection' with: [
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.18/src' ].
+		spec
+			baseline: 'GToolkitDemoSlideshows' with: [
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.18/src' ].
 
 		spec package: 'GToolkit-Scenery' with: [
-			spec requires: #(#GToolkitPhlow) ].
+			spec requires: #(#GToolkitLudoDemo #GToolkitMemoryDemo #GToolkitMoldableDevelopmentDemo #GToolkitDemoReflection #GToolkitDemoSlideshows) ].
 	]
 ]
