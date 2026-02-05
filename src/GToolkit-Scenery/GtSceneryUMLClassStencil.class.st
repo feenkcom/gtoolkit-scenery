@@ -56,8 +56,8 @@ GtSceneryUMLClassStencil >> computeExample [
 	"NB: We want to deprecate the exampleBlockString ..."
 
 	self exampleMethodName ifNotNil: [ ^ self objectValue ].
-	self exampleBlockString
-		ifNotNil: [ ^ self computeExampleFrom: self exampleBlockString ].
+	"self exampleBlockString
+		ifNotNil: [ ^ self computeExampleFrom: self exampleBlockString ]."
 	^ self asClass isAbstract ifTrue: [ nil ] ifFalse: [ self asClass new ]
 ]
 
@@ -134,6 +134,9 @@ GtSceneryUMLClassStencil >> exampleBlockString: aClosureOrString [
 	On updates we invalidate the #example cache."
 
 	| theString theExample |
+	
+	self deprecated: 'Use exampleMethodName: instead'.
+	
 	theString := aClosureOrString isClosure
 			ifTrue: [ aClosureOrString printString ]
 			ifFalse: [ aClosureOrString ].
@@ -272,6 +275,10 @@ GtSceneryUMLClassStencil >> label: aString [
 
 { #category : #menu }
 GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement: aGtSceneryElement [
+	"NB: There is a strange bug in the computation of examples.
+	A cached example can obtain a bad value (see Bellairs2026Slides>>#umlScenery),
+	so we force recomputation by setting example to nil in the Inspect example menu item."
+
 	<todo: 'spawn superclass or subclass nodes'>
 	| menu subclasses |
 	menu := super
@@ -281,7 +288,9 @@ GtSceneryUMLClassStencil >> menuForChildElement: aChildElement andSceneryElement
 
 	menu
 		addItemLabel: 'Inspect example'
-		action: [ :elt | aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
+		action: [ :elt | 
+			example := nil.
+			aChildElement fireEvent: (GtSceneryObjectToSpawn new object: self example) ].
 
 	menu
 		addItemLabel: 'Set example method'
