@@ -26,19 +26,19 @@ BaselineOfGToolkitScenery >> baseline: spec [
 	spec for: #'common' do: [
 		spec
 			baseline: 'GToolkitLudoDemo' with: [
-				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.143/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.144/src' ].
 		spec
 			baseline: 'GToolkitMemoryDemo' with: [
-				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.143/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.144/src' ].
 		spec
 			baseline: 'GToolkitMoldableDevelopmentDemo' with: [
-				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.143/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.144/src' ].
 		spec
 			baseline: 'GToolkitDemoReflection' with: [
-				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.143/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.144/src' ].
 		spec
 			baseline: 'GToolkitDemoSlideshows' with: [
-				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.143/src' ].
+				spec repository: 'github://feenkcom/gtoolkit-demos:v0.9.144/src' ].
 
 		spec package: 'GToolkit-Scenery' with: [
 			spec requires: #(#GToolkitLudoDemo #GToolkitMemoryDemo #GToolkitMoldableDevelopmentDemo #GToolkitDemoReflection #GToolkitDemoSlideshows) ].
