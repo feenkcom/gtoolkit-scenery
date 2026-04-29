@@ -27,6 +27,11 @@ TGtSceneryReporting >> isInvalid [
 	^ self isValid not
 ]
 
+{ #category : #required }
+TGtSceneryReporting >> isValid [
+	self explicitRequirement
+]
+
 { #category : #validity }
 TGtSceneryReporting >> reportOn: aStream [
 	self isValid ifFalse: [ self stencil reportOn: aStream in: self ]
