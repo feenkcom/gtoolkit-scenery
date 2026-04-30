@@ -67,7 +67,7 @@ MethodByName >> methodForName: aMethodName [
 	where a class named 'ClassName' exists, #selector is a valid selector.
 	Based on GtScenery>>#storeStringMethodFor:"
 
-	| parts className selector class method |
+	| parts className selector class newMethod |
 	aMethodName ifNil: [ ^ nil ].
 	parts := '>>#' split: aMethodName.
 	parts size = 2 ifFalse: [ ^ nil ].
@@ -76,9 +76,11 @@ MethodByName >> methodForName: aMethodName [
 	className isValidGlobalName ifFalse: [ ^ nil ].
 	class := className asClassIfAbsent: [ ^ nil ].
 	class isClass ifFalse: [ ^ nil ].
-	selector isValidSelector ifFalse: [ ^ nil ].
-	method := class compiledMethodAt: selector ifAbsent: [ ^ nil ].
-	^ method
+	(self 
+		forPharo13AndNewer: [OCScanner isSelector: selector] 
+		forOlder: [selector isValidSelector]) ifFalse: [ ^ nil ].
+	newMethod := class compiledMethodAt: selector ifAbsent: [ ^ nil ].
+	^ newMethod
 ]
 
 { #category : #accessing }

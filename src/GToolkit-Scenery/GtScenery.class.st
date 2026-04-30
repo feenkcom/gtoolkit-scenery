@@ -678,7 +678,9 @@ GtScenery >> storeStringMethodFor: aMethodName [
 		assert: class isClass
 		description: 'Class named ' , className , ' does not exist'.
 	self
-		assert: selector isValidSelector
+		assert: (self 
+			forPharo13AndNewer: [ OCScanner isSelector: selector ] 
+			forOlder: [ selector isValidSelector ] )
 		description: selector printString , ' is not a valid selector'.
 	self
 		assert: selector isUnary
