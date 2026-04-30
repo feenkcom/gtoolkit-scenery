@@ -44,8 +44,3 @@ TGtSceneryReporting >> reportString [
 	self reportOn: stream.
 	^ stream contents
 ]
-
-{ #category : #required }
-TGtSceneryReporting >> stencil [
-	self explicitRequirement
-]
