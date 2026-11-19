@@ -63,7 +63,7 @@ GtSceneryShapeStencil >> backgroundColorSelector [
 { #category : #accessing }
 GtSceneryShapeStencil >> backgroundColorSelector: aSelector [
 	self
-		assert: (Color registeredColorNames includes: aSelector)
+		assert: (Color registeredColorNames includes: aSelector asString)
 		description: aSelector , ' is not a registered Color name'.
 	backgroundColorSelector := aSelector.
 	self announceStencilUpdate
