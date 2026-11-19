@@ -20,9 +20,9 @@ CompiledMethod >> sceneryInspectorStencil [
 						detect: [ :p | p selector = #return: ]
 						ifFound: [ :p | 
 							returnType := p arguments first.
-							returnType = 'GtScenery'
+							returnType = #GtScenery
 								ifTrue: [ stencilClass := GtEmbeddedSceneryStencil ].
-							returnType = 'BlScripter'
+							returnType = #BlScripter
 								ifTrue: [ stencilClass := GtSceneryScripterStencil ] ] ]
 				ifFalse: [ ^ super sceneryInspectorStencil ] ].
 	^ stencilClass new
