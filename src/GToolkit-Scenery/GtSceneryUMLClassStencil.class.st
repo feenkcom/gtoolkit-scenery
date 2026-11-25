@@ -191,7 +191,11 @@ GtSceneryUMLClassStencil >> exampleMethodName: aStringOrMethod [
 
 { #category : #querying }
 GtSceneryUMLClassStencil >> examplesAvailable [
-	^ self asClass package gtExamplesWithReturnPragmasClassified at: self label ifAbsent: [OrderedCollection new]
+	"The label can be the class name typed by the user (a String); the examples are classified by Symbols"
+
+	^ self asClass package gtExamplesWithReturnPragmasClassified
+		at: self label asSymbol
+		ifAbsent: [ OrderedCollection new ]
 ]
 
 { #category : #action }
