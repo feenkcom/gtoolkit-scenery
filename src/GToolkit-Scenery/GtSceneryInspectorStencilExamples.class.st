@@ -182,6 +182,21 @@ GtSceneryInspectorStencilExamples >> errorScenery [
 ]
 
 { #category : #scenery }
+GtSceneryInspectorStencilExamples >> examplesClassifiedByReturnClassName [
+	"The examples of a package classified by the class name of their return pragma: the names are Symbols,
+	also for a return pragma with a String (#ludoGameExample has <return: 'GtLudoGame'>)"
+
+	<gtExample>
+	<return: #Dictionary>
+	| classified |
+	classified := self class package gtExamplesWithReturnPragmasClassified.
+	self assert: (classified keys allSatisfy: [ :each | each isSymbol ]).
+	self assert: ((classified at: #GtLudoGame) includes: self class >> #ludoGameExample).
+	self assert: ((classified at: #GtScenery) includes: self class >> #sceneryWithSpawnedObjects).
+	^ classified
+]
+
+{ #category : #scenery }
 GtSceneryInspectorStencilExamples >> eyeconSceneryRestored [
 	<gtExample>
 	<return: #GtScenery>
@@ -408,7 +423,7 @@ GtSceneryInspectorStencilExamples >> sceneryWithSpawnedObjects [
 	self assert: (pageItem stencil isKindOf: GtSceneryLepiterPageStencil).
 
 	sceneryExample := (packageItem stencil package
-			gtExamplesWithReturnPragmasClassified at: 'GtScenery') first.
+			gtExamplesWithReturnPragmasClassified at: #GtScenery) first.
 	sceneryExampleItem := scenery spawnNewItemFrom: packageItem for: sceneryExample.
 	scenery addConnectionFrom: packageItem to: sceneryExampleItem.
 	self assert: (sceneryExampleItem stencil isKindOf: GtEmbeddedSceneryStencil).
