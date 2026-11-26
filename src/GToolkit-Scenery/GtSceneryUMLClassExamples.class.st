@@ -68,6 +68,21 @@ GtSceneryUMLClassExamples >> collectionObjectInheritanceIsInvalid [
 ]
 
 { #category : #scenery }
+GtSceneryUMLClassExamples >> examplesAvailableForTypedClassName [
+	"A class name typed in the label (a String) finds the examples that return instances of the class"
+
+	<gtExample>
+	<return: #GtSceneryUMLClassStencil>
+	| stencil |
+	stencil := GtSceneryUMLClassStencil new label: 'GtScenery'.
+	self assert: stencil examplesAvailable notEmpty.
+	self
+		assert: stencil examplesAvailable size
+		equals: (GtSceneryUMLClassStencil new class: GtScenery) examplesAvailable size.
+	^ stencil
+]
+
+{ #category : #scenery }
 GtSceneryUMLClassExamples >> multipleInvalidItemsAndConnections [
 	"Demo multiple things that can be wrong."
 
